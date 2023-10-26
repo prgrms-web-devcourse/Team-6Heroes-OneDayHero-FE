@@ -15,9 +15,9 @@ const Button = ({
   ...props
 }: PropsWithChildren<ButtonProps>) => {
   const sizes = {
-    sm: "w-4/12 h-14",
-    md: "w-6/12 h-14",
-    lg: "w-10/12 h-14"
+    sm: "w-40",
+    md: "w-72",
+    lg: "w-80"
   };
 
   const textSizes = {
@@ -26,11 +26,11 @@ const Button = ({
     lg: "text-xl"
   };
 
-  const defaultStyle = "font-semibold rounded-xl text-white";
+  const defaultStyle = "font-semibold rounded-xl text-white h-14";
 
   return (
     <button
-      className={`${sizes[size]} ${textSizes[textSize]} ${defaultStyle} ${className}`}
+      className={` ${theme} ${sizes[size]} ${textSizes[textSize]} ${defaultStyle} ${className}`}
       {...props}>
       {children}
     </button>
