@@ -1,14 +1,8 @@
-import { getTestMissions } from "@/services/missions";
-import MockTest from "./MockTest";
-
-const HomePage = async () => {
-  console.log(await getTestMissions());
-
+const HomePage = () => {
   return (
-    <div>
-      <MockTest />
-      HomePage
-    </div>
+    <>
+      <div>HomePage</div>
+    </>
   );
 };
 
