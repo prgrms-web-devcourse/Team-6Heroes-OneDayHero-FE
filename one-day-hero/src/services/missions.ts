@@ -1,4 +1,4 @@
-import { apiUrl } from "@/utils/url";
+import { apiUrl } from "@/services";
 
 export const getTestMissions = async () => {
   const res = await fetch(apiUrl("/missions"));
