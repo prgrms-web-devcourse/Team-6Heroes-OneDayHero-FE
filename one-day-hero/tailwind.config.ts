@@ -9,10 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        base: {
+          DEFAULT: "#F8F7F3",
+          darken: "#D6D5D0"
+        },
         primary: {
           DEFAULT: "#C5DD7C",
           lighten: "#D6F088",
-          darken: "#B0C474"
+          darken: "#B0C474",
+          lightest: "#F8FFCD"
         },
         sub: {
           DEFAULT: "#FF8551",
@@ -33,6 +38,10 @@ const config: Config = {
           DEFAULT: "#D8D8D8",
           lighten: "#EFEFEF",
           darken: "#939393"
+        },
+        shadow: {
+          100: "rgba(0, 0, 0, 0.07)",
+          200: "rgba(0, 0, 0, 0.15)"
         }
       }
     }
