@@ -6,8 +6,8 @@ import IconGroup from "./IconGroup";
 
 const MissionListItem = () => {
   return (
-    <div className="flex mb-5">
-      <div className="grow flex gap-4">
+    <div className="mb-5 flex">
+      <div className="flex grow gap-4">
         <div>
           <Image src={Smile} alt="프로필 사진" width={60} height={60} />
         </div>
@@ -15,7 +15,7 @@ const MissionListItem = () => {
           <Label size="sm" className="w-16">
             서빙
           </Label>
-          <span className="font-semibold text-md">미션 타이틀</span>
+          <span className="text-md font-semibold">미션 타이틀</span>
           <div className="flex gap-2">
             <span className="text-xs">2023-10-19</span>
             <IconGroup title="강남구 역삼동" direction="row" size="sm">
