@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 
-const DayButton = ({
+const ToggleButton = ({
   children,
   className
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   const [clicked, setClicked] = useState<boolean>(false);
 
-  const handleDayClick = () => {
+  const handleButtonClick = () => {
     setClicked(!clicked);
   };
 
@@ -21,10 +21,10 @@ const DayButton = ({
           ? "border-4 border-lime-200 bg-lime-100"
           : "border-zinc-300 bg-white"
       } ${className}`}
-      onClick={handleDayClick}>
+      onClick={handleButtonClick}>
       {children}
     </button>
   );
 };
 
-export default DayButton;
+export default ToggleButton;
