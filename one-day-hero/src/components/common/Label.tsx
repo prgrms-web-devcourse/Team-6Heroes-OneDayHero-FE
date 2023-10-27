@@ -1,3 +1,5 @@
+import { PropsWithChildren } from "react";
+
 interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   size?: "sm" | "md" | "lg";
 }
@@ -7,7 +9,7 @@ const Label = ({
   children,
   className = "",
   ...props
-}: LabelProps) => {
+}: PropsWithChildren<LabelProps>) => {
   const sizes = {
     sm: "text-xs min-w-16 h-4 px-4 rounded-3xl",
     md: "text-sm min-w-28 h-6 px-3 rounded-3xl",
