@@ -1,27 +1,34 @@
-"use client";
-
 import { PropsWithChildren } from "react";
-import { useRouter } from "next/navigation";
+
+interface IconGroupProps {
+  title: string;
+  size?: "sm" | "md" | "lg";
+  textSize?: "xs" | "sm" | "base";
+  className?: string;
+  direction?: string;
+}
 
 const IconGroup = ({
   title,
+  size = "lg",
+  textSize = "xs",
+  className = "",
+  direction = "col",
   children,
-  route,
   ...props
-}: PropsWithChildren<{ title: string; route?: string }>) => {
-  const router = useRouter();
-
-  const defaultStyle =
-    "flex flex-col items-center justify-center font-semibold text-xl cursor-pointer";
-
-  const handleClick = () => {
-    route && router.push(route);
+}: PropsWithChildren<IconGroupProps>) => {
+  const sizes = {
+    sm: "text-sm font-light text-gray-400",
+    md: "text-md font-semibold",
+    lg: "text-xl font-semibold cursor-pointer"
   };
 
+  const defaultStyle = `flex flex-${direction} justify-center items-center gap-1`;
+
   return (
-    <div className={`${defaultStyle}`} onClick={handleClick} {...props}>
+    <div className={`${defaultStyle} ${sizes[size]} ${className}`} {...props}>
       {children}
-      <p className="text-xs">{title}</p>
+      <p className={`text-${textSize}`}>{title}</p>
     </div>
   );
 };
