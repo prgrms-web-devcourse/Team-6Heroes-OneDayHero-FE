@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Smile from "../../../public/smiling-face.png";
+import Smile from "~/smiling-face.png";
 import Label from "@/components/common/Label";
 import { BiMap, BiStar } from "react-icons/bi";
 import IconGroup from "./IconGroup";
