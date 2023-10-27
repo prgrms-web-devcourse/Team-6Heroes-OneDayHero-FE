@@ -38,11 +38,11 @@ const config: Config = {
           DEFAULT: "#D8D8D8",
           lighten: "#EFEFEF",
           darken: "#939393"
-        },
-        shadow: {
-          100: "rgba(0, 0, 0, 0.07)",
-          200: "rgba(0, 0, 0, 0.15)"
         }
+      },
+      boxShadow: {
+        upper: "0px -2px 5px rgba(0, 0, 0, 0.07)",
+        down: "0px 2px 8px rgba(0, 0, 0, 0.15)"
       }
     }
   },
