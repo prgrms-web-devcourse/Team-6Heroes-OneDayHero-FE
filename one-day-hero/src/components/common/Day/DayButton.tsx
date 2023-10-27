@@ -18,8 +18,8 @@ const DayButton = ({
     <button
       className={`${defaultStyle} ${
         clicked
-          ? "border-4 border-lime-200 bg-lime-100"
-          : "border-zinc-300 bg-white"
+          ? "border-4 border-primary bg-primary-lightest"
+          : "border-base-darken bg-white"
       } ${className}`}
       onClick={handleDayClick}>
       {children}
