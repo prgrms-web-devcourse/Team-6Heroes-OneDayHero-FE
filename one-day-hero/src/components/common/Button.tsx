@@ -14,6 +14,13 @@ const Button = ({
   className,
   ...props
 }: PropsWithChildren<ButtonProps>) => {
+  const themes = {
+    primary: "bg-primary text-white hover:bg-primary-lighten",
+    active: "bg-active text-white hover:bg-active-lighten",
+    cancel: "bg-cancel text-white hover:bg-cancel-lighten",
+    inactive: "bg-inactive text-inactive-darken"
+  };
+
   const sizes = {
     sm: "w-40",
     md: "w-72",
@@ -26,11 +33,11 @@ const Button = ({
     lg: "text-xl"
   };
 
-  const defaultStyle = "font-semibold rounded-xl text-white h-14";
+  const defaultStyle = "font-semibold rounded-xl h-14";
 
   return (
     <button
-      className={` ${theme} ${sizes[size]} ${textSizes[textSize]} ${defaultStyle} ${className}`}
+      className={`${themes[theme]} ${sizes[size]} ${textSizes[textSize]} ${defaultStyle} ${className}`}
       {...props}>
       {children}
     </button>
