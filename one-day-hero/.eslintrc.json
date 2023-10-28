@@ -16,13 +16,7 @@
     "project": "./one-day-hero/tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": [
-    "import",
-    "prettier",
-    "unused-imports",
-    "tailwindcss",
-    "simple-import-sort"
-  ],
+  "plugins": ["import", "unused-imports", "tailwindcss", "simple-import-sort"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "tailwindcss/classnames-order": "warn",
