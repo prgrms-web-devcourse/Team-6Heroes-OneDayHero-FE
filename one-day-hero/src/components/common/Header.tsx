@@ -18,6 +18,7 @@ const Header = ({ left = "back", right = "none", children }: HeaderProps) => {
     info: <BsThreeDotsVertical />,
     none: <div className="w-6" />
   };
+
   const defaultStyle =
     "flex items-center w-96 px-4 bg-stone-100 justify-between space-x-4 h-[4.375rem]";
 
