@@ -7,7 +7,6 @@ import { BsBell, BsMoonFill, BsSearch } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
 
 type HomeHeaderProps = {
-  children: React.ReactNode;
   onClick?: () => void;
 };
 
