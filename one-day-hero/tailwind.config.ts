@@ -22,7 +22,8 @@ const config: Config = {
         sub: {
           DEFAULT: "#FF8551",
           lighten: "#FFAA7A",
-          darken: "#D77247"
+          darken: "#D77247",
+          lightest: "#FFE6CF"
         },
         active: {
           DEFAULT: "#EB6A4E",
@@ -38,7 +39,8 @@ const config: Config = {
           DEFAULT: "#D8D8D8",
           lighten: "#EFEFEF",
           darken: "#939393"
-        }
+        },
+        bad: "#A990C1"
       },
       boxShadow: {
         upper: "0px -2px 5px rgba(0, 0, 0, 0.07)",
