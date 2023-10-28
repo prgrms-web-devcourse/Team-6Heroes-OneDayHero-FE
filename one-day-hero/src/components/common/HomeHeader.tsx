@@ -13,7 +13,7 @@ type HomeHeaderProps = {
 
 const HomeHeader = ({ children }: PropsWithChildren<HomeHeaderProps>) => {
   const headerDefaultStyle =
-    "flex h-[4.375rem] w-96 items-center justify-between space-x-4 bg-base-DEFAULT p-3";
+    "flex h-[4.375rem] w-96 items-center justify-between space-x-4 bg-base p-3";
 
   const iconDefaultStyle = "w-6 h-6";
 
