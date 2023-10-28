@@ -16,7 +16,13 @@
     "project": "./one-day-hero/tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": ["import", "prettier", "unused-imports", "tailwindcss"],
+  "plugins": [
+    "import",
+    "prettier",
+    "unused-imports",
+    "tailwindcss",
+    "simple-import-sort"
+  ],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "tailwindcss/classnames-order": "warn",
@@ -26,6 +32,8 @@
     "tailwindcss/no-arbitrary-value": "off",
     "tailwindcss/no-custom-classname": "off",
     "tailwindcss/no-contradicting-classname": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     "react/self-closing-comp": [
       "error",
       {
