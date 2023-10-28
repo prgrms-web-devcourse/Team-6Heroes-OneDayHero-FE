@@ -1,3 +1,4 @@
+import { PropsWithChildren } from "react";
 import { BsChevronLeft, BsThreeDotsVertical } from "react-icons/bs";
 import { FiEdit3 } from "react-icons/fi";
 
@@ -7,7 +8,11 @@ type HeaderProps = {
   children: React.ReactNode;
 };
 
-const Header = ({ left = "back", right = "none", children }: HeaderProps) => {
+const Header = ({
+  left = "back",
+  right = "none",
+  children
+}: PropsWithChildren<HeaderProps>) => {
   const leftArea = {
     back: <BsChevronLeft />,
     none: <div className="w-5" />
