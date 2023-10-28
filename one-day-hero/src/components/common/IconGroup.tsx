@@ -28,7 +28,7 @@ const IconGroup = ({
   return (
     <div className={`${defaultStyle} ${sizes[size]} ${className}`} {...props}>
       {children}
-      <p className={`text-${textSize}`}>{title}</p>
+      <p className={`text-${textSize} text-inherit`}>{title}</p>
     </div>
   );
 };
