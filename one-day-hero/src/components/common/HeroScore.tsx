@@ -21,7 +21,6 @@ const HeroScore = ({
     sm: "text-sm h-3 rounded-md",
     lg: "text-lg h-6 rounded-xl"
   };
-
   const guageWidth = [
     "w-0",
     "w-1/12",
@@ -37,22 +36,25 @@ const HeroScore = ({
     "w-11/12",
     "w-full"
   ];
-
   const guageColor = isHero ? "bg-sub" : "bg-bad";
+  const textColor = isHero ? "text-sub" : "text-bad";
 
   return (
-    <div
-      className={`${sizes[size]} ${className} flex w-full items-center bg-base-darken`}
-      {...props}>
+    <div className={`${className} flex flex-col`}>
+      {size === "sm" && <p className={`${textColor} text-right`}>{score} 점</p>}
       <div
-        className={`${sizes[size]} ${guageColor} ${guageWidth[guageLevel]} flex flex-row-reverse items-center`}>
-        {size === "lg" && isHero && (
-          <p className={`mr-2 text-white`}>{score} 점</p>
+        className={`${sizes[size]} flex grow items-center bg-base-darken`}
+        {...props}>
+        <div
+          className={`${sizes[size]} ${guageColor} ${guageWidth[guageLevel]} flex flex-row-reverse items-center`}>
+          {size === "lg" && isHero && (
+            <p className={`mr-2 text-white`}>{score} 점</p>
+          )}
+        </div>
+        {size === "lg" && !isHero && (
+          <p className={`ml-1 font-semibold text-bad`}>{score} 점</p>
         )}
       </div>
-      {size === "lg" && !isHero && (
-        <p className={`ml-1 font-semibold text-bad`}>{score} 점</p>
-      )}
     </div>
   );
 };

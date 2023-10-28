@@ -13,6 +13,7 @@ const HomePage = () => {
       <div className="w-96 p-5">
         <MissionListItem />
         <HeroScore score={20} />
+        <HeroScore size="sm" score={50} />
       </div>
       <DayList />
       <Button />
