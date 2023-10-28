@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { BiCalendarCheck, BiChat, BiHome, BiMap, BiUser } from "react-icons/bi";
+
 import IconGroup from "./IconGroup";
-import { BiMap, BiChat, BiHome, BiCalendarCheck, BiUser } from "react-icons/bi";
 
 const BottomNav = () => {
   return (
-    <nav className="bg-stone-200 flex justify-center items-center w-96 h-14 gap-10 shadow-[0px_-2px_5px_rgba(0,0,0,0.07)]">
+    <nav className="flex h-14 w-96 items-center justify-center gap-10 bg-stone-200 shadow-[0px_-2px_5px_rgba(0,0,0,0.07)]">
       <Link href="/chat">
         <IconGroup title="채팅">
           <BiChat />
