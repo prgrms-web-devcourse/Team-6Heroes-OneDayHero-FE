@@ -5,6 +5,7 @@ import HeroScore from "@/components/common/HeroScore";
 import Label from "@/components/common/Label";
 import MissionInfo from "@/components/common/MissionInfo";
 import MissionListItem from "@/components/common/MissionListItem";
+import MissionProgressBar from "@/components/common/MissionProgressBar";
 
 const HomePage = () => {
   return (
@@ -19,6 +20,7 @@ const HomePage = () => {
           missionTime="14:00 ~ 18:00"
           missionBounty="일급 80,000"
         />
+        <MissionProgressBar missionState="matched" />
       </div>
       <DayList />
       <Button />
