@@ -6,7 +6,7 @@ import { BiCalendarCheck, BiChat, BiHome, BiMap, BiUser } from "react-icons/bi";
 
 import IconGroup from "./IconGroup";
 
-const BottomNav = () => {
+const Footer = () => {
   const pathname = usePathname();
 
   const active = "text-primary";
@@ -50,4 +50,4 @@ const BottomNav = () => {
   );
 };
 
-export default BottomNav;
+export default Footer;
