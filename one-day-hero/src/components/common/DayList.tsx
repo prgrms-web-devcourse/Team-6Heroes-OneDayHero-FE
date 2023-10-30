@@ -1,4 +1,4 @@
-import DayButton from "./DayButton";
+import ToggleButton from "./ToggleButton";
 
 const DayList = () => {
   const days = ["월", "화", "수", "목", "금", "토", "일"];
@@ -6,7 +6,7 @@ const DayList = () => {
   return (
     <div className="flex gap-x-1.5">
       {days.map((day, index) => (
-        <DayButton key={index}>{day}</DayButton>
+        <ToggleButton key={index}>{day}</ToggleButton>
       ))}
     </div>
   );

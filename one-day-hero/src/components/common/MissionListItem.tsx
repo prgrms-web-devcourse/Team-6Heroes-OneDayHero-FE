@@ -1,7 +1,9 @@
 import Image from "next/image";
-import Smile from "~/smiling-face.png";
-import Label from "@/components/common/Label";
 import { BiMap, BiStar } from "react-icons/bi";
+
+import Label from "@/components/common/Label";
+import Smile from "~/smiling-face.png";
+
 import IconGroup from "./IconGroup";
 
 const MissionListItem = () => {
