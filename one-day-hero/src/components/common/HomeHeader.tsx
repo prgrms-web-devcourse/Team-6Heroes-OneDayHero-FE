@@ -12,17 +12,17 @@ type HomeHeaderProps = {
 
 const HomeHeader = ({ children }: PropsWithChildren<HomeHeaderProps>) => {
   const headerDefaultStyle =
-    "flex h-[4.375rem] w-96 items-center justify-between space-x-4 bg-base p-3";
+    "border-b border-base-darken flex h-16 w-full items-center justify-between space-x-4 bg-base p-3 fixed max-w-screen-sm z-10 top-0";
 
-  const iconDefaultStyle = "w-6 h-6";
+  const iconDefaultStyle = "w-5 h-5";
 
   return (
     <header className={headerDefaultStyle}>
       <div className="flex items-center space-x-2">
         <Image
           src="/images/원데히로고 2.png"
-          width={55}
-          height={55}
+          width={45}
+          height={45}
           alt="logo"
         />
         <div className="top-1 flex space-x-1">

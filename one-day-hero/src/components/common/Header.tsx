@@ -25,7 +25,7 @@ const Header = ({
   };
 
   const defaultStyle =
-    "flex items-center w-96 px-4 bg-stone-100 justify-between space-x-4 h-[4.375rem]";
+    "border-b border-base-darken flex items-center w-full fixed top-0 max-w-screen-sm px-4 bg-base justify-between space-x-4 h-16";
 
   return (
     <header className={defaultStyle}>

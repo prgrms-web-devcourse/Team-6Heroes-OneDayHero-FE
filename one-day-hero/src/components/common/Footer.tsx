@@ -9,10 +9,13 @@ import IconGroup from "./IconGroup";
 const Footer = () => {
   const pathname = usePathname();
 
+  const defaultStyle =
+    "bg-base shadow-upper flex h-14 max-w-screen-sm w-full items-center justify-around fixed bottom-0";
+
   const active = "text-primary";
 
   return (
-    <nav className="bg-base shadow-upper flex h-14 w-96 items-center justify-center gap-12">
+    <nav className={`${defaultStyle}`}>
       <Link
         href="/chat"
         className={`${pathname.startsWith("/chat") && `${active}`}`}>
