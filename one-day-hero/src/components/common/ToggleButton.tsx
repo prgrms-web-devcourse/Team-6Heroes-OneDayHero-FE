@@ -18,7 +18,7 @@ const ToggleButton = ({
     <button
       className={`${defaultStyle} ${
         clicked
-          ? "border-4 border-primary bg-primary-lightest"
+          ? "border-primary bg-primary-lightest border-4"
           : "border-base-darken bg-white"
       } ${className}`}
       onClick={handleButtonClick}>
