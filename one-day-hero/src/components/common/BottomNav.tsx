@@ -7,7 +7,7 @@ import IconGroup from "./IconGroup";
 
 const BottomNav = () => {
   return (
-    <nav className="flex h-14 w-96 items-center justify-center gap-10 bg-stone-200 shadow-[0px_-2px_5px_rgba(0,0,0,0.07)]">
+    <nav className="bg-base shadow-upper flex  h-14 w-96 items-center justify-center gap-10">
       <Link href="/chat">
         <IconGroup title="채팅">
           <BiChat />
