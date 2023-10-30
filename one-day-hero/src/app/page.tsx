@@ -1,8 +1,8 @@
 import BottomNav from "@/components/common/BottomNav";
 import Button from "@/components/common/Button";
 import DayList from "@/components/common/DayList";
-import Label from "@/components/common/Label";
 import HeroScore from "@/components/common/HeroScore";
+import Label from "@/components/common/Label";
 import MissionInfo from "@/components/common/MissionInfo";
 import MissionListItem from "@/components/common/MissionListItem";
 
