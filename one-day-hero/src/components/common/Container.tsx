@@ -11,7 +11,7 @@ const Container = ({
   children,
   ...props
 }: PropsWithChildren<ContainerProps>) => {
-  const defaultStyle = `w-${width} bg-white rounded-2xl shadow-boxShadow-down m-2`;
+  const defaultStyle = `w-${width} p-3 bg-white rounded-2xl shadow-down m-2`;
 
   return (
     <div className={`${defaultStyle} ${className}`} {...props}>
