@@ -35,13 +35,13 @@ const MissionProgressBar = ({
         <p className={`${textColor[doneState]} w-1/3 text-center`}>미션완료</p>
       </div>
       <div
-        className={`${defaultStyle} ${progressStyle[matchedState]} absolute top-0 left-0 flex border-r rounded-tr-[1.25rem] w-2/3`}>
+        className={`${defaultStyle} ${progressStyle[matchedState]} absolute left-0 top-0 flex w-2/3 rounded-tr-[1.25rem] border-r`}>
         <p className={`${textColor[matchedState]} w-1/2 text-center`}>
           매칭완료
         </p>
       </div>
       <div
-        className={`${defaultStyle} ${progressStyle["active"]} absolute top-0 left-0 flex border-r rounded-tr-[1.25rem] w-1/3`}>
+        className={`${defaultStyle} ${progressStyle["active"]} absolute left-0 top-0 flex w-1/3 rounded-tr-[1.25rem] border-r`}>
         <p className="w-full text-center">매칭 중</p>
       </div>
     </div>
