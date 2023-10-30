@@ -1,4 +1,5 @@
 import Button from "@/components/common/Button";
+import Container from "@/components/common/Container";
 import DayList from "@/components/common/DayList";
 import Footer from "@/components/common/Footer";
 import HeroScore from "@/components/common/HeroScore";
@@ -11,20 +12,23 @@ const HomePage = () => {
   return (
     <>
       <div>HomePage</div>
-      <div className="w-96 rounded-[20px] bg-white p-5">
-        <MissionListItem />
-        <HeroScore score={20} />
-        <HeroScore size="sm" score={50} />
-        <MissionInfo
-          missionDay="10/19 목요일"
-          missionTime="14:00 ~ 18:00"
-          missionBounty="일급 80,000"
-        />
-        <MissionProgressBar missionState="matched" />
-      </div>
-      <DayList />
-      <Button />
-      <Label size="lg" />
+      <Container>
+        <div>블라블라</div>
+        <div className="w-96 rounded-[20px] bg-white p-5">
+          <MissionListItem />
+          <HeroScore score={20} />
+          <HeroScore size="sm" score={50} />
+          <MissionInfo
+            missionDay="10/19 목요일"
+            missionTime="14:00 ~ 18:00"
+            missionBounty="일급 80,000"
+          />
+          <MissionProgressBar missionState="matched" />
+        </div>
+        <DayList />
+        <Button />
+        <Label size="lg" />
+      </Container>
       <Footer />
     </>
   );
