@@ -1,6 +1,6 @@
-import BottomNav from "@/components/common/BottomNav";
 import Button from "@/components/common/Button";
 import DayList from "@/components/common/DayList";
+import Footer from "@/components/common/Footer";
 import HeroScore from "@/components/common/HeroScore";
 import Label from "@/components/common/Label";
 import MissionInfo from "@/components/common/MissionInfo";
@@ -25,7 +25,7 @@ const HomePage = () => {
       <DayList />
       <Button />
       <Label size="lg" />
-      <BottomNav />
+      <Footer />
     </>
   );
 };
