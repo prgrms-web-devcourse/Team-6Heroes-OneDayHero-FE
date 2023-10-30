@@ -23,12 +23,18 @@ const IconGroup = ({
     lg: "text-xl font-semibold cursor-pointer"
   };
 
+  const textSizes = {
+    xs: "text-xs",
+    sm: "text-sm",
+    base: "text-base"
+  };
+
   const defaultStyle = `flex flex-${direction} justify-center items-center gap-1`;
 
   return (
     <div className={`${defaultStyle} ${sizes[size]} ${className}`} {...props}>
       {children}
-      <p className={`text-${textSize}`}>{title}</p>
+      <p className={`${textSizes[textSize]} text-inherit`}>{title}</p>
     </div>
   );
 };
