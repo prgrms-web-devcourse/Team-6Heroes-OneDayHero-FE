@@ -1,6 +1,7 @@
+import "./globals.css";
+
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
-import "./globals.css";
 
 const notoSansKR = Noto_Sans_KR({
   subsets: ["latin"],
@@ -19,7 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="kr">
-      <body className={`${notoSansKR.className} bg-base`}>{children}</body>
+      <body className={`${notoSansKR.className} flex flex-col items-center`}>
+        <main className="bg-base flex min-h-screen w-full max-w-screen-sm flex-col items-center px-5 py-24 shadow">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
