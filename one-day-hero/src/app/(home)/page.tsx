@@ -6,6 +6,8 @@ import MissionInfo from "@/components/common/MissionInfo";
 import MissionListItem from "@/components/common/MissionListItem";
 import MissionProgressBar from "@/components/common/MissionProgressBar";
 
+import MissionCreateButton from "./components/missionCreateButton";
+
 const HomePage = () => {
   return (
     <div className="flex w-full flex-col items-center justify-center">
@@ -20,10 +22,10 @@ const HomePage = () => {
         <HeroScore size="sm" score={50} />
         <MissionProgressBar missionState="matched" />
       </div>
-
       <DayList />
       <Button />
       <Label size="lg" />
+      <MissionCreateButton />
     </div>
   );
 };
