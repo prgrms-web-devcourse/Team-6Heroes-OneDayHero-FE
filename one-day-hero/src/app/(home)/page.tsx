@@ -26,6 +26,10 @@ const HomePage = () => {
         <Label size="lg" />
       </Container>
       <DayList />
+
+      <DayList />
+      <Button />
+      <Label size="lg" />
     </div>
   );
 };
