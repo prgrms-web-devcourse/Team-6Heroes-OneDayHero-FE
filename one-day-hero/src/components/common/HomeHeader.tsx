@@ -12,7 +12,7 @@ type HomeHeaderProps = {
 
 const HomeHeader = ({ children }: PropsWithChildren<HomeHeaderProps>) => {
   const headerDefaultStyle =
-    "border-b border-base-darken flex h-16 w-full items-center justify-between space-x-4 bg-base p-3 fixed max-w-screen-sm z-10 top-0";
+    "border-b border-background-darken flex h-16 w-full items-center justify-between space-x-4 bg-background p-3 fixed max-w-screen-sm z-10 top-0";
 
   const iconDefaultStyle = "w-5 h-5";
 
