@@ -1,9 +1,8 @@
 "use client";
 
-import {
+import React, {
   MouseEventHandler,
   PropsWithChildren,
-  useEffect,
   useRef,
   useState
 } from "react";
@@ -13,51 +12,42 @@ interface HorizontalScrollProps {
 }
 
 const HorizontalScroll = ({
-  className = "",
+  className,
   children
 }: PropsWithChildren<HorizontalScrollProps>) => {
-  const [dragState, setDragState] = useState<boolean>(false); // 드래그 상태
-  const [startX, setStartX] = useState<number | null>(null); //어디서부터 시작했는지
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [dragState, setDragState] = useState<boolean>(false);
+  const [startX, setStartX] = useState<number>(0);
+  const [currentScroll, setCurrentScroll] = useState<number>(0);
 
   const defaultStyle = "overflow-x-auto";
 
-  const handleMouseDown: MouseEventHandler<HTMLDivElement> = (e) => {
+  const handleMouseDown: MouseEventHandler<HTMLDivElement> = (event) => {
     setDragState(true);
-    setStartX(e.clientX);
+    setStartX(event.clientX);
+    setCurrentScroll(containerRef.current?.scrollLeft || 0);
   };
 
-  useEffect(() => {
-    const handleMouseUp = () => {
-      // 마우스 떼면 드래그 상태는 false 드래그 끝.
-      setDragState(false);
-    };
-
-    const handleMouseMove = (event: MouseEvent) => {
-      if (dragState && startX !== null && containerRef.current) {
-        setStartX(event.clientX);
-        const currentX = event.clientX - startX;
-        containerRef.current.scrollLeft -= currentX;
-      }
-    };
-
-    if (dragState) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+  const handleMouseMove: MouseEventHandler<HTMLDivElement> = (event) => {
+    if (containerRef.current && dragState) {
+      const scrollLeft = startX - event.clientX + currentScroll;
+      containerRef.current.scrollLeft = scrollLeft;
     }
+  };
 
-    // 이벤트 리스너 해제
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [dragState, startX]);
+  const handleMouseUp = () => {
+    if (containerRef.current && dragState) {
+      setDragState(false);
+    }
+  };
 
   return (
     <div
       ref={containerRef}
       className={`${defaultStyle} ${className}`}
-      onMouseDown={handleMouseDown}>
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}>
       {children}
     </div>
   );

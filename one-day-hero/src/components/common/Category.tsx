@@ -25,7 +25,7 @@ const categories = [
 const Category = () => {
   const containerStyle = "flex gap-3";
   const itemStyle =
-    "flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white w-1/4 h-16 rounded-3xl shadow";
+    "flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white w-16 h-16 rounded-3xl shadow";
 
   return (
     <HorizontalScroll>
