@@ -1,6 +1,3 @@
-"use client";
-
-import { useRef } from "react";
 import { BiDish, BiGift, BiStar } from "react-icons/bi";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import {
@@ -26,23 +23,12 @@ const categories = [
 ];
 
 const Category = () => {
-  const dragStateRef = useRef<boolean>(false);
   const containerStyle = "flex gap-3";
   const itemStyle =
-    "flex-shrink-0 flex justify-center items-center cursor-pointer bg-white w-1/4 h-16 rounded-3xl shadow";
-
-  const handleDragStart = () => {
-    dragStateRef.current = true;
-  };
-
-  const handleDragEnd = () => {
-    setTimeout(() => {
-      dragStateRef.current = false;
-    }, 0);
-  };
+    "flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white w-1/4 h-16 rounded-3xl shadow";
 
   return (
-    <HorizontalScroll dragStart={handleDragStart} dragEnd={handleDragEnd}>
+    <HorizontalScroll>
       <ul className={`${containerStyle}`}>
         {categories.map((category, index) => (
           <div key={index} className={`${itemStyle}`}>
