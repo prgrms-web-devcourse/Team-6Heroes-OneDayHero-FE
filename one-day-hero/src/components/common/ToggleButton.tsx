@@ -12,7 +12,7 @@ const ToggleButton = ({
     setClicked(!clicked);
   };
 
-  const defaultStyle = "w-11 h-11 text-base rounded-lg border";
+  const defaultStyle = "w-11 h-11 text-base text-black rounded-lg border";
 
   return (
     <button
