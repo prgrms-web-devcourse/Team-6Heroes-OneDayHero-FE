@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body className={`${notoSansKR.className} flex flex-col items-center`}>
-        <main className="bg-base flex min-h-screen w-full max-w-screen-sm flex-col items-center px-5 py-24 shadow">
+        <main className="bg-background flex min-h-screen w-full max-w-screen-sm flex-col items-center px-5 py-24 shadow">
           {children}
         </main>
       </body>
