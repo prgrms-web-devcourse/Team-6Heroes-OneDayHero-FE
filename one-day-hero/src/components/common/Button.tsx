@@ -22,9 +22,9 @@ const Button = ({
   };
 
   const sizes = {
-    sm: "w-40",
-    md: "w-72",
-    lg: "w-80"
+    sm: "w-5/12",
+    md: "w-10/12",
+    lg: "w-11/12"
   };
 
   const textSizes = {
