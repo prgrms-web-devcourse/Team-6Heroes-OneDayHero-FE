@@ -8,7 +8,20 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
     <div>
       {data.location.x}
       <KebabMenu
-        menuList={[{ name: "first", apiPath: "/test", requiredData: ["slug"] }]}
+        menuList={[
+          { name: "first", apiPath: "/test", requiredData: ["slug"] },
+          { name: "second", apiPath: "/test", requiredData: ["slug"] },
+          { name: "third", apiPath: "/test", requiredData: ["slug"] }
+        ]}
+        size={24}
+      />
+      <div className="h-80" />
+      <KebabMenu
+        menuList={[
+          { name: "first", apiPath: "/test", requiredData: ["slug"] },
+          { name: "second", apiPath: "/test", requiredData: ["slug"] },
+          { name: "third", apiPath: "/test", requiredData: ["slug"] }
+        ]}
         size={24}
       />
     </div>
