@@ -29,6 +29,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
         ]}
         size={24}
       />
+      <div className="h-80" />
     </div>
   );
 };
