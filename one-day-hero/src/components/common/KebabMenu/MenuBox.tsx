@@ -35,11 +35,21 @@ const MenuBox = ({ menuList }: MenuBoxProp) => {
         className={`absolute top-0 left-0 w-full h-full cursor-pointer rounded-md hover:bg-background-darken hover:bg-opacity-30`}
         onClick={handleClick}
       />
-
       <div
-        className={`absolute right-1/2 bg-white rounded-md shadow-down ${positionStyle} ${
+        className={`z-20 fixed top-0 left-0 w-full h-full bg-transparent ${
           showMenu ? "" : "hidden"
-        }`}>
+        }`}
+        onClick={() => {
+          setShowMenu(false);
+        }}
+      />
+      <div
+        className={`absolute right-1/2 bg-white rounded-md shadow-down z-20 ${positionStyle} ${
+          showMenu ? "" : "hidden"
+        }`}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}>
         {menuList.map((menuData, index) => {
           const handleMenuClick = () => {
             onOpen();
@@ -61,7 +71,6 @@ const MenuBox = ({ menuList }: MenuBoxProp) => {
           );
         })}
       </div>
-
       <KebabModal
         isOpen={isOpen}
         onClose={onClose}
