@@ -2,7 +2,7 @@ import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import MenuBox from "./MenuBox";
 
-type MenuDataType = {
+export type MenuDataType = {
   name: string;
   apiPath: string;
   requiredData: (string | { name: string; default?: any; options?: any[] })[];
@@ -10,14 +10,15 @@ type MenuDataType = {
   redirectTo?: string;
 };
 
-export interface KebabMenuProp extends React.ComponentProps<"div"> {
+interface KebabMenuProp extends React.ComponentProps<"div"> {
   menuList: MenuDataType[];
+  size?: number;
 }
 
-const KebabMenu = ({ menuList }: KebabMenuProp) => {
+const KebabMenu = ({ menuList, size }: KebabMenuProp) => {
   return (
-    <div>
-      <BsThreeDotsVertical />
+    <div className="relative">
+      <BsThreeDotsVertical size={size} />
       <MenuBox menuList={menuList} />
     </div>
   );
