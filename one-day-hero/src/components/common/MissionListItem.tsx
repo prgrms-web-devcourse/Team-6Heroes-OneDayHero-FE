@@ -6,9 +6,9 @@ import Smile from "~/smiling-face.png";
 
 import IconGroup from "./IconGroup";
 
-const MissionListItem = () => {
+const MissionListItem = ({ className = "" }) => {
   return (
-    <div className="mb-5 flex">
+    <div className={`mb-5 flex ${className}`}>
       <div className="flex grow gap-4">
         <div>
           <Image src={Smile} alt="프로필 사진" width={60} height={60} />
