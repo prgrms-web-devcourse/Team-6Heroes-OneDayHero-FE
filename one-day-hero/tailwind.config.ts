@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        base: {
+        background: {
           DEFAULT: "#F8F7F3",
           darken: "#D6D5D0"
         },
@@ -45,6 +45,9 @@ const config: Config = {
       boxShadow: {
         upper: "0px -2px 5px rgba(0, 0, 0, 0.07)",
         down: "0px 2px 8px rgba(0, 0, 0, 0.15)"
+      },
+      screens: {
+        cs: "0px"
       }
     }
   },
