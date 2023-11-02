@@ -19,9 +19,6 @@ const UploadImage = ({
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleUpload = () => {
-    if (selectedImages && size === "md") {
-      return;
-    }
     inputRef?.current?.click();
   };
 
@@ -51,16 +48,16 @@ const UploadImage = ({
   };
 
   const defaultStyle =
-    "rounded-2xl bg-inactive text-white flex justify-center items-center shrink-0";
+    "bg-inactive text-white flex justify-center items-center shrink-0";
 
   const sizes = {
-    md: "w-32 h-32 text-4xl",
-    lg: "w-52 h-52 text-5xl relative"
+    md: "w-32 h-32 text-4xl rounded-[10px]",
+    lg: "w-52 h-52 text-5xl relative rounded-2xl"
   };
 
   const imageSizes = {
-    md: "w-32 h-32 relative duration-300 hover:scale-105 text-2xl",
-    lg: "w-52 h-52 absolute overflow-hidden text-3xl"
+    md: "w-32 h-32 relative duration-300 hover:scale-105 text-2xl rounded-[10px]",
+    lg: "w-52 h-52 absolute overflow-hidden text-3xl rounded-2xl"
   };
 
   return (
@@ -92,8 +89,8 @@ const UploadImage = ({
           selectedImages.map((image) => (
             <div
               key={image.name}
-              onClick={handleUpload}
-              className={`${imageSizes[size]} shrink-0 overflow-hidden rounded-2xl`}>
+              onClick={size === "lg" ? handleUpload : undefined}
+              className={`${imageSizes[size]} shrink-0 overflow-hidden`}>
               <BiX
                 className="absolute right-3 top-3 z-10 flex text-black"
                 onClick={handleDelete}
