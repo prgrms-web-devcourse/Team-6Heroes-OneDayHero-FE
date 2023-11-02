@@ -1,6 +1,6 @@
 import { BiCalendarWeek, BiDollarCircle, BiTime } from "react-icons/bi";
 
-import IconGroup from "./IconGroup";
+import IconGroup from "../IconGroup";
 
 type MissionInfoProps = {
   missionDay: string;

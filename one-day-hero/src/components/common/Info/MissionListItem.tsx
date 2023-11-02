@@ -4,11 +4,11 @@ import { BiMap, BiStar } from "react-icons/bi";
 import Label from "@/components/common/Label";
 import Smile from "~/smiling-face.png";
 
-import IconGroup from "./IconGroup";
+import IconGroup from "../IconGroup";
 
-const MissionListItem = ({ className = "" }) => {
+const MissionListItem = () => {
   return (
-    <div className={`mb-5 flex ${className}`}>
+    <div className="mb-5 flex">
       <div className="flex grow gap-4">
         <div>
           <Image src={Smile} alt="프로필 사진" width={60} height={60} />
