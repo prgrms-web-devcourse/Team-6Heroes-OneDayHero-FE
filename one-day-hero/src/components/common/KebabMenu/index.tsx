@@ -1,17 +1,10 @@
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import MenuBox from "./MenuBox";
-
-export type MenuDataType = {
-  name: string;
-  apiPath: string;
-  requiredData: (string | { name: string; default?: any; options?: any[] })[];
-  description?: string;
-  redirectTo?: string;
-};
+import { KebabMenuDataType } from "@/types";
 
 interface KebabMenuProps extends React.ComponentProps<"div"> {
-  menuList: MenuDataType[];
+  menuList: KebabMenuDataType[];
   size?: number;
 }
 

@@ -1,21 +1,21 @@
 "use client";
 
 import useModal from "@/hooks/useModal";
-import { MenuDataType } from ".";
+
 import { MouseEventHandler, useState } from "react";
 import KebabModal from "./KebabModal";
+import { KebabMenuDataType } from "@/types";
 
 const MENU_ITEM_HEIGHT = 48;
 
 interface MenuBoxProps extends React.ComponentProps<"div"> {
-  menuList: MenuDataType[];
+  menuList: KebabMenuDataType[];
 }
 
 const MenuBox = ({ menuList }: MenuBoxProps) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [selectedMenuData, setSelectedMenuData] = useState<MenuDataType | null>(
-    null
-  );
+  const [selectedMenuData, setSelectedMenuData] =
+    useState<KebabMenuDataType | null>(null);
   const [enoughBottomSpace, setEnoughBottomSpace] = useState(true);
 
   const { isOpen, onOpen, onClose } = useModal();
