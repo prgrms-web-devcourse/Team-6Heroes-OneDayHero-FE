@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { PropsWithChildren } from "react";
 import { BsChevronLeft, BsThreeDotsVertical } from "react-icons/bs";
 import { FiEdit3 } from "react-icons/fi";
@@ -13,8 +16,10 @@ const Header = ({
   right = "none",
   children
 }: PropsWithChildren<HeaderProps>) => {
+  const router = useRouter();
+
   const leftArea = {
-    back: <BsChevronLeft />,
+    back: <BsChevronLeft onClick={() => router.back()} />,
     none: <div className="w-5" />
   };
 
