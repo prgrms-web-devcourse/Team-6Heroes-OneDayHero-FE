@@ -10,12 +10,12 @@ export type MenuDataType = {
   redirectTo?: string;
 };
 
-interface KebabMenuProp extends React.ComponentProps<"div"> {
+interface KebabMenuProps extends React.ComponentProps<"div"> {
   menuList: MenuDataType[];
   size?: number;
 }
 
-const KebabMenu = ({ menuList, size }: KebabMenuProp) => {
+const KebabMenu = ({ menuList, size }: KebabMenuProps) => {
   return (
     <div className="relative inline-block">
       <BsThreeDotsVertical size={size} />

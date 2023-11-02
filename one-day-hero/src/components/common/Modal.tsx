@@ -2,12 +2,12 @@
 
 import React, { useEffect } from "react";
 
-interface ModalProp extends React.ComponentProps<"div"> {
+interface ModalProps extends React.ComponentProps<"div"> {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const Modal = ({ isOpen, onClose, children, ...props }: ModalProp) => {
+const Modal = ({ isOpen, onClose, children, ...props }: ModalProps) => {
   useEffect(() => {
     const handleModalCloseKey = (e: KeyboardEvent) => {
       if (e.key === "Backspace" || e.key === "Escape") onClose();

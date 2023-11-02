@@ -7,11 +7,11 @@ import KebabModal from "./KebabModal";
 
 const MENU_ITEM_HEIGHT = 48;
 
-interface MenuBoxProp extends React.ComponentProps<"div"> {
+interface MenuBoxProps extends React.ComponentProps<"div"> {
   menuList: MenuDataType[];
 }
 
-const MenuBox = ({ menuList }: MenuBoxProp) => {
+const MenuBox = ({ menuList }: MenuBoxProps) => {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedMenuData, setSelectedMenuData] = useState<MenuDataType | null>(
     null
