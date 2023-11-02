@@ -24,10 +24,10 @@ const Tabs = ({ leftText = "", rightText = "", className = "" }: TabsProps) => {
   const rightRoute = route[rightText] || "/";
 
   const tabContainerDefaultStyle =
-    "flex w-8/12 bg-white justify-center items-center text-base text-center h-12 rounded-full";
+    "flex z-50 w-8/12 bg-white justify-center items-center text-base text-center h-12 rounded-full";
 
   const tabDefaultStyle =
-    "cs:mx-1 flex h-10 w-24 flex-auto items-center justify-center rounded-full";
+    "mx-1 flex h-10 w-24 flex-auto items-center justify-center rounded-full";
 
   return (
     <>

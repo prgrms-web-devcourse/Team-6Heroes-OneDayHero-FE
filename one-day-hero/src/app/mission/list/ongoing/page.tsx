@@ -4,7 +4,7 @@ import MissionListItem from "../../../../components/common/MissionListItem";
 
 const OngoingMissionPage = () => {
   return (
-    <div className="my-20 flex w-full max-w-screen-sm flex-col items-center justify-center space-y-4">
+    <div className="mt-20 flex w-full max-w-screen-sm flex-col items-center justify-center space-y-4">
       <MissionProgressContainer>
         <MissionListItem className="cs: p-4" />
       </MissionProgressContainer>
