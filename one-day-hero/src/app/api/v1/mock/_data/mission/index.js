@@ -1,16 +1,21 @@
 export const missionDetail = {
-  status: 201,
+  status: 200,
   data: {
     id: 1,
     missionCategory: {
-      categoryId: 1,
+      id: 1,
       code: "MC_001",
       name: "서빙"
     },
     citizenId: 1,
-    regionId: 1,
+    region: {
+      id: 1,
+      si: "서울시",
+      gu: "강남구",
+      dong: "역삼동"
+    },
     location: {
-      x: 1234252.23,
+      x: 1234277.388,
       y: 1234252.23
     },
     missionInfo: {
@@ -24,7 +29,7 @@ export const missionDetail = {
     bookmarkCount: 0,
     missionStatus: "MATCHING"
   },
-  serverDateTime: "2023-10-27T13:03:43"
+  serverDateTime: "2023-11-02T14:25:44"
 };
 
 export const missionList = {
