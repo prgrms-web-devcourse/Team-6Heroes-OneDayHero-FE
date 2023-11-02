@@ -15,10 +15,14 @@ const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
         {menuData?.description ?? menuData?.name}
       </h1>
       <div className="flex justify-around">
-        <Button theme="cancel" size="sm" onClick={onClose}>
+        <Button
+          theme="cancel"
+          size="sm"
+          className="cs:h-12 cs:w-4/12"
+          onClick={onClose}>
           취소
         </Button>
-        <Button theme="active" size="sm">
+        <Button theme="active" size="sm" className="cs:h-12 cs:w-4/12">
           확인
         </Button>
       </div>

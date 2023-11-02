@@ -15,9 +15,9 @@ interface KebabMenuProps extends React.ComponentProps<"div"> {
   size?: number;
 }
 
-const KebabMenu = ({ menuList, size }: KebabMenuProps) => {
+const KebabMenu = ({ menuList, size, className }: KebabMenuProps) => {
   return (
-    <div className="relative inline-block">
+    <div className={`relative inline-block ${className}`}>
       <BsThreeDotsVertical size={size} />
       <MenuBox menuList={menuList} />
     </div>
