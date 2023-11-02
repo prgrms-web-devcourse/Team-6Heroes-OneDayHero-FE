@@ -7,9 +7,9 @@ import React, {
   useState
 } from "react";
 
-interface HorizontalScrollProps {
+type HorizontalScrollProps = {
   className?: string;
-}
+};
 
 const HorizontalScroll = ({
   className,
