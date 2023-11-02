@@ -24,7 +24,7 @@ const MenuBox = ({ menuList }: MenuBoxProps) => {
     const boxHeight = menuList.length * MENU_ITEM_HEIGHT;
 
     setEnoughBottomSpace(e.clientY + boxHeight <= window.innerHeight);
-    setShowMenu((s) => !s);
+    setShowMenu((prev) => !prev);
   };
 
   const positionStyle = enoughBottomSpace ? "top-1/2" : "bottom-1/2";
