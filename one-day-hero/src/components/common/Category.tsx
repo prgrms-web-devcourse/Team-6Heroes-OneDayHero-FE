@@ -30,7 +30,9 @@ interface CategoryProps extends React.ComponentProps<"div"> {
 }
 
 const Category = ({ isRoute = false }: CategoryProps) => {
-  const [active, setActive] = useState<number[] | null>(null);
+  const [activeState, setActiveState] = useState<boolean[]>(
+    Array(categories.length).fill(false)
+  );
 
   const containerStyle = "flex gap-3";
   const itemStyle =
@@ -38,11 +40,12 @@ const Category = ({ isRoute = false }: CategoryProps) => {
 
   const handleClick = (index: number) => {
     if (!isRoute) {
-      if (active?.includes(index)) {
-        setActive(active.filter((item) => item !== index));
-      } else {
-        setActive((prev) => (prev ? [...prev, index] : [index]));
-      }
+      setActiveState(
+        activeState.map((active, idx) => idx === index && !active)
+      );
+    } else {
+      // url 구조 따라 link 추가 예정
+      console.log("link");
     }
   };
 
@@ -52,9 +55,7 @@ const Category = ({ isRoute = false }: CategoryProps) => {
         {categories.map((category, index) => (
           <div
             key={index}
-            className={`${itemStyle} ${
-              active?.includes(index) && "cs:bg-primary"
-            }`}
+            className={`${itemStyle} ${activeState[index] && "cs:bg-primary"}`}
             onClick={() => handleClick(index)}>
             <IconGroup title={category.title} textSize="sm">
               {category.icon}
