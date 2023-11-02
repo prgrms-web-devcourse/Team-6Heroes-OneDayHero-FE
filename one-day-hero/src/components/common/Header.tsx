@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import { BsChevronLeft, BsThreeDotsVertical } from "react-icons/bs";
+import { BsChevronLeft } from "react-icons/bs";
 import { FiEdit3 } from "react-icons/fi";
 
 type HeaderProps = {

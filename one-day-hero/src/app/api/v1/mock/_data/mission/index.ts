@@ -1,4 +1,6 @@
-export const missionDetail = {
+import { MissionResponse } from "@/types/response";
+
+export const missionDetail: MissionResponse = {
   status: 200,
   data: {
     id: 1,
@@ -19,6 +21,7 @@ export const missionDetail = {
       y: 1234252.23
     },
     missionInfo: {
+      title: "제목",
       content: "내용",
       missionDate: "2023-10-10",
       startTime: "10:00",

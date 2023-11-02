@@ -1,36 +1,27 @@
-import KebabMenu from "@/components/common/KebabMenu";
+import Container from "@/components/common/Container";
+import Label from "@/components/common/Label";
+import MissionInfo from "@/components/common/MissionInfo";
 import { getMission } from "@/services/missions";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
-  const { data } = await getMission(params.slug);
+  const {
+    data: { missionCategory, missionInfo }
+  } = await getMission(params.slug);
 
   return (
-    <div>
-      {data.location.x}
-      <KebabMenu
-        menuList={[
-          {
-            name: "first",
-            apiPath: "/test",
-            requiredData: ["slug"],
-            description: "정말로 삭제하시겠어요?"
-          },
-          { name: "second", apiPath: "/test", requiredData: ["slug"] },
-          { name: "third", apiPath: "/test", requiredData: ["slug"] }
-        ]}
-        size={24}
-      />
-      <div className="h-80" />
-      <KebabMenu
-        menuList={[
-          { name: "first", apiPath: "/test", requiredData: ["slug"] },
-          { name: "second", apiPath: "/test", requiredData: ["slug"] },
-          { name: "third", apiPath: "/test", requiredData: ["slug"] }
-        ]}
-        size={24}
-      />
-      <div className="h-80" />
-    </div>
+    <>
+      <Container className="cs:w-full">
+        <Label size="sm">{missionCategory.name}</Label>
+        <h1 className="text-xl font-semibold">{missionInfo.title + "title"}</h1>
+      </Container>
+      <Container className="cs:w-full">
+        <MissionInfo
+          missionBounty={missionInfo.price.toString()}
+          missionDay={missionInfo.missionDate}
+          missionTime={`${missionInfo.startTime} ~ ${missionInfo.endTime}`}
+        />
+      </Container>
+    </>
   );
 };
 
