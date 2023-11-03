@@ -12,6 +12,7 @@ type MissionListItemProps = {
   categories: string;
   createAt: string;
   location: string;
+  className?: string;
 };
 
 const MissionListItem = ({
@@ -19,10 +20,11 @@ const MissionListItem = ({
   title,
   categories,
   createAt,
-  location
+  location,
+  className
 }: MissionListItemProps) => {
   return (
-    <div className="mb-5 flex">
+    <div className={`mb-5 flex ${className}`}>
       <div className="flex grow gap-4">
         <div className="bg-inactive overflow-hidden rounded-[10px]">
           <Image

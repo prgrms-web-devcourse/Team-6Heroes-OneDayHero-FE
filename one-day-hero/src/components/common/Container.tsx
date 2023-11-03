@@ -9,7 +9,7 @@ const Container = ({
   children,
   ...props
 }: PropsWithChildren<ContainerProps>) => {
-  const defaultStyle = `w-10/12 p-3 bg-white rounded-2xl shadow-down m-2`;
+  const defaultStyle = `w-10/12 p-3 bg-white rounded-[1.25rem] shadow-down m-2`;
 
   return (
     <div className={`${defaultStyle} ${className}`} {...props}>
