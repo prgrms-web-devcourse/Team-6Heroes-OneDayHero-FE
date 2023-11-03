@@ -1,6 +1,6 @@
 import MissionProgressContainer from "@/components/common/MissionProgressContainer";
 
-import MissionListItem from "../../../../components/common/MissionListItem";
+import MissionListItem from "../../../../components/common/Info/MissionListItem";
 
 const OngoingMissionPage = () => {
   return (
