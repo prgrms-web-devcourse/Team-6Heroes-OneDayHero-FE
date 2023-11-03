@@ -2,25 +2,47 @@ import Image from "next/image";
 import { BiMap, BiStar } from "react-icons/bi";
 
 import Label from "@/components/common/Label";
-import Smile from "~/smiling-face.png";
+import test from "~/images/test.png";
 
 import IconGroup from "../IconGroup";
 
-const MissionListItem = () => {
+type MissionListItemProps = {
+  imageSrc?: string;
+  title: string;
+  categories: string;
+  createAt: string;
+  location: string;
+  className?: string;
+};
+
+const MissionListItem = ({
+  imageSrc,
+  title,
+  categories,
+  createAt,
+  location,
+  className
+}: MissionListItemProps) => {
   return (
-    <div className="mb-5 flex">
+    <div className={`mb-5 flex w-full px-4 py-1 ${className}`}>
       <div className="flex grow gap-4">
-        <div>
-          <Image src={Smile} alt="프로필 사진" width={60} height={60} />
+        <div className="bg-inactive overflow-hidden rounded-[10px]">
+          <Image
+            src={imageSrc || test}
+            alt="프로필 사진"
+            width={60}
+            height={60}
+            objectFit="cover"
+          />
         </div>
         <div className="flex flex-col gap-1">
           <Label size="sm" className="w-16">
-            서빙
+            {categories}
           </Label>
-          <span className="text-md font-semibold">미션 타이틀</span>
+          <span className="text-md font-semibold">{title}</span>
           <div className="flex gap-2">
-            <span className="text-xs">2023-10-19</span>
-            <IconGroup title="강남구 역삼동" direction="row" size="sm">
+            <span className="text-xs">{createAt}</span>
+            <IconGroup title={location} direction="row" size="sm">
               <BiMap />
             </IconGroup>
           </div>
