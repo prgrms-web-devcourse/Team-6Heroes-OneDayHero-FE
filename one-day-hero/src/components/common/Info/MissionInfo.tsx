@@ -6,7 +6,7 @@ type MissionInfoProps = {
   missionDay: string;
   missionTime: string;
   missionBounty: string;
-  className: string;
+  className?: string;
 };
 
 const MissionInfo = ({
