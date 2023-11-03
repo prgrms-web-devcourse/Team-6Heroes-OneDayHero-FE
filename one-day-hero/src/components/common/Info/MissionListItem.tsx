@@ -7,7 +7,7 @@ import test from "~/images/test.png";
 import IconGroup from "../IconGroup";
 
 type MissionListItemProps = {
-  src?: string;
+  imageSrc?: string;
   title: string;
   categories: string;
   createAt: string;
@@ -16,7 +16,7 @@ type MissionListItemProps = {
 };
 
 const MissionListItem = ({
-  src,
+  imageSrc,
   title,
   categories,
   createAt,
@@ -24,11 +24,11 @@ const MissionListItem = ({
   className
 }: MissionListItemProps) => {
   return (
-    <div className={`mb-5 flex ${className}`}>
+    <div className={`mb-5 flex w-full px-4 py-1 ${className}`}>
       <div className="flex grow gap-4">
         <div className="bg-inactive overflow-hidden rounded-[10px]">
           <Image
-            src={src || test}
+            src={imageSrc || test}
             alt="프로필 사진"
             width={60}
             height={60}
