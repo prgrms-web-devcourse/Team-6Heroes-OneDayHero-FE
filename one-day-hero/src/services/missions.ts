@@ -8,3 +8,9 @@ export const getTestMissions = async () => {
 export const getMission = async (missionId: string) => {
   return fetch(apiUrl(`/missions/${missionId}`)).then((data) => data.json());
 };
+
+export const getOngoingMissionList = async () => {
+  return fetch(apiUrl(`/missions/list/ongoing`), {
+    cache: "no-store"
+  }).then((data) => data.json());
+};
