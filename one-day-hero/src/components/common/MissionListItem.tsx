@@ -12,7 +12,7 @@ type MissionListItemProps = {
   categories: string;
   createAt: string;
   location: string;
-  className: string;
+  className?: string;
 };
 
 const MissionListItem = ({
