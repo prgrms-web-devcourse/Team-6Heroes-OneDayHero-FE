@@ -3,12 +3,17 @@ export const missionDetail = {
   data: {
     id: 1,
     missionCategory: {
-      categoryId: 1,
+      id: 1,
       code: "MC_001",
       name: "서빙"
     },
     citizenId: 14,
-    regionId: 1,
+    region: {
+      id: 1,
+      si: "서울시",
+      gu: "강남구",
+      dong: "역삼동"
+    },
     location: {
       x: 1234252.23,
       y: 1234252.23
@@ -37,18 +42,23 @@ export const ongoingMissionList = {
     {
       id: 1,
       missionCategory: {
-        categoryId: 1,
+        id: 1,
         code: "MC_001",
         name: "서빙"
       },
       citizenId: 15,
-      regionId: 1 /** @note 강남구 역삼동*/,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
       },
       missionInfo: {
-        title: "제목1",
+        title: "더미 데이터 제목입니다.",
         content: "내용1",
         missionDate: "2023-12-4",
         startTime: "10:00",
@@ -57,7 +67,7 @@ export const ongoingMissionList = {
         price: 10000
       },
       bookmarkCount: 0,
-      missionStatus: "MATCHING",
+      missionStatus: "MATCHING_COMPLETED",
       missionImage: {
         originalName: "xxx.jpeg",
         path: "~~~~"
@@ -66,12 +76,17 @@ export const ongoingMissionList = {
     {
       id: 2,
       missionCategory: {
-        categoryId: 2,
+        id: 2,
         code: "MC_002",
         name: "주방"
       },
       citizenId: 11,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -93,14 +108,19 @@ export const ongoingMissionList = {
       }
     },
     {
-      id: 1,
+      id: 3,
       missionCategory: {
-        categoryId: 4,
+        id: 4,
         code: "MC_004",
         name: "카페"
       },
       citizenId: 1,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -122,14 +142,19 @@ export const ongoingMissionList = {
       }
     },
     {
-      id: 2,
+      id: 4,
       missionCategory: {
-        categoryId: 4,
+        id: 4,
         code: "MC_004",
         name: "카페"
       },
       citizenId: 1,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -151,14 +176,19 @@ export const ongoingMissionList = {
       }
     },
     {
-      id: 3,
+      id: 5,
       missionCategory: {
-        categoryId: 4,
+        id: 4,
         code: "MC_004",
         name: "카페"
       },
       citizenId: 2,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -180,14 +210,19 @@ export const ongoingMissionList = {
       }
     },
     {
-      id: 4,
+      id: 6,
       missionCategory: {
-        categoryId: 1,
+        id: 1,
         code: "MC_001",
         name: "서빙"
       },
       citizenId: 3,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -211,12 +246,17 @@ export const ongoingMissionList = {
     {
       id: 5,
       missionCategory: {
-        categoryId: 1,
+        id: 1,
         code: "MC_001",
         name: "서빙"
       },
       citizenId: 4,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -238,14 +278,19 @@ export const ongoingMissionList = {
       }
     },
     {
-      id: 6,
+      id: 7,
       missionCategory: {
-        categoryId: 1,
+        id: 1,
         code: "MC_001",
         name: "서빙"
       },
       citizenId: 5,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -274,12 +319,17 @@ export const suggestedMissionList = {
     {
       id: 1,
       missionCategory: {
-        categoryId: 1,
+        id: 1,
         code: "MC_001",
         name: "서빙"
       },
       citizenId: 6,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -301,14 +351,19 @@ export const suggestedMissionList = {
       }
     },
     {
-      id: 1,
+      id: 8,
       missionCategory: {
-        categoryId: 1,
+        id: 1,
         code: "MC_001",
         name: "서빙"
       },
       citizenId: 7,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -330,14 +385,19 @@ export const suggestedMissionList = {
       }
     },
     {
-      id: 1,
+      id: 9,
       missionCategory: {
-        categoryId: 1,
+        id: 1,
         code: "MC_001",
         name: "서빙"
       },
       citizenId: 8,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -361,12 +421,17 @@ export const suggestedMissionList = {
     {
       id: 2,
       missionCategory: {
-        categoryId: 1,
+        id: 1,
         code: "MC_001",
         name: "서빙"
       },
       citizenId: 9,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -388,14 +453,19 @@ export const suggestedMissionList = {
       }
     },
     {
-      id: 3,
+      id: 10,
       missionCategory: {
-        categoryId: 1,
+        id: 1,
         code: "MC_001",
         name: "서빙"
       },
       citizenId: 10,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -417,14 +487,19 @@ export const suggestedMissionList = {
       }
     },
     {
-      id: 4,
+      id: 11,
       missionCategory: {
-        categoryId: 2,
+        id: 2,
         code: "MC_002",
         name: "주방"
       },
       citizenId: 11,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -446,14 +521,19 @@ export const suggestedMissionList = {
       }
     },
     {
-      id: 5,
+      id: 12,
       missionCategory: {
-        categoryId: 2,
+        id: 2,
         code: "MC_002",
         name: "주방"
       },
       citizenId: 12,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
@@ -475,14 +555,19 @@ export const suggestedMissionList = {
       }
     },
     {
-      id: 6,
+      id: 13,
       missionCategory: {
-        categoryId: 2,
+        id: 2,
         code: "MC_002",
         name: "주방"
       },
       citizenId: 13,
-      regionId: 1,
+      region: {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
       location: {
         x: 1234252.23,
         y: 1234252.23
