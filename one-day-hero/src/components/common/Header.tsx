@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiEdit3 } from "react-icons/fi";
 
-import BackButton from "./backButton";
+import BackButton from "./BackButton";
 
 type HeaderProps = {
   left?: "back" | "none";
