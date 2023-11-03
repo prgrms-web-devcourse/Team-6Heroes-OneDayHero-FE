@@ -1,21 +1,21 @@
 "use client";
 
 import useModal from "@/hooks/useModal";
-
+import { MenuDataType } from ".";
 import { MouseEventHandler, useState } from "react";
 import KebabModal from "./KebabModal";
-import { KebabMenuDataType } from "@/types";
 
-const MENU_ITEM_HEIGHT = 48;
+const MENU_ITEM_HEIGHT = 40;
 
 interface MenuBoxProps extends React.ComponentProps<"div"> {
-  menuList: KebabMenuDataType[];
+  menuList: MenuDataType[];
 }
 
 const MenuBox = ({ menuList }: MenuBoxProps) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [selectedMenuData, setSelectedMenuData] =
-    useState<KebabMenuDataType | null>(null);
+  const [selectedMenuData, setSelectedMenuData] = useState<MenuDataType | null>(
+    null
+  );
   const [enoughBottomSpace, setEnoughBottomSpace] = useState(true);
 
   const { isOpen, onOpen, onClose } = useModal();
@@ -62,8 +62,8 @@ const MenuBox = ({ menuList }: MenuBoxProps) => {
           return (
             <div key={menuData.name}>
               <div
-                className={`text-xl font-semibold max-w-[15rem] w-[80vw] h-12 flex justify-center items-center hover:bg-background-darken hover:bg-opacity-30 ${dividerStyle}`}
-                // WARN: h-12 수정 시 MENU_ITEM_HEIGHT 같이 수정 해야함
+                className={`max-w-[15rem] w-[80vw] h-10 flex justify-center items-center hover:bg-background-darken hover:bg-opacity-30 ${dividerStyle}`}
+                // WARN: h-10 수정 시 MENU_ITEM_HEIGHT 같이 수정 해야함
                 onClick={handleMenuClick}>
                 {menuData.name}
               </div>

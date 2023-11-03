@@ -36,8 +36,13 @@ const Footer = () => {
         </IconGroup>
       </Link>
       <Link
-        href="/mission"
-        className={`${pathname.startsWith("/mission") && `${active}`}`}>
+        href="/mission/list/ongoing"
+        className={`${
+          pathname.startsWith("/mission/list/ongoing") ||
+          pathname.startsWith("/mission/list/suggested")
+            ? `${active}`
+            : ""
+        }`}>
         <IconGroup title="미션">
           <BiCalendarCheck />
         </IconGroup>

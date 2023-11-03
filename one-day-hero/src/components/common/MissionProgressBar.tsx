@@ -13,6 +13,7 @@ const MissionProgressBar = ({
     missionState === "matched" || missionState === "done"
       ? "active"
       : "inactive";
+
   const doneState = missionState === "done" ? "active" : "inactive";
 
   const defaultStyle =
