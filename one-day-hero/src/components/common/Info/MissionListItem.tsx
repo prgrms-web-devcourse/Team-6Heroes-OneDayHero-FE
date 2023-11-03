@@ -2,7 +2,7 @@ import Image from "next/image";
 import { BiMap, BiStar } from "react-icons/bi";
 
 import Label from "@/components/common/Label";
-import Smile from "~/smiling-face.png";
+import Smile from "~/images/test.png";
 
 import IconGroup from "../IconGroup";
 

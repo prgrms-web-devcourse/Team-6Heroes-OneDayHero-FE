@@ -1,7 +1,7 @@
 import Container from "@/components/common/Container";
 import IconGroup from "@/components/common/IconGroup";
 import Label from "@/components/common/Label";
-import MissionInfo from "@/components/common/MissionInfo";
+import MissionInfo from "@/components/common/Info/MissionInfo";
 import { getMission } from "@/services/missions";
 import { revalidateTag } from "next/cache";
 import { BiMap } from "react-icons/bi";
