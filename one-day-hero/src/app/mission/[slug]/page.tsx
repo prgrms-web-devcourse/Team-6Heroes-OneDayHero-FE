@@ -1,11 +1,15 @@
 import Container from "@/components/common/Container";
+import IconGroup from "@/components/common/IconGroup";
 import Label from "@/components/common/Label";
 import MissionInfo from "@/components/common/MissionInfo";
 import { getMission } from "@/services/missions";
+import { revalidateTag } from "next/cache";
+import { BiMap } from "react-icons/bi";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
+  revalidateTag(`mission${params.slug}`);
   const {
-    data: { missionCategory, missionInfo }
+    data: { missionCategory, missionInfo, region }
   } = await getMission(params.slug);
 
   return (
@@ -20,6 +24,15 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           missionDay={missionInfo.missionDate}
           missionTime={`${missionInfo.startTime} ~ ${missionInfo.endTime}`}
         />
+      </Container>
+      <Container className="cs:w-full">
+        <h2 className="text-md font-semibold">미션 내용</h2>
+        <p>{missionInfo.content}</p>
+      </Container>
+      <Container className="cs:w-full">
+        <IconGroup title={`${region.si} ${region.gu} ${region.dong}`}>
+          <BiMap />
+        </IconGroup>
       </Container>
     </>
   );

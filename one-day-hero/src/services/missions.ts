@@ -9,6 +9,8 @@ export const getTestMissions = async () => {
 export const getMission = async (
   missionId: string
 ): Promise<MissionResponse> => {
-  const response = await fetch(apiUrl(`/missions/${missionId}`));
+  const response = await fetch(apiUrl(`/missions/${missionId}`), {
+    next: { tags: [`mission${missionId}`] }
+  });
   return response.json();
 };
