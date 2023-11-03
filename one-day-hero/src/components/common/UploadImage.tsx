@@ -23,6 +23,7 @@ const UploadImage = ({
   };
 
   const handleDelete = (e: MouseEvent) => {
+    // 추후 구현 예정
     e.stopPropagation();
   };
 
