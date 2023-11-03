@@ -2,9 +2,9 @@ import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import DayList from "@/components/common/DayList";
 import HeroScore from "@/components/common/HeroScore";
+import MissionInfo from "@/components/common/Info/MissionInfo";
+import MissionListItem from "@/components/common/Info/MissionListItem";
 import Label from "@/components/common/Label";
-import MissionInfo from "@/components/common/MissionInfo";
-import MissionListItem from "@/components/common/MissionListItem";
 import MissionProgressBar from "@/components/common/MissionProgressBar";
 
 const HomePage = () => {
