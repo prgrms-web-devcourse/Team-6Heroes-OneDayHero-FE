@@ -6,6 +6,7 @@ import { getMission } from "@/services/missions";
 import { revalidateTag } from "next/cache";
 import { BiChevronLeft, BiChevronRight, BiMap } from "react-icons/bi";
 import Button from "@/components/common/Button";
+import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendList";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
   revalidateTag(`mission${params.slug}`);
@@ -47,9 +48,21 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           </div>
         </Button>
       </Container>
-      <h1 className="text-lg font-semibold mt-4 break-keep w-full">
+      <h1 className="text-lg font-semibold mt-4 mb-2 break-keep w-full">
         미션에 딱 맞는 히어로님을 만나보시겠어요?
       </h1>
+      <HeroRecommendList
+        className="w-full mb-8"
+        heroDataList={[
+          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+          { thumbnail: "", nickname: "rabbit", heroScore: 100 }
+        ]}
+      />
     </>
   );
 };
