@@ -4,7 +4,7 @@ import Label from "@/components/common/Label";
 import MissionInfo from "@/components/common/Info/MissionInfo";
 import { getMission } from "@/services/missions";
 import { revalidateTag } from "next/cache";
-import { BiChevronLeft, BiChevronRight, BiMap } from "react-icons/bi";
+import { BiChevronRight, BiEdit, BiMap } from "react-icons/bi";
 import Button from "@/components/common/Button";
 import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendList";
 
@@ -52,7 +52,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
         미션에 딱 맞는 히어로님을 만나보시겠어요?
       </h1>
       <HeroRecommendList
-        className="w-full mb-8"
+        className="w-full mb-20"
         heroDataList={[
           { thumbnail: "", nickname: "rabbit", heroScore: 100 },
           { thumbnail: "", nickname: "rabbit", heroScore: 100 },
@@ -63,6 +63,12 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           { thumbnail: "", nickname: "rabbit", heroScore: 100 }
         ]}
       />
+      <Button size="lg">
+        <div className="relative inline-block">
+          <BiEdit className="absolute top-[3px] -left-7" size={24} />
+          수정하기
+        </div>
+      </Button>
     </>
   );
 };

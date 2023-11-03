@@ -22,7 +22,8 @@ export const missionDetail: MissionResponse = {
     },
     missionInfo: {
       title: "제목",
-      content: "내용",
+      content:
+        "[Intervention]Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113",
       missionDate: "2023-10-10",
       startTime: "10:00",
       endTime: "10:30",

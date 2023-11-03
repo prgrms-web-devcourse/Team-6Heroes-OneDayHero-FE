@@ -62,7 +62,7 @@ const MenuBox = ({ menuList }: MenuBoxProps) => {
           return (
             <div key={menuData.name}>
               <div
-                className={`max-w-[15rem] w-[80vw] h-10 flex justify-center items-center hover:bg-background-darken hover:bg-opacity-30 ${dividerStyle}`}
+                className={`text-base max-w-[15rem] w-[80vw] h-10 flex justify-center items-center hover:bg-background-darken hover:bg-opacity-30 ${dividerStyle}`}
                 // WARN: h-10 수정 시 MENU_ITEM_HEIGHT 같이 수정 해야함
                 onClick={handleMenuClick}>
                 {menuData.name}
