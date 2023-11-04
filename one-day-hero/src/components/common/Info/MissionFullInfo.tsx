@@ -23,12 +23,15 @@ const MissionFullInfo = ({
         location={data.region.gu + " " + data.region.dong}
         title={data.missionInfo.title}
         bookmarkCount={data.bookmarkCount}
+        className="p-2"
       />
       <MissionInfo
-        className="cs:ml-2 cs:my-4"
-        missionBounty="10/19 월요일"
-        missionDay="14:00 ~ 18:00"
-        missionTime="일급 80000원"
+        className="cs:ml-2 cs:my-4 cs:text-sm"
+        missionTime={
+          data.missionInfo.startTime + "~" + data.missionInfo.endTime
+        }
+        missionDay={data.missionInfo.missionDate}
+        missionBounty={data.missionInfo.price}
       />
     </div>
   );

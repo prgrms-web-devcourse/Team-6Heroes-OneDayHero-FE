@@ -10,23 +10,24 @@ const OngoingMissionPage = async () => {
 
   return (
     <div className="mt-20 w-full max-w-screen-sm space-y-4">
-      {data.map((item: Mission) => (
-        <Link
-          href={`/mission/${item.id}`}
-          className="flex w-full max-w-screen-sm justify-center"
-          key={item.id}>
-          <MissionProgressContainer missionStatus={item.missionStatus}>
-            <MissionListItem
-              className="cs:p-4"
-              categories={item.missionCategory.name}
-              createAt={item.missionInfo.missionDate}
-              location={item.region.gu + " " + item.region.dong}
-              title={item.missionInfo.title}
-              bookmarkCount={item.bookmarkCount}
-            />
-          </MissionProgressContainer>
-        </Link>
-      ))}
+      {data &&
+        data.map((item: Mission) => (
+          <Link
+            href={`/mission/${item.id}`}
+            className="flex w-full max-w-screen-sm justify-center"
+            key={item.id}>
+            <MissionProgressContainer missionStatus={item.missionStatus}>
+              <MissionListItem
+                className="cs:p-4"
+                categories={item.missionCategory.name}
+                createAt={item.missionInfo.missionDate}
+                location={item.region.gu + " " + item.region.dong}
+                title={item.missionInfo.title}
+                bookmarkCount={item.bookmarkCount}
+              />
+            </MissionProgressContainer>
+          </Link>
+        ))}
     </div>
   );
 };

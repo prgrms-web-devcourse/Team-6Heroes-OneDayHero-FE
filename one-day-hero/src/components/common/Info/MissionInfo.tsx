@@ -5,7 +5,7 @@ import IconGroup from "../IconGroup";
 type MissionInfoProps = {
   missionDay: string;
   missionTime: string;
-  missionBounty: string;
+  missionBounty: number;
   className?: string;
 };
 
@@ -24,7 +24,7 @@ const MissionInfo = ({
       <IconGroup title={missionTime} direction="row">
         <BiTime />
       </IconGroup>
-      <IconGroup title={missionBounty} direction="row">
+      <IconGroup title={missionBounty + "원"} direction="row">
         <BiDollarCircle />
       </IconGroup>
     </div>
