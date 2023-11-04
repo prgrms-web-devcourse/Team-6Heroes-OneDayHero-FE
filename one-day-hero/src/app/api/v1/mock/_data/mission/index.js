@@ -50,8 +50,8 @@ export const ongoingMissionList = {
       region: {
         id: 1,
         si: "서울시",
-        gu: "강남구",
-        dong: "역삼동"
+        gu: "마포구",
+        dong: "동교동"
       },
       location: {
         x: 1234252.23,
@@ -66,7 +66,7 @@ export const ongoingMissionList = {
         deadlineTime: "10:00",
         price: 10000
       },
-      bookmarkCount: 0,
+      bookmarkCount: 5,
       missionStatus: "MATCHING_COMPLETED",
       missionImage: {
         originalName: "xxx.jpeg",
@@ -100,7 +100,7 @@ export const ongoingMissionList = {
         deadlineTime: "10:00",
         price: 10000
       },
-      bookmarkCount: 0,
+      bookmarkCount: 2,
       missionStatus: "MATCHING",
       missionImage: {
         originalName: "xxx.jpeg",
@@ -134,7 +134,7 @@ export const ongoingMissionList = {
         deadlineTime: "10:00",
         price: 270000
       },
-      bookmarkCount: 0,
+      bookmarkCount: 7,
       missionStatus: "MATCHING",
       missionImage: {
         originalName: "xxx.jpeg",
@@ -168,7 +168,7 @@ export const ongoingMissionList = {
         deadlineTime: "10:00",
         price: 160000
       },
-      bookmarkCount: 0,
+      bookmarkCount: 12,
       missionStatus: "MATCHING_COMPLETED",
       missionImage: {
         originalName: "xxx.jpeg",
@@ -236,7 +236,7 @@ export const ongoingMissionList = {
         deadlineTime: "10:00",
         price: 130000
       },
-      bookmarkCount: 0,
+      bookmarkCount: 2,
       missionStatus: "MISSION_COMPLETED",
       missionImage: {
         originalName: "xxx.jpeg",
@@ -304,7 +304,7 @@ export const ongoingMissionList = {
         deadlineTime: "10:00",
         price: 1000
       },
-      bookmarkCount: 0,
+      bookmarkCount: 5,
       missionStatus: "MATCHING",
       missionImage: {
         originalName: "xxx.jpeg",
