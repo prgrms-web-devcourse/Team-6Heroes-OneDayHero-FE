@@ -12,6 +12,7 @@ import {
 
 import IconGroup from "@/components/common/IconGroup";
 
+import ErrorMessage from "../domain/mission/create/ErrorMessage";
 import HorizontalScroll from "./HorizontalScroll";
 
 const categories = [
@@ -25,11 +26,14 @@ const categories = [
   { icon: <BiStar />, title: "기타" }
 ];
 
-interface CategoryProps extends React.ComponentProps<"div"> {
+type CategoryProps = {
   isRoute?: boolean;
-}
+  error?: string;
+  // eslint-disable-next-line no-unused-vars
+  onSelect?: (idx: number) => void;
+};
 
-const Category = ({ isRoute = false }: CategoryProps) => {
+const Category = ({ isRoute = false, error, onSelect }: CategoryProps) => {
   const [activeState, setActiveState] = useState<boolean[]>(
     Array(categories.length).fill(false)
   );
@@ -39,10 +43,13 @@ const Category = ({ isRoute = false }: CategoryProps) => {
     "flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white w-16 h-16 rounded-3xl shadow";
 
   const handleClick = (index: number) => {
-    if (!isRoute) {
-      setActiveState(
-        activeState.map((active, idx) => idx === index && !active)
+    if (!isRoute && onSelect) {
+      const newActiveState = activeState.map(
+        (active, idx) => idx === index && !active
       );
+      setActiveState(newActiveState);
+      const categoryId = newActiveState.findIndex((category) => category) + 1;
+      onSelect(categoryId);
     } else {
       // url 구조 따라 link 추가 예정
       console.log("link");
@@ -63,6 +70,7 @@ const Category = ({ isRoute = false }: CategoryProps) => {
           </div>
         ))}
       </ul>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
     </HorizontalScroll>
   );
 };
