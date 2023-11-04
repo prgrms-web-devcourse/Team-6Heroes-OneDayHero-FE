@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressContainer from "@/components/common/MissionProgressContainer";
 import { getOngoingMissionList } from "@/services/missions";
@@ -9,7 +11,8 @@ const OngoingMissionPage = async () => {
   return (
     <div className="mt-20 w-full max-w-screen-sm space-y-4">
       {data.map((item: Mission) => (
-        <div
+        <Link
+          href={`/mission/${item.id}`}
           className="flex w-full max-w-screen-sm justify-center"
           key={item.id}>
           <MissionProgressContainer missionStatus={item.missionStatus}>
@@ -22,7 +25,7 @@ const OngoingMissionPage = async () => {
               bookmarkCount={item.bookmarkCount}
             />
           </MissionProgressContainer>
-        </div>
+        </Link>
       ))}
     </div>
   );
