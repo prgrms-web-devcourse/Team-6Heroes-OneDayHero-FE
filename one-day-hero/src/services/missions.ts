@@ -14,3 +14,9 @@ export const getOngoingMissionList = async () => {
     cache: "no-store"
   }).then((data) => data.json());
 };
+
+export const getSuggestedMissionList = async () => {
+  return fetch(apiUrl(`/missions/list/suggested`), {
+    cache: "no-store"
+  }).then((data) => data.json());
+};
