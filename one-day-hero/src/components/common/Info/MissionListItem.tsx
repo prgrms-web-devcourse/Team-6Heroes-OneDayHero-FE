@@ -26,7 +26,7 @@ const MissionListItem = ({
   className
 }: MissionListItemProps) => {
   return (
-    <div className={`flex w-full px-4 ${className}`}>
+    <div className={`flex w-full ${className}`}>
       <div className="flex grow gap-4">
         <div className="bg-inactive overflow-hidden rounded-[10px]">
           <Image

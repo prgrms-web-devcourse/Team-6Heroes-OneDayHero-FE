@@ -17,7 +17,7 @@ const MissionProgressContainer = ({
   ...props
 }: PropsWithChildren<MissionProgressContainer>) => {
   return (
-    <Container className="cs:p-0 cs:w-10/12">
+    <Container className="cs:p-0 cs:w-11/12">
       {children}
       <MissionProgressBar missionStatus={missionStatus} {...props} />
     </Container>
