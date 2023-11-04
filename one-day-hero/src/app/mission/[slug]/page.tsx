@@ -8,13 +8,14 @@ import { BiChevronRight, BiEdit, BiMap } from "react-icons/bi";
 import Button from "@/components/common/Button";
 import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendList";
 import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
+import BookmarkButton from "@/components/common/BookmarkButton";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
   const userId = parseInt(params.slug);
 
   revalidateTag(`mission${params.slug}`);
   const {
-    data: { missionCategory, missionInfo, region, citizenId }
+    data: { id, missionCategory, missionInfo, region, citizenId, bookmarkList }
   } = await getMission(params.slug);
 
   const isOwner = userId === citizenId;
@@ -71,12 +72,27 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
         />
       )}
       {!isOwner && <CitizenInfo citizenId={userId} />}
-      <Button size="lg">
-        <div className="relative inline-block">
-          <BiEdit className="absolute top-[3px] -left-7" size={24} />
-          수정하기
+      {isOwner && (
+        <Button size="lg">
+          <div className="relative inline-block">
+            <BiEdit className="absolute top-[3px] -left-7" size={24} />
+            수정하기
+          </div>
+        </Button>
+      )}
+      {!isOwner && (
+        <div className="w-full mt-12 flex justify-between gap-3">
+          <BookmarkButton
+            bookmarkList={bookmarkList}
+            missionId={id}
+            size="lg"
+            className="cs:grow"
+          />
+          <Button size="sm" className="cs:grow">
+            채팅하기
+          </Button>
         </div>
-      </Button>
+      )}
     </>
   );
 };

@@ -28,6 +28,7 @@ export type MissionResponse = {
       price: number;
     };
     bookmarkCount: number;
+    bookmarkList: number[];
     missionStatus: "MATCHING";
   };
   serverDateTime: string;
