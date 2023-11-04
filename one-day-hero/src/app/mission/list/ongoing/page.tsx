@@ -19,6 +19,7 @@ const OngoingMissionPage = async () => {
               createAt={item.missionInfo.missionDate}
               location={item.region.gu + " " + item.region.dong}
               title={item.missionInfo.title}
+              bookmarkCount={item.bookmarkCount}
             />
           </MissionProgressContainer>
         </div>
