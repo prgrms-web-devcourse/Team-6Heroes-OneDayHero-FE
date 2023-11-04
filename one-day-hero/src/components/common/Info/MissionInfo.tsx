@@ -17,7 +17,7 @@ const MissionInfo = ({
 }: MissionInfoProps) => {
   return (
     <div
-      className={`${className} ml-4 flex w-full flex-col items-start justify-center gap-2`}>
+      className={`${className} ml-4 flex w-full flex-col items-start justify-center gap-2 font-semibold`}>
       <IconGroup title={missionDay} direction="row">
         <BiCalendarWeek />
       </IconGroup>

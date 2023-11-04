@@ -17,7 +17,9 @@ const SuggestedMissionPage = async () => {
             href={`/mission/${item.id}`}
             className="flex w-full max-w-screen-sm justify-center"
             key={item.id}>
-            <Container className="cs:w-11/12">
+            <Container
+              className="cs:w-11/12"
+              missionStatus={item.missionStatus}>
               <MissionFullInfo data={item} />
               <div className="flex justify-center gap-1">
                 <Button
