@@ -41,7 +41,9 @@ const HeroScore = ({
 
   return (
     <div className={`${className} flex flex-col`}>
-      {size === "sm" && <p className={`${textColor} text-right`}>{score} 점</p>}
+      {size === "sm" && (
+        <p className={`${textColor} text-sm text-right`}>{score} 점</p>
+      )}
       <div
         className={`${sizes[size]} bg-background-darken flex grow items-center`}
         {...props}>

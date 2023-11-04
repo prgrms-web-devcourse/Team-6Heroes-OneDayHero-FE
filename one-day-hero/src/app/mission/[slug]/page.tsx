@@ -7,12 +7,17 @@ import { revalidateTag } from "next/cache";
 import { BiChevronRight, BiEdit, BiMap } from "react-icons/bi";
 import Button from "@/components/common/Button";
 import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendList";
+import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
+  const userId = parseInt(params.slug);
+
   revalidateTag(`mission${params.slug}`);
   const {
-    data: { missionCategory, missionInfo, region }
+    data: { missionCategory, missionInfo, region, citizenId }
   } = await getMission(params.slug);
+
+  const isOwner = userId === citizenId;
 
   return (
     <>
@@ -51,18 +56,21 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
       <h1 className="text-lg font-semibold mt-4 mb-2 break-keep w-full">
         미션에 딱 맞는 히어로님을 만나보시겠어요?
       </h1>
-      <HeroRecommendList
-        className="w-full mb-20"
-        heroDataList={[
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 }
-        ]}
-      />
+      {isOwner && (
+        <HeroRecommendList
+          className="w-full mb-20"
+          heroDataList={[
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 }
+          ]}
+        />
+      )}
+      {!isOwner && <CitizenInfo citizenId={userId} />}
       <Button size="lg">
         <div className="relative inline-block">
           <BiEdit className="absolute top-[3px] -left-7" size={24} />
