@@ -12,7 +12,7 @@ type MissionListItemProps = {
   categories: string;
   createAt: string;
   location: string;
-  bookmarkCount: number;
+  bookmarkCount?: number;
   className?: string;
 };
 
