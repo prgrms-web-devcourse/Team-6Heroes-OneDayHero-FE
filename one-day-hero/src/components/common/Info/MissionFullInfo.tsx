@@ -1,11 +1,12 @@
 import { PropsWithChildren } from "react";
 
 import MissionInfo from "@/components/common/Info/MissionInfo";
+import { Mission } from "@/types/type";
 
 import MissionListItem from "./MissionListItem";
 
 type MissionFullInfoProps = {
-  data: MissionListType;
+  data: Mission;
   className?: string;
 };
 
@@ -17,16 +18,20 @@ const MissionFullInfo = ({
   return (
     <div className={`${className}`} {...props}>
       <MissionListItem
-        categories="서빙"
-        createAt="2023-10-19"
-        location="강남구 역삼동"
-        title="미션 타이틀"
+        categories={data.missionCategory.name}
+        createAt={data.missionInfo.missionDate}
+        location={data.region.gu + " " + data.region.dong}
+        title={data.missionInfo.title}
+        bookmarkCount={data.bookmarkCount}
+        className="p-2"
       />
       <MissionInfo
-        className="cs:ml-1"
-        missionBounty="10/19 월요일"
-        missionDay="14:00 ~ 18:00"
-        missionTime="일급 80000원"
+        className="cs:ml-2 cs:my-4 cs:text-sm"
+        missionTime={
+          data.missionInfo.startTime + "~" + data.missionInfo.endTime
+        }
+        missionDay={data.missionInfo.missionDate}
+        missionBounty={data.missionInfo.price}
       />
     </div>
   );

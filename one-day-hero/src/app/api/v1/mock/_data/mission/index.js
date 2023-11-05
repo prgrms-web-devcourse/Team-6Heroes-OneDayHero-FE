@@ -327,15 +327,15 @@ export const suggestedMissionList = {
       region: {
         id: 1,
         si: "서울시",
-        gu: "강남구",
-        dong: "역삼동"
+        gu: "마포구",
+        dong: "동교동"
       },
       location: {
         x: 1234252.23,
         y: 1234252.23
       },
       missionInfo: {
-        title: "제목1",
+        title: "제안받은 미션 임시 데이터 제목",
         content: "내용1",
         missionDate: "2023-12-4",
         startTime: "10:00",
@@ -343,8 +343,8 @@ export const suggestedMissionList = {
         deadlineTime: "10:00",
         price: 10000
       },
-      bookmarkCount: 0,
-      missionStatus: "MATCHING",
+      bookmarkCount: 3,
+      missionStatus: "EXPIRED",
       missionImage: {
         originalName: "xxx.jpeg",
         path: "~~~~"
@@ -377,7 +377,7 @@ export const suggestedMissionList = {
         deadlineTime: "10:00",
         price: 10000
       },
-      bookmarkCount: 0,
+      bookmarkCount: 10,
       missionStatus: "MATCHING",
       missionImage: {
         originalName: "xxx.jpeg",
@@ -411,7 +411,7 @@ export const suggestedMissionList = {
         deadlineTime: "10:00",
         price: 270000
       },
-      bookmarkCount: 0,
+      bookmarkCount: 3,
       missionStatus: "MATCHING",
       missionImage: {
         originalName: "xxx.jpeg",
@@ -445,7 +445,7 @@ export const suggestedMissionList = {
         deadlineTime: "10:00",
         price: 160000
       },
-      bookmarkCount: 0,
+      bookmarkCount: 5,
       missionStatus: "MATCHING_COMPLETED",
       missionImage: {
         originalName: "xxx.jpeg",
@@ -547,7 +547,7 @@ export const suggestedMissionList = {
         deadlineTime: "10:00",
         price: 100000
       },
-      bookmarkCount: 0,
+      bookmarkCount: 5,
       missionStatus: "EXPIRED",
       missionImage: {
         originalName: "xxx.jpeg",
