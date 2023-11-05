@@ -30,7 +30,7 @@ const useForm = () => {
       errors.categoryId = FORM_ERROR_MESSAGES.CHECK_EMPTY_CATEGORY;
     }
 
-    if (!missionDate || missionDate.length === 0) {
+    if (!missionDate || missionDate.length <= 0) {
       errors.missionInfo = {
         ...errors.missionInfo,
         missionDate: FORM_ERROR_MESSAGES.CHECK_EMPTY_DATE
@@ -45,14 +45,14 @@ const useForm = () => {
       };
     }
 
-    if (!price || price.trim().length === 0) {
+    if (!price || price.trim().length <= 0 || !Number(price)) {
       errors.missionInfo = {
         ...errors.missionInfo,
         price: FORM_ERROR_MESSAGES.CHECK_EMPTY_PRICE
       };
     }
 
-    if (!content || content.trim().length === 0) {
+    if (!content || content.trim().length <= 0) {
       errors.missionInfo = {
         ...errors.missionInfo,
         content: FORM_ERROR_MESSAGES.CHECK_EMPTY_CONTENT
