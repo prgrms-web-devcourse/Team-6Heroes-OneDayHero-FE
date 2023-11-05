@@ -4,7 +4,6 @@ import { FormEvent, useRef, useState } from "react";
 
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
-import FooterButton from "@/components/common/FooterButton";
 import useForm, { FormErrors } from "@/hooks/useForm";
 import { apiUrl } from "@/services/urls";
 
@@ -59,7 +58,10 @@ const CreateForm = () => {
   };
 
   return (
-    <form className="flex w-full flex-col items-center" onSubmit={handleSubmit}>
+    <form
+      className="flex w-full flex-col items-center"
+      onSubmit={handleSubmit}
+      id="missionCreateForm">
       <Container className="flex w-full flex-col gap-3 p-5">
         <span className="text-base font-semibold">
           찾는 카테고리가 있으신가요?
@@ -131,7 +133,6 @@ const CreateForm = () => {
           )}
         </div>
       </Container>
-      <FooterButton>생성하기</FooterButton>
     </form>
   );
 };
