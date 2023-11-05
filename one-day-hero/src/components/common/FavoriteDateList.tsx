@@ -19,14 +19,18 @@ const DateMap: { [key in DateEN]: string } = {
 
 type FavoriteDateListProps = {
   favoriteDate: DateEN[];
+  className?: string;
 };
 
-const FavoriteDateList = ({ favoriteDate }: FavoriteDateListProps) => {
+const FavoriteDateList = ({
+  favoriteDate,
+  className
+}: FavoriteDateListProps) => {
   const defaultStyle =
     "w-11 h-11 text-base text-black rounded-lg border flex justify-center items-center";
 
   return (
-    <div className="flex flex-wrap gap-x-1.5">
+    <div className={`flex flex-wrap gap-x-1.5 justify-center ${className}`}>
       {Object.entries(DateMap).map(([dateEN, dateKR]) => {
         const favored = favoriteDate.includes(dateEN as DateEN);
 
