@@ -9,12 +9,14 @@ import BackButton from "./BackButton";
 type HeaderProps = {
   left?: "back" | "none";
   right?: "edit" | "info" | "none";
+  rightNode?: React.ReactNode;
   children: React.ReactNode;
 };
 
 const Header = ({
   left = "back",
   right = "none",
+  rightNode,
   children
 }: PropsWithChildren<HeaderProps>) => {
   const leftArea = {
@@ -24,7 +26,7 @@ const Header = ({
 
   const rightArea = {
     edit: <FiEdit3 />,
-    info: <BsThreeDotsVertical />,
+    info: rightNode,
     none: <div className="w-6" />
   };
 
