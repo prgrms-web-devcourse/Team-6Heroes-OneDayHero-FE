@@ -46,10 +46,10 @@ const CreateForm = () => {
       }
     };
 
-    const validate = formValidation(data);
-    setErrors(validate);
+    const errors = formValidation(data);
+    setErrors(errors);
 
-    if (!Object.keys(validate).length) {
+    if (!Object.keys(errors).length) {
       await fetch(apiUrl("/missions/create"), {
         method: "POST",
         body: JSON.stringify(data)
