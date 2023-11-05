@@ -37,7 +37,7 @@ const layout = ({ params, children }: LayoutProps) => {
   };
 
   /**@note 데이터 구조가 정해지면 해당 로직 생성하겠습니다.*/
-  const isCitizen = false;
+  const isCitizen = true;
 
   return (
     <>
