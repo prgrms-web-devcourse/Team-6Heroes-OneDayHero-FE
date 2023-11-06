@@ -46,7 +46,7 @@ const MissionRecordPage = async () => {
   const { data: missions } = await getCompletedMission();
 
   return (
-    <div className="flex w-10/12 flex-col gap-3">
+    <div className="flex w-full flex-col items-center gap-3">
       {missions &&
         missions.map(
           (mission: MissionResponse) =>
