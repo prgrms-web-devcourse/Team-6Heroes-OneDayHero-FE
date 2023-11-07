@@ -45,7 +45,7 @@ export const missionDetail: MissionResponse = {
   serverDateTime: "2023-11-02T14:25:44"
 };
 
-export const ongoingMissionListResponse: OngoingMissionListResponse = {
+export const ongoingMissionList: OngoingMissionListResponse = {
   status: 200,
   data: [
     {
@@ -324,7 +324,7 @@ export const ongoingMissionListResponse: OngoingMissionListResponse = {
   serverDateTime: "2023-11-02T14:25:44"
 };
 
-export const suggestedMissionListResponse: SuggestedMissionListResponse = {
+export const suggestedMissionList: SuggestedMissionListResponse = {
   status: 200,
   data: [
     {
