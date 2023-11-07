@@ -45,7 +45,7 @@ export type UserResponse = {
       introduce: string;
     };
     favoriteWorkingDay: {
-      favoriteDate: string[];
+      favoriteDate: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
       favoriteStartTime: string;
       favoriteEndTime: string;
     };

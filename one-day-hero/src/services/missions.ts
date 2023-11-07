@@ -21,6 +21,34 @@ export const getCompletedMission = async (): Promise<{
   return response.json();
 };
 
+export const postBookmark = async (missionId: number, userId: number) => {
+  const response = await fetch(apiUrl("/bookmarks"), {
+    method: "POST",
+    body: JSON.stringify({
+      missionId,
+      userId
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return response.json();
+};
+
+export const deleteBookmark = async (missionId: number, userId: number) => {
+  const response = await fetch(apiUrl("/bookmarks"), {
+    method: "DELETE",
+    body: JSON.stringify({
+      missionId,
+      userId
+    })
+  });
+
+  return response.json();
+};
+
 export const getOngoingMissionList = async () => {
   return fetch(apiUrl(`/missions/list/ongoing`), {
     next: { tags: [`ongoing`] }
