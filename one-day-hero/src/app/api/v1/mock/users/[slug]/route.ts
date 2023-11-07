@@ -1,11 +1,11 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { missionDetail } from "../../_data/mission";
+import { userDetail } from "../../_data/user";
 
 export function GET(
   request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
-  const missionId = params.slug;
+  const userId = params.slug;
 
-  return NextResponse.json(missionDetail, { status: 200 });
+  return NextResponse.json(userDetail, { status: 200 });
 }

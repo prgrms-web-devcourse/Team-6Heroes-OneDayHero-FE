@@ -20,3 +20,15 @@ export const getCompletedMission = async (): Promise<{
 
   return response.json();
 };
+
+export const getOngoingMissionList = async () => {
+  return fetch(apiUrl(`/missions/list/ongoing`), {
+    next: { tags: [`ongoing`] }
+  }).then((data) => data.json());
+};
+
+export const getSuggestedMissionList = async () => {
+  return fetch(apiUrl(`/missions/list/suggested`), {
+    next: { tags: [`suggested`] }
+  }).then((data) => data.json());
+};

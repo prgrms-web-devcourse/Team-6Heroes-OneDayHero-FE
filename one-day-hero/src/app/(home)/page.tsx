@@ -24,7 +24,7 @@ const HomePage = () => {
         />
         <HeroScore score={20} />
         <HeroScore size="sm" score={50} />
-        <MissionProgressBar missionState="matched" />
+        <MissionProgressBar missionStatus="matched" />
       </Container>
       <Container>
         <Button />
