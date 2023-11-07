@@ -4,7 +4,7 @@ import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
 import { getSuggestedMissionList } from "@/services/missions";
-import { Mission } from "@/types/type";
+import { MissionResponse } from "@/types/response";
 
 const SuggestedMissionPage = async () => {
   const { data } = await getSuggestedMissionList();
@@ -12,7 +12,7 @@ const SuggestedMissionPage = async () => {
   return (
     <div className="mt-20 flex w-full max-w-screen-sm flex-col items-center justify-center space-y-4">
       {data &&
-        data.map((item: Mission) => (
+        data.map((item: MissionResponse["data"]) => (
           <Link
             href={`/mission/${item.id}`}
             className="flex w-full max-w-screen-sm justify-center"

@@ -18,14 +18,14 @@ const Modal = ({ isOpen, onClose, children, ...props }: ModalProps) => {
     return () => {
       document.removeEventListener("keydown", handleModalCloseKey);
     };
-  }, []);
+  }, [onClose]);
 
   return isOpen ? (
     <div
-      className="z-20 fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 flex justify-center items-center"
+      className="fixed left-0 top-0 z-20 flex h-full w-full items-center justify-center bg-black bg-opacity-30"
       onClick={onClose}>
       <div
-        className="w-11/12 max-w-md bg-background p-3 rounded-md shadow-down"
+        className="w-11/12 max-w-md rounded-md bg-background p-3 shadow-down"
         onClick={(e) => e.stopPropagation()}
         {...props}>
         {children}

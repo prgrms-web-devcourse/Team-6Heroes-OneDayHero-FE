@@ -1,10 +1,11 @@
 "use client";
 
-import useModal from "@/hooks/useModal";
-
 import { MouseEventHandler, useState } from "react";
-import KebabModal from "./KebabModal";
+
+import useModal from "@/hooks/useModal";
 import { KebabMenuDataType } from "@/types";
+
+import KebabModal from "./KebabModal";
 
 const MENU_ITEM_HEIGHT = 40;
 
@@ -32,11 +33,11 @@ const MenuBox = ({ menuList }: MenuBoxProps) => {
   return (
     <>
       <div
-        className={`absolute top-0 left-0 w-full h-full cursor-pointer rounded-md hover:bg-background-darken hover:bg-opacity-30`}
+        className={`absolute left-0 top-0 h-full w-full cursor-pointer rounded-md hover:bg-background-darken hover:bg-opacity-30`}
         onClick={handleClick}
       />
       <div
-        className={`z-20 fixed top-0 left-0 w-full h-full bg-transparent ${
+        className={`fixed left-0 top-0 z-20 h-full w-full bg-transparent ${
           showMenu ? "" : "hidden"
         }`}
         onClick={() => {
@@ -44,7 +45,7 @@ const MenuBox = ({ menuList }: MenuBoxProps) => {
         }}
       />
       <div
-        className={`absolute right-1/2 bg-white rounded-md shadow-down z-20 ${positionStyle} ${
+        className={`absolute right-1/2 z-20 rounded-md bg-white shadow-down ${positionStyle} ${
           showMenu ? "" : "hidden"
         }`}
         onClick={(e) => {
@@ -62,8 +63,8 @@ const MenuBox = ({ menuList }: MenuBoxProps) => {
           return (
             <div key={menuData.name}>
               <div
-                className={`text-base max-w-[15rem] w-[80vw] h-10 flex justify-center items-center hover:bg-background-darken hover:bg-opacity-30 ${dividerStyle}`}
-                // WARN: h-10 수정 시 MENU_ITEM_HEIGHT 같이 수정 해야함
+                className={`flex h-10 w-[80vw] max-w-[15rem] items-center justify-center text-base hover:bg-background-darken hover:bg-opacity-30 ${dividerStyle}`}
+                /**@note TODO: h-10 수정 시 MENU_ITEM_HEIGHT 같이 수정 해야함 */
                 onClick={handleMenuClick}>
                 {menuData.name}
               </div>

@@ -12,7 +12,7 @@ type MissionListItemProps = {
   categories: string;
   createAt: string;
   location: string;
-  bookmarkCount: number;
+  bookmarkCount?: number;
   className?: string;
 };
 
@@ -28,13 +28,13 @@ const MissionListItem = ({
   return (
     <div className={`flex w-full ${className}`}>
       <div className="flex grow gap-4">
-        <div className="bg-inactive overflow-hidden rounded-[10px]">
+        <div className="overflow-hidden rounded-[10px] bg-inactive">
           <Image
             src={imageSrc || test}
             alt="프로필 사진"
             width={60}
             height={60}
-            objectFit="cover"
+            className="object-cover"
           />
         </div>
         <div className="flex flex-col gap-1">

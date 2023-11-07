@@ -57,13 +57,13 @@ const layout = ({ params, children }: LayoutProps) => {
       </Header>
 
       <div className="fixed top-20 z-40 flex w-full max-w-screen-sm justify-center">
-        <Container className="cs:h-8 cs:w-11/12 cs:flex cs:items-center cs:bg-primary-light">
+        <Container className="cs:flex cs:h-8 cs:w-11/12 cs:items-center cs:bg-primary-light">
           제목이 들어갈 자리입니다.
         </Container>
       </div>
 
       <div className="fixed top-[7.5rem] z-40 flex w-full max-w-screen-sm justify-center">
-        <Container className="cs:w-11/12 cs:flex cs:items-center">
+        <Container className="cs:flex cs:w-11/12 cs:items-center">
           {isCitizen ? (
             <MissionProgressButtonBar missionStatus="MATCHING" />
           ) : (

@@ -6,7 +6,7 @@ const MissionListLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header left="back">미션 목록</Header>
-      <div className="bg-background fixed top-16 z-50 h-28 w-full max-w-screen-sm" />
+      <div className="fixed top-16 z-50 h-28 w-full max-w-screen-sm bg-background" />
       <div
         className="fixed
 z-50 flex w-full max-w-screen-sm justify-center">

@@ -30,12 +30,13 @@ const FavoriteDateList = ({
     "w-11 h-11 text-base text-black rounded-lg border flex justify-center items-center";
 
   return (
-    <div className={`flex flex-wrap gap-x-1.5 justify-center ${className}`}>
+    <div className={`flex flex-wrap justify-center gap-x-1.5 ${className}`}>
       {Object.entries(DateMap).map(([dateEN, dateKR]) => {
         const favored = favoriteDate.includes(dateEN as DateEN);
 
         return (
           <div
+            key={dateEN}
             className={`${defaultStyle} ${
               favored
                 ? "border-4 border-primary bg-primary-lightest"

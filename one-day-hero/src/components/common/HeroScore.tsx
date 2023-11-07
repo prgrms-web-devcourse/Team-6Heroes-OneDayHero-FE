@@ -42,10 +42,10 @@ const HeroScore = ({
   return (
     <div className={`${className} flex flex-col`}>
       {size === "sm" && (
-        <p className={`${textColor} text-sm text-right`}>{score} 점</p>
+        <p className={`${textColor} text-right text-sm`}>{score} 점</p>
       )}
       <div
-        className={`${sizes[size]} bg-background-darken flex grow items-center`}
+        className={`${sizes[size]} flex grow items-center bg-background-darken`}
         {...props}>
         <div
           className={`${sizes[size]} ${guageColor} ${guageWidth[guageLevel]} flex flex-row-reverse items-center`}>
@@ -54,7 +54,7 @@ const HeroScore = ({
           )}
         </div>
         {size === "lg" && !isHero && (
-          <p className={`text-bad ml-1 font-semibold`}>{score} 점</p>
+          <p className={`ml-1 font-semibold text-bad`}>{score} 점</p>
         )}
       </div>
     </div>
