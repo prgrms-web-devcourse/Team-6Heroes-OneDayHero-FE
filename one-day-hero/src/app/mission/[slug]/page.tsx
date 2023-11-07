@@ -16,8 +16,16 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
 
   revalidateTag(`mission${params.slug}`);
   const {
-    data: { id, missionCategory, missionInfo, region, citizenId, bookmarkList }
-  } = await getMission(params.slug);
+    data: {
+      id,
+      missionCategory,
+      missionInfo,
+      region,
+      citizenId,
+      bookmarkCount,
+      isBookmarked
+    }
+  } = await getMission("1");
 
   const isOwner = userId === citizenId;
 
@@ -42,11 +50,11 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
         <IconGroup
           title={`${region.si} ${region.gu} ${region.dong}`}
           direction="row"
-          className="cs:justify-normal cs:mb-2">
+          className="cs:mb-2 cs:justify-normal">
           <BiMap />
         </IconGroup>
         <Button
-          className="cs:w-full cs:h-6 cs:text-black cs:relative hover:bg-inactive-darken"
+          className="hover:bg-inactive-darken cs:relative cs:h-6 cs:w-full cs:text-black"
           textSize="sm"
           theme="inactive">
           미션 지도보기
@@ -84,7 +92,8 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
       {!isOwner && (
         <div className="mt-12 flex w-full justify-between gap-3">
           <BookmarkButton
-            bookmarkList={bookmarkList}
+            bookmarkCount={bookmarkCount}
+            isBookmarked={isBookmarked}
             missionId={id}
             size="lg"
             className="cs:grow"

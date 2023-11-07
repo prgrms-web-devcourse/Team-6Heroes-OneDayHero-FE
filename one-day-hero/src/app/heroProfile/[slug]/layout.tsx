@@ -1,7 +1,7 @@
 import React from "react";
 
-import Header from "@/components/common/Header";
 import Button from "@/components/common/Button";
+import Header from "@/components/common/Header";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   const defaultStyle =

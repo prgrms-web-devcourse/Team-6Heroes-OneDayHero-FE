@@ -28,7 +28,7 @@ export type MissionResponse = {
       price: number;
     };
     bookmarkCount: number;
-    bookmarkList?: number[];
+    isBookmarked: boolean;
     missionStatus:
       | "MATCHING"
       | "MATCHING_COMPLETED"
