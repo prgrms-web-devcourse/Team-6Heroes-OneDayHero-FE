@@ -1,11 +1,9 @@
-import CreateForm from "@/components/domain/mission/create/CreateForm";
 
-const MissionCreatePage = () => {
-  return (
-    <div className="flex w-full flex-col items-center">
-      <CreateForm />
-    </div>
-  );
+import Category from "@/components/common/Category";
+import { apiUrl } from "@/services/urls";
+
+const MissionCreatePage = async () => {
+  return <div />;
 };
 
 export default MissionCreatePage;
