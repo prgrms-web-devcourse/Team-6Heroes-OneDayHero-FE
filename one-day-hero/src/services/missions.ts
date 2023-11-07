@@ -1,6 +1,9 @@
 import { revalidatePath } from "next/cache";
 
-import { MissionResponse } from "@/types/response";
+import {
+  MissionResponse,
+  SuggestedMissionListResponse
+} from "@/types/response";
 
 import { apiUrl } from "./urls";
 
@@ -18,15 +21,14 @@ export const getMission = async (
   return response.json();
 };
 
-export const getCompletedMission = async (): Promise<{
-  data: MissionResponse[];
-}> => {
-  const response = await fetch(apiUrl(`/missions/record`), {
-    next: { tags: ["record"] }
-  });
+export const getCompletedMission =
+  async (): Promise<SuggestedMissionListResponse> => {
+    const response = await fetch(apiUrl(`/missions/record`), {
+      next: { tags: ["record"] }
+    });
 
-  return response.json();
-};
+    return response.json();
+  };
 
 export const postBookmark = async (missionId: number, userId: number) => {
   const response = await fetch(apiUrl("/bookmarks"), {

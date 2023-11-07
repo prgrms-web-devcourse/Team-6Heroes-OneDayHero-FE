@@ -18,7 +18,7 @@ const Modal = ({ isOpen, onClose, children, ...props }: ModalProps) => {
     return () => {
       document.removeEventListener("keydown", handleModalCloseKey);
     };
-  }, []);
+  }, [onClose]);
 
   return isOpen ? (
     <div

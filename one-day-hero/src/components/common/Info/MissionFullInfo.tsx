@@ -1,12 +1,12 @@
 import { PropsWithChildren } from "react";
 
 import MissionInfo from "@/components/common/Info/MissionInfo";
-import { Mission } from "@/types/type";
+import { MissionResponse } from "@/types/response";
 
 import MissionListItem from "./MissionListItem";
 
 type MissionFullInfoProps = {
-  data: Mission;
+  data: MissionResponse["data"];
   className?: string;
 };
 

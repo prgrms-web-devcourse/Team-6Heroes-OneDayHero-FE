@@ -2,7 +2,6 @@ import Container from "@/components/common/Container";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressBar from "@/components/common/MissionProgressBar";
 import { getCompletedMission } from "@/services/missions";
-import { MissionResponse } from "@/types/response";
 
 const MissionRecordPage = async () => {
   const { data: missions } = await getCompletedMission();
@@ -11,9 +10,7 @@ const MissionRecordPage = async () => {
     <div className="flex w-full flex-col items-center gap-3">
       {missions &&
         missions.map(
-          ({
-            data: { missionStatus, id, missionCategory, missionInfo, region }
-          }: MissionResponse) =>
+          ({ missionStatus, id, missionCategory, missionInfo, region }) =>
             missionStatus === "MISSION_COMPLETED" && (
               <Container key={id} className="cs:w-full cs:p-0">
                 <MissionListItem
