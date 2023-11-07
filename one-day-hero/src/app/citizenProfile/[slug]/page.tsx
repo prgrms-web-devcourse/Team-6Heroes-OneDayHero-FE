@@ -1,9 +1,10 @@
 import Image from "next/image";
-import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
-import { getUser } from "@/services/users";
-import HeroScore from "@/components/common/HeroScore";
-import Button from "@/components/common/Button";
 import { BiChevronRight } from "react-icons/bi";
+
+import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
+import Button from "@/components/common/Button";
+import HeroScore from "@/components/common/HeroScore";
+import { getUser } from "@/services/users";
 
 const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
   const {
@@ -17,22 +18,22 @@ const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
           src={DefaultThumbnail}
           alt="썸네일"
           width={150}
-          className="rounded-full pointer-events-none bg-neutral-200 mr-3"
+          className="pointer-events-none mr-3 rounded-full bg-neutral-200"
         />
         <div className="flex grow flex-col justify-evenly text-base">
-          <h3 className="text-primary-darken font-semibold">시민</h3>
+          <h3 className="font-semibold text-primary-darken">시민</h3>
           <h3 className="">{basicInfo.nickname}</h3>
           <h3 className="">{`${calculateAge(basicInfo.birth)}세 / ${parseGender(
             basicInfo.gender
           )}`}</h3>
         </div>
       </div>
-      <div className="w-full mb-12">
-        <h2 className="text-xl font-semibold mt-5 mb-2">히어로 지수</h2>
+      <div className="mb-12 w-full">
+        <h2 className="mb-2 mt-5 text-xl font-semibold">히어로 지수</h2>
         <HeroScore score={70} />
       </div>
-      <Button size="lg" className="cs:w-full cs:relative cs:mb-3">
-        <BiChevronRight size="24" className="absolute top-4 right-3" />
+      <Button size="lg" className="cs:relative cs:mb-3 cs:w-full">
+        <BiChevronRight size="24" className="absolute right-3 top-4" />
         리뷰
       </Button>
     </>

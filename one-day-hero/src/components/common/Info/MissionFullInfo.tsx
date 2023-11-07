@@ -26,7 +26,7 @@ const MissionFullInfo = ({
         className="p-2"
       />
       <MissionInfo
-        className="cs:ml-2 cs:my-4 cs:text-sm"
+        className="cs:my-4 cs:ml-2 cs:text-sm"
         missionTime={missionInfo.startTime + "~" + missionInfo.endTime}
         missionDay={missionInfo.missionDate}
         missionBounty={missionInfo.price}

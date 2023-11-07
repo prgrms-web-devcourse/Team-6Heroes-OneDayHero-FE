@@ -1,10 +1,12 @@
 "use client";
 
-import Button from "@/components/common/Button";
-import IconGroup from "./IconGroup";
-import { BiSolidStar } from "react-icons/bi";
 import { useState } from "react";
+import { BiSolidStar } from "react-icons/bi";
+
+import Button from "@/components/common/Button";
 import { deleteBookmark, postBookmark } from "@/services/missions";
+
+import IconGroup from "./IconGroup";
 
 type BookmarkButtonProps = {
   missionId: number;
@@ -65,7 +67,7 @@ const BookmarkButton = ({
       className={`cs:bg-white cs:text-black cs:hover:bg-inactive-lighten ${className}`}
       onClick={handleClick}>
       <div>
-        <BiSolidStar className={`inline mb-1 mr-2 ${starColor}`} size="24" />
+        <BiSolidStar className={`mb-1 mr-2 inline ${starColor}`} size="24" />
         {isBookmarked ? "찜했어요" : "찜하기"}
       </div>
     </Button>

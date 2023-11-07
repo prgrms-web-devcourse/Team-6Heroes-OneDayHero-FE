@@ -1,4 +1,5 @@
 import { KebabMenuDataType } from "@/types";
+
 import Button from "../Button";
 import Modal from "../Modal";
 
@@ -11,7 +12,7 @@ type KebabModalProps = {
 const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <h1 className="text-xl font-semibold text-center mb-5">
+      <h1 className="mb-5 text-center text-xl font-semibold">
         {menuData?.description ?? menuData?.name}
       </h1>
       <div className="flex justify-around">

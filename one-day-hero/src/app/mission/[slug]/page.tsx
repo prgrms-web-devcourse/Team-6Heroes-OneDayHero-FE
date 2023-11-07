@@ -42,11 +42,11 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
         <IconGroup
           title={`${region.si} ${region.gu} ${region.dong}`}
           direction="row"
-          className="cs:justify-normal cs:mb-2">
+          className="cs:mb-2 cs:justify-normal">
           <BiMap />
         </IconGroup>
         <Button
-          className="cs:w-full cs:h-6 cs:text-black cs:relative hover:bg-inactive-darken"
+          className="hover:bg-inactive-darken cs:relative cs:h-6 cs:w-full cs:text-black"
           textSize="sm"
           theme="inactive">
           미션 지도보기

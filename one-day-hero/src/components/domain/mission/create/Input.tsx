@@ -39,7 +39,7 @@ const Input = forwardRef(
           onChange={!readOnly ? handleChange : undefined}
           readOnly={readOnly}
           className={`${defaultStyle} ${className} ${
-            error && errorState && "cs:border-red-500 border-2"
+            error && errorState && "border-2 cs:border-red-500"
           }`}
         />
         {error && errorState && <ErrorMessage>{error}</ErrorMessage>}

@@ -1,7 +1,6 @@
 "use client";
 
 import { PropsWithChildren } from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiEdit3 } from "react-icons/fi";
 
 import BackButton from "./BackButton";

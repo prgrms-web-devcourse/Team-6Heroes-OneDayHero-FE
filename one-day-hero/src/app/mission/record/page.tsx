@@ -57,9 +57,9 @@ const MissionRecordPage = async () => {
                   createAt={mission.missionInfo.missionDate}
                   location={mission.region.gu + " " + mission.region.dong}
                   title={mission.missionInfo.title}
-                  className="cs:py-5 cs:mb-0"
+                  className="cs:mb-0 cs:py-5"
                 />
-                <MissionProgressBar missionState="done" />
+                <MissionProgressBar missionStatus="MISSION_COMPLETED" />
               </Container>
             )
         )}

@@ -11,7 +11,7 @@ const ChattingInputFooter = () => {
           className="h-9 w-11/12 rounded-full bg-zinc-300 px-2 focus:outline-0"
           type="text"
         />
-        <button className="bg-primary hover:bg-primary-darken m-1 flex h-[2.2rem] w-[2.2rem] items-center justify-center rounded-full">
+        <button className="m-1 flex h-[2.2rem] w-[2.2rem] items-center justify-center rounded-full bg-primary hover:bg-primary-darken">
           <AiOutlineArrowUp className="m-1 h-full w-full" />
         </button>
       </div>
