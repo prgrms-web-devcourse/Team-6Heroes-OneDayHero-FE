@@ -4,14 +4,14 @@ import { FormEvent, useRef, useState } from "react";
 
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
-import useForm, { FormErrors } from "@/hooks/useForm";
+import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
 import { apiUrl } from "@/services/urls";
 
 import CustomCalendar from "./CustomCalendar";
-import ErrorMessage from "./ErrorMessage";
 import Input from "./Input";
 import InputLabel from "./InputLabel";
 import Select from "./Select";
+import Textarea from "./Textarea";
 
 const hours = Array.from({ length: 24 }, (_, index) => index);
 
@@ -24,7 +24,7 @@ const CreateForm = () => {
   const endRef = useRef<HTMLSelectElement | null>(null);
   const priceRef = useRef<HTMLInputElement | null>(null);
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
-  const { formValidation } = useForm();
+  const { formValidation } = useFormValidation();
 
   const handleSelect = (idx: number) => {
     if (idx > 0) {
@@ -34,7 +34,7 @@ const CreateForm = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
+    console.log("눌렀다.");
     const data = {
       categoryId,
       missionInfo: {
@@ -46,10 +46,10 @@ const CreateForm = () => {
       }
     };
 
-    const errors = formValidation(data);
-    setErrors(errors);
+    const validationErrors = formValidation(data);
+    setErrors(validationErrors);
 
-    if (!Object.keys(errors).length) {
+    if (!Object.keys(validationErrors).length) {
       await fetch(apiUrl("/missions/create"), {
         method: "POST",
         body: JSON.stringify(data)
@@ -75,8 +75,8 @@ const CreateForm = () => {
           </span>
           <InputLabel htmlFor="title">제목</InputLabel>
           <Input
-            ref={titleRef}
             id="title"
+            ref={titleRef}
             placeholder="미션 제목을 입력하세요."
           />
         </div>
@@ -113,24 +113,19 @@ const CreateForm = () => {
         <div className="flex flex-col">
           <InputLabel htmlFor="price">포상금</InputLabel>
           <Input
-            ref={priceRef}
             id="price"
+            ref={priceRef}
             className="w-6/12"
             error={errors?.missionInfo?.price}
           />
         </div>
         <div className="flex flex-col">
           <InputLabel htmlFor="content">미션 내용</InputLabel>
-          <textarea
-            ref={contentRef}
+          <Textarea
             id="content"
-            className={`border-inactive focus:outline-primary h-[118px] resize-none rounded-[10px] border p-3 text-sm ${
-              errors?.missionInfo?.content && "border-2 border-red-500"
-            }`}
+            ref={contentRef}
+            error={errors?.missionInfo?.content}
           />
-          {errors?.missionInfo?.content && (
-            <ErrorMessage>{errors.missionInfo.content}</ErrorMessage>
-          )}
         </div>
       </Container>
     </form>
