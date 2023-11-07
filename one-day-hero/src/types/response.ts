@@ -42,6 +42,18 @@ export type MissionResponse = {
   serverDateTime: string;
 };
 
+export type OngoingMissionListResponse = {
+  status: number;
+  data: MissionResponse["data"][];
+  serverDateTime: string;
+};
+
+export type SuggestedMissionListResponse = {
+  status: number;
+  data: MissionResponse["data"][];
+  serverDateTime: string;
+};
+
 export type UserResponse = {
   status: number;
   data: {
