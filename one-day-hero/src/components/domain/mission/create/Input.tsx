@@ -1,20 +1,30 @@
 "use client";
 
-import { ForwardedRef, forwardRef, useState } from "react";
+import { ForwardedRef, forwardRef } from "react";
+
+import useForm from "@/hooks/useForm";
 
 import ErrorMessage from "./ErrorMessage";
 
 interface InputProps extends React.ComponentProps<"input"> {
+  readOnlyValue?: string;
   className?: string;
   error?: string;
 }
 
 const Input = forwardRef(
   (
-    { id, className, value, placeholder = "", readOnly, error }: InputProps,
+    {
+      id,
+      className,
+      readOnlyValue,
+      placeholder = "",
+      readOnly,
+      error
+    }: InputProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
-    const [inputValue, setInputValue] = useState<string>("");
+    const { value, handleChange, errorState } = useForm("", error || "");
 
     const defaultStyle =
       "rounded-[10px] h-[34px] w-full border border-zinc-300 focus:outline-primary placeholder:text-inactive pl-3";
@@ -22,17 +32,17 @@ const Input = forwardRef(
     return (
       <div className="flex grow flex-col">
         <input
-          ref={ref}
           id={id}
-          value={readOnly ? value?.toString() : inputValue}
+          ref={ref}
+          value={readOnly ? readOnlyValue?.toString() : value}
           placeholder={placeholder}
-          className={`${defaultStyle} ${className} ${
-            error && "cs:border-red-500 border-2"
-          }`}
-          onChange={(e) => !readOnly && setInputValue(e.target.value)}
+          onChange={!readOnly ? handleChange : undefined}
           readOnly={readOnly}
+          className={`${defaultStyle} ${className} ${
+            error && errorState && "cs:border-red-500 border-2"
+          }`}
         />
-        {error && <ErrorMessage>{error}</ErrorMessage>}
+        {error && errorState && <ErrorMessage>{error}</ErrorMessage>}
       </div>
     );
   }
