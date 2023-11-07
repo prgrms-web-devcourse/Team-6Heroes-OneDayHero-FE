@@ -55,13 +55,25 @@ export const deleteBookmark = async (missionId: number, userId: number) => {
 };
 
 export const getOngoingMissionList = async () => {
-  return fetch(apiUrl(`/missions/list/ongoing`), {
-    next: { tags: [`ongoing`] }
-  }).then((data) => data.json());
+  try {
+    const response = await fetch(apiUrl(`/missions/list/ongoing`), {
+      next: { tags: [`ongoing`] }
+    });
+
+    return response.json();
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const getSuggestedMissionList = async () => {
-  return fetch(apiUrl(`/missions/list/suggested`), {
-    next: { tags: [`suggested`] }
-  }).then((data) => data.json());
+  try {
+    const response = await fetch(apiUrl(`/missions/list/suggested`), {
+      next: { tags: [`suggested`] }
+    });
+
+    return response.json();
+  } catch (err) {
+    console.error(err);
+  }
 };
