@@ -42,3 +42,9 @@ export const deleteBookmark = async (missionId: number, userId: number) => {
 
   return response.json();
 };
+
+export const getOngoingMissionList = async () => {
+  return fetch(apiUrl(`/missions/list/ongoing`), {
+    next: { tags: [`ongoing`] }
+  }).then((data) => data.json());
+};
