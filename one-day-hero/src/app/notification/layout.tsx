@@ -6,7 +6,7 @@ import Header from "@/components/common/Header";
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <Header>리뷰 작성</Header>
+      <Header>나의 알림</Header>
       {children}
       <Footer />
     </>
