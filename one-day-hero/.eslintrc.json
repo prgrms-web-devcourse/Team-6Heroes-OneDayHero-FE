@@ -11,9 +11,12 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "next/core-web-vitals"
   ],
+  "globals": {
+    "__dirname": true
+  },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./one-day-hero/tsconfig.json",
+    "project": "**/tsconfig.json",
     "sourceType": "module"
   },
   "plugins": ["import", "unused-imports", "tailwindcss", "simple-import-sort"],
