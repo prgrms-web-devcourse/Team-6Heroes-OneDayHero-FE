@@ -4,6 +4,7 @@ import { FormEvent, useRef, useState } from "react";
 
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
+import UploadImage from "@/components/common/UploadImage";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
 import { apiUrl } from "@/services/urls";
 
@@ -27,9 +28,7 @@ const CreateForm = () => {
   const { formValidation } = useFormValidation();
 
   const handleSelect = (idx: number) => {
-    if (idx > 0) {
-      setCategoryId(idx);
-    }
+    setCategoryId(idx);
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -79,6 +78,12 @@ const CreateForm = () => {
             ref={titleRef}
             placeholder="미션 제목을 입력하세요."
           />
+        </div>
+        <div>
+          <InputLabel>
+            사진 <span className="text-inactive text-xs">(최대 3개)</span>
+          </InputLabel>
+          <UploadImage />
         </div>
         <div className="flex flex-col">
           <InputLabel htmlFor="missionDate">날짜</InputLabel>
