@@ -6,5 +6,10 @@ export const getTestMissions = async () => {
 };
 
 export const getMission = async (missionId: string) => {
-  return fetch(apiUrl(`/missions/${missionId}`)).then((data) => data.json());
+  try {
+    const response = await fetch(apiUrl(`/missions/${missionId}`));
+    return response.json();
+  } catch (err) {
+    console.error(err);
+  }
 };

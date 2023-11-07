@@ -45,22 +45,7 @@ export type Response = {
 };
 
 const MissionCreatePage = async () => {
-  const response = await fetch(apiUrl("/missions/create"), {
-    method: "POST",
-    body: JSON.stringify(dummy)
-  });
-
-  const { data }: Response = await response.json();
-
-  const { id, missionInfo } = data;
-
-  return (
-    <div className="w-full">
-      <Category />
-      <h1>{id}</h1>
-      <span>{missionInfo.price}</span>
-    </div>
-  );
+  return <div />;
 };
 
 export default MissionCreatePage;
