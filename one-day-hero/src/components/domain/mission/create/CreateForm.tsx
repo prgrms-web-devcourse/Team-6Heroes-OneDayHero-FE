@@ -34,7 +34,7 @@ const CreateForm = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("눌렀다.");
+
     const data = {
       categoryId,
       missionInfo: {

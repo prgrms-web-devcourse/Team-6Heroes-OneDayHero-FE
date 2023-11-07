@@ -1,18 +1,15 @@
-import Container from "@/components/common/Container";
-import IconGroup from "@/components/common/IconGroup";
-import Label from "@/components/common/Label";
-import MissionInfo from "@/components/common/Info/MissionInfo";
-import Container from "@/components/common/Container";
-import IconGroup from "@/components/common/IconGroup";
-import Label from "@/components/common/Label";
-import MissionInfo from "@/components/common/Info/MissionInfo";
-import { getMission } from "@/services/missions";
 import { revalidateTag } from "next/cache";
 import { BiChevronRight, BiEdit, BiMap } from "react-icons/bi";
-import Button from "@/components/common/Button";
-import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendList";
-import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
+
 import BookmarkButton from "@/components/common/BookmarkButton";
+import Button from "@/components/common/Button";
+import Container from "@/components/common/Container";
+import IconGroup from "@/components/common/IconGroup";
+import MissionInfo from "@/components/common/Info/MissionInfo";
+import Label from "@/components/common/Label";
+import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
+import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendList";
+import { getMission } from "@/services/missions";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
   const userId = parseInt(params.slug);
@@ -32,7 +29,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
       </Container>
       <Container className="cs:w-full">
         <MissionInfo
-          missionBounty={missionInfo.price.toString()}
+          missionBounty={missionInfo.price}
           missionDay={missionInfo.missionDate}
           missionTime={`${missionInfo.startTime} ~ ${missionInfo.endTime}`}
         />
@@ -53,17 +50,17 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           textSize="sm"
           theme="inactive">
           미션 지도보기
-          <div className="absolute top-0 right-1 h-6 flex items-center">
+          <div className="absolute right-1 top-0 flex h-6 items-center">
             <BiChevronRight size="20" />
           </div>
         </Button>
       </Container>
-      <h1 className="text-lg font-semibold mt-4 mb-2 break-keep w-full">
+      <h1 className="mb-2 mt-4 w-full break-keep text-lg font-semibold">
         미션에 딱 맞는 히어로님을 만나보시겠어요?
       </h1>
       {isOwner && (
         <HeroRecommendList
-          className="w-full mb-20"
+          className="mb-20 w-full"
           heroDataList={[
             { thumbnail: "", nickname: "rabbit", heroScore: 100 },
             { thumbnail: "", nickname: "rabbit", heroScore: 100 },
@@ -79,13 +76,13 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
       {isOwner && (
         <Button size="lg">
           <div className="relative inline-block">
-            <BiEdit className="absolute top-[3px] -left-7" size={24} />
+            <BiEdit className="absolute -left-7 top-[3px]" size={24} />
             수정하기
           </div>
         </Button>
       )}
       {!isOwner && (
-        <div className="w-full mt-12 flex justify-between gap-3">
+        <div className="mt-12 flex w-full justify-between gap-3">
           <BookmarkButton
             bookmarkList={bookmarkList}
             missionId={id}
