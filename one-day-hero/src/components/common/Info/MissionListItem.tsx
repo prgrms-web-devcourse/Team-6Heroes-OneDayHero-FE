@@ -12,7 +12,7 @@ type MissionListItemProps = {
   categories: string;
   createAt: string;
   location: string;
-  bookmarkCount?: number;
+  bookmarkCount: number;
   className?: string;
 };
 
@@ -52,7 +52,7 @@ const MissionListItem = ({
       </div>
       <div className="flex items-start">
         <IconGroup
-          title={bookmarkCount}
+          title={bookmarkCount ?? 0}
           direction="row"
           size="lg"
           textSize="base"

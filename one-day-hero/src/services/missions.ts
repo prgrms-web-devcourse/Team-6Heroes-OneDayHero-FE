@@ -1,4 +1,5 @@
 import { MissionResponse } from "@/types/response";
+
 import { apiUrl } from "./urls";
 
 export const getTestMissions = async () => {
@@ -45,12 +46,12 @@ export const deleteBookmark = async (missionId: number, userId: number) => {
 
 export const getOngoingMissionList = async () => {
   return fetch(apiUrl(`/missions/list/ongoing`), {
-    cache: "no-store"
+    next: { tags: [`ongoing`] }
   }).then((data) => data.json());
 };
 
 export const getSuggestedMissionList = async () => {
   return fetch(apiUrl(`/missions/list/suggested`), {
-    cache: "no-store"
-  }).then((data) => data.json());
+    next: { tags: [`suggested`] }
+  });
 };
