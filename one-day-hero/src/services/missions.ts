@@ -11,12 +11,12 @@ export const getMission = async (missionId: string) => {
 
 export const getOngoingMissionList = async () => {
   return fetch(apiUrl(`/missions/list/ongoing`), {
-    cache: "no-store"
+    next: { tags: [`ongoing`] }
   }).then((data) => data.json());
 };
 
 export const getSuggestedMissionList = async () => {
   return fetch(apiUrl(`/missions/list/suggested`), {
-    cache: "no-store"
+    next: { tags: [`suggested`] }
   }).then((data) => data.json());
 };
