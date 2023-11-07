@@ -1,11 +1,11 @@
-import { MenuDataType } from ".";
+import { KebabMenuDataType } from "@/types";
 import Button from "../Button";
 import Modal from "../Modal";
 
 type KebabModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  menuData: MenuDataType | null;
+  menuData: KebabMenuDataType | null;
 };
 
 const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {

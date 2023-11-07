@@ -12,6 +12,7 @@ type MissionListItemProps = {
   categories: string;
   createAt: string;
   location: string;
+  bookmarkCount: number;
   className?: string;
 };
 
@@ -21,10 +22,11 @@ const MissionListItem = ({
   categories,
   createAt,
   location,
+  bookmarkCount,
   className
 }: MissionListItemProps) => {
   return (
-    <div className={`mb-5 flex w-full px-4 py-1 ${className}`}>
+    <div className={`flex w-full ${className}`}>
       <div className="flex grow gap-4">
         <div className="bg-inactive overflow-hidden rounded-[10px]">
           <Image
@@ -50,7 +52,7 @@ const MissionListItem = ({
       </div>
       <div className="flex items-start">
         <IconGroup
-          title="5"
+          title={bookmarkCount ?? 0}
           direction="row"
           size="lg"
           textSize="base"

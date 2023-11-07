@@ -22,7 +22,7 @@ const Button = ({
   };
 
   const sizes = {
-    sm: "w-5/12",
+    sm: "w-6/12",
     md: "w-10/12",
     lg: "w-11/12"
   };

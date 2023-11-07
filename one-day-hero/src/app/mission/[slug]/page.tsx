@@ -1,36 +1,100 @@
-import KebabMenu from "@/components/common/KebabMenu";
+import { revalidateTag } from "next/cache";
+import { BiChevronRight, BiEdit, BiMap } from "react-icons/bi";
+
+import BookmarkButton from "@/components/common/BookmarkButton";
+import Button from "@/components/common/Button";
+import Container from "@/components/common/Container";
+import IconGroup from "@/components/common/IconGroup";
+import MissionInfo from "@/components/common/Info/MissionInfo";
+import Label from "@/components/common/Label";
+import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
+import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendList";
 import { getMission } from "@/services/missions";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
-  const { data } = await getMission(params.slug);
+  const userId = parseInt(params.slug);
+
+  revalidateTag(`mission${params.slug}`);
+  const {
+    data: { id, missionCategory, missionInfo, region, citizenId, bookmarkList }
+  } = await getMission(params.slug);
+
+  const isOwner = userId === citizenId;
 
   return (
-    <div>
-      {data.location.x}
-      <KebabMenu
-        menuList={[
-          {
-            name: "first",
-            apiPath: "/test",
-            requiredData: ["slug"],
-            description: "정말로 삭제하시겠어요?"
-          },
-          { name: "second", apiPath: "/test", requiredData: ["slug"] },
-          { name: "third", apiPath: "/test", requiredData: ["slug"] }
-        ]}
-        size={24}
-      />
-      <div className="h-80" />
-      <KebabMenu
-        menuList={[
-          { name: "first", apiPath: "/test", requiredData: ["slug"] },
-          { name: "second", apiPath: "/test", requiredData: ["slug"] },
-          { name: "third", apiPath: "/test", requiredData: ["slug"] }
-        ]}
-        size={24}
-      />
-      <div className="h-80" />
-    </div>
+    <>
+      <Container className="cs:w-full">
+        <Label size="sm">{missionCategory.name}</Label>
+        <h1 className="text-xl font-semibold">{missionInfo.title + "title"}</h1>
+      </Container>
+      <Container className="cs:w-full">
+        <MissionInfo
+          missionBounty={missionInfo.price}
+          missionDay={missionInfo.missionDate}
+          missionTime={`${missionInfo.startTime} ~ ${missionInfo.endTime}`}
+        />
+      </Container>
+      <Container className="cs:w-full">
+        <h2 className="text-base font-semibold">미션 내용</h2>
+        <p className="text-base">{missionInfo.content}</p>
+      </Container>
+      <Container className="cs:w-full">
+        <IconGroup
+          title={`${region.si} ${region.gu} ${region.dong}`}
+          direction="row"
+          className="cs:justify-normal cs:mb-2">
+          <BiMap />
+        </IconGroup>
+        <Button
+          className="cs:w-full cs:h-6 cs:text-black cs:relative hover:bg-inactive-darken"
+          textSize="sm"
+          theme="inactive">
+          미션 지도보기
+          <div className="absolute right-1 top-0 flex h-6 items-center">
+            <BiChevronRight size="20" />
+          </div>
+        </Button>
+      </Container>
+      <h1 className="mb-2 mt-4 w-full break-keep text-lg font-semibold">
+        미션에 딱 맞는 히어로님을 만나보시겠어요?
+      </h1>
+      {isOwner && (
+        <HeroRecommendList
+          className="mb-20 w-full"
+          heroDataList={[
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 }
+          ]}
+        />
+      )}
+      {!isOwner && <CitizenInfo citizenId={userId} />}
+      {isOwner && (
+        <Button size="lg">
+          <div className="relative inline-block">
+            <BiEdit className="absolute -left-7 top-[3px]" size={24} />
+            수정하기
+          </div>
+        </Button>
+      )}
+      {!isOwner && (
+        <div className="mt-12 flex w-full justify-between gap-3">
+          <BookmarkButton
+            bookmarkList={bookmarkList}
+            missionId={id}
+            size="lg"
+            className="cs:grow"
+          />
+          <Button size="sm" className="cs:grow">
+            채팅하기
+          </Button>
+        </div>
+      )}
+    </>
   );
 };
 

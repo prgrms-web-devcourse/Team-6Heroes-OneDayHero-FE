@@ -1,89 +1,33 @@
+import Link from "next/link";
+
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressContainer from "@/components/common/MissionProgressContainer";
+import { getOngoingMissionList } from "@/services/missions";
+import { Mission } from "@/types/type";
 
-const OngoingMissionPage = () => {
+const OngoingMissionPage = async () => {
+  const { data } = await getOngoingMissionList();
+
   return (
-    <div className="mt-20 flex w-full max-w-screen-sm flex-col items-center justify-center space-y-4">
-      <MissionProgressContainer>
-        <MissionListItem
-          categories="서빙"
-          createAt="2023-10-19"
-          location="강남구 역삼동"
-          title="미션 타이틀"
-        />
-      </MissionProgressContainer>
-      <MissionProgressContainer>
-        <MissionListItem
-          categories="서빙"
-          createAt="2023-10-19"
-          location="강남구 역삼동"
-          title="미션 타이틀"
-        />
-      </MissionProgressContainer>
-      <MissionProgressContainer>
-        <MissionListItem
-          categories="서빙"
-          createAt="2023-10-19"
-          location="강남구 역삼동"
-          title="미션 타이틀"
-        />
-      </MissionProgressContainer>
-      <MissionProgressContainer>
-        <MissionListItem
-          categories="서빙"
-          createAt="2023-10-19"
-          location="강남구 역삼동"
-          title="미션 타이틀"
-        />
-      </MissionProgressContainer>
-      <MissionProgressContainer>
-        <MissionListItem
-          categories="서빙"
-          createAt="2023-10-19"
-          location="강남구 역삼동"
-          title="미션 타이틀"
-        />
-      </MissionProgressContainer>
-      <MissionProgressContainer>
-        <MissionListItem
-          categories="서빙"
-          createAt="2023-10-19"
-          location="강남구 역삼동"
-          title="미션 타이틀"
-        />
-      </MissionProgressContainer>
-      <MissionProgressContainer>
-        <MissionListItem
-          categories="서빙"
-          createAt="2023-10-19"
-          location="강남구 역삼동"
-          title="미션 타이틀"
-        />
-      </MissionProgressContainer>
-      <MissionProgressContainer>
-        <MissionListItem
-          categories="서빙"
-          createAt="2023-10-19"
-          location="강남구 역삼동"
-          title="미션 타이틀"
-        />
-      </MissionProgressContainer>
-      <MissionProgressContainer>
-        <MissionListItem
-          categories="서빙"
-          createAt="2023-10-19"
-          location="강남구 역삼동"
-          title="미션 타이틀"
-        />
-      </MissionProgressContainer>
-      <MissionProgressContainer>
-        <MissionListItem
-          categories="서빙"
-          createAt="2023-10-19"
-          location="강남구 역삼동"
-          title="미션 타이틀"
-        />
-      </MissionProgressContainer>
+    <div className="mt-20 w-full max-w-screen-sm space-y-4">
+      {data &&
+        data.map((item: Mission) => (
+          <Link
+            href={`/mission/${item.id}`}
+            className="flex w-full max-w-screen-sm justify-center"
+            key={item.id}>
+            <MissionProgressContainer missionStatus={item.missionStatus}>
+              <MissionListItem
+                className="cs:p-4"
+                categories={item.missionCategory.name}
+                createAt={item.missionInfo.missionDate}
+                location={item.region.gu + " " + item.region.dong}
+                title={item.missionInfo.title}
+                bookmarkCount={item.bookmarkCount}
+              />
+            </MissionProgressContainer>
+          </Link>
+        ))}
     </div>
   );
 };
