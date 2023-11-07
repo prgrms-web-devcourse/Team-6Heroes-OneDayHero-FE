@@ -5,13 +5,13 @@ import MissionInfo from "@/components/common/Info/MissionInfo";
 import MissionListItem from "./MissionListItem";
 
 type MissionFullInfoProps = {
-  data: MissionListType;
+  // data: MissionListType;
   className?: string;
 };
 
 const MissionFullInfo = ({
   className = "",
-  data,
+  // data,
   ...props
 }: PropsWithChildren<MissionFullInfoProps>) => {
   return (

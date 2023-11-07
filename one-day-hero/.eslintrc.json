@@ -21,6 +21,7 @@
   },
   "plugins": ["import", "unused-imports", "tailwindcss", "simple-import-sort"],
   "rules": {
+    "no-unused-vars": "warn",
     "react/react-in-jsx-scope": "off",
     "simple-import-sort/imports": "warn",
     "simple-import-sort/exports": "warn",
