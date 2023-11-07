@@ -64,7 +64,7 @@ const CustomCalendar = forwardRef(
         <Input
           ref={ref}
           id={id}
-          value={inputValue}
+          readOnlyValue={inputValue}
           error={error}
           readOnly
           className={`${error && "border-2 border-red-500"}`}
