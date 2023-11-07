@@ -14,3 +14,9 @@ export const getMission = async (
   });
   return response.json();
 };
+
+export const getOngoingMissionList = async () => {
+  return fetch(apiUrl(`/missions/list/ongoing`), {
+    next: { tags: [`ongoing`] }
+  }).then((data) => data.json());
+};

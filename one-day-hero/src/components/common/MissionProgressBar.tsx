@@ -1,20 +1,26 @@
 import React from "react";
 
 interface MissionProgressBarProps extends React.ComponentProps<"div"> {
-  missionState: "matching" | "matched" | "done";
+  missionStatus:
+    | "MATCHING"
+    | "MATCHING_COMPLETED"
+    | "MISSION_COMPLETED"
+    | "EXPIRED";
 }
 
 const MissionProgressBar = ({
-  missionState,
+  missionStatus,
   className = "",
   ...props
 }: MissionProgressBarProps) => {
   const matchedState =
-    missionState === "matched" || missionState === "done"
+    missionStatus === "MATCHING_COMPLETED" ||
+    missionStatus === "MISSION_COMPLETED"
       ? "active"
       : "inactive";
 
-  const doneState = missionState === "done" ? "active" : "inactive";
+  const doneState =
+    missionStatus === "MISSION_COMPLETED" ? "active" : "inactive";
 
   const defaultStyle =
     "items-center flex-row-reverse py-2 text-sm rounded-b-[1.25rem]";
