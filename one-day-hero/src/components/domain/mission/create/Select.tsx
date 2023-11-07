@@ -16,7 +16,7 @@ const Select = forwardRef(
     { id, className, children, error }: PropsWithChildren<SelectProps>,
     ref: ForwardedRef<HTMLSelectElement>
   ) => {
-    const { handleChange, errorState } = useForm("", error || "");
+    const { handleChange } = useForm("");
 
     const defaultStyle =
       "border-bg-inactive focus:outline-primary w-full h-[34px] rounded-[10px] border pl-2";
@@ -28,11 +28,11 @@ const Select = forwardRef(
           ref={ref}
           onChange={handleChange}
           className={`${defaultStyle} ${className} ${
-            error && errorState && "border-2 border-red-500"
+            error && "border-2 border-red-500"
           }`}>
           {children}
         </select>
-        {error && errorState && <ErrorMessage>{error}</ErrorMessage>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
       </div>
     );
   }

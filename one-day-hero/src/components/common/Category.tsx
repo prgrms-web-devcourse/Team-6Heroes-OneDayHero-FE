@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BiDish, BiGift, BiStar } from "react-icons/bi";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import {
@@ -37,7 +37,6 @@ const Category = ({ isRoute = false, error, onSelect }: CategoryProps) => {
   const [categoryActiveState, setCategoryActiveState] = useState<boolean[]>(
     Array(categories.length).fill(false)
   );
-  const [errorState, setErrorState] = useState<boolean>(false);
 
   const containerStyle = "flex gap-3";
 
@@ -55,17 +54,11 @@ const Category = ({ isRoute = false, error, onSelect }: CategoryProps) => {
       const categoryId = newActiveState.findIndex((category) => category) + 1;
 
       onSelect(categoryId);
-
-      errorState && setErrorState(false);
     } else {
-      // url 구조 따라 link 추가 예정
+      /** @note url 구조 따라 link 추가 예정 */
       console.log("link");
     }
   };
-
-  useEffect(() => {
-    error && setErrorState(true);
-  }, [error]);
 
   return (
     <HorizontalScroll>
@@ -83,7 +76,7 @@ const Category = ({ isRoute = false, error, onSelect }: CategoryProps) => {
           </div>
         ))}
       </ul>
-      {error && errorState && <ErrorMessage>{error}</ErrorMessage>}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
     </HorizontalScroll>
   );
 };

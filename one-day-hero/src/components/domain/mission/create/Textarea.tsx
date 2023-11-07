@@ -16,7 +16,7 @@ const Textarea = forwardRef(
     { id, className, error }: TextareaProps,
     ref: ForwardedRef<HTMLTextAreaElement>
   ) => {
-    const { value, handleChange, errorState } = useForm("", error || "");
+    const { value, handleChange } = useForm("");
 
     const defaultStyle =
       "border-inactive focus:outline-primary h-[118px] resize-none rounded-[10px] placeholder:text-inactive border p-3 text-sm";
@@ -30,10 +30,10 @@ const Textarea = forwardRef(
           placeholder="미션에 대한 내용을 작성해주세요!"
           onChange={handleChange}
           className={`${defaultStyle} ${className} ${
-            error && errorState && "border-2 border-red-500"
+            error && "border-2 border-red-500"
           }`}
         />
-        {error && errorState && <ErrorMessage>{error}</ErrorMessage>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
       </>
     );
   }
