@@ -11,6 +11,6 @@ export const getMission = async (missionId: string) => {
 
 export const getOngoingMissionList = async () => {
   return fetch(apiUrl(`/missions/list/ongoing`), {
-    cache: "no-store"
+    next: { tags: [`ongoing`] }
   }).then((data) => data.json());
 };
