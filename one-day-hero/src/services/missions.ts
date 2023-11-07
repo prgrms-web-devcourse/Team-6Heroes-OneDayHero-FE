@@ -1,4 +1,5 @@
 import { MissionResponse } from "@/types/response";
+
 import { apiUrl } from "./urls";
 
 export const getTestMissions = async () => {
@@ -18,5 +19,11 @@ export const getMission = async (
 export const getOngoingMissionList = async () => {
   return fetch(apiUrl(`/missions/list/ongoing`), {
     next: { tags: [`ongoing`] }
+  }).then((data) => data.json());
+};
+
+export const getSuggestedMissionList = async () => {
+  return fetch(apiUrl(`/missions/list/suggested`), {
+    next: { tags: [`suggested`] }
   }).then((data) => data.json());
 };
