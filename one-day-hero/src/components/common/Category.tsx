@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiDish, BiGift, BiStar } from "react-icons/bi";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import {
@@ -12,6 +12,7 @@ import {
 
 import IconGroup from "@/components/common/IconGroup";
 
+import ErrorMessage from "../domain/mission/create/ErrorMessage";
 import HorizontalScroll from "./HorizontalScroll";
 
 const categories = [
@@ -25,29 +26,46 @@ const categories = [
   { icon: <BiStar />, title: "기타" }
 ];
 
-interface CategoryProps extends React.ComponentProps<"div"> {
+type CategoryProps = {
   isRoute?: boolean;
-}
+  error?: string;
+  // eslint-disable-next-line no-unused-vars
+  onSelect?: (idx: number) => void;
+};
 
-const Category = ({ isRoute = false }: CategoryProps) => {
-  const [activeState, setActiveState] = useState<boolean[]>(
+const Category = ({ isRoute = false, error, onSelect }: CategoryProps) => {
+  const [categoryActiveState, setCategoryActiveState] = useState<boolean[]>(
     Array(categories.length).fill(false)
   );
+  const [errorState, setErrorState] = useState<boolean>(false);
 
   const containerStyle = "flex gap-3";
+
   const itemStyle =
     "flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white w-16 h-16 rounded-3xl shadow";
 
   const handleClick = (index: number) => {
-    if (!isRoute) {
-      setActiveState(
-        activeState.map((active, idx) => idx === index && !active)
+    if (!isRoute && onSelect) {
+      const newActiveState = categoryActiveState.map(
+        (active, idx) => idx === index && !active
       );
+
+      setCategoryActiveState(newActiveState);
+
+      const categoryId = newActiveState.findIndex((category) => category) + 1;
+
+      onSelect(categoryId);
+
+      errorState && setErrorState(false);
     } else {
       // url 구조 따라 link 추가 예정
       console.log("link");
     }
   };
+
+  useEffect(() => {
+    error && setErrorState(true);
+  }, [error]);
 
   return (
     <HorizontalScroll>
@@ -55,7 +73,9 @@ const Category = ({ isRoute = false }: CategoryProps) => {
         {categories.map((category, index) => (
           <div
             key={index}
-            className={`${itemStyle} ${activeState[index] && "cs:bg-primary"}`}
+            className={`${itemStyle} ${
+              categoryActiveState[index] && "cs:bg-primary"
+            }`}
             onClick={() => handleClick(index)}>
             <IconGroup title={category.title} textSize="sm">
               {category.icon}
@@ -63,6 +83,7 @@ const Category = ({ isRoute = false }: CategoryProps) => {
           </div>
         ))}
       </ul>
+      {error && errorState && <ErrorMessage>{error}</ErrorMessage>}
     </HorizontalScroll>
   );
 };
