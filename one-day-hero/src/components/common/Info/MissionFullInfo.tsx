@@ -12,26 +12,24 @@ type MissionFullInfoProps = {
 
 const MissionFullInfo = ({
   className = "",
-  data,
+  data: { missionCategory, missionInfo, region, bookmarkCount },
   ...props
 }: PropsWithChildren<MissionFullInfoProps>) => {
   return (
     <div className={`${className}`} {...props}>
       <MissionListItem
-        categories={data.missionCategory.name}
-        createAt={data.missionInfo.missionDate}
-        location={data.region.gu + " " + data.region.dong}
-        title={data.missionInfo.title}
-        bookmarkCount={data.bookmarkCount}
+        categories={missionCategory.name}
+        createAt={missionInfo.missionDate}
+        location={region.gu + " " + region.dong}
+        title={missionInfo.title}
+        bookmarkCount={bookmarkCount}
         className="p-2"
       />
       <MissionInfo
         className="cs:ml-2 cs:my-4 cs:text-sm"
-        missionTime={
-          data.missionInfo.startTime + "~" + data.missionInfo.endTime
-        }
-        missionDay={data.missionInfo.missionDate}
-        missionBounty={data.missionInfo.price}
+        missionTime={missionInfo.startTime + "~" + missionInfo.endTime}
+        missionDay={missionInfo.missionDate}
+        missionBounty={missionInfo.price}
       />
     </div>
   );

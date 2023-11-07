@@ -1,11 +1,13 @@
 import { revalidateTag } from "next/cache";
 import { BiChevronRight, BiEdit, BiMap } from "react-icons/bi";
 
+import BookmarkButton from "@/components/common/BookmarkButton";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import IconGroup from "@/components/common/IconGroup";
 import MissionInfo from "@/components/common/Info/MissionInfo";
 import Label from "@/components/common/Label";
+import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
 import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendList";
 import { getMission } from "@/services/missions";
 
@@ -56,24 +58,42 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
       <h1 className="mb-2 mt-4 w-full break-keep text-lg font-semibold">
         미션에 딱 맞는 히어로님을 만나보시겠어요?
       </h1>
-      <HeroRecommendList
-        className="mb-20 w-full"
-        heroDataList={[
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-          { thumbnail: "", nickname: "rabbit", heroScore: 100 }
-        ]}
-      />
-      <Button size="lg">
-        <div className="relative inline-block">
-          <BiEdit className="absolute -left-7 top-[3px]" size={24} />
-          수정하기
+      {isOwner && (
+        <HeroRecommendList
+          className="mb-20 w-full"
+          heroDataList={[
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
+            { thumbnail: "", nickname: "rabbit", heroScore: 100 }
+          ]}
+        />
+      )}
+      {!isOwner && <CitizenInfo citizenId={userId} />}
+      {isOwner && (
+        <Button size="lg">
+          <div className="relative inline-block">
+            <BiEdit className="absolute -left-7 top-[3px]" size={24} />
+            수정하기
+          </div>
+        </Button>
+      )}
+      {!isOwner && (
+        <div className="mt-12 flex w-full justify-between gap-3">
+          <BookmarkButton
+            bookmarkList={bookmarkList}
+            missionId={id}
+            size="lg"
+            className="cs:grow"
+          />
+          <Button size="sm" className="cs:grow">
+            채팅하기
+          </Button>
         </div>
-      </Button>
+      )}
     </>
   );
 };

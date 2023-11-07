@@ -1,4 +1,4 @@
-import { MissionResponse } from "@/types/response";
+import { MissionResponse } from "@/app/mission/record/page";
 
 import { apiUrl } from "./urls";
 
@@ -7,12 +7,17 @@ export const getTestMissions = async () => {
   return res.json();
 };
 
-export const getMission = async (
-  missionId: string
-): Promise<MissionResponse> => {
-  const response = await fetch(apiUrl(`/missions/${missionId}`), {
-    next: { tags: [`mission${missionId}`] }
+export const getMission = async (missionId: string) => {
+  return fetch(apiUrl(`/missions/${missionId}`)).then((data) => data.json());
+};
+
+export const getCompletedMission = async (): Promise<{
+  data: MissionResponse[];
+}> => {
+  const response = await fetch(apiUrl(`/missions/record`), {
+    next: { tags: ["record"] }
   });
+
   return response.json();
 };
 
@@ -53,5 +58,5 @@ export const getOngoingMissionList = async () => {
 export const getSuggestedMissionList = async () => {
   return fetch(apiUrl(`/missions/list/suggested`), {
     next: { tags: [`suggested`] }
-  });
+  }).then((data) => data.json());
 };

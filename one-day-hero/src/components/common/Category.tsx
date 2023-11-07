@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiDish, BiGift, BiStar } from "react-icons/bi";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import {
@@ -34,27 +34,38 @@ type CategoryProps = {
 };
 
 const Category = ({ isRoute = false, error, onSelect }: CategoryProps) => {
-  const [activeState, setActiveState] = useState<boolean[]>(
+  const [categoryActiveState, setCategoryActiveState] = useState<boolean[]>(
     Array(categories.length).fill(false)
   );
+  const [errorState, setErrorState] = useState<boolean>(false);
 
   const containerStyle = "flex gap-3";
+
   const itemStyle =
     "flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white w-16 h-16 rounded-3xl shadow";
 
   const handleClick = (index: number) => {
     if (!isRoute && onSelect) {
-      const newActiveState = activeState.map(
+      const newActiveState = categoryActiveState.map(
         (active, idx) => idx === index && !active
       );
-      setActiveState(newActiveState);
+
+      setCategoryActiveState(newActiveState);
+
       const categoryId = newActiveState.findIndex((category) => category) + 1;
+
       onSelect(categoryId);
+
+      errorState && setErrorState(false);
     } else {
       // url 구조 따라 link 추가 예정
       console.log("link");
     }
   };
+
+  useEffect(() => {
+    error && setErrorState(true);
+  }, [error]);
 
   return (
     <HorizontalScroll>
@@ -62,7 +73,9 @@ const Category = ({ isRoute = false, error, onSelect }: CategoryProps) => {
         {categories.map((category, index) => (
           <div
             key={index}
-            className={`${itemStyle} ${activeState[index] && "cs:bg-primary"}`}
+            className={`${itemStyle} ${
+              categoryActiveState[index] && "cs:bg-primary"
+            }`}
             onClick={() => handleClick(index)}>
             <IconGroup title={category.title} textSize="sm">
               {category.icon}
@@ -70,7 +83,7 @@ const Category = ({ isRoute = false, error, onSelect }: CategoryProps) => {
           </div>
         ))}
       </ul>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {error && errorState && <ErrorMessage>{error}</ErrorMessage>}
     </HorizontalScroll>
   );
 };

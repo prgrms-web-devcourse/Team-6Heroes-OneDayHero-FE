@@ -2,6 +2,8 @@
 
 import { ForwardedRef, forwardRef, PropsWithChildren } from "react";
 
+import useForm from "@/hooks/useForm";
+
 import ErrorMessage from "./ErrorMessage";
 
 interface SelectProps extends React.ComponentProps<"select"> {
@@ -14,20 +16,23 @@ const Select = forwardRef(
     { id, className, children, error }: PropsWithChildren<SelectProps>,
     ref: ForwardedRef<HTMLSelectElement>
   ) => {
+    const { handleChange, errorState } = useForm("", error || "");
+
     const defaultStyle =
       "border-bg-inactive focus:outline-primary w-full h-[34px] rounded-[10px] border pl-2";
 
     return (
       <div className="flex w-full flex-col">
         <select
-          ref={ref}
           id={id}
+          ref={ref}
+          onChange={handleChange}
           className={`${defaultStyle} ${className} ${
-            error && "border-2 border-red-500"
+            error && errorState && "border-2 border-red-500"
           }`}>
           {children}
         </select>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
+        {error && errorState && <ErrorMessage>{error}</ErrorMessage>}
       </div>
     );
   }
