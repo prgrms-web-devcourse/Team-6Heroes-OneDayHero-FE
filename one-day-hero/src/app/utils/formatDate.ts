@@ -1,6 +1,6 @@
 export const formatDate = (date: string) => {
-  const today = new Date(new Date().toUTCString());
-  const value = new Date(new Date(date).toUTCString());
+  const today = new Date();
+  const value = new Date(date);
 
   const diff = Math.floor((today.getTime() - value.getTime()) / 1000 / 60);
 
