@@ -1,14 +1,14 @@
 import React from "react";
 
-import FooterButton from "@/components/common/FooterButton";
+import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <Header>미션 생성</Header>
+      <Header>미션 기록</Header>
       {children}
-      <FooterButton formId="missionCreateForm">생성하기</FooterButton>
+      <Footer />
     </>
   );
 };
