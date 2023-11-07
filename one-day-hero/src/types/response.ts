@@ -28,7 +28,27 @@ export type MissionResponse = {
       price: number;
     };
     bookmarkCount: number;
+    bookmarkList: number[];
     missionStatus: "MATCHING";
+  };
+  serverDateTime: string;
+};
+
+export type UserResponse = {
+  status: number;
+  data: {
+    userId: number;
+    basicInfo: {
+      nickname: string;
+      gender: string;
+      birth: string;
+      introduce: string;
+    };
+    favoriteWorkingDay: {
+      favoriteDate: string[];
+      favoriteStartTime: string;
+      favoriteEndTime: string;
+    };
   };
   serverDateTime: string;
 };
