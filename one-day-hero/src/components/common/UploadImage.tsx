@@ -64,7 +64,7 @@ const UploadImage = ({
   return (
     <HorizontalScroll>
       <div
-        className={`flex w-full flex-nowrap overflow-auto ${
+        className={`mt-1 flex w-full flex-nowrap overflow-auto ${
           size === "md" ? "flex-row gap-2" : ""
         }`}>
         <div
