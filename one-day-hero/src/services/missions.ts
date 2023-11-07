@@ -1,4 +1,6 @@
-import { MissionResponse } from "@/app/mission/record/page";
+import { revalidatePath } from "next/cache";
+
+import { MissionResponse } from "@/types/response";
 
 import { apiUrl } from "./urls";
 
@@ -7,13 +9,13 @@ export const getTestMissions = async () => {
   return res.json();
 };
 
-export const getMission = async (missionId: string) => {
-  try {
-    const response = await fetch(apiUrl(`/missions/${missionId}`));
-    return response.json();
-  } catch (err) {
-    console.error(err);
-  }
+export const getMission = async (
+  missionId: string
+): Promise<MissionResponse> => {
+  const response = await fetch(apiUrl(`/missions/${missionId}`), {
+    next: { tags: [`mission${missionId}`] }
+  });
+  return response.json();
 };
 
 export const getCompletedMission = async (): Promise<{
@@ -39,6 +41,8 @@ export const postBookmark = async (missionId: number, userId: number) => {
     throw new Error("Failed to fetch data");
   }
 
+  revalidatePath("/mission/[slug]", "page");
+
   return response.json();
 };
 
@@ -50,6 +54,8 @@ export const deleteBookmark = async (missionId: number, userId: number) => {
       userId
     })
   });
+
+  revalidatePath("/mission/[slug]", "page");
 
   return response.json();
 };

@@ -10,31 +10,32 @@ import IconGroup from "./IconGroup";
 
 type BookmarkButtonProps = {
   missionId: number;
-  bookmarkList: number[];
+  bookmarkCount: number;
+  isBookmarked: boolean;
   size?: "sm" | "lg";
   className?: string;
 };
 
 const BookmarkButton = ({
   missionId,
-  bookmarkList,
+  bookmarkCount,
+  isBookmarked,
   size = "sm",
   className
 }: BookmarkButtonProps) => {
   const userId = 123;
 
-  const [optimisticBookmarkList, setOptimisticBookmarkList] =
-    useState(bookmarkList);
-
-  const isBookmarked = optimisticBookmarkList.includes(userId);
+  const [optimisticBookmarkState, setOptimisticBookmarkState] = useState({
+    bookmarkCount,
+    isBookmarked
+  });
 
   const handleClick = async () => {
-    const currentBookmarkList = optimisticBookmarkList;
-    setOptimisticBookmarkList(
-      isBookmarked
-        ? optimisticBookmarkList.filter((id) => id !== userId)
-        : [userId, ...optimisticBookmarkList]
-    );
+    const currentBookmarkState = optimisticBookmarkState;
+    setOptimisticBookmarkState({
+      bookmarkCount: isBookmarked ? bookmarkCount - 1 : bookmarkCount + 1,
+      isBookmarked: !isBookmarked
+    });
 
     try {
       await (isBookmarked
@@ -42,11 +43,11 @@ const BookmarkButton = ({
         : postBookmark(missionId, userId));
     } catch (err) {
       console.error(err);
-      setOptimisticBookmarkList(currentBookmarkList);
+      setOptimisticBookmarkState(currentBookmarkState);
     }
   };
 
-  const starColor = isBookmarked
+  const starColor = optimisticBookmarkState.isBookmarked
     ? "text-orange-300 fill-orange-300"
     : "text-neutral-400 fill-transparent stroke-2";
 
@@ -68,7 +69,7 @@ const BookmarkButton = ({
       onClick={handleClick}>
       <div>
         <BiSolidStar className={`mb-1 mr-2 inline ${starColor}`} size="24" />
-        {isBookmarked ? "찜했어요" : "찜하기"}
+        {optimisticBookmarkState.isBookmarked ? "찜했어요" : "찜하기"}
       </div>
     </Button>
   );

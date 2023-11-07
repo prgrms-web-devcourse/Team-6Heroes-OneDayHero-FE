@@ -34,7 +34,7 @@ const MissionListItem = ({
             alt="프로필 사진"
             width={60}
             height={60}
-            objectFit="cover"
+            className="object-cover"
           />
         </div>
         <div className="flex flex-col gap-1">

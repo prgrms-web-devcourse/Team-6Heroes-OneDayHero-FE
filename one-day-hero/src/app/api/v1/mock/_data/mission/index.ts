@@ -31,8 +31,8 @@ export const missionDetail: MissionResponse = {
       price: 10000
     },
     bookmarkCount: 0,
-    missionStatus: "MATCHING",
-    bookmarkList: [2, 3, 4]
+    isBookmarked: true,
+    missionStatus: "MATCHING"
   },
   serverDateTime: "2023-11-02T14:25:44"
 };

@@ -2,45 +2,7 @@ import Container from "@/components/common/Container";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressBar from "@/components/common/MissionProgressBar";
 import { getCompletedMission } from "@/services/missions";
-
-export type MissionResponse = {
-  id: number;
-  missionCategory: {
-    id: number;
-    code: string;
-    name: string;
-  };
-  citizenId: number;
-  region: {
-    id: number;
-    si: string;
-    gu: string;
-    dong: string;
-  };
-  location: {
-    x: number;
-    y: number;
-  };
-  missionInfo: {
-    title: string;
-    content: string;
-    missionDate: string;
-    startTime: string;
-    endTime: string;
-    deadlineTime: string;
-    price: number;
-  };
-  bookmarkCount: number;
-  missionStatus:
-    | "MATCHING"
-    | "MATCHING_COMPLETED"
-    | "MISSION_COMPLETED"
-    | "EXPIRED";
-  missionImage: {
-    originalName: string;
-    path: string;
-  };
-};
+import { MissionResponse } from "@/types/response";
 
 const MissionRecordPage = async () => {
   const { data: missions } = await getCompletedMission();
@@ -49,14 +11,16 @@ const MissionRecordPage = async () => {
     <div className="flex w-full flex-col items-center gap-3">
       {missions &&
         missions.map(
-          (mission: MissionResponse) =>
-            mission.missionStatus === "MISSION_COMPLETED" && (
-              <Container key={mission.id} className="cs:w-full cs:p-0">
+          ({
+            data: { missionStatus, id, missionCategory, missionInfo, region }
+          }: MissionResponse) =>
+            missionStatus === "MISSION_COMPLETED" && (
+              <Container key={id} className="cs:w-full cs:p-0">
                 <MissionListItem
-                  categories={mission.missionCategory.name}
-                  createAt={mission.missionInfo.missionDate}
-                  location={mission.region.gu + " " + mission.region.dong}
-                  title={mission.missionInfo.title}
+                  categories={missionCategory.name}
+                  createAt={missionInfo.missionDate}
+                  location={region.gu + " " + region.dong}
+                  title={missionInfo.title}
                   className="cs:mb-0 cs:py-5"
                 />
                 <MissionProgressBar missionStatus="MISSION_COMPLETED" />
