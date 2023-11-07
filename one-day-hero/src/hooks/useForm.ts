@@ -1,68 +1,19 @@
-import { FORM_ERROR_MESSAGES } from "@/constants/errorMessage";
+import { ChangeEvent, useEffect, useState } from "react";
+const useForm = (initialValue: string, error: string) => {
+  const [value, setValue] = useState<string>(initialValue);
+  const [errorState, setErrorState] = useState<boolean>(false);
 
-export type MissionInfoProps = {
-  content: string;
-  missionDate: string;
-  startTime: string;
-  endTime: string;
-  price: string;
-};
-
-export type FormErrors = {
-  categoryId?: string;
-  missionInfo?: Partial<MissionInfoProps>;
-};
-
-export type FormRequest = {
-  categoryId: number;
-  missionInfo: MissionInfoProps;
-};
-
-const useForm = () => {
-  const formValidation = (data: FormRequest) => {
-    const errors: FormErrors = {};
-    const {
-      categoryId,
-      missionInfo: { missionDate, startTime, endTime, price, content }
-    } = data;
-
-    if (!categoryId) {
-      errors.categoryId = FORM_ERROR_MESSAGES.CHECK_EMPTY_CATEGORY;
-    }
-
-    if (!missionDate || missionDate.length <= 0) {
-      errors.missionInfo = {
-        ...errors.missionInfo,
-        missionDate: FORM_ERROR_MESSAGES.CHECK_EMPTY_DATE
-      };
-    }
-
-    if (!startTime || !endTime || startTime === endTime) {
-      errors.missionInfo = {
-        ...errors.missionInfo,
-        startTime: FORM_ERROR_MESSAGES.CHECK_SAME_TIME,
-        endTime: FORM_ERROR_MESSAGES.CHECK_SAME_TIME
-      };
-    }
-
-    if (!price || price.trim().length <= 0 || !Number(price)) {
-      errors.missionInfo = {
-        ...errors.missionInfo,
-        price: FORM_ERROR_MESSAGES.CHECK_EMPTY_PRICE
-      };
-    }
-
-    if (!content || content.trim().length <= 0) {
-      errors.missionInfo = {
-        ...errors.missionInfo,
-        content: FORM_ERROR_MESSAGES.CHECK_EMPTY_CONTENT
-      };
-    }
-
-    return errors;
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    setValue(e.target.value);
+    errorState && setErrorState(false);
   };
 
-  return { formValidation };
-};
+  useEffect(() => {
+    error && setErrorState(true);
+  }, [error, errorState]);
 
+  return { value, errorState, handleChange };
+};
 export default useForm;
