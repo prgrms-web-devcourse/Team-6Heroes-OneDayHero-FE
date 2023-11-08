@@ -25,7 +25,7 @@ const CreateForm = () => {
   const endRef = useRef<HTMLSelectElement | null>(null);
   const priceRef = useRef<HTMLInputElement | null>(null);
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
-  const { formValidation } = useFormValidation();
+  const { missionCreateValidation } = useFormValidation();
 
   const handleSelect = (idx: number) => {
     setCategoryId(idx);
@@ -37,6 +37,7 @@ const CreateForm = () => {
     const data = {
       categoryId,
       missionInfo: {
+        title: titleRef.current?.value ?? "",
         content: contentRef.current?.value ?? "",
         missionDate: dateRef.current?.value ?? "",
         startTime: startRef.current?.value ?? "",
@@ -45,7 +46,7 @@ const CreateForm = () => {
       }
     };
 
-    const validationErrors = formValidation(data);
+    const validationErrors = missionCreateValidation(data);
     setErrors(validationErrors);
 
     if (!Object.keys(validationErrors).length) {
@@ -76,6 +77,7 @@ const CreateForm = () => {
           <Input
             id="title"
             ref={titleRef}
+            error={errors?.missionInfo?.title}
             placeholder="미션 제목을 입력하세요."
           />
         </div>
