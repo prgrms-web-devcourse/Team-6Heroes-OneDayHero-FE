@@ -1,22 +1,44 @@
 "use client";
 
 import Image from "next/image";
-import { ChangeEvent, PropsWithChildren, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  PropsWithChildren,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import { BiCamera, BiX } from "react-icons/bi";
 
 import HorizontalScroll from "./HorizontalScroll";
 
 interface UploadImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   size?: "md" | "lg";
+  // eslint-disable-next-line no-unused-vars
+  onFileSelect: (file: File[]) => void;
 }
 
 const UploadImage = ({
   size = "md",
   className = "",
+  onFileSelect,
   ...props
 }: PropsWithChildren<UploadImageProps>) => {
   const [selectedImages, setSelectedImages] = useState<File[] | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const defaultStyle =
+    "bg-inactive text-white flex justify-center items-center shrink-0";
+
+  const sizes = {
+    md: "w-32 h-32 text-4xl rounded-[10px]",
+    lg: "w-52 h-52 text-5xl relative rounded-2xl"
+  };
+
+  const imageSizes = {
+    md: "w-32 h-32 relative duration-300 hover:scale-105 text-2xl rounded-[10px]",
+    lg: "w-52 h-52 absolute overflow-hidden text-3xl rounded-2xl"
+  };
 
   const handleUpload = () => {
     inputRef?.current?.click();
@@ -48,18 +70,9 @@ const UploadImage = ({
     }
   };
 
-  const defaultStyle =
-    "bg-inactive text-white flex justify-center items-center shrink-0";
-
-  const sizes = {
-    md: "w-32 h-32 text-4xl rounded-[10px]",
-    lg: "w-52 h-52 text-5xl relative rounded-2xl"
-  };
-
-  const imageSizes = {
-    md: "w-32 h-32 relative duration-300 hover:scale-105 text-2xl rounded-[10px]",
-    lg: "w-52 h-52 absolute overflow-hidden text-3xl rounded-2xl"
-  };
+  useEffect(() => {
+    selectedImages !== null && onFileSelect(selectedImages);
+  }, [selectedImages, onFileSelect]);
 
   return (
     <HorizontalScroll>
