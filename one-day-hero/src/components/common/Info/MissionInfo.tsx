@@ -1,27 +1,30 @@
 import { BiCalendarWeek, BiDollarCircle, BiTime } from "react-icons/bi";
 
-import IconGroup from "./IconGroup";
+import IconGroup from "../IconGroup";
 
 type MissionInfoProps = {
   missionDay: string;
   missionTime: string;
-  missionBounty: string;
+  missionBounty: number;
+  className?: string;
 };
 
 const MissionInfo = ({
   missionDay,
   missionTime,
-  missionBounty
+  missionBounty,
+  className = ""
 }: MissionInfoProps) => {
   return (
-    <div className="ml-4 flex w-full flex-col items-start justify-center gap-2">
+    <div
+      className={`${className} ml-4 flex w-full flex-col items-start justify-center gap-2 font-semibold`}>
       <IconGroup title={missionDay} direction="row">
         <BiCalendarWeek />
       </IconGroup>
       <IconGroup title={missionTime} direction="row">
         <BiTime />
       </IconGroup>
-      <IconGroup title={missionBounty} direction="row">
+      <IconGroup title={missionBounty + "원"} direction="row">
         <BiDollarCircle />
       </IconGroup>
     </div>

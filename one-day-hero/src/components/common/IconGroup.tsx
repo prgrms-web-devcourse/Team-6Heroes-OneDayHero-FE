@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 
 interface IconGroupProps {
-  title: string;
+  title: string | number;
   size?: "sm" | "md" | "lg";
   textSize?: "xs" | "sm" | "base";
   className?: string;

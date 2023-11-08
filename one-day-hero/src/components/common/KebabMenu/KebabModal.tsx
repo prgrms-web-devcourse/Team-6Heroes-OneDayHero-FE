@@ -1,0 +1,34 @@
+import { KebabMenuDataType } from "@/types";
+
+import Button from "../Button";
+import Modal from "../Modal";
+
+type KebabModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  menuData: KebabMenuDataType | null;
+};
+
+const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
+  return (
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <h1 className="mb-5 text-center text-xl font-semibold">
+        {menuData?.description ?? menuData?.name}
+      </h1>
+      <div className="flex justify-around">
+        <Button
+          theme="cancel"
+          size="sm"
+          className="cs:h-12 cs:w-4/12"
+          onClick={onClose}>
+          취소
+        </Button>
+        <Button theme="active" size="sm" className="cs:h-12 cs:w-4/12">
+          확인
+        </Button>
+      </div>
+    </Modal>
+  );
+};
+
+export default KebabModal;

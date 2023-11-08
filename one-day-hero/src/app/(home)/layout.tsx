@@ -2,8 +2,7 @@ import React from "react";
 
 import Footer from "@/components/common/Footer";
 import HomeHeader from "@/components/common/HomeHeader";
-
-import MissionCreateButton from "./components/MissionCreateButton";
+import MissionCreateButton from "@/components/domain/home/MissionCreateButton";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (

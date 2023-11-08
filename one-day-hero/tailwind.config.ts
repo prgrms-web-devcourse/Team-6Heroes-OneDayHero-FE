@@ -17,7 +17,8 @@ const config: Config = {
           DEFAULT: "#C5DD7C",
           lighten: "#D6F088",
           darken: "#B0C474",
-          lightest: "#F8FFCD"
+          lightest: "#F8FFCD",
+          light: "#E5F3BD"
         },
         sub: {
           DEFAULT: "#FF8551",
@@ -44,7 +45,8 @@ const config: Config = {
       },
       boxShadow: {
         upper: "0px -2px 5px rgba(0, 0, 0, 0.07)",
-        down: "0px 2px 8px rgba(0, 0, 0, 0.15)"
+        down: "0px 2px 8px rgba(0, 0, 0, 0.15)",
+        moreDown: "0px 4px 4px rgba(0, 0, 0, 0.25)"
       },
       screens: {
         cs: "0px"

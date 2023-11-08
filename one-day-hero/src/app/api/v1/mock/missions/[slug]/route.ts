@@ -1,5 +1,6 @@
-import { missionDetail } from "@/app/api/v1/mock/_data/mission";
 import { type NextRequest, NextResponse } from "next/server";
+
+import { missionDetail } from "../../_data/mission";
 
 export function GET(
   request: NextRequest,
