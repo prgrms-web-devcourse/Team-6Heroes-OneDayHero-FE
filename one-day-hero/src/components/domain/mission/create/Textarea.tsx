@@ -19,7 +19,7 @@ const Textarea = forwardRef(
     const { value, handleChange, errorState } = useForm("", error || "");
 
     const defaultStyle =
-      "border-inactive focus:outline-primary h-[118px] resize-none rounded-[10px] placeholder:text-inactive shadow-down p-3 text-sm";
+      "border-bg-inactive border focus:outline-primary h-[118px] resize-none rounded-[10px] placeholder:text-inactive p-3 text-sm";
 
     return (
       <>
