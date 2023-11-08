@@ -73,7 +73,9 @@ const CreateForm = () => {
           <span className="mb-4 text-base font-semibold">
             미션에 대한 정보를 알려주세요!
           </span>
-          <InputLabel htmlFor="title">제목</InputLabel>
+          <InputLabel htmlFor="title" required>
+            제목
+          </InputLabel>
           <Input
             id="title"
             ref={titleRef}
@@ -88,7 +90,9 @@ const CreateForm = () => {
           <UploadImage />
         </div>
         <div className="flex flex-col">
-          <InputLabel htmlFor="missionDate">날짜</InputLabel>
+          <InputLabel htmlFor="missionDate" required>
+            날짜
+          </InputLabel>
           <CustomCalendar
             id="missionDate"
             ref={dateRef}
@@ -96,7 +100,9 @@ const CreateForm = () => {
           />
         </div>
         <div>
-          <InputLabel htmlFor="startTime">시간</InputLabel>
+          <InputLabel htmlFor="startTime" required>
+            시간
+          </InputLabel>
           <div className="mt-1 flex gap-4">
             <Select
               id="startTime"
@@ -118,7 +124,9 @@ const CreateForm = () => {
           </div>
         </div>
         <div className="flex flex-col">
-          <InputLabel htmlFor="price">포상금</InputLabel>
+          <InputLabel htmlFor="price" required>
+            포상금
+          </InputLabel>
           <Input
             id="price"
             ref={priceRef}
@@ -127,7 +135,9 @@ const CreateForm = () => {
           />
         </div>
         <div className="flex flex-col">
-          <InputLabel htmlFor="content">미션 내용</InputLabel>
+          <InputLabel htmlFor="content" required>
+            미션 내용
+          </InputLabel>
           <Textarea
             id="content"
             ref={contentRef}
