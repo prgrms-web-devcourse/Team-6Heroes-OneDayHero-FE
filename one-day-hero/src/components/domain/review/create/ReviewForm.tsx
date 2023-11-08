@@ -34,14 +34,17 @@ const ReviewForm = () => {
     <form
       className="flex w-full flex-col items-center gap-5"
       onSubmit={handleSubmit}>
-      <Container className="cs:w-full cs:py-8 cs:m-0 flex flex-col items-center gap-8">
+      <Container className="cs:w-full cs:py-8 cs:m-0 flex flex-col items-center gap-8 text-center">
         <h1 className="text-xl font-semibold">
           `유저이름` 님과의 미션은 어떠셨나요?
         </h1>
         <StarRating onSelect={handleScoreSelect} />
       </Container>
       <div className="w-full">
-        <Textarea ref={reviewRef} className="cs:w-full cs:h-40" />
+        <Textarea
+          ref={reviewRef}
+          className="cs:w-full cs:h-40 cs:shadow-down"
+        />
       </div>
       <div className="mb-5 flex w-full flex-col justify-start">
         <InputLabel>
