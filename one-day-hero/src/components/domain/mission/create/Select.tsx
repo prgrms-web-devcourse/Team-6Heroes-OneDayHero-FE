@@ -19,7 +19,7 @@ const Select = forwardRef(
     const { handleChange } = useForm("");
 
     const defaultStyle =
-      "border-bg-inactive focus:outline-primary w-full h-[34px] rounded-[10px] border pl-2";
+      "border-inactive focus:outline-primary w-full h-[34px] rounded-[10px] border pl-2";
 
     return (
       <div className="flex w-full flex-col">
