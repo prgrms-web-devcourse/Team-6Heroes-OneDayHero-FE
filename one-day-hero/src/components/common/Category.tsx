@@ -38,10 +38,10 @@ const Category = ({ isRoute = false, error, onSelect }: CategoryProps) => {
     Array(categories.length).fill(false)
   );
 
-  const containerStyle = "flex gap-3";
+  const containerStyle = "flex gap-3 py-1";
 
   const itemStyle =
-    "flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white w-16 h-16 rounded-3xl shadow";
+    "flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white w-16 h-16 rounded-3xl border border-inactive shadow";
 
   const handleClick = (index: number) => {
     if (!isRoute && onSelect) {
@@ -70,7 +70,10 @@ const Category = ({ isRoute = false, error, onSelect }: CategoryProps) => {
               categoryActiveState[index] && "cs:bg-primary"
             }`}
             onClick={() => handleClick(index)}>
-            <IconGroup title={category.title} textSize="sm">
+            <IconGroup
+              title={category.title}
+              textSize="xs"
+              className="cs:text-3xl">
               {category.icon}
             </IconGroup>
           </div>

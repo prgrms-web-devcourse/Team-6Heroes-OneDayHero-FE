@@ -61,13 +61,13 @@ const CreateForm = () => {
       className="flex w-full flex-col items-center"
       onSubmit={handleSubmit}
       id="missionCreateForm">
-      <Container className="flex w-full flex-col gap-3 p-5">
+      <Container className="cs:p-5 cs:flex cs:w-full cs:flex-col cs:gap-3">
         <span className="text-base font-semibold">
           찾는 카테고리가 있으신가요?
         </span>
         <Category onSelect={handleSelect} error={errors?.categoryId} />
       </Container>
-      <Container className="flex w-full flex-col gap-5 p-5">
+      <Container className="cs:p-5 cs:flex cs:w-full cs:flex-col cs:gap-5">
         <div className="flex flex-col">
           <span className="mb-4 text-base font-semibold">
             미션에 대한 정보를 알려주세요!
