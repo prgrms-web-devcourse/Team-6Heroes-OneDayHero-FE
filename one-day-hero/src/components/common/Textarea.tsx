@@ -16,6 +16,7 @@ const Textarea = forwardRef(
   (
     {
       id,
+      value = "",
       placeholder = "",
       readOnly,
       readOnlyValue,
@@ -24,7 +25,7 @@ const Textarea = forwardRef(
     }: TextareaProps,
     ref: ForwardedRef<HTMLTextAreaElement>
   ) => {
-    const { value, handleChange } = useForm("");
+    const { changeValue, handleChange } = useForm((value as string) ?? "");
 
     const defaultStyle =
       "border-inactive focus:outline-primary h-[118px] resize-none rounded-[10px] placeholder:text-inactive border p-3";
@@ -34,7 +35,7 @@ const Textarea = forwardRef(
         <textarea
           id={id}
           ref={ref}
-          value={readOnly ? readOnlyValue?.toString() : value}
+          value={readOnly ? readOnlyValue?.toString() : changeValue}
           placeholder={placeholder}
           onChange={!readOnly ? handleChange : undefined}
           readOnly={readOnly}

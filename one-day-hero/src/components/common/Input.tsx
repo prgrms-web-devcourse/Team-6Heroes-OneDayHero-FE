@@ -16,6 +16,7 @@ const Input = forwardRef(
   (
     {
       id,
+      value = "",
       placeholder = "",
       readOnly,
       readOnlyValue,
@@ -24,7 +25,7 @@ const Input = forwardRef(
     }: InputProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
-    const { value, handleChange } = useForm("");
+    const { changeValue, handleChange } = useForm((value as string) ?? "");
 
     const defaultStyle =
       "rounded-[10px] h-[34px] w-full border border-inactive focus:outline-primary placeholder:text-inactive pl-3";
@@ -34,7 +35,7 @@ const Input = forwardRef(
         <input
           id={id}
           ref={ref}
-          value={readOnly ? readOnlyValue?.toString() : value}
+          value={readOnly ? readOnlyValue?.toString() : changeValue}
           placeholder={placeholder}
           onChange={!readOnly ? handleChange : undefined}
           readOnly={readOnly}
