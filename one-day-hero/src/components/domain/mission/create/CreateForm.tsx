@@ -33,8 +33,7 @@ const CreateForm = () => {
   };
 
   const handleFileSelect = (files: File[]) => {
-    console.log(files);
-    setSelectedImages((prev) => (prev ? [...prev, ...files] : files));
+    setSelectedImages(files);
   };
 
   const handleSubmit = async (e: FormEvent) => {
