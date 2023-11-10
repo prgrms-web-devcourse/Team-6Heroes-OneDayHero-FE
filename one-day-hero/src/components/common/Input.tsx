@@ -16,10 +16,10 @@ const Input = forwardRef(
   (
     {
       id,
-      className,
-      readOnlyValue,
       placeholder = "",
       readOnly,
+      readOnlyValue,
+      className,
       error
     }: InputProps,
     ref: ForwardedRef<HTMLInputElement>

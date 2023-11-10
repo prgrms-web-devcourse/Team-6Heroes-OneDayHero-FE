@@ -7,13 +7,21 @@ import useForm from "@/hooks/useForm";
 import ErrorMessage from "./ErrorMessage";
 
 interface TextareaProps extends React.ComponentProps<"textarea"> {
+  readOnlyValue?: string;
   className?: string;
   error?: string;
 }
 
 const Textarea = forwardRef(
   (
-    { id, className, error }: TextareaProps,
+    {
+      id,
+      placeholder = "",
+      readOnly,
+      readOnlyValue,
+      className,
+      error
+    }: TextareaProps,
     ref: ForwardedRef<HTMLTextAreaElement>
   ) => {
     const { value, handleChange } = useForm("");
@@ -26,9 +34,10 @@ const Textarea = forwardRef(
         <textarea
           id={id}
           ref={ref}
-          value={value}
-          placeholder="미션에 대한 내용을 작성해주세요!"
-          onChange={handleChange}
+          value={readOnly ? readOnlyValue?.toString() : value}
+          placeholder={placeholder}
+          onChange={!readOnly ? handleChange : undefined}
+          readOnly={readOnly}
           className={`${defaultStyle} ${className} ${
             error && "border-2 border-red-500"
           }`}
