@@ -12,7 +12,7 @@ import {
 
 import IconGroup from "@/components/common/IconGroup";
 
-import ErrorMessage from "../domain/mission/create/ErrorMessage";
+import ErrorMessage from "./ErrorMessage";
 import HorizontalScroll from "./HorizontalScroll";
 
 const categories = [
@@ -27,13 +27,13 @@ const categories = [
 ];
 
 type CategoryProps = {
-  isRoute?: boolean;
+  routeState?: boolean;
   error?: string;
   // eslint-disable-next-line no-unused-vars
   onSelect?: (idx: number) => void;
 };
 
-const Category = ({ isRoute = false, error, onSelect }: CategoryProps) => {
+const Category = ({ routeState = false, error, onSelect }: CategoryProps) => {
   const [categoryActiveState, setCategoryActiveState] = useState<boolean[]>(
     Array(categories.length).fill(false)
   );
@@ -44,7 +44,7 @@ const Category = ({ isRoute = false, error, onSelect }: CategoryProps) => {
     "flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white w-16 h-16 rounded-3xl border border-inactive shadow";
 
   const handleClick = (index: number) => {
-    if (!isRoute && onSelect) {
+    if (!routeState && onSelect) {
       const newActiveState = categoryActiveState.map(
         (active, idx) => idx === index && !active
       );
