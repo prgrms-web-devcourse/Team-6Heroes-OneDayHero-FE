@@ -18,6 +18,7 @@ const hours = Array.from({ length: 24 }, (_, index) => index);
 
 const CreateForm = () => {
   const [categoryId, setCategoryId] = useState<number>(0);
+  const [selectedImages, setSelectedImages] = useState<File[] | null>(null);
   const [errors, setErrors] = useState<FormErrors | null>(null);
   const titleRef = useRef<HTMLInputElement | null>(null);
   const dateRef = useRef<HTMLInputElement | null>(null);
@@ -29,6 +30,11 @@ const CreateForm = () => {
 
   const handleSelect = (idx: number) => {
     setCategoryId(idx);
+  };
+
+  const handleFileSelect = (files: File[]) => {
+    console.log(files);
+    setSelectedImages((prev) => (prev ? [...prev, ...files] : files));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -87,7 +93,7 @@ const CreateForm = () => {
           <InputLabel>
             사진 <span className="text-inactive text-xs">(최대 3개)</span>
           </InputLabel>
-          <UploadImage />
+          <UploadImage onFileSelect={handleFileSelect} />
         </div>
         <div className="flex flex-col">
           <InputLabel htmlFor="missionDate" required>
