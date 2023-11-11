@@ -3,6 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 
+import { Providers } from "@/components/common/Providers";
+
 const notoSansKR = Noto_Sans_KR({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"]
@@ -21,9 +23,11 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body className={`${notoSansKR.className} flex flex-col items-center`}>
-        <main className="flex min-h-screen w-full max-w-screen-sm flex-col items-center bg-background px-5 py-24 shadow">
-          {children}
-        </main>
+        <Providers>
+          <main className="bg-background flex min-h-screen w-full max-w-screen-sm flex-col items-center px-5 py-24 shadow">
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   );
