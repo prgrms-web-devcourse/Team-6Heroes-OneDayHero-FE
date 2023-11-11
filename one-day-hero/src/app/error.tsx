@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function Error({
+export default function ErrorPage({
   error,
   reset
 }: {

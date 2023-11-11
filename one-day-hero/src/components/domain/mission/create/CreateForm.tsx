@@ -5,7 +5,7 @@ import { FormEvent, useRef, useState } from "react";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
-import { apiUrl } from "@/services/urls";
+import { apiUrl } from "@/services/base";
 
 import CustomCalendar from "./CustomCalendar";
 import Input from "./Input";

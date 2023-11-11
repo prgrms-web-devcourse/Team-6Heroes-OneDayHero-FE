@@ -1,10 +1,15 @@
+import ErrorPage from "@/app/error";
 import Container from "@/components/common/Container";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressBar from "@/components/common/MissionProgressBar";
-import { getCompletedMission } from "@/services/missions";
+import { useGetCompletedMissionFetch } from "@/services/missions";
 
 const MissionRecordPage = async () => {
-  const { data: missions } = await getCompletedMission();
+  const { isError, response } = await useGetCompletedMissionFetch();
+
+  if (isError || !response) return <ErrorPage />;
+
+  const { data: missions } = response;
 
   return (
     <div className="flex w-full flex-col items-center gap-3">

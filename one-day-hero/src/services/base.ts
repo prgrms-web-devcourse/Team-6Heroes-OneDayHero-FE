@@ -46,3 +46,13 @@ export const useFetch = async <T>(
     return errorResponse;
   }
 };
+
+export const useMutationalFetch = <T>(
+  pathname: string,
+  options: RequestInit,
+  callback?: () => void
+) => {
+  return {
+    mutationalFetch: (useFetch<T>).bind(null, pathname, options, callback)
+  };
+};

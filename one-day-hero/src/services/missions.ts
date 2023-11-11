@@ -7,7 +7,7 @@ import {
   SuggestedMissionListResponse
 } from "@/types/response";
 
-import { useFetch } from "./base";
+import { useFetch, useMutationalFetch } from "./base";
 
 export const useGetMissionFetch = (missionId: string) => {
   return useFetch<MissionResponse>(`/missions/${missionId}`, {
@@ -22,7 +22,7 @@ export const useGetCompletedMissionFetch = () => {
 };
 
 export const usePostBookmarkFetch = (missionId: number, userId: number) => {
-  return useFetch<BookmarkResponse>(
+  return useMutationalFetch<BookmarkResponse>(
     "/bookmarks",
     {
       method: "POST",
@@ -36,7 +36,7 @@ export const usePostBookmarkFetch = (missionId: number, userId: number) => {
 };
 
 export const useDeleteBookmarkFetch = (missionId: number, userId: number) => {
-  return useFetch<BookmarkResponse>(
+  return useMutationalFetch<BookmarkResponse>(
     "/bookmarks",
     {
       method: "DELETE",

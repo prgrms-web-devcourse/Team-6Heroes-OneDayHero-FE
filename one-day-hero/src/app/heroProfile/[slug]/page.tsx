@@ -2,16 +2,21 @@ import Image from "next/image";
 import { BiChevronRight } from "react-icons/bi";
 
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
+import ErrorPage from "@/app/error";
 import Button from "@/components/common/Button";
 import FavoriteDateList from "@/components/common/FavoriteDateList";
 import HeroScore from "@/components/common/HeroScore";
 import Label from "@/components/common/Label";
-import { getUser } from "@/services/users";
+import { useGetUserFetch } from "@/services/users";
 
 const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
+  const { isError, response } = await useGetUserFetch(parseInt(params.slug));
+
+  if (isError || !response) return <ErrorPage />;
+
   const {
     data: { basicInfo, favoriteWorkingDay }
-  } = await getUser(parseInt(params.slug));
+  } = response;
 
   return (
     <>
