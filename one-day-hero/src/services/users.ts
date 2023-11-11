@@ -1,6 +1,6 @@
 import { UserResponse } from "@/types/response";
 
-import { apiUrl } from "./urls";
+import { apiUrl } from "./base";
 
 export const getUser = async (userId: number): Promise<UserResponse> => {
   const response = await fetch(apiUrl(`/users/${userId}`), {

@@ -5,7 +5,7 @@ import {
   SuggestedMissionListResponse
 } from "@/types/response";
 
-import { apiUrl } from "./urls";
+import { apiUrl } from "./base";
 
 export const getTestMissions = async () => {
   const res = await fetch(apiUrl("/missions"));
