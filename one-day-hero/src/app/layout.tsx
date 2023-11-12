@@ -3,7 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 
-import { Providers } from "@/components/common/Providers";
+import { Providers } from "@/components/common/Oauth/Providers";
 
 const notoSansKR = Noto_Sans_KR({
   subsets: ["latin"],
