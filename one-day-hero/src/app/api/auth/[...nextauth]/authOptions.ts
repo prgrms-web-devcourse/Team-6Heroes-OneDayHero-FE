@@ -17,7 +17,20 @@ const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/"
   },
-  callbacks: {}
+  callbacks: {
+    async signIn() {
+      /** @note 사용자가 로그인할 때 호출되는 콜백 */
+      return true;
+    },
+    async redirect() {
+      /** @note 로그인 후 리다이렉트될 경로를 지정하는 콜백 */
+      return "/";
+    },
+    async session(session: any) {
+      /** @note 세션을 설정하는 콜백 */
+      return session;
+    }
+  }
 };
 
 export default authOptions;
