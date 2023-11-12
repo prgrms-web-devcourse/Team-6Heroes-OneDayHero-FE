@@ -16,33 +16,34 @@ const Input = forwardRef(
   (
     {
       id,
-      className,
-      readOnlyValue,
+      value = "",
       placeholder = "",
       readOnly,
+      readOnlyValue,
+      className,
       error
     }: InputProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
-    const { value, handleChange, errorState } = useForm("", error || "");
+    const { changeValue, handleChange } = useForm((value as string) ?? "");
 
     const defaultStyle =
-      "rounded-[10px] h-[34px] w-full border border-bg-inactive focus:outline-primary placeholder:text-inactive pl-3";
+      "rounded-[10px] h-[34px] w-full border border-inactive focus:outline-primary placeholder:text-inactive pl-3";
 
     return (
       <div className="flex grow flex-col">
         <input
           id={id}
           ref={ref}
-          value={readOnly ? readOnlyValue?.toString() : value}
+          value={readOnly ? readOnlyValue?.toString() : changeValue}
           placeholder={placeholder}
           onChange={!readOnly ? handleChange : undefined}
           readOnly={readOnly}
           className={`${defaultStyle} ${className} ${
-            error && errorState && "cs:border-red-500 border-2"
+            error && "cs:border-red-500 border-2"
           }`}
         />
-        {error && errorState && <ErrorMessage>{error}</ErrorMessage>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
       </div>
     );
   }
