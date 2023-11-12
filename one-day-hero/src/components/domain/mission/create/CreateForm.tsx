@@ -28,8 +28,8 @@ const CreateForm = () => {
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
   const { missionCreateValidation } = useFormValidation();
 
-  const handleSelect = (idx: number) => {
-    setCategoryId(idx);
+  const handleSelect = (id: number) => {
+    setCategoryId(id);
   };
 
   const handleFileSelect = (files: File[]) => {
