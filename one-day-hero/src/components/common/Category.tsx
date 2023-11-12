@@ -48,8 +48,6 @@ const Category = ({
       : CATEGORY_LIST.map((category) => category.id === value)
   );
 
-  console.log(categoryActiveState);
-
   const containerStyle = "flex gap-3 py-1";
 
   const itemStyle =
