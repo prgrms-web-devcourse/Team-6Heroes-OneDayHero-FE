@@ -10,7 +10,7 @@ const LoginPage = () => {
   console.log(session);
 
   const handleKakaoLogin = async () => {
-    signIn("kakao", { callbackUrl: "/mission/list/ongoing" });
+    signIn("kakao");
   };
 
   return (
@@ -24,20 +24,14 @@ const LoginPage = () => {
       />
       <div className="flex flex-col items-center justify-center space-y-20">
         <h1 className="text-5xl font-black">원데이 히어로</h1>
-        {!session ? (
-          <button onClick={handleKakaoLogin}>
-            <Image
-              src="/images/kakaoLogin 1.png"
-              alt="카카오 로그인"
-              width={300}
-              height={60}
-            />
-          </button>
-        ) : (
-          <>
-            <p>회원님 안녕하세요.</p>
-          </>
-        )}
+        <button onClick={handleKakaoLogin}>
+          <Image
+            src="/images/kakaoLogin 1.png"
+            alt="카카오 로그인"
+            width={300}
+            height={60}
+          />
+        </button>
         <Link href="/">
           <h3 className="text-inactive-darken text-base underline underline-offset-4">
             비회원으로 둘러보기
