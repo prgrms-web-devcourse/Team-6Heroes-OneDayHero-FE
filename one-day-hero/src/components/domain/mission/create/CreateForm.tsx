@@ -146,6 +146,7 @@ const CreateForm = () => {
           <Textarea
             id="content"
             ref={contentRef}
+            placeholder="미션 내용이나 비고를 작성해주세요!"
             error={errors?.missionInfo?.content}
           />
         </div>
