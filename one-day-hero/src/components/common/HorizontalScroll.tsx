@@ -20,7 +20,7 @@ const HorizontalScroll = ({
   const [startX, setStartX] = useState<number>(0);
   const [currentScroll, setCurrentScroll] = useState<number>(0);
 
-  const defaultStyle = "overflow-x-auto";
+  const defaultStyle = "overflow-x-auto flex";
 
   const handleMouseDown: MouseEventHandler<HTMLDivElement> = (event) => {
     setDragState(true);
