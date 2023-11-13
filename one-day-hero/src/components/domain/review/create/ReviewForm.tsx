@@ -4,13 +4,18 @@ import { FormEvent, useRef, useState } from "react";
 
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
+import InputLabel from "@/components/common/InputLabel";
+import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
-import Textarea from "@/components/domain/mission/create/Textarea";
 
-import InputLabel from "../../mission/create/InputLabel";
 import StarRating from "./StarRating";
 
-const ReviewForm = () => {
+type ReviewFormProps = {
+  editMode?: boolean;
+  /** @note 수정 페이지 ? 데이터가 있으면 그 데이터를 채워서 보여줌 */
+};
+
+const ReviewForm = ({ editMode }: ReviewFormProps) => {
   const [score, setScore] = useState<number>(0);
   const [selectedImages, setSelectedImages] = useState<File[] | null>(null);
   const reviewRef = useRef<HTMLTextAreaElement | null>(null);
@@ -25,9 +30,13 @@ const ReviewForm = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(score);
-    console.log(reviewRef.current?.value ?? "");
-    console.log(selectedImages);
+    if (!editMode) {
+      console.log(score);
+      console.log(selectedImages);
+      /** @note 기본값으로는 생성 폼으로 사용 post 요청 */
+    } else {
+      /** @note true면 수정 폼으로 사용 put 요청 */
+    }
   };
 
   return (
