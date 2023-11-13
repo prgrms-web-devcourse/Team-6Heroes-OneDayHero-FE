@@ -44,7 +44,7 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
       className="flex w-full flex-col items-center gap-5"
       onSubmit={handleSubmit}>
       <Container className="cs:w-full cs:py-8 cs:m-0 flex flex-col items-center gap-8 text-center">
-        <h1 className="text-lg font-semibold">
+        <h1 className="text-lg font-medium">
           `Nick` 히어로님과의 미션은 어떠셨나요?
         </h1>
         <StarRating onSelect={handleScoreSelect} />
