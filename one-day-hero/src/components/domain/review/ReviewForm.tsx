@@ -52,7 +52,7 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
       <div className="w-full">
         <Textarea
           ref={reviewRef}
-          className="cs:w-full cs:h-40 cs:shadow-down"
+          className="cs:w-full cs:h-40 cs:shadow-down cs:border-0"
         />
       </div>
       <div className="mb-5 flex w-full flex-col justify-start">
