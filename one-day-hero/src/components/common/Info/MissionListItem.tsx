@@ -28,7 +28,7 @@ const MissionListItem = ({
   return (
     <div className={`flex w-full ${className}`}>
       <div className="flex grow gap-4">
-        <div className="overflow-hidden rounded-[10px] bg-inactive">
+        <div className="bg-inactive overflow-hidden rounded-[10px]">
           <Image
             src={imageSrc || test}
             alt="프로필 사진"
