@@ -13,7 +13,7 @@ const ReadStarRating = ({ value, className }: ReadStarRatingProps) => {
       {scoreList.map((_, index) => (
         <FaStar
           key={index}
-          size={12}
+          size={14}
           className={`${value > index ? "text-yellow-400" : "text-inactive"}`}
         />
       ))}
