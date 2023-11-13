@@ -5,3 +5,8 @@ export type KebabMenuDataType = {
   description?: string;
   redirectTo?: string;
 };
+
+export type ImageFileType = {
+  id: string;
+  file: File;
+};
