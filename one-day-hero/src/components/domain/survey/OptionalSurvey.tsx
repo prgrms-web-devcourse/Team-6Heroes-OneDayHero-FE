@@ -30,9 +30,11 @@ const OptionalSurvey = () => {
             희망 근무시간
           </InputLabel>
           <div className="mt-1 flex gap-2">
-            <Select id="working hour" className="cs:font-base">
+            <Select id="working hour">
               {hours.map((hour) => (
-                <option key={hour}>{hour}:00</option>
+                <option className="text-xs" key={hour}>
+                  {hour}:00
+                </option>
               ))}
             </Select>
             <span className="text-bold my-auto">
@@ -40,7 +42,9 @@ const OptionalSurvey = () => {
             </span>
             <Select id="working hour">
               {hours.map((hour) => (
-                <option key={hour}>{hour}:00</option>
+                <option className="text-xs" key={hour}>
+                  {hour}:00
+                </option>
               ))}
             </Select>
           </div>
@@ -54,7 +58,9 @@ const OptionalSurvey = () => {
           <div className="mt-1 flex gap-2">
             <Select id="favorite region">
               {["마포구", "땡땡구"].map((gu) => (
-                <option key={gu}>{gu}</option>
+                <option className="text-xs" key={gu}>
+                  {gu}
+                </option>
               ))}
             </Select>
             <span className="text-bold my-auto">
@@ -62,7 +68,9 @@ const OptionalSurvey = () => {
             </span>
             <Select id="favorite region">
               {["동교동", "땡땡동"].map((dong) => (
-                <option key={dong}>{dong}</option>
+                <option className="text-xs" key={dong}>
+                  {dong}
+                </option>
               ))}
             </Select>
             <Button
