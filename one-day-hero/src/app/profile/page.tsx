@@ -1,13 +1,12 @@
 import Image from "next/image";
-import { BiChevronRight } from "react-icons/bi";
 
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 import ErrorPage from "@/app/error";
 import { calculateAge, parseGender } from "@/app/utils/formatProfile";
-import Button from "@/components/common/Button";
 import FavoriteDateList from "@/components/common/FavoriteDateList";
 import HeroScore from "@/components/common/HeroScore";
 import Label from "@/components/common/Label";
+import LinkButton from "@/components/common/LinkButton";
 import { useGetUserFetch } from "@/services/users";
 
 const ProfilePage = async () => {
@@ -67,17 +66,15 @@ const ProfilePage = async () => {
           <p>식당 알바 6개월 경력</p>
         </div>
       </div>
-      <Button size="lg" className="cs:relative cs:mb-3 cs:w-full">
-        <BiChevronRight size="24" className="absolute right-3 top-4" />
+      <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
         리뷰
-      </Button>
-      <Button size="lg" className="cs:relative cs:mb-3 cs:w-full">
-        <BiChevronRight size="24" className="absolute right-3 top-4" />
+      </LinkButton>
+      <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
         미션 기록
-      </Button>
-      <Button size="lg" className="cs:relative cs:w-full">
-        <BiChevronRight size="24" className="absolute right-3 top-4" />찜 목록
-      </Button>
+      </LinkButton>
+      <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
+        찜 목록
+      </LinkButton>
     </>
   );
 };
