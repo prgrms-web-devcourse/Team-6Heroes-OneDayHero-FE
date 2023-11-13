@@ -4,27 +4,16 @@ import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 
 type StarRatingProps = {
-  size?: "sm" | "lg";
   value?: number;
-  readOnly?: boolean;
-  readOnlyValue?: 1 | 2 | 3 | 4 | 5;
-  editValue?: 1 | 2 | 3 | 4 | 5;
   // eslint-disable-next-line no-unused-vars
-  onSelect?: (idx: number) => void;
+  onSelect: (idx: number) => void;
   className?: string;
 };
 
 const scoreList = [1, 2, 3, 4, 5];
 const initialStarState = Array(scoreList.length).fill(false);
 
-const StarRating = ({
-  size = "lg",
-  value,
-  readOnly,
-  readOnlyValue,
-  onSelect,
-  className
-}: StarRatingProps) => {
+const StarRating = ({ value, onSelect, className }: StarRatingProps) => {
   const [starState, setStarState] = useState<boolean[]>(
     value ? initialStarState.map((_, idx) => value > idx) : initialStarState
   );
@@ -49,13 +38,11 @@ const StarRating = ({
       {scoreList.map((_, index) => (
         <FaStar
           key={index}
-          size={size === "lg" ? 45 : 12}
+          size={45}
           className={`${
-            (!readOnly ? starState[index] : readOnlyValue! > index)
-              ? "text-yellow-400"
-              : "text-inactive"
+            starState[index] ? "text-yellow-400" : "text-inactive"
           }`}
-          onClick={!readOnly ? () => handleClick(index) : undefined}
+          onClick={() => handleClick(index)}
         />
       ))}
     </div>
