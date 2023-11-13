@@ -54,6 +54,16 @@ export type SuggestedMissionListResponse = {
   serverDateTime: string;
 };
 
+export type BookmarkResponse = {
+  status: number;
+  data: {
+    id: number;
+    missionId: number;
+    userId: number;
+  };
+  serverDateTime: string;
+};
+
 export type UserResponse = {
   status: number;
   data: {

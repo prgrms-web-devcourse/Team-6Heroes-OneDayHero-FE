@@ -4,7 +4,10 @@ import { useState } from "react";
 import { BiSolidStar } from "react-icons/bi";
 
 import Button from "@/components/common/Button";
-import { deleteBookmark, postBookmark } from "@/services/missions";
+import {
+  useDeleteBookmarkFetch,
+  usePostBookmarkFetch
+} from "@/services/missions";
 
 import IconGroup from "./IconGroup";
 
@@ -30,21 +33,28 @@ const BookmarkButton = ({
     isBookmarked
   });
 
+  const { mutationalFetch: postBookmark } = usePostBookmarkFetch(
+    missionId,
+    userId
+  );
+  const { mutationalFetch: deleteBookmark } = useDeleteBookmarkFetch(
+    missionId,
+    userId
+  );
+
   const handleClick = async () => {
     const currentBookmarkState = optimisticBookmarkState;
+
     setOptimisticBookmarkState({
       bookmarkCount: isBookmarked ? bookmarkCount - 1 : bookmarkCount + 1,
       isBookmarked: !isBookmarked
     });
 
-    try {
-      await (isBookmarked
-        ? deleteBookmark(missionId, userId)
-        : postBookmark(missionId, userId));
-    } catch (err) {
-      console.error(err);
-      setOptimisticBookmarkState(currentBookmarkState);
-    }
+    const { isError } = await (isBookmarked
+      ? deleteBookmark()
+      : postBookmark());
+
+    if (isError) setOptimisticBookmarkState(currentBookmarkState);
   };
 
   const starColor = optimisticBookmarkState.isBookmarked

@@ -10,7 +10,7 @@ import Select from "@/components/common/Select";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
-import { apiUrl } from "@/services/urls";
+import { apiUrl } from "@/services/base";
 
 import CustomCalendar from "./CustomCalendar";
 
