@@ -3,10 +3,10 @@ import Image from "next/image";
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 import ErrorPage from "@/app/error";
 import { calculateAge, parseGender } from "@/app/utils/formatProfile";
-import FavoriteDateList from "@/components/common/FavoriteDateList";
 import HeroScore from "@/components/common/HeroScore";
 import Label from "@/components/common/Label";
 import LinkButton from "@/components/common/LinkButton";
+import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
 import { useGetUserFetch } from "@/services/users";
 
 const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
@@ -26,6 +26,7 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
           alt="썸네일"
           width={150}
           className="pointer-events-none mr-3 rounded-full bg-neutral-200"
+          priority
         />
         <div className="flex grow flex-col justify-evenly text-base">
           <h3 className="font-semibold text-sub">히어로</h3>

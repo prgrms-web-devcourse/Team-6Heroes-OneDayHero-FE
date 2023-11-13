@@ -3,10 +3,11 @@ import Image from "next/image";
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 import ErrorPage from "@/app/error";
 import { calculateAge, parseGender } from "@/app/utils/formatProfile";
-import FavoriteDateList from "@/components/common/FavoriteDateList";
 import HeroScore from "@/components/common/HeroScore";
 import Label from "@/components/common/Label";
 import LinkButton from "@/components/common/LinkButton";
+import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
+import HeroSwitch from "@/components/domain/profile/HeroSwitch";
 import { useGetUserFetch } from "@/services/users";
 
 const ProfilePage = async () => {
@@ -26,6 +27,7 @@ const ProfilePage = async () => {
           alt="썸네일"
           width={150}
           className="pointer-events-none mr-3 rounded-full bg-neutral-200"
+          priority
         />
         <div className="flex grow flex-col justify-evenly text-base">
           <h3 className="font-semibold text-sub">히어로</h3>
@@ -34,6 +36,10 @@ const ProfilePage = async () => {
             basicInfo.gender
           )}`}</h3>
         </div>
+      </div>
+      <div className="mt-5 flex w-full items-center justify-between">
+        <h2 className="mb-2 text-xl font-semibold">히어로 전환</h2>
+        <HeroSwitch isHeroMode={false} />
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">히어로 지수</h2>

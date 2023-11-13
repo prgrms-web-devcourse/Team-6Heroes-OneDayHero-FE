@@ -24,6 +24,7 @@ const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
           alt="썸네일"
           width={150}
           className="pointer-events-none mr-3 rounded-full bg-neutral-200"
+          priority
         />
         <div className="flex grow flex-col justify-evenly text-base">
           <h3 className="font-semibold text-primary-darken">시민</h3>
