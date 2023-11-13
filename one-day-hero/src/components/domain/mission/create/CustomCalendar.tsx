@@ -6,7 +6,7 @@ import { ForwardedRef, forwardRef, useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import { BiCalendar } from "react-icons/bi";
 
-import Input from "./Input";
+import Input from "@/components/common/Input";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];

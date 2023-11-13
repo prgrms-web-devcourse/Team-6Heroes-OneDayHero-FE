@@ -3,9 +3,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import authOptions from "@/app/api/auth/[...nextauth]/authOptions";
+import ErrorPage from "@/app/error";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressContainer from "@/components/common/MissionProgressContainer";
-import { getOngoingMissionList } from "@/services/missions";
+import { useGetOngoingMissionListFetch } from "@/services/missions";
 import { MissionResponse } from "@/types/response";
 
 const OngoingMissionPage = async () => {
@@ -15,7 +16,11 @@ const OngoingMissionPage = async () => {
     redirect("/api/auth/signin?callbackUrl=/mission/list/ongoing");
   }
 
-  const { data } = await getOngoingMissionList();
+  const { isError, response } = await useGetOngoingMissionListFetch();
+
+  if (isError || !response) return <ErrorPage />;
+
+  const { data } = response;
 
   return (
     <div className="mt-20 w-full max-w-screen-sm space-y-4">

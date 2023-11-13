@@ -2,14 +2,19 @@ import Image from "next/image";
 import { BiChevronRight } from "react-icons/bi";
 
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
+import ErrorPage from "@/app/error";
 import Button from "@/components/common/Button";
 import HeroScore from "@/components/common/HeroScore";
-import { getUser } from "@/services/users";
+import { useGetUserFetch } from "@/services/users";
 
 const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
+  const { isError, response } = await useGetUserFetch(parseInt(params.slug));
+
+  if (isError || !response) return <ErrorPage />;
+
   const {
     data: { basicInfo }
-  } = await getUser(parseInt(params.slug));
+  } = response;
 
   return (
     <>

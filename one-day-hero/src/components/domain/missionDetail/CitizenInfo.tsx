@@ -2,18 +2,23 @@ import Image from "next/image";
 import { BiChevronRight } from "react-icons/bi";
 
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
+import ErrorPage from "@/app/error";
 import Container from "@/components/common/Container";
 import HeroScore from "@/components/common/HeroScore";
-import { getUser } from "@/services/users";
+import { useGetUserFetch } from "@/services/users";
 
 interface CitizenInfoProps extends React.ComponentProps<"div"> {
   citizenId: number;
 }
 
 const CitizenInfo = async ({ citizenId, className }: CitizenInfoProps) => {
+  const { isError, response } = await useGetUserFetch(citizenId);
+
+  if (isError || !response) return <ErrorPage />;
+
   const {
     data: { basicInfo }
-  } = await getUser(citizenId);
+  } = response;
 
   return (
     <Container className={`cs:w-full ${className}`}>

@@ -1,6 +1,6 @@
-import { revalidateTag } from "next/cache";
 import { BiChevronRight, BiEdit, BiMap } from "react-icons/bi";
 
+import ErrorPage from "@/app/error";
 import BookmarkButton from "@/components/common/BookmarkButton";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
@@ -9,12 +9,16 @@ import MissionInfo from "@/components/common/Info/MissionInfo";
 import Label from "@/components/common/Label";
 import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
 import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendList";
-import { getMission } from "@/services/missions";
+import { useGetMissionFetch } from "@/services/missions";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
+  /**@note useSession 사용 예정 */
   const userId = parseInt(params.slug);
 
-  revalidateTag(`mission${params.slug}`);
+  const { isError, response } = await useGetMissionFetch("1");
+
+  if (isError || !response) return <ErrorPage />;
+
   const {
     data: {
       id,
@@ -25,7 +29,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
       bookmarkCount,
       isBookmarked
     }
-  } = await getMission("1");
+  } = response;
 
   const isOwner = userId === citizenId;
 

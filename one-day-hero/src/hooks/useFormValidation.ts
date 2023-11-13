@@ -1,6 +1,7 @@
 import { FORM_ERROR_MESSAGES } from "@/constants/errorMessage";
 
 export type MissionInfoProps = {
+  title: string;
   content: string;
   missionDate: string;
   startTime: string;
@@ -19,15 +20,23 @@ export type FormRequest = {
 };
 
 const useFormValidation = () => {
-  const formValidation = (data: FormRequest) => {
+  const missionCreateValidation = (data: FormRequest) => {
     const errors: FormErrors = {};
+
     const {
       categoryId,
-      missionInfo: { missionDate, startTime, endTime, price, content }
+      missionInfo: { title, missionDate, startTime, endTime, price, content }
     } = data;
 
     if (!categoryId) {
       errors.categoryId = FORM_ERROR_MESSAGES.CHECK_EMPTY_CATEGORY;
+    }
+
+    if (!title || title.trim().length <= 0) {
+      errors.missionInfo = {
+        ...errors.missionInfo,
+        title: FORM_ERROR_MESSAGES.CHECK_EMPTY_TITLE
+      };
     }
 
     if (!missionDate || missionDate.length <= 0) {
@@ -62,7 +71,7 @@ const useFormValidation = () => {
     return errors;
   };
 
-  return { formValidation };
+  return { missionCreateValidation };
 };
 
 export default useFormValidation;

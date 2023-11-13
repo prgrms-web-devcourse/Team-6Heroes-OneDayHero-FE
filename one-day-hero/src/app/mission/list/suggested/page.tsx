@@ -1,13 +1,18 @@
 import Link from "next/link";
 
+import ErrorPage from "@/app/error";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
-import { getSuggestedMissionList } from "@/services/missions";
+import { useGetSuggestedMissionListFetch } from "@/services/missions";
 import { MissionResponse } from "@/types/response";
 
 const SuggestedMissionPage = async () => {
-  const { data } = await getSuggestedMissionList();
+  const { isError, response } = await useGetSuggestedMissionListFetch();
+
+  if (isError || !response) return <ErrorPage />;
+
+  const { data } = response;
 
   return (
     <div className="mt-20 flex w-full max-w-screen-sm flex-col items-center justify-center space-y-4">
