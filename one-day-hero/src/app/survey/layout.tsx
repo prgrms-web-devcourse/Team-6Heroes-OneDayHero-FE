@@ -1,6 +1,6 @@
 import Header from "@/components/common/Header";
 
-const UserInfoLayout = ({ children }: { children: React.ReactNode }) => {
+const SurveyLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header left="back">프로필 작성</Header>
@@ -9,4 +9,4 @@ const UserInfoLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default UserInfoLayout;
+export default SurveyLayout;
