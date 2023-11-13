@@ -50,6 +50,7 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
         <StarRating onSelect={handleScoreSelect} />
       </Container>
       <div className="w-full">
+        <InputLabel className="cs:text-lg">미션 후기를 남겨주세요.</InputLabel>
         <Textarea
           ref={reviewRef}
           className="cs:w-full cs:h-40 cs:shadow-down cs:border-0"
