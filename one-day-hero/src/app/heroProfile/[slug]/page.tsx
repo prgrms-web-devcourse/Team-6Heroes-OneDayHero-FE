@@ -3,6 +3,7 @@ import { BiChevronRight } from "react-icons/bi";
 
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 import ErrorPage from "@/app/error";
+import { calculateAge, parseGender } from "@/app/utils/formatProfile";
 import Button from "@/components/common/Button";
 import FavoriteDateList from "@/components/common/FavoriteDateList";
 import HeroScore from "@/components/common/HeroScore";
@@ -76,15 +77,6 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
       </Button>
     </>
   );
-};
-
-const calculateAge = (birth: string) => {
-  const diffms = Date.now() - new Date(birth).getTime();
-  return Math.abs(new Date(diffms).getUTCFullYear() - 1970);
-};
-
-const parseGender = (gender: string) => {
-  return gender === "MALE" ? "남" : "여";
 };
 
 export default HeroProfilePage;
