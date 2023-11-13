@@ -2,7 +2,6 @@
 
 import { FormEvent, useRef, useState } from "react";
 
-import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import InputLabel from "@/components/common/InputLabel";
 import Textarea from "@/components/common/Textarea";
@@ -41,6 +40,7 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
 
   return (
     <form
+      id="createReview"
       className="flex w-full flex-col items-center gap-5"
       onSubmit={handleSubmit}>
       <Container className="cs:w-full cs:py-8 cs:m-0 flex flex-col items-center gap-8 text-center">
@@ -61,7 +61,6 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
         </InputLabel>
         <UploadImage onFileSelect={handleFileSelect} />
       </div>
-      <Button type="submit">제출하기</Button>
     </form>
   );
 };
