@@ -74,26 +74,28 @@ const Category = ({
   }, [categoryActiveState, onSelect]);
 
   return (
-    <HorizontalScroll>
-      <ul className={`${containerStyle}`}>
-        {CATEGORY_LIST.map((category) => (
-          <div
-            key={category.id}
-            className={`${itemStyle} ${
-              categoryActiveState[category.id - 1] && "cs:bg-primary"
-            }`}
-            onClick={() => handleClick(category.id)}>
-            <IconGroup
-              title={category.title}
-              textSize="xs"
-              className="cs:text-3xl">
-              {category.icon}
-            </IconGroup>
-          </div>
-        ))}
-      </ul>
+    <div className="flex flex-col">
+      <HorizontalScroll>
+        <ul className={`${containerStyle}`}>
+          {CATEGORY_LIST.map((category) => (
+            <div
+              key={category.id}
+              className={`${itemStyle} ${
+                categoryActiveState[category.id - 1] && "cs:bg-primary"
+              }`}
+              onClick={() => handleClick(category.id)}>
+              <IconGroup
+                title={category.title}
+                textSize="xs"
+                className="cs:text-3xl">
+                {category.icon}
+              </IconGroup>
+            </div>
+          ))}
+        </ul>
+      </HorizontalScroll>
       {error && <ErrorMessage>{error}</ErrorMessage>}
-    </HorizontalScroll>
+    </div>
   );
 };
 
