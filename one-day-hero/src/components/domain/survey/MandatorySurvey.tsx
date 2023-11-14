@@ -26,7 +26,11 @@ const MandatorySurvey = () => {
     resolver: zodResolver(MandatorySurveySchema)
   });
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
+    if (errors) {
+      router.push("/survey/mandatory");
+    }
+
     router.push("/survey/optional");
   };
 
