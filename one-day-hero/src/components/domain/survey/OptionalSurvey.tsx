@@ -12,7 +12,9 @@ import Label from "@/components/common/Label";
 import Select from "@/components/common/Select";
 
 const OptionalSurvey = () => {
-  const hours = Array.from({ length: 24 }, (_, index) => index);
+  const hours = Array.from({ length: 24 }, (_, index) =>
+    index < 10 ? "0" + index : index
+  );
 
   return (
     <>
