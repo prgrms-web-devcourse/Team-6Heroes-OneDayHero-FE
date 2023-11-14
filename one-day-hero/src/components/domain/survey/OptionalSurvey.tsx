@@ -18,7 +18,7 @@ const OptionalSurvey = () => {
 
   return (
     <>
-      <form className="flex w-full max-w-screen-sm flex-col space-y-12">
+      <form className="flex w-full max-w-screen-sm flex-col gap-12">
         <div>
           <InputLabel className="cs:text-xl cs:ml-1 cs:mb-1">
             희망 근무일
