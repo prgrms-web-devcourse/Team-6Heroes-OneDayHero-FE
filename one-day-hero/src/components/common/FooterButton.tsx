@@ -1,13 +1,16 @@
 import { PropsWithChildren } from "react";
 
 import Button from "./Button";
+import LinkButton from "./LinkButton";
 
 type FooterButtonProps = {
   formId?: string;
+  href?: string;
 };
 
 const FooterButton = ({
   formId,
+  href,
   children
 }: PropsWithChildren<FooterButtonProps>) => {
   const defaultStyle =
@@ -15,9 +18,15 @@ const FooterButton = ({
 
   return (
     <div className={`${defaultStyle}`}>
-      <Button className="cs:h-11" type="submit" form={formId}>
-        {children}
-      </Button>
+      {href === undefined ? (
+        <Button className="cs:h-11" type="submit" form={formId}>
+          {children}
+        </Button>
+      ) : (
+        <LinkButton className="cs:h-11" href={href}>
+          {children}
+        </LinkButton>
+      )}
     </div>
   );
 };

@@ -54,6 +54,59 @@ export type SuggestedMissionListResponse = {
   serverDateTime: string;
 };
 
+export type MatchingMissionListResponse = {
+  status: number;
+  data: {
+    userId: number;
+    missionResponses: {
+      content: {
+        missionId: number;
+        missionBookmarkId: number;
+        isAlive: boolean;
+        missionInfo: {
+          title: string;
+          categoryName: string;
+          bookmarkCount: number;
+          price: number;
+          missionDate: string;
+          startTime: string;
+          endTime: string;
+        };
+        region: {
+          id: number;
+          si: string;
+          gu: string;
+          dong: string;
+        };
+      }[];
+      pageable: {
+        pageNumber: number;
+        pageSize: number;
+        sort: {
+          empty: boolean;
+          sorted: boolean;
+          unsorted: boolean;
+        };
+        offset: number;
+        paged: boolean;
+        unpaged: boolean;
+      };
+      size: number;
+      number: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      first: boolean;
+      last: boolean;
+      numberOfElements: number;
+      empty: boolean;
+    };
+  };
+  serverDateTime: string;
+};
+
 export type BookmarkResponse = {
   status: number;
   data: {

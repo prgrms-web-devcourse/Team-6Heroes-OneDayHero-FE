@@ -1,50 +1,65 @@
-import Link from "next/link";
-
 import ErrorPage from "@/app/error";
-import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
-import { useGetOngoingMissionListFetch } from "@/services/missions";
-import { MissionResponse } from "@/types/response";
+import { useGetMatchingMissionListFetch } from "@/services/missions";
 
 const MissionSuggestPage = async () => {
-  const { isError, response } = await useGetOngoingMissionListFetch();
+  /**@note TODO: getSessionID 사용하기 */
+  const userId = 123;
+
+  const { isError, response } = await useGetMatchingMissionListFetch(userId);
 
   if (isError || !response) return <ErrorPage />;
 
-  const { data } = response;
+  const {
+    data: {
+      missionResponses: { content }
+    }
+  } = response;
 
   return (
-    <div className="mt-20 flex w-full max-w-screen-sm flex-col items-center justify-center space-y-4">
-      {data &&
-        data.map((item: MissionResponse["data"]) => (
-          <Link
-            href={`/mission/${item.id}`}
-            className="flex w-full max-w-screen-sm justify-center"
-            key={item.id}>
-            <Container
-              className="cs:w-11/12"
-              missionStatus={item.missionStatus}>
-              <MissionFullInfo data={item} />
-              <div className="flex justify-center gap-1">
-                <Button
-                  theme="cancel"
-                  size="sm"
-                  textSize="sm"
-                  className="cs:h-10">
-                  거절하기
-                </Button>
-                <Button
-                  theme="primary"
-                  size="sm"
-                  textSize="sm"
-                  className="cs:h-10">
-                  채팅하기
-                </Button>
-              </div>
-            </Container>
-          </Link>
-        ))}
+    <div className="flex w-full max-w-screen-sm flex-col items-center justify-center space-y-4">
+      {content.map((item) => (
+        <Container key={item.missionId} className="cs:w-11/12">
+          <MissionFullInfo
+            data={{
+              id: 1,
+              missionCategory: {
+                id: 1,
+                code: "MC_001",
+                name: "서빙"
+              },
+              citizenId: 15,
+              region: {
+                id: 1,
+                si: "서울시",
+                gu: "마포구",
+                dong: "동교동"
+              },
+              location: {
+                x: 1234252.23,
+                y: 1234252.23
+              },
+              missionInfo: {
+                title: "더미 데이터 제목입니다.",
+                content: "내용1",
+                missionDate: "2023-12-4",
+                startTime: "10:00",
+                endTime: "10:30",
+                deadlineTime: "10:00",
+                price: 10000
+              },
+              bookmarkCount: 5,
+              isBookmarked: true,
+              missionStatus: "MATCHING_COMPLETED",
+              missionImage: {
+                originalName: "xxx.jpeg",
+                path: "~~~~"
+              }
+            }}
+          />
+        </Container>
+      ))}
     </div>
   );
 };

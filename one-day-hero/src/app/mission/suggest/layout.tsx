@@ -8,7 +8,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     <>
       <Header>미션 목록</Header>
       {children}
-      <FooterButton>미션 제안하기</FooterButton>
+      <FooterButton formId="suggest">미션 제안하기</FooterButton>
     </>
   );
 };

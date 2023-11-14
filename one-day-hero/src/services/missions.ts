@@ -2,6 +2,7 @@ import { revalidatePath } from "next/cache";
 
 import {
   BookmarkResponse,
+  MatchingMissionListResponse,
   MissionResponse,
   OngoingMissionListResponse,
   SuggestedMissionListResponse
@@ -58,5 +59,11 @@ export const useGetOngoingMissionListFetch = () => {
 export const useGetSuggestedMissionListFetch = () => {
   return useFetch<SuggestedMissionListResponse>(`/missions/list/suggested`, {
     next: { tags: [`suggested`] }
+  });
+};
+
+export const useGetMatchingMissionListFetch = (userId: number) => {
+  return useFetch<MatchingMissionListResponse>(`/missions/matching/${userId}`, {
+    next: { tags: [`matching`] }
   });
 };
