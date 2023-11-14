@@ -8,8 +8,7 @@ import {
   useRef,
   useState
 } from "react";
-import { BiCamera } from "react-icons/bi";
-import { HiOutlineTrash } from "react-icons/hi";
+import { BiCamera, BiX } from "react-icons/bi";
 import { v4 as uuidv4 } from "uuid";
 
 import { ImageFileType } from "@/types";
@@ -63,21 +62,20 @@ const UploadImage = ({
         file
       }));
 
-      if (size === "md") {
-        if (
-          newFile.length > 3 ||
-          (selectedImages?.length ?? 0) + newFile.length > 3
-        ) {
-          alert("사진은 최대 3장입니다.");
-          return;
-        }
-
-        setSelectedImages((prev) =>
-          prev ? [...prev, ...newFile] : [...newFile]
-        );
-      } else {
-        setSelectedImages(newFile);
+      if (
+        size === "md" &&
+        (newFile.length > 3 ||
+          (selectedImages?.length ?? 0) + newFile.length > 3)
+      ) {
+        alert(`사진은 최대 3장입니다.`);
+        return;
       }
+
+      setSelectedImages(
+        size === "md"
+          ? (prev) => (prev ? [...prev, ...newFile] : [...newFile])
+          : newFile
+      );
     }
   };
 
@@ -116,7 +114,7 @@ const UploadImage = ({
               key={image.id}
               onClick={size === "lg" ? handleUpload : undefined}
               className={`${imageSizes[size]} shrink-0 overflow-hidden`}>
-              <HiOutlineTrash
+              <BiX
                 size={size === "lg" ? 30 : 20}
                 className="absolute right-[6px] top-[6px] z-10 text-black"
                 onClick={(e: MouseEvent) => handleDelete(image.id, e)}
