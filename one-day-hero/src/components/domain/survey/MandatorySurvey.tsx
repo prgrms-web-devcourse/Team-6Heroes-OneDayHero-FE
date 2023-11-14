@@ -27,7 +27,7 @@ const MandatorySurvey = () => {
   });
 
   const onSubmit = async () => {
-    errors! && router.push("/survey/optional");
+    router.push("/survey/optional");
   };
 
   const handleFileSelect = useCallback(
