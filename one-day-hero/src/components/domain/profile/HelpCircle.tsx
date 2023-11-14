@@ -26,7 +26,7 @@ const HelpCircle = ({
 
     const { height, width } = boxRef.current.getBoundingClientRect();
 
-    setEnoughBottomSpace(e.clientY + height <= window.innerHeight);
+    setEnoughBottomSpace(e.clientY + height + 30 <= window.innerHeight);
 
     if (e.clientX < width / 4) {
       setEnoughXSpace("LEFT");
@@ -58,8 +58,11 @@ const HelpCircle = ({
   const visibilityStyle = showMenu ? "" : "invisible";
 
   return (
-    <div className={`relative ${className}`}>
-      <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div
+      className={`relative ${className}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}>
+      <div>
         <FiHelpCircle size="18" className="text-neutral-400" />
       </div>
       <div
