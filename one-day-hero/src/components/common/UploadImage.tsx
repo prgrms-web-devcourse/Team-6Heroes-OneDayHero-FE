@@ -9,13 +9,16 @@ import {
   useState
 } from "react";
 import { BiCamera, BiX } from "react-icons/bi";
+import { v4 as uuidv4 } from "uuid";
+
+import { ImageFileType } from "@/types";
 
 import HorizontalScroll from "./HorizontalScroll";
 
 interface UploadImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   size?: "md" | "lg";
   // eslint-disable-next-line no-unused-vars
-  onFileSelect: (file: File[]) => void;
+  onFileSelect: (files: ImageFileType[]) => void;
 }
 
 const UploadImage = ({
@@ -24,7 +27,9 @@ const UploadImage = ({
   onFileSelect,
   ...props
 }: PropsWithChildren<UploadImageProps>) => {
-  const [selectedImages, setSelectedImages] = useState<File[] | null>(null);
+  const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
+    null
+  );
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const defaultStyle =
@@ -44,29 +49,33 @@ const UploadImage = ({
     inputRef?.current?.click();
   };
 
-  const handleDelete = (e: MouseEvent) => {
-    // 추후 구현 예정
+  const handleDelete = (id: string, e: MouseEvent) => {
     e.stopPropagation();
+    const newFile = selectedImages?.filter((image) => image.id !== id);
+    setSelectedImages(newFile ?? []);
   };
 
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      if (size === "md") {
-        if (
-          event.target.files.length > 3 ||
-          (selectedImages && selectedImages.length >= 3)
-        ) {
-          alert("사진은 최대 3장입니다.");
-          return;
-        }
-        const newFile = Array.from(event.target.files);
-        setSelectedImages((prev) =>
-          prev ? [...prev, ...newFile] : [...newFile]
-        );
-      } else {
-        const newFile = Array.from(event.target.files);
-        setSelectedImages(newFile);
+      const newFile = Array.from(event.target.files).map((file) => ({
+        id: uuidv4(),
+        file
+      }));
+
+      if (
+        size === "md" &&
+        (newFile.length > 3 ||
+          (selectedImages?.length ?? 0) + newFile.length > 3)
+      ) {
+        alert(`사진은 최대 3장입니다.`);
+        return;
       }
+
+      setSelectedImages(
+        size === "md"
+          ? (prev) => (prev ? [...prev, ...newFile] : [...newFile])
+          : newFile
+      );
     }
   };
 
@@ -95,22 +104,23 @@ const UploadImage = ({
           <div className="flex flex-col items-center justify-center">
             <BiCamera />
             {size === "md" && (
-              <p className="text-base">{selectedImages?.length ?? "0"} / 3</p>
+              <p className="text-base">{selectedImages?.length ?? 0} / 3</p>
             )}
           </div>
         </div>
         {selectedImages &&
           selectedImages.map((image) => (
             <div
-              key={image.name}
+              key={image.id}
               onClick={size === "lg" ? handleUpload : undefined}
               className={`${imageSizes[size]} shrink-0 overflow-hidden`}>
               <BiX
-                className="absolute right-3 top-3 z-10 flex text-black"
-                onClick={handleDelete}
+                size={size === "lg" ? 30 : 20}
+                className="absolute right-[6px] top-[6px] z-10 text-black"
+                onClick={(e: MouseEvent) => handleDelete(image.id, e)}
               />
               <Image
-                src={URL.createObjectURL(image)}
+                src={URL.createObjectURL(image.file)}
                 alt="올린 이미지"
                 fill
                 className="bg-cover"

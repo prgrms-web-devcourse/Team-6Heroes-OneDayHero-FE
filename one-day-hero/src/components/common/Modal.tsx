@@ -25,7 +25,7 @@ const Modal = ({ isOpen, onClose, children, ...props }: ModalProps) => {
       className="fixed left-0 top-0 z-[100] flex h-full w-full items-center justify-center bg-black bg-opacity-30"
       onClick={onClose}>
       <div
-        className="w-11/12 max-w-md rounded-md bg-background p-3 shadow-down"
+        className="w-11/12 max-w-md rounded-2xl bg-background p-3 shadow-down"
         onClick={(e) => e.stopPropagation()}
         {...props}>
         {children}
