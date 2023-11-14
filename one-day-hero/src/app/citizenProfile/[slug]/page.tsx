@@ -5,6 +5,8 @@ import ErrorPage from "@/app/error";
 import { calculateAge, parseGender } from "@/app/utils/formatProfile";
 import HeroScore from "@/components/common/HeroScore";
 import LinkButton from "@/components/common/LinkButton";
+import HelpCircle from "@/components/domain/profile/HelpCircle";
+import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetUserFetch } from "@/services/users";
 
 const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
@@ -35,7 +37,14 @@ const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
         </div>
       </div>
       <div className="mb-12 w-full">
-        <h2 className="mb-2 mt-5 text-xl font-semibold">히어로 지수</h2>
+        <div className="mb-2 mt-5 flex items-center">
+          <h2 className="text-xl font-semibold">히어로 지수</h2>
+          <HelpCircle className="cs:ml-2">
+            {HELP_MESSAGES.HERO_SCORE.split("\n").map((line) => (
+              <p key={line[0]}>{line}</p>
+            ))}
+          </HelpCircle>
+        </div>
         <HeroScore score={70} />
       </div>
       <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
