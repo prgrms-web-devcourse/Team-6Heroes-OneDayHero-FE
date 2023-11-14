@@ -1,12 +1,14 @@
 import Image from "next/image";
-import { BiChevronRight } from "react-icons/bi";
 
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 import ErrorPage from "@/app/error";
-import Button from "@/components/common/Button";
-import FavoriteDateList from "@/components/common/FavoriteDateList";
+import { calculateAge, parseGender } from "@/app/utils/formatProfile";
 import HeroScore from "@/components/common/HeroScore";
 import Label from "@/components/common/Label";
+import LinkButton from "@/components/common/LinkButton";
+import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
+import HelpCircle from "@/components/domain/profile/HelpCircle";
+import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetUserFetch } from "@/services/users";
 
 const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
@@ -26,6 +28,7 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
           alt="썸네일"
           width={150}
           className="pointer-events-none mr-3 rounded-full bg-neutral-200"
+          priority
         />
         <div className="flex grow flex-col justify-evenly text-base">
           <h3 className="font-semibold text-sub">히어로</h3>
@@ -36,11 +39,23 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
         </div>
       </div>
       <div className="w-full">
-        <h2 className="mb-2 mt-5 text-xl font-semibold">히어로 지수</h2>
+        <div className="mb-2 mt-5 flex items-center">
+          <h2 className="text-xl font-semibold">히어로 지수</h2>
+          <HelpCircle className="cs:ml-2">
+            {HELP_MESSAGES.HERO_SCORE.split("\n").map((line) => (
+              <p key={line[0]}>{line}</p>
+            ))}
+          </HelpCircle>
+        </div>
         <HeroScore score={70} />
       </div>
       <div className="w-full">
-        <h2 className="mb-2 mt-5 text-xl font-semibold">희망 근무일</h2>
+        <div className="mb-2 mt-5 flex items-center">
+          <h2 className="text-xl font-semibold">희망 근무일</h2>
+          <HelpCircle className="cs:ml-2">
+            {HELP_MESSAGES.FAVORITE_WORK_TIME}
+          </HelpCircle>
+        </div>
         <FavoriteDateList favoriteDate={favoriteWorkingDay.favoriteDate} />
       </div>
       <div className="w-full">
@@ -66,25 +81,14 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
           <p>식당 알바 6개월 경력</p>
         </div>
       </div>
-      <Button size="lg" className="cs:relative cs:mb-3 cs:w-full">
-        <BiChevronRight size="24" className="absolute right-3 top-4" />
+      <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
         리뷰
-      </Button>
-      <Button size="lg" className="cs:relative cs:w-full">
-        <BiChevronRight size="24" className="absolute right-3 top-4" />
+      </LinkButton>
+      <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
         미션 기록
-      </Button>
+      </LinkButton>
     </>
   );
-};
-
-const calculateAge = (birth: string) => {
-  const diffms = Date.now() - new Date(birth).getTime();
-  return Math.abs(new Date(diffms).getUTCFullYear() - 1970);
-};
-
-const parseGender = (gender: string) => {
-  return gender === "MALE" ? "남" : "여";
 };
 
 export default HeroProfilePage;

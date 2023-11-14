@@ -11,6 +11,7 @@ import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
 import { apiUrl } from "@/services/base";
+import { ImageFileType } from "@/types";
 
 import CustomCalendar from "./CustomCalendar";
 
@@ -18,7 +19,9 @@ const hours = Array.from({ length: 24 }, (_, index) => index);
 
 const CreateForm = () => {
   const [categoryId, setCategoryId] = useState<number>(0);
-  const [selectedImages, setSelectedImages] = useState<File[] | null>(null);
+  const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
+    null
+  );
   const [errors, setErrors] = useState<FormErrors | null>(null);
   const titleRef = useRef<HTMLInputElement | null>(null);
   const dateRef = useRef<HTMLInputElement | null>(null);
@@ -32,7 +35,7 @@ const CreateForm = () => {
     setCategoryId(id);
   };
 
-  const handleFileSelect = (files: File[]) => {
+  const handleFileSelect = (files: ImageFileType[]) => {
     setSelectedImages(files);
   };
 
