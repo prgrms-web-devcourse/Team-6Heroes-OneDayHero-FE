@@ -8,11 +8,14 @@ import Input from "@/components/common/Input";
 import InputLabel from "@/components/common/InputLabel";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
+import { ImageFileType } from "@/types";
 
 const MandatorySurvey = () => {
-  const [selectedImages, setSelectedImages] = useState<File[] | null>(null);
+  const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
+    null
+  );
 
-  const handleFileSelect = (files: File[]) => {
+  const handleFileSelect = (files: ImageFileType[]) => {
     setSelectedImages(files);
   };
 

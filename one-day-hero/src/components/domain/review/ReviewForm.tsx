@@ -6,6 +6,7 @@ import Container from "@/components/common/Container";
 import InputLabel from "@/components/common/InputLabel";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
+import { ImageFileType } from "@/types";
 
 import StarRating from "./StarRating";
 
@@ -16,14 +17,16 @@ type ReviewFormProps = {
 
 const ReviewForm = ({ editMode }: ReviewFormProps) => {
   const [score, setScore] = useState<number>(0);
-  const [selectedImages, setSelectedImages] = useState<File[] | null>(null);
+  const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
+    null
+  );
   const reviewRef = useRef<HTMLTextAreaElement | null>(null);
 
   const handleScoreSelect = (count: number) => {
     setScore(count);
   };
 
-  const handleFileSelect = (files: File[]) => {
+  const handleFileSelect = (files: ImageFileType[]) => {
     setSelectedImages(files);
   };
 
