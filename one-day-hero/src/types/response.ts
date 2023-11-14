@@ -67,18 +67,23 @@ export type BookmarkResponse = {
 export type UserResponse = {
   status: number;
   data: {
-    userId: number;
     basicInfo: {
       nickname: string;
       gender: string;
       birth: string;
       introduce: string;
     };
+    image: {
+      originalName: string;
+      uniqueName: string;
+      path: string;
+    };
     favoriteWorkingDay: {
       favoriteDate: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
       favoriteStartTime: string;
       favoriteEndTime: string;
     };
+    heroScore: number;
   };
   serverDateTime: string;
 };

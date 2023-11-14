@@ -1,8 +1,12 @@
 "use client";
 
+import { revalidateTag } from "next/cache";
+import { useRouter } from "next/navigation";
+
 import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
 import useModal from "@/hooks/useModal";
+import { useChangeCitizenFetch, useChangeHeroFetch } from "@/services/users";
 
 type HeroSwitchProps = {
   isHeroMode: boolean;
@@ -11,10 +15,32 @@ type HeroSwitchProps = {
 const HeroSwitch = ({ isHeroMode }: HeroSwitchProps) => {
   const { isOpen, onOpen, onClose } = useModal();
 
+  const router = useRouter();
+
+  const callback = () => {
+    onClose();
+
+    revalidateTag("user1");
+    router.refresh();
+  };
+
+  const failCallback = () => {
+    /**@note TODO: 토스트 같은거 띄우기 */
+  };
+
+  const { mutationalFetch: changeHero } = useChangeHeroFetch(
+    callback,
+    failCallback
+  );
+  const { mutationalFetch: changeCitizen } = useChangeCitizenFetch(
+    callback,
+    failCallback
+  );
+
   return (
     <>
       <div
-        className={`relative h-8 w-20 rounded-full ${
+        className={`relative h-8 w-20 cursor-pointer rounded-full ${
           isHeroMode ? "bg-sub-lightest" : "bg-neutral-200"
         }`}
         onClick={onOpen}>
@@ -43,7 +69,11 @@ const HeroSwitch = ({ isHeroMode }: HeroSwitchProps) => {
             onClick={onClose}>
             취소
           </Button>
-          <Button theme="primary" size="sm" className="cs:h-12 cs:w-4/12">
+          <Button
+            theme="primary"
+            size="sm"
+            className="cs:h-12 cs:w-4/12"
+            onClick={isHeroMode ? changeCitizen : changeHero}>
             확인
           </Button>
         </div>
