@@ -16,7 +16,8 @@ type CustomResponse<T> = {
 export const useFetch = async <T>(
   pathname: string,
   options?: RequestInit,
-  callback?: () => void
+  callback?: () => void,
+  errorCallback?: () => void
 ): Promise<CustomResponse<T>> => {
   try {
     const response = await fetch(apiUrl(pathname), options);
@@ -43,6 +44,8 @@ export const useFetch = async <T>(
       errorMessage: (err as Error)?.message
     };
 
+    errorCallback?.();
+
     return errorResponse;
   }
 };
@@ -50,9 +53,16 @@ export const useFetch = async <T>(
 export const useMutationalFetch = <T>(
   pathname: string,
   options: RequestInit,
-  callback?: () => void
+  callback?: () => void,
+  errorCallback?: () => void
 ) => {
   return {
-    mutationalFetch: (useFetch<T>).bind(null, pathname, options, callback)
+    mutationalFetch: (useFetch<T>).bind(
+      null,
+      pathname,
+      options,
+      callback,
+      errorCallback
+    )
   };
 };
