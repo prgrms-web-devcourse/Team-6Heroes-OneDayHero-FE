@@ -1,5 +1,7 @@
+import OptionalSurvey from "@/components/domain/survey/OptionalSurvey";
+
 const OptionalSurveyPage = () => {
-  return <div>OptionalSurveyPage</div>;
+  return <OptionalSurvey />;
 };
 
 export default OptionalSurveyPage;
