@@ -1,5 +1,3 @@
-import { revalidatePath } from "next/cache";
-
 import { UserResponse } from "@/types/response";
 
 import { useFetch, useMutationalFetch } from "./base";

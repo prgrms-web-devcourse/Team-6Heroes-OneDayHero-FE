@@ -7,6 +7,7 @@ import HeroScore from "@/components/common/HeroScore";
 import Label from "@/components/common/Label";
 import LinkButton from "@/components/common/LinkButton";
 import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
+import HelpCircle from "@/components/domain/profile/HelpCircle";
 import HeroSwitch from "@/components/domain/profile/HeroSwitch";
 import { useGetUserFetch } from "@/services/users";
 
@@ -38,9 +39,17 @@ const ProfilePage = async () => {
         </div>
       </div>
       <div className="mt-5 flex w-full items-center justify-between">
-        <h2 className="mb-2 text-xl font-semibold">히어로 전환</h2>
+        <div className="flex items-center">
+          <h2 className="text-xl font-semibold">히어로 전환</h2>
+          <HelpCircle className="cs:ml-2">
+            Import trace for requested module: ./src/services/users.ts
+            ./src/components/domain/profile/HeroSwitch.tsx ✓ Compiled in 214ms
+            (689 modules) ✓ Compiled in 292ms (689 modules) ✓ Compiled in 331ms
+          </HelpCircle>
+        </div>
         <HeroSwitch isHeroMode={false} />
       </div>
+
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">히어로 지수</h2>
         <HeroScore score={70} />
