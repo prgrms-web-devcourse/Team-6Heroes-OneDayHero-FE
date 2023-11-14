@@ -1,48 +1,99 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useCallback } from "react";
+import { useForm } from "react-hook-form";
 
 import Button from "@/components/common/Button";
-import Input from "@/components/common/Input";
 import InputLabel from "@/components/common/InputLabel";
-import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
-import { ImageFileType } from "@/types";
+import {
+  MandatorySurveySchema,
+  MandatorySurveySchemaProps
+} from "@/types/schema";
 
 const MandatorySurvey = () => {
-  const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
-    null
-  );
+  const router = useRouter();
 
-  const handleFileSelect = (files: ImageFileType[]) => {
-    setSelectedImages(files);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    clearErrors,
+    setValue
+  } = useForm<MandatorySurveySchemaProps>({
+    resolver: zodResolver(MandatorySurveySchema)
+  });
+
+  const onSubmit = () => {
+    if (errors) {
+      router.push("/survey/mandatory");
+    }
+
+    router.push("/survey/optional");
   };
+
+  const handleFileSelect = useCallback(
+    (file: File[]) => {
+      clearErrors("image");
+      setValue("image", file);
+    },
+    [clearErrors, setValue]
+  );
 
   return (
     <>
-      <form className="flex w-full max-w-screen-sm flex-col space-y-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mx-8 flex w-full max-w-screen-sm flex-col gap-7">
         <div>
-          <InputLabel className="cs:text-xl cs:ml-1" required>
+          <InputLabel className="cs:text-xl cs:ml-3" required>
             프로필 사진
           </InputLabel>
-          <UploadImage size="lg" onFileSelect={handleFileSelect} />
+          <UploadImage
+            {...register("image")}
+            size="lg"
+            onFileSelect={handleFileSelect}
+          />
+          {errors.image && (
+            <p className="text-red-500">{`${errors.image.message}`}</p>
+          )}
         </div>
+
         <div>
           <InputLabel className="cs:text-xl cs:ml-1 cs:mb-1" required>
             닉네임
           </InputLabel>
-          <Input />
+          <input
+            {...register("nickName")}
+            className="border-inactive focus:outline-primary placeholder:text-inactive h-11 w-full rounded-[10px] border p-4 pl-3"
+          />
+          {errors.nickName && (
+            <p className="text-red-500">{`${errors.nickName.message}`}</p>
+          )}
         </div>
+
         <div>
           <InputLabel className="cs:text-xl cs:ml-1 cs:mb-1" required>
             자기소개
           </InputLabel>
-          <Textarea className="cs:w-full cs:h-60 cs:max-w-screen-sm cs:mb-4" />
+          <textarea
+            {...register("introduction")}
+            className="border-inactive focus:outline-primary h-40 w-full max-w-screen-sm resize-none rounded-2xl border p-4"
+          />
+          {errors.introduction && (
+            <p className="text-red-500">{`${errors.introduction.message}`}</p>
+          )}
         </div>
-        <Link href="/survey/optional" className="flex justify-center">
-          <Button size="lg">다음</Button>
-        </Link>
+
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          className="cs:mt-24 cs:mx-auto"
+          size="lg">
+          다음
+        </Button>
       </form>
     </>
   );

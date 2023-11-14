@@ -21,7 +21,8 @@ const Input = forwardRef(
       readOnly,
       readOnlyValue,
       className,
-      error
+      error,
+      ...props
     }: InputProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
@@ -42,6 +43,7 @@ const Input = forwardRef(
           className={`${defaultStyle} ${className} ${
             error && "cs:border-red-500 border-2"
           }`}
+          {...props}
         />
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </div>
