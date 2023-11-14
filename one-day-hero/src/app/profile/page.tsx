@@ -9,6 +9,7 @@ import LinkButton from "@/components/common/LinkButton";
 import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
 import HelpCircle from "@/components/domain/profile/HelpCircle";
 import HeroSwitch from "@/components/domain/profile/HeroSwitch";
+import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetUserFetch } from "@/services/users";
 
 const ProfilePage = async () => {
@@ -42,20 +43,30 @@ const ProfilePage = async () => {
         <div className="flex items-center">
           <h2 className="text-xl font-semibold">히어로 전환</h2>
           <HelpCircle className="cs:ml-2">
-            Import trace for requested module: ./src/services/users.ts
-            ./src/components/domain/profile/HeroSwitch.tsx ✓ Compiled in 214ms
-            (689 modules) ✓ Compiled in 292ms (689 modules) ✓ Compiled in 331ms
+            {HELP_MESSAGES.HERO_MODE_CHANGE}
           </HelpCircle>
         </div>
         <HeroSwitch isHeroMode={false} />
       </div>
 
       <div className="w-full">
-        <h2 className="mb-2 mt-5 text-xl font-semibold">히어로 지수</h2>
+        <div className="mb-2 mt-5 flex items-center">
+          <h2 className="text-xl font-semibold">히어로 지수</h2>
+          <HelpCircle className="cs:ml-2">
+            {HELP_MESSAGES.HERO_SCORE.split("\n").map((line) => (
+              <p key={line[0]}>{line}</p>
+            ))}
+          </HelpCircle>
+        </div>
         <HeroScore score={70} />
       </div>
       <div className="w-full">
-        <h2 className="mb-2 mt-5 text-xl font-semibold">희망 근무일</h2>
+        <div className="mb-2 mt-5 flex items-center">
+          <h2 className="text-xl font-semibold">희망 근무일</h2>
+          <HelpCircle className="cs:ml-2">
+            {HELP_MESSAGES.FAVORITE_WORK_TIME}
+          </HelpCircle>
+        </div>
         <FavoriteDateList favoriteDate={favoriteWorkingDay.favoriteDate} />
       </div>
       <div className="w-full">

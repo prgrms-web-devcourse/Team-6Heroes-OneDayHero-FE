@@ -67,7 +67,7 @@ const HelpCircle = ({
       />
       <div
         ref={boxRef}
-        className={`absolute z-[60] w-48 break-words rounded-md bg-white p-3 shadow-down ${boxPositionYStyle} ${boxPositionXStyle[enoughXSpace]} ${visibilityStyle}`}>
+        className={`absolute z-[60] w-48 break-words rounded-md bg-white p-3 text-sm shadow-down ${boxPositionYStyle} ${boxPositionXStyle[enoughXSpace]} ${visibilityStyle}`}>
         {children}
       </div>
     </div>
