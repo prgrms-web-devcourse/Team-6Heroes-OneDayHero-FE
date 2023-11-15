@@ -1,6 +1,6 @@
-import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
 import authOptions from "@/app/api/auth/[...nextauth]/authOptions";
 import ErrorPage from "@/app/error";
@@ -10,11 +10,11 @@ import { useGetOngoingMissionListFetch } from "@/services/missions";
 import { MissionResponse } from "@/types/response";
 
 const OngoingMissionPage = async () => {
-  const session = await getServerSession(authOptions);
+  // const session = await getServerSession(authOptions);
 
-  if (!session) {
-    redirect("/api/auth/signin?callbackUrl=/mission/list/ongoing");
-  }
+  // if (!session) {
+  //   redirect("/api/auth/signin?callbackUrl=/mission/list/ongoing");
+  // }
 
   const { isError, response } = await useGetOngoingMissionListFetch();
 
