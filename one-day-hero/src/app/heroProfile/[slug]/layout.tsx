@@ -14,7 +14,7 @@ const HeroProfileLayout = ({
     <>
       <Header>히어로</Header>
       {children}
-      <FooterButton href={`/mission/suggest?heroId=${params.slug}`}>
+      <FooterButton href={`/mission/suggest/${params.slug}`}>
         미션 제안하기
       </FooterButton>
     </>
