@@ -4,10 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 
 import Button from "@/components/common/Button";
 import InputLabel from "@/components/common/InputLabel";
 import UploadImage from "@/components/common/UploadImage";
+import { ImageFileType } from "@/types";
 import {
   MandatorySurveySchema,
   MandatorySurveySchemaProps
@@ -35,9 +37,12 @@ const MandatorySurvey = () => {
   };
 
   const handleFileSelect = useCallback(
-    (file: File[]) => {
+    (file: ImageFileType[]) => {
       clearErrors("image");
-      setValue("image", file);
+      setValue("image", {
+        id: uuidv4(),
+        file
+      });
     },
     [clearErrors, setValue]
   );
@@ -48,7 +53,7 @@ const MandatorySurvey = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="mx-8 flex w-full max-w-screen-sm flex-col gap-7">
         <div>
-          <InputLabel className="cs:text-xl cs:ml-3" required>
+          <InputLabel className="cs:ml-3 cs:text-xl" required>
             프로필 사진
           </InputLabel>
           <UploadImage
@@ -62,12 +67,12 @@ const MandatorySurvey = () => {
         </div>
 
         <div>
-          <InputLabel className="cs:text-xl cs:ml-1 cs:mb-1" required>
+          <InputLabel className="cs:mb-1 cs:ml-1 cs:text-xl" required>
             닉네임
           </InputLabel>
           <input
             {...register("nickName")}
-            className="border-inactive focus:outline-primary placeholder:text-inactive h-11 w-full rounded-[10px] border p-4 pl-3"
+            className="h-11 w-full rounded-[10px] border border-inactive p-4 pl-3 placeholder:text-inactive focus:outline-primary"
           />
           {errors.nickName && (
             <p className="text-red-500">{`${errors.nickName.message}`}</p>
@@ -75,12 +80,12 @@ const MandatorySurvey = () => {
         </div>
 
         <div>
-          <InputLabel className="cs:text-xl cs:ml-1 cs:mb-1" required>
+          <InputLabel className="cs:mb-1 cs:ml-1 cs:text-xl" required>
             자기소개
           </InputLabel>
           <textarea
             {...register("introduction")}
-            className="border-inactive focus:outline-primary h-40 w-full max-w-screen-sm resize-none rounded-2xl border p-4"
+            className="h-40 w-full max-w-screen-sm resize-none rounded-2xl border border-inactive p-4 focus:outline-primary"
           />
           {errors.introduction && (
             <p className="text-red-500">{`${errors.introduction.message}`}</p>
@@ -90,7 +95,7 @@ const MandatorySurvey = () => {
         <Button
           disabled={isSubmitting}
           type="submit"
-          className="cs:mt-24 cs:mx-auto"
+          className="cs:mx-auto cs:mt-24"
           size="lg">
           다음
         </Button>

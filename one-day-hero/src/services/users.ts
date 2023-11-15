@@ -1,3 +1,5 @@
+import { DeepPartial } from "@/types";
+import { UserEditRequest } from "@/types/request";
 import { UserResponse } from "@/types/response";
 
 import { useFetch, useMutationalFetch } from "./base";
@@ -30,6 +32,22 @@ export const useChangeCitizenFetch = (
     "/me/change-citizen",
     {
       method: "PATCH"
+    },
+    callback,
+    errorCallback
+  );
+};
+
+export const useEditProfileFetch = (
+  bodyData: DeepPartial<UserEditRequest>,
+  callback?: () => void,
+  errorCallback?: () => void
+) => {
+  return useMutationalFetch<UserResponse>(
+    "/me",
+    {
+      method: "PATCH",
+      body: JSON.stringify(bodyData)
     },
     callback,
     errorCallback

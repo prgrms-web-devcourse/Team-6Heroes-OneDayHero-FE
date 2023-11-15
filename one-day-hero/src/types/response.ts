@@ -1,3 +1,5 @@
+import { DateType } from ".";
+
 export type MissionResponse = {
   status: number;
   data: {
@@ -64,15 +66,6 @@ export type BookmarkResponse = {
   serverDateTime: string;
 };
 
-export type DateResponse =
-  | "MON"
-  | "TUE"
-  | "WED"
-  | "THU"
-  | "FRI"
-  | "SAT"
-  | "SUN";
-
 export type UserResponse = {
   status: number;
   data: {
@@ -88,7 +81,7 @@ export type UserResponse = {
       path: string;
     };
     favoriteWorkingDay: {
-      favoriteDate: DateResponse[];
+      favoriteDate: DateType[];
       favoriteStartTime: string;
       favoriteEndTime: string;
     };
@@ -109,7 +102,7 @@ export type UserSummaryResponse = {
       introduce: string;
     };
     favoriteWorkingDay: {
-      favoriteDate: DateResponse[];
+      favoriteDate: DateType[];
       favoriteStartTime: string;
       favoriteEndTime: string;
     };
