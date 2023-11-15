@@ -1,14 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { revalidateTag } from "next/cache";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
 import Button from "@/components/common/Button";
 import InputLabel from "@/components/common/InputLabel";
 import UploadImage from "@/components/common/UploadImage";
+import { useEditProfileFetch } from "@/services/users";
 import { ImageFileType } from "@/types";
 import {
   MandatorySurveySchema,
@@ -28,12 +30,24 @@ const MandatorySurvey = () => {
     resolver: zodResolver(MandatorySurveySchema)
   });
 
-  const onSubmit = () => {
-    if (errors) {
-      router.push("/survey/mandatory");
-    }
+  const { mutationalFetch } = useEditProfileFetch();
 
-    router.push("/survey/optional");
+  const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = (data) => {
+    mutationalFetch(
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          basicInfo: {
+            nickname: data.nickName,
+            introduce: data.introduction
+          }
+        })
+      },
+      () => {
+        revalidateTag(`user${123}`);
+        router.push("/servey/optional");
+      }
+    );
   };
 
   const handleFileSelect = useCallback(

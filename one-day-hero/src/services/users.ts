@@ -1,8 +1,7 @@
-import { DeepPartial } from "@/types";
-import { UserEditRequest } from "@/types/request";
+/* eslint-disable no-unused-vars */
 import { UserResponse } from "@/types/response";
 
-import { useFetch, useMutationalFetch } from "./base";
+import { CustomResponse, useFetch, useMutationalFetch } from "./base";
 
 export const useGetUserFetch = (userId: number) => {
   return useFetch<UserResponse>(`/users/${userId}`, {
@@ -11,45 +10,39 @@ export const useGetUserFetch = (userId: number) => {
 };
 
 export const useChangeHeroFetch = (
-  callback?: () => void,
-  errorCallback?: () => void
+  onSuccess?: () => void,
+  onError?: () => void
 ) => {
   return useMutationalFetch<UserResponse>(
     "/me/change-hero",
     {
       method: "PATCH"
     },
-    callback,
-    errorCallback
+    onSuccess,
+    onError
   );
 };
 
 export const useChangeCitizenFetch = (
-  callback?: () => void,
-  errorCallback?: () => void
+  onSuccess?: () => void,
+  onError?: () => void
 ) => {
   return useMutationalFetch<UserResponse>(
     "/me/change-citizen",
     {
       method: "PATCH"
     },
-    callback,
-    errorCallback
+    onSuccess,
+    onError
   );
 };
 
-export const useEditProfileFetch = (
-  bodyData: DeepPartial<UserEditRequest>,
-  callback?: () => void,
-  errorCallback?: () => void
-) => {
-  return useMutationalFetch<UserResponse>(
-    "/me",
-    {
-      method: "PATCH",
-      body: JSON.stringify(bodyData)
-    },
-    callback,
-    errorCallback
-  );
+export const useEditProfileFetch = () => {
+  return useMutationalFetch<UserResponse>("/me") as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: () => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<UserResponse>>;
+  };
 };
