@@ -64,6 +64,15 @@ export type BookmarkResponse = {
   serverDateTime: string;
 };
 
+export type DateResponse =
+  | "MON"
+  | "TUE"
+  | "WED"
+  | "THU"
+  | "FRI"
+  | "SAT"
+  | "SUN";
+
 export type UserResponse = {
   status: number;
   data: {
@@ -79,11 +88,31 @@ export type UserResponse = {
       path: string;
     };
     favoriteWorkingDay: {
-      favoriteDate: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
+      favoriteDate: DateResponse[];
       favoriteStartTime: string;
       favoriteEndTime: string;
     };
     heroScore: number;
+    isHeroMode: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type UserSummaryResponse = {
+  status: number;
+  data: {
+    id: number;
+    basicInfo: {
+      nickname: string;
+      gender: string;
+      birth: string;
+      introduce: string;
+    };
+    favoriteWorkingDay: {
+      favoriteDate: DateResponse[];
+      favoriteStartTime: string;
+      favoriteEndTime: string;
+    };
   };
   serverDateTime: string;
 };
