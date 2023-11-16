@@ -8,7 +8,12 @@ import {
   SuggestedMissionListResponse
 } from "@/types/response";
 
-import { useFetch, useInfiniteFetch, useMutationalFetch } from "./base";
+import {
+  CustomResponse,
+  useFetch,
+  useInfiniteFetch,
+  useMutationalFetch
+} from "./base";
 
 export const useGetMissionFetch = (missionId: string) => {
   return useFetch<MissionResponse>(`/missions/${missionId}`, {
@@ -20,6 +25,16 @@ export const useGetCompletedMissionFetch = () => {
   return useFetch<SuggestedMissionListResponse>(`/missions/record`, {
     next: { tags: ["record"] }
   });
+};
+
+export const useCreateMissionFetch = () => {
+  return useMutationalFetch<MissionResponse>("/missions") as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: () => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<MissionResponse>>;
+  };
 };
 
 export const usePostBookmarkFetch = (missionId: number, userId: number) => {
