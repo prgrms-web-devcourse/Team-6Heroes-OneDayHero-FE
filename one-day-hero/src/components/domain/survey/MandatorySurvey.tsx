@@ -2,18 +2,19 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
 import Button from "@/components/common/Button";
 import InputLabel from "@/components/common/InputLabel";
 import UploadImage from "@/components/common/UploadImage";
+import { ImageFileType } from "@/types";
 import {
   MandatorySurveySchema,
   MandatorySurveySchemaProps
 } from "@/types/schema";
 
-const MandatorySurvey = () => {
+const MandatorySurvey = React.forwardRef(() => {
   const router = useRouter();
 
   const {
@@ -35,7 +36,7 @@ const MandatorySurvey = () => {
   };
 
   const handleFileSelect = useCallback(
-    (file: File[]) => {
+    (file: ImageFileType[]) => {
       clearErrors("image");
       setValue("image", file);
     },
@@ -97,6 +98,8 @@ const MandatorySurvey = () => {
       </form>
     </>
   );
-};
+});
+
+MandatorySurvey.displayName = "MandatorySurvey";
 
 export default MandatorySurvey;
