@@ -1,6 +1,7 @@
 "use client";
 
 import { ForwardedRef, forwardRef, PropsWithChildren } from "react";
+import { FieldValues, UseFormSetValue } from "react-hook-form";
 
 import useForm from "@/hooks/useForm";
 
@@ -9,11 +10,19 @@ import ErrorMessage from "./ErrorMessage";
 interface SelectProps extends React.ComponentProps<"select"> {
   className?: string;
   error?: string;
+  setValue?: UseFormSetValue<FieldValues>;
 }
 
 const Select = forwardRef(
   (
-    { id, className, children, error }: PropsWithChildren<SelectProps>,
+    {
+      id,
+      className,
+      setValue,
+      children,
+      error,
+      ...props
+    }: PropsWithChildren<SelectProps>,
     ref: ForwardedRef<HTMLSelectElement>
   ) => {
     const { handleChange } = useForm("");
@@ -29,7 +38,9 @@ const Select = forwardRef(
           onChange={handleChange}
           className={`${defaultStyle} ${className} ${
             error && "border-2 border-red-500"
-          }`}>
+          }`}
+          {...props}>
+          <option value="">선택</option>
           {children}
         </select>
         {error && <ErrorMessage>{error}</ErrorMessage>}
