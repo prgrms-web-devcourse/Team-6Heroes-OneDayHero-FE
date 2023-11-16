@@ -45,7 +45,7 @@ export type MissionResponse = {
 export type ProgressMissionListResponse = {
   status: number;
   data: {
-    missionProgressResponses: {
+    response: {
       content: {
         id: number;
         title: string;
@@ -56,7 +56,11 @@ export type ProgressMissionListResponse = {
         };
         missionDate: string;
         bookmarkCount: number;
-        missionStatus: string;
+        missionStatus:
+          | "MATCHING"
+          | "MATCHING_COMPLETED"
+          | "MISSION_COMPLETED"
+          | "EXPIRED";
       }[];
       pageable: {
         pageNumber: number;

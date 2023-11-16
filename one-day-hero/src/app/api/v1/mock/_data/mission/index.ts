@@ -47,10 +47,34 @@ export const missionDetail: MissionResponse = {
 export const progessMissionList: ProgressMissionListResponse = {
   status: 200,
   data: {
-    missionProgressResponses: {
+    response: {
       content: [
         {
           id: 1,
+          title: "제목",
+          missionCategory: {
+            id: 1,
+            code: "MC_001",
+            name: "서빙"
+          },
+          missionDate: "2023-11-06",
+          bookmarkCount: 1,
+          missionStatus: "MATCHING"
+        },
+        {
+          id: 2,
+          title: "제목",
+          missionCategory: {
+            id: 1,
+            code: "MC_001",
+            name: "서빙"
+          },
+          missionDate: "2023-11-06",
+          bookmarkCount: 1,
+          missionStatus: "MATCHING"
+        },
+        {
+          id: 3,
           title: "제목",
           missionCategory: {
             id: 1,

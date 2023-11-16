@@ -4,10 +4,11 @@ import {
   BookmarkResponse,
   MissionResponse,
   OngoingMissionListResponse,
+  ProgressMissionListResponse,
   SuggestedMissionListResponse
 } from "@/types/response";
 
-import { useFetch, useMutationalFetch } from "./base";
+import { useFetch, useInfiniteFetch, useMutationalFetch } from "./base";
 
 export const useGetMissionFetch = (missionId: string) => {
   return useFetch<MissionResponse>(`/missions/${missionId}`, {
@@ -59,4 +60,14 @@ export const useGetSuggestedMissionListFetch = () => {
   return useFetch<SuggestedMissionListResponse>(`/missions/list/suggested`, {
     next: { tags: [`suggested`] }
   });
+};
+
+export const useGetProgressMissionListFetch = (userId: string) => {
+  return useInfiniteFetch<ProgressMissionListResponse>(
+    `/missions/progress/${userId}`,
+    3,
+    {
+      next: { tags: [`progress${userId}`] }
+    }
+  );
 };
