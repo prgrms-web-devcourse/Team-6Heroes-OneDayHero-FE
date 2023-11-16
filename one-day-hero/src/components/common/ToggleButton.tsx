@@ -1,16 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { PropsWithChildren, useCallback, useState } from "react";
+import {
+  FieldValues,
+  UseFormGetValues,
+  UseFormSetValue
+} from "react-hook-form";
+
+type ToggleButtonProps = {
+  className?: "";
+  selectedDate: string;
+  setValue: UseFormSetValue<FieldValues>;
+  getValues: UseFormGetValues<FieldValues>;
+};
 
 const ToggleButton = ({
   children,
-  className
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+  className,
+  setValue,
+  getValues,
+  selectedDate,
+  ...props
+}: PropsWithChildren<ToggleButtonProps>) => {
   const [clicked, setClicked] = useState<boolean>(false);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = useCallback(() => {
+    const setArray = () => {
+      const prevArray = getValues("favoriteWorkingDay.favoriteDate") || [];
+
+      const updatedArray = prevArray.includes(selectedDate)
+        ? prevArray.filter((day: string) => day !== selectedDate)
+        : [...prevArray, selectedDate];
+
+      return updatedArray;
+    };
+
+    const test = setArray();
+
+    setValue("favoriteWorkingDay.favoriteDate", test);
+
     setClicked(!clicked);
-  };
+  }, [setValue, clicked, getValues, selectedDate]);
 
   const defaultStyle = "w-11 h-11 text-base text-black rounded-lg border";
 
@@ -18,11 +48,12 @@ const ToggleButton = ({
     <button
       className={`${defaultStyle} ${
         clicked
-          ? "border-4 border-primary bg-primary-lightest"
+          ? "border-primary bg-primary-lightest border-4"
           : "border-background-darken bg-white"
       } ${className}`}
-      onClick={handleButtonClick}>
-      {children}
+      onClick={handleButtonClick}
+      {...props}>
+      {selectedDate}
     </button>
   );
 };
