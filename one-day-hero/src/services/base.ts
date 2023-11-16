@@ -3,7 +3,7 @@ const makeUrl = (baseUrl: string) => (path: string) => baseUrl + path;
 const apiBaseUrl =
   process.env.NEXT_PUBLIC_API_MOCKING === "enabled"
     ? `${process.env.NEXT_PUBLIC_FE_URL}/api/v1/mock`
-    : `/api/v1`;
+    : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1`;
 
 export const apiUrl = makeUrl(apiBaseUrl);
 
@@ -74,7 +74,7 @@ export const useMutationalFetch = <T>(
 };
 
 export const useInfiniteFetch = async <
-  T extends { data: { response: { content: any[]; last: boolean } } }
+  T extends { data: { content: any[]; last: boolean } }
 >(
   pathname: string,
   size: number,
@@ -83,7 +83,7 @@ export const useInfiniteFetch = async <
   let page = 0;
 
   const returnMethods = {
-    data: <T["data"]["response"]["content"]>[],
+    data: <T["data"]["content"]>[],
     fetchNextPage: async () => {
       if (!returnMethods.hasNextPage) return { isError: true };
 
@@ -94,8 +94,8 @@ export const useInfiniteFetch = async <
       );
 
       if (!isError && response) {
-        returnMethods.data.push(...response.data.response.content);
-        returnMethods.hasNextPage = !response.data.response.last;
+        returnMethods.data.push(...response.data.content);
+        returnMethods.hasNextPage = !response.data.last;
         page += 1;
       }
 

@@ -13,7 +13,7 @@ import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetUserFetch } from "@/services/users";
 
 const ProfilePage = async () => {
-  const { isError, response } = await useGetUserFetch(123);
+  const { isError, response } = await useGetUserFetch(1);
 
   if (isError || !response) return <ErrorPage />;
 

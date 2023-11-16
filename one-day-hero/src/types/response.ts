@@ -45,47 +45,45 @@ export type MissionResponse = {
 export type ProgressMissionListResponse = {
   status: number;
   data: {
-    response: {
-      content: {
+    content: {
+      id: number;
+      title: string;
+      missionCategory: {
         id: number;
-        title: string;
-        missionCategory: {
-          id: number;
-          code: string;
-          name: string;
-        };
-        missionDate: string;
-        bookmarkCount: number;
-        missionStatus:
-          | "MATCHING"
-          | "MATCHING_COMPLETED"
-          | "MISSION_COMPLETED"
-          | "EXPIRED";
-      }[];
-      pageable: {
-        pageNumber: number;
-        pageSize: number;
-        sort: {
-          empty: boolean;
-          sorted: boolean;
-          unsorted: boolean;
-        };
-        offset: number;
-        paged: boolean;
-        unpaged: boolean;
+        code: string;
+        name: string;
       };
-      size: 4;
-      number: number;
+      missionDate: string;
+      bookmarkCount: number;
+      missionStatus:
+        | "MATCHING"
+        | "MATCHING_COMPLETED"
+        | "MISSION_COMPLETED"
+        | "EXPIRED";
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
       sort: {
         empty: boolean;
         sorted: boolean;
         unsorted: boolean;
       };
-      first: boolean;
-      last: boolean;
-      numberOfElements: number;
-      empty: boolean;
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
     };
+    size: 4;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    first: boolean;
+    last: boolean;
+    numberOfElements: number;
+    empty: boolean;
   };
   serverDateTime: string;
 };
