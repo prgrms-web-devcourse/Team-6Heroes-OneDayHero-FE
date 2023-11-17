@@ -153,3 +153,16 @@ export type UserSummaryResponse = {
   };
   serverDateTime: string;
 };
+
+type dong = {
+  regionId: number;
+  dong: string;
+};
+
+type gu = {
+  [key: string]: dong[] | undefined;
+};
+
+export type favoriteRegionsResponse = {
+  서울시: gu[];
+};

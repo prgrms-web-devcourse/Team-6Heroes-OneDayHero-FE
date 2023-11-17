@@ -131,7 +131,7 @@ const CreateForm = () => {
               ref={startRef}
               error={errors?.missionInfo?.startTime}>
               {hours.map((hour) => (
-                <option key={hour}>{hour}:00</option>
+                <option key={hour}>{String(hour).padStart(2, "0")}:00</option>
               ))}
             </Select>
             <span>~</span>
@@ -140,7 +140,7 @@ const CreateForm = () => {
               ref={endRef}
               error={errors?.missionInfo?.endTime}>
               {hours.map((hour) => (
-                <option key={hour}>{hour}:00</option>
+                <option key={hour}>{String(hour).padStart(2, "0")}:00</option>
               ))}
             </Select>
           </div>

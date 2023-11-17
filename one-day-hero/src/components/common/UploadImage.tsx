@@ -11,6 +11,7 @@ import {
 import { BiCamera, BiX } from "react-icons/bi";
 import { v4 as uuidv4 } from "uuid";
 
+import { useToast } from "@/contexts/ToastProvider";
 import { ImageFileType } from "@/types";
 
 import HorizontalScroll from "./HorizontalScroll";
@@ -31,6 +32,7 @@ const UploadImage = ({
     null
   );
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const { showToast } = useToast();
 
   const defaultStyle =
     "bg-inactive text-white flex justify-center items-center shrink-0";
@@ -55,9 +57,9 @@ const UploadImage = ({
     setSelectedImages(newFile ?? []);
   };
 
-  const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const newFile = Array.from(event.target.files).map((file) => ({
+  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newFile = Array.from(e.target.files).map((file) => ({
         id: uuidv4(),
         file
       }));
@@ -67,7 +69,8 @@ const UploadImage = ({
         (newFile.length > 3 ||
           (selectedImages?.length ?? 0) + newFile.length > 3)
       ) {
-        alert(`사진은 최대 3장입니다.`);
+        e.target.value = "";
+        showToast("최대 3개까지 선택 가능합니다.", "error");
         return;
       }
 

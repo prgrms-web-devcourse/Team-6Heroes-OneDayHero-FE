@@ -26,13 +26,10 @@ const CustomCalendar = forwardRef(
     const handleChangeDate = (selectedDate: Value) => {
       if (selectedDate === null) return;
       onChange(selectedDate);
-      const year = (selectedDate as Date).getFullYear();
-      const month = ((selectedDate as Date).getMonth() + 1)
-        .toString()
-        .padStart(2, "0");
-      const day = (selectedDate as Date).getDate().toString().padStart(2, "0");
-      const formatDate = `${year}-${month}-${day}`;
-      setInputValue(formatDate);
+
+      const formattedDate = (selectedDate as Date).toISOString().slice(0, 10);
+
+      setInputValue(formattedDate);
       setOpenState(false);
     };
 
