@@ -43,7 +43,7 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
 
   return (
     <form
-      id="createReview"
+      id={!editMode ? "createReview" : "editReview"}
       className="flex w-full flex-col items-center gap-5"
       onSubmit={handleSubmit}>
       <Container className="cs:w-full cs:py-8 cs:m-0 flex flex-col items-center gap-8 text-center">
