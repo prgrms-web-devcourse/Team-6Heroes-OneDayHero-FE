@@ -51,6 +51,16 @@ const config: Config = {
       screens: {
         cs: "0px"
       }
+    },
+    keyframes: {
+      "show-toast": {
+        "0%": { bottom: "8%" },
+        "70%": { bottom: "8%" },
+        "100%": { bottom: "0" }
+      }
+    },
+    animation: {
+      "show-toast": "show-toast 3s ease-in-out"
     }
   },
   plugins: []
