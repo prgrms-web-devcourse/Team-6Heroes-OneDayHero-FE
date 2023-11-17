@@ -18,7 +18,7 @@ const ReviewInfo = ({ data }: ReviewInfoProps) => {
     data;
 
   return (
-    <Container className="cs:flex cs:flex-col cs:w-full cs:gap-5 cs:p-5">
+    <Container className="cs:flex cs:flex-col cs:w-full cs:gap-5 cs:p-4">
       <div className="flex gap-3">
         <div className="bg-inactive h-[60px] w-[60px] rounded-full">
           <Image
