@@ -24,17 +24,13 @@ const CustomCalendar = forwardRef(
     const calendarRef = useRef<HTMLDivElement | null>(null);
 
     const handleChangeDate = (selectedDate: Value) => {
+      if (selectedDate === null) return;
+
       onChange(selectedDate);
-      const formatDate = new Date(selectedDate as Date).toLocaleDateString(
-        "ko-KR",
-        {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          weekday: "long"
-        }
-      );
-      setInputValue(formatDate);
+
+      const formattedDate = (selectedDate as Date).toISOString().slice(0, 10);
+
+      setInputValue(formattedDate);
       setOpenState(false);
     };
 
