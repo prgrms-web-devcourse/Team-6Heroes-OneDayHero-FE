@@ -25,7 +25,6 @@ const CustomCalendar = forwardRef(
 
     const handleChangeDate = (selectedDate: Value) => {
       if (selectedDate === null) return;
-
       onChange(selectedDate);
 
       const formattedDate = (selectedDate as Date).toISOString().slice(0, 10);

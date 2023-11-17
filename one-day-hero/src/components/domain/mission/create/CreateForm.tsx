@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 
 import Category from "@/components/common/Category";
@@ -11,7 +12,9 @@ import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
 import { apiUrl } from "@/services/base";
+import { useCreateMissionFetch } from "@/services/missions";
 import { ImageFileType } from "@/types";
+import { MissionCreateRequest } from "@/types/request";
 
 import CustomCalendar from "./CustomCalendar";
 
@@ -31,6 +34,10 @@ const CreateForm = () => {
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
   const { missionCreateValidation } = useFormValidation();
 
+  const { mutationalFetch } = useCreateMissionFetch();
+
+  const router = useRouter();
+
   const handleSelect = (id: number) => {
     setCategoryId(id);
   };
@@ -42,15 +49,20 @@ const CreateForm = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const data = {
+    const data: MissionCreateRequest = {
       missionCategoryId: categoryId,
+      citizenId: 123,
+      regionId: 123,
+      latitude: 13.123,
+      longitude: 123.123,
       missionInfo: {
         title: titleRef.current?.value ?? "",
         content: contentRef.current?.value ?? "",
         missionDate: dateRef.current?.value ?? "",
         startTime: startRef.current?.value ?? "",
         endTime: endRef.current?.value ?? "",
-        price: Number(priceRef.current?.value ?? 0)
+        deadlineTime: startRef.current?.value ?? "",
+        price: parseInt(priceRef.current?.value?.trim() ?? "0")
       }
     };
 
@@ -58,10 +70,12 @@ const CreateForm = () => {
     setErrors(validationErrors);
 
     if (!Object.keys(validationErrors).length) {
-      await fetch(apiUrl("/missions/create"), {
+      const { response } = await mutationalFetch({
         method: "POST",
         body: JSON.stringify(data)
       });
+
+      if (response) router.push(`/mission/${response.data.id}`);
     }
   };
 
@@ -70,13 +84,13 @@ const CreateForm = () => {
       className="flex w-full flex-col items-center"
       onSubmit={handleSubmit}
       id="missionCreateForm">
-      <Container className="cs:p-5 cs:flex cs:w-full cs:flex-col cs:gap-3">
+      <Container className="cs:flex cs:w-full cs:flex-col cs:gap-3 cs:p-5">
         <span className="text-base font-semibold">
           찾는 카테고리가 있으신가요?
         </span>
         <Category onSelect={handleSelect} error={errors?.missionCategoryId} />
       </Container>
-      <Container className="cs:p-5 cs:flex cs:w-full cs:flex-col cs:gap-5">
+      <Container className="cs:flex cs:w-full cs:flex-col cs:gap-5 cs:p-5">
         <div className="flex flex-col">
           <span className="mb-4 text-base font-semibold">
             미션에 대한 정보를 알려주세요!
@@ -93,7 +107,7 @@ const CreateForm = () => {
         </div>
         <div>
           <InputLabel>
-            사진 <span className="text-inactive text-xs">(최대 3개)</span>
+            사진 <span className="text-xs text-inactive">(최대 3개)</span>
           </InputLabel>
           <UploadImage onFileSelect={handleFileSelect} />
         </div>
@@ -138,6 +152,7 @@ const CreateForm = () => {
           <Input
             id="price"
             ref={priceRef}
+            type="number"
             className="w-6/12"
             error={errors?.missionInfo?.price}
           />

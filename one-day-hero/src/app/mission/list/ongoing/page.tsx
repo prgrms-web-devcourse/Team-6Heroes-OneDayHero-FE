@@ -20,10 +20,10 @@ const OngoingMissionPage = async () => {
   //   redirect("/api/auth/signin?callbackUrl=/mission/list/ongoing");
   // }
   /**@note mock 데이터 수정사항 반영 용도 */
-  revalidateTag("progress123");
+  revalidateTag("progress1");
 
   const { data, fetchNextPage, hasNextPage } =
-    await useGetProgressMissionListFetch("123");
+    await useGetProgressMissionListFetch("1");
 
   return (
     <div className="mt-20 w-full max-w-screen-sm space-y-4">

@@ -9,13 +9,15 @@ import LinkButton from "@/components/common/LinkButton";
 import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
 import HelpCircle from "@/components/domain/profile/HelpCircle";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
-import { useGetUserFetch } from "@/services/users";
+import { useGetProfileFetch } from "@/services/users";
 
 const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
-  const { isError, response } = await useGetUserFetch(parseInt(params.slug));
+  const { isError, response } = await useGetProfileFetch(
+    parseInt(params.slug),
+    true
+  );
 
   if (isError || !response) return <ErrorPage />;
-
   const {
     data: { basicInfo, favoriteWorkingDay }
   } = response;

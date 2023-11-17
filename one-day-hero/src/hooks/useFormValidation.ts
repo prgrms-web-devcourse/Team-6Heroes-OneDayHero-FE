@@ -1,13 +1,7 @@
 import { FORM_ERROR_MESSAGES } from "@/constants/errorMessage";
+import { MissionCreateRequest } from "@/types/request";
 
-export type MissionInfoProps = {
-  title: string;
-  content: string;
-  missionDate: string;
-  startTime: string;
-  endTime: string;
-  price: number;
-};
+export type MissionInfoProps = MissionCreateRequest["missionInfo"];
 
 export type FormErrors = {
   missionCategoryId?: string;
