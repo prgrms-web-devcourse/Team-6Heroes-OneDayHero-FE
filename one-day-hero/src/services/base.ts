@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const makeUrl = (baseUrl: string) => (path: string) => baseUrl + path;
 
 const apiBaseUrl =
@@ -71,4 +73,40 @@ export const useMutationalFetch = <T>(
   return {
     mutationalFetch: (useFetch<T>).bind(null, ...useFetchArguments)
   };
+};
+
+export const useInfiniteFetch = async <
+  T extends { data: { response: { content: any[]; last: boolean } } }
+>(
+  pathname: string,
+  size: number,
+  options?: RequestInit
+) => {
+  let page = 0;
+
+  const returnMethods = {
+    data: <T["data"]["response"]["content"]>[],
+    fetchNextPage: async () => {
+      if (!returnMethods.hasNextPage) return { isError: true };
+
+      const { isError, response } = await (useFetch<T>).call(
+        null,
+        `${pathname}?page=${page}&size=${size}&sort=`,
+        options
+      );
+
+      if (!isError && response) {
+        returnMethods.data.push(...response.data.response.content);
+        returnMethods.hasNextPage = !response.data.response.last;
+        page += 1;
+      }
+
+      return { isError };
+    },
+    hasNextPage: true
+  };
+
+  await returnMethods.fetchNextPage();
+
+  return returnMethods;
 };
