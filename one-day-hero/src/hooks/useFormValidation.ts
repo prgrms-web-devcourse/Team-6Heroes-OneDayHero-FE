@@ -5,7 +5,7 @@ export type MissionInfoProps = MissionCreateRequest["missionInfo"];
 
 export type FormErrors = {
   missionCategoryId?: string;
-  missionInfo?: Partial<Omit<MissionInfoProps, "price"> & { price: string }>;
+  missionInfo?: Partial<Record<keyof MissionInfoProps, string>>;
 };
 
 export type FormRequest = {
