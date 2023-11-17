@@ -43,14 +43,14 @@ const CreateForm = () => {
     e.preventDefault();
 
     const data = {
-      categoryId,
+      missionCategoryId: categoryId,
       missionInfo: {
         title: titleRef.current?.value ?? "",
         content: contentRef.current?.value ?? "",
         missionDate: dateRef.current?.value ?? "",
         startTime: startRef.current?.value ?? "",
         endTime: endRef.current?.value ?? "",
-        price: priceRef.current?.value ?? ""
+        price: Number(priceRef.current?.value ?? 0)
       }
     };
 
@@ -74,7 +74,7 @@ const CreateForm = () => {
         <span className="text-base font-semibold">
           찾는 카테고리가 있으신가요?
         </span>
-        <Category onSelect={handleSelect} error={errors?.categoryId} />
+        <Category onSelect={handleSelect} error={errors?.missionCategoryId} />
       </Container>
       <Container className="cs:p-5 cs:flex cs:w-full cs:flex-col cs:gap-5">
         <div className="flex flex-col">
@@ -117,7 +117,7 @@ const CreateForm = () => {
               ref={startRef}
               error={errors?.missionInfo?.startTime}>
               {hours.map((hour) => (
-                <option key={hour}>{hour}:00</option>
+                <option key={hour}>{String(hour).padStart(2, "0")}:00</option>
               ))}
             </Select>
             <span>~</span>
@@ -126,7 +126,7 @@ const CreateForm = () => {
               ref={endRef}
               error={errors?.missionInfo?.endTime}>
               {hours.map((hour) => (
-                <option key={hour}>{hour}:00</option>
+                <option key={hour}>{String(hour).padStart(2, "0")}:00</option>
               ))}
             </Select>
           </div>

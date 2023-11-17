@@ -6,16 +6,16 @@ export type MissionInfoProps = {
   missionDate: string;
   startTime: string;
   endTime: string;
-  price: string;
+  price: number;
 };
 
 export type FormErrors = {
-  categoryId?: string;
-  missionInfo?: Partial<MissionInfoProps>;
+  missionCategoryId?: string;
+  missionInfo?: Partial<Record<keyof MissionInfoProps, string>>;
 };
 
 export type FormRequest = {
-  categoryId: number;
+  missionCategoryId: number;
   missionInfo: MissionInfoProps;
 };
 
@@ -24,12 +24,12 @@ const useFormValidation = () => {
     const errors: FormErrors = {};
 
     const {
-      categoryId,
+      missionCategoryId,
       missionInfo: { title, missionDate, startTime, endTime, price, content }
     } = data;
 
-    if (!categoryId) {
-      errors.categoryId = FORM_ERROR_MESSAGES.CHECK_EMPTY_CATEGORY;
+    if (!missionCategoryId) {
+      errors.missionCategoryId = FORM_ERROR_MESSAGES.CHECK_EMPTY_CATEGORY;
     }
 
     if (!title || title.trim().length <= 0) {
@@ -54,7 +54,7 @@ const useFormValidation = () => {
       };
     }
 
-    if (!price || price.trim().length <= 0 || isNaN(Number(price))) {
+    if (!price || isNaN(price)) {
       errors.missionInfo = {
         ...errors.missionInfo,
         price: FORM_ERROR_MESSAGES.CHECK_EMPTY_PRICE
