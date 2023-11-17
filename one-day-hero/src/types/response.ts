@@ -1,3 +1,5 @@
+import { DateType } from ".";
+
 export type MissionResponse = {
   status: number;
   data: {
@@ -79,11 +81,31 @@ export type UserResponse = {
       path: string;
     };
     favoriteWorkingDay: {
-      favoriteDate: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
+      favoriteDate: DateType[];
       favoriteStartTime: string;
       favoriteEndTime: string;
     };
     heroScore: number;
+    isHeroMode: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type UserSummaryResponse = {
+  status: number;
+  data: {
+    id: number;
+    basicInfo: {
+      nickname: string;
+      gender: string;
+      birth: string;
+      introduce: string;
+    };
+    favoriteWorkingDay: {
+      favoriteDate: DateType[];
+      favoriteStartTime: string;
+      favoriteEndTime: string;
+    };
   };
   serverDateTime: string;
 };

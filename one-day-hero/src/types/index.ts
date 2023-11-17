@@ -10,3 +10,5 @@ export type ImageFileType = {
   id: string;
   file: File;
 };
+
+export type DateType = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
