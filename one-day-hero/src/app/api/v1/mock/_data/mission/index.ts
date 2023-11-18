@@ -282,7 +282,7 @@ export const completedMissionList: ProgressMissionListResponse = {
         },
         missionDate: "2023-11-06",
         bookmarkCount: 1,
-        missionStatus: "MATCHING"
+        missionStatus: "MISSION_COMPLETED"
       },
       {
         id: 2,
@@ -294,7 +294,7 @@ export const completedMissionList: ProgressMissionListResponse = {
         },
         missionDate: "2023-11-06",
         bookmarkCount: 1,
-        missionStatus: "MATCHING"
+        missionStatus: "MISSION_COMPLETED"
       },
       {
         id: 3,
@@ -306,7 +306,7 @@ export const completedMissionList: ProgressMissionListResponse = {
         },
         missionDate: "2023-11-06",
         bookmarkCount: 1,
-        missionStatus: "MATCHING"
+        missionStatus: "MISSION_COMPLETED"
       }
     ],
     pageable: {

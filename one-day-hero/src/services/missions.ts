@@ -20,12 +20,6 @@ export const useGetMissionFetch = (missionId: string) => {
   });
 };
 
-export const useGetCompletedMissionFetch = () => {
-  return useFetch<SuggestedMissionListResponse>(`/missions/record`, {
-    next: { tags: ["record"] }
-  });
-};
-
 export const useCreateMissionFetch = () => {
   return useMutationalFetch<MissionResponse>("/missions") as {
     mutationalFetch: (
@@ -80,6 +74,16 @@ export const useGetProgressMissionListFetch = (userId: string) => {
     3,
     {
       next: { tags: [`progress${userId}`] }
+    }
+  );
+};
+
+export const useGetCompleteMissionListFetch = (userId: string) => {
+  return useInfiniteFetch<ProgressMissionListResponse>(
+    `/missions/complete/${userId}`,
+    3,
+    {
+      next: { tags: [`complete${userId}`] }
     }
   );
 };
