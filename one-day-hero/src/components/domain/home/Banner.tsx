@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 import Label from "@/components/common/Label";
 import Assets from "@/config/assets";
@@ -38,17 +38,17 @@ const Banner = () => {
         </div>
       ))}
       {currentBanner > 0 && (
-        <MdArrowBackIos
+        <IoIosArrowBack
           size={30}
           onClick={handlePrev}
-          className={`${defaultStyle} left-4`}
+          className={`${defaultStyle} left-2`}
         />
       )}
       {currentBanner < banners.length - 1 && (
-        <MdArrowForwardIos
+        <IoIosArrowForward
           size={30}
           onClick={handleNext}
-          className={`${defaultStyle} right-4`}
+          className={`${defaultStyle} right-2`}
         />
       )}
       <Label
