@@ -11,7 +11,7 @@ export const usePostAuthCodeFetch = () => {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,
-      onError?: () => void
+      onError?: (err?: Error) => void
     ) => Promise<CustomResponse<AuthResponse>>;
   };
 };

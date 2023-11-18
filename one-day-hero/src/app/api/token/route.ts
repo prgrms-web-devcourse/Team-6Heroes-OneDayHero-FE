@@ -7,12 +7,20 @@ export async function POST(request: NextRequest) {
 
   const { mutationalFetch } = usePostAuthCodeFetch();
 
-  const { isError, response: tokenResponse } = await mutationalFetch({
+  const {
+    isError,
+    errorMessage,
+    response: tokenResponse
+  } = await mutationalFetch({
     method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({ code })
   });
 
   if (isError || !tokenResponse) {
+    console.log(errorMessage);
     return new NextResponse(null, {
       status: 400
     });

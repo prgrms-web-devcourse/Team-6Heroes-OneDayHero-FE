@@ -17,7 +17,7 @@ export const useFetch = async <T>(
   pathname: string,
   options?: RequestInit,
   onSuccess?: (response?: Response) => void,
-  onError?: () => void
+  onError?: (err?: Error) => void
 ): Promise<CustomResponse<T>> => {
   try {
     const response = await fetch(apiUrl(pathname), options);
@@ -44,7 +44,7 @@ export const useFetch = async <T>(
       errorMessage: (err as Error)?.message
     };
 
-    onError?.();
+    onError?.(err as Error);
 
     return errorResponse;
   }
@@ -56,7 +56,7 @@ export const useMutationalFetch = <T>(
   pathname: string,
   options?: RequestInit,
   onSuccess?: (response?: Response) => void,
-  onError?: () => void
+  onError?: (err?: Error) => void
 ) => {
   const useFetchArguments: MutationalFetchParams[] = [pathname];
 
