@@ -22,7 +22,8 @@ const userPatchSchema = z.object({
       favoriteStartTime: z.string().optional(),
       favoriteEndTime: z.string().optional()
     })
-    .optional()
+    .optional(),
+  favoriteRegions: z.array(z.number()).max(5).optional()
 });
 
 export async function PATCH(request: NextRequest) {

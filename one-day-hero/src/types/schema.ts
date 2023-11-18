@@ -21,10 +21,14 @@ export const MandatorySurveySchema = z.object({
 export type MandatorySurveySchemaProps = z.infer<typeof MandatorySurveySchema>;
 
 export const OptionalSurveySchema = z.object({
-  favoriteWorkingDay: z.object({
-    favoriteDate: z.array(z.string()),
-    favoriteStartTime: z.string(),
-    favoriteEndTime: z.string()
-  }),
-  favoriteRegions: z.array(z.number()).max(5)
+  favoriteWorkingDay: z
+    .object({
+      favoriteDate: z.array(z.string()).optional(),
+      favoriteStartTime: z.string().optional(),
+      favoriteEndTime: z.string().optional()
+    })
+    .optional(),
+  favoriteRegions: z.array(z.number()).max(5).optional()
 });
+
+export type OptionalSurveySchemaProps = z.infer<typeof OptionalSurveySchema>;
