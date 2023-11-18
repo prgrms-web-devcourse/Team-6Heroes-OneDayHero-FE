@@ -1,7 +1,12 @@
-import { Providers } from "@/components/common/Oauth/Providers";
+import Header from "@/components/common/Header";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
-  return <Providers>{children}</Providers>;
+  return (
+    <>
+      <Header>로그인</Header>
+      {children};
+    </>
+  );
 };
 
 export default layout;
