@@ -219,3 +219,28 @@ type gu = {
 export type favoriteRegionsResponse = {
   서울시: gu[];
 };
+
+export type ReviewDetailResponse = {
+  status: number;
+  data: {
+    id: number;
+    senderId: number;
+    senderNickName: string;
+    receiverId: number;
+    missionCategory: {
+      id: number;
+      code: string;
+      name: string;
+    };
+    missionTitle: string;
+    content: string;
+    starScore: 1 | 2 | 3 | 4 | 5;
+    reviewImageResponses: {
+      id: number;
+      uniqueName: string;
+      path: string;
+    }[];
+    createdAt: string;
+  };
+  serverDateTime: string;
+};
