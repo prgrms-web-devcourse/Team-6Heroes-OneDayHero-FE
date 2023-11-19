@@ -19,7 +19,7 @@ export const useGetUserFetch = (userId: number) => {
 };
 
 export const useChangeHeroFetch = (
-  onSuccess?: () => void,
+  onSuccess?: (response?: Response) => void,
   onError?: () => void
 ) => {
   return useMutationalFetch<UserResponse>(
@@ -33,7 +33,7 @@ export const useChangeHeroFetch = (
 };
 
 export const useChangeCitizenFetch = (
-  onSuccess?: () => void,
+  onSuccess?: (response?: Response) => void,
   onError?: () => void
 ) => {
   return useMutationalFetch<UserResponse>(
@@ -50,7 +50,7 @@ export const useEditProfileFetch = () => {
   return useMutationalFetch<UserResponse>("/me") as {
     mutationalFetch: (
       fetchOptions: RequestInit,
-      onSuccess?: () => void,
+      onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<UserResponse>>;
   };
