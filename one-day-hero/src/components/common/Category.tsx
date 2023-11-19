@@ -52,11 +52,11 @@ const Category = ({
       : CATEGORY_LIST.map((category) => category.id === value)
   );
 
-  const containerStyle = "flex gap-3 py-1";
+  const containerStyle = "flex py-1";
 
   const itemStyle = `flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white ${
     size === "sm" ? "w-16 h-16" : "w-[72px] h-[72px]"
-  } rounded-3xl border border-inactive shadow`;
+  } rounded-[25px] m-1 shadow`;
 
   const handleClick = (id: number) => {
     if (!routeState) {
