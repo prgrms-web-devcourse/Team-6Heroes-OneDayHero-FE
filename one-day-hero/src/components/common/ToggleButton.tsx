@@ -46,14 +46,15 @@ const ToggleButton = ({
 
   return (
     <button
+      type="button"
       className={`${defaultStyle} ${
         clicked
-          ? "border-primary bg-primary-lightest border-4"
+          ? "border-4 border-primary bg-primary-lightest"
           : "border-background-darken bg-white"
       } ${className}`}
       onClick={handleButtonClick}
       {...props}>
-      {selectedDate}
+      {children}
     </button>
   );
 };

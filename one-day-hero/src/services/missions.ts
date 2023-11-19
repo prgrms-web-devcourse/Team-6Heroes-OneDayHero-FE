@@ -4,7 +4,6 @@ import {
   BookmarkResponse,
   MatchingMissionListResponse,
   MissionResponse,
-  OngoingMissionListResponse,
   ProgressMissionListResponse,
   SuggestedMissionListResponse
 } from "@/types/response";
@@ -19,12 +18,6 @@ import {
 export const useGetMissionFetch = (missionId: string) => {
   return useFetch<MissionResponse>(`/missions/${missionId}`, {
     next: { tags: [`mission${missionId}`] }
-  });
-};
-
-export const useGetCompletedMissionFetch = () => {
-  return useFetch<SuggestedMissionListResponse>(`/missions/record`, {
-    next: { tags: ["record"] }
   });
 };
 
@@ -66,16 +59,14 @@ export const useDeleteBookmarkFetch = (missionId: number, userId: number) => {
   );
 };
 
-export const useGetOngoingMissionListFetch = () => {
-  return useFetch<OngoingMissionListResponse>(`/missions/list/ongoing`, {
-    next: { tags: [`ongoing`] }
-  });
-};
-
-export const useGetSuggestedMissionListFetch = () => {
-  return useFetch<SuggestedMissionListResponse>(`/missions/list/suggested`, {
-    next: { tags: [`suggested`] }
-  });
+export const useGetSuggestedMissionListFetch = (heroId: string) => {
+  return useInfiniteFetch<SuggestedMissionListResponse>(
+    `/mission-proposals?heroId=${heroId}`,
+    3,
+    {
+      next: { tags: [`suggested${heroId}`] }
+    }
+  );
 };
 
 export const useGetProgressMissionListFetch = (userId: string) => {
@@ -84,6 +75,16 @@ export const useGetProgressMissionListFetch = (userId: string) => {
     3,
     {
       next: { tags: [`progress${userId}`] }
+    }
+  );
+};
+
+export const useGetCompleteMissionListFetch = (userId: string) => {
+  return useInfiniteFetch<ProgressMissionListResponse>(
+    `/missions/complete/${userId}`,
+    3,
+    {
+      next: { tags: [`complete${userId}`] }
     }
   );
 };

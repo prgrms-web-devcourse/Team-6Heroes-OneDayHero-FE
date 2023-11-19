@@ -37,6 +37,7 @@ const Button = ({
 
   return (
     <button
+      type="button"
       className={`${themes[theme]} ${sizes[size]} ${textSizes[textSize]} ${defaultStyle} ${className}`}
       {...props}>
       {children}
