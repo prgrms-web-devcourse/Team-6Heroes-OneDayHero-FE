@@ -7,10 +7,13 @@ import HeroScore from "@/components/common/HeroScore";
 import LinkButton from "@/components/common/LinkButton";
 import HelpCircle from "@/components/domain/profile/HelpCircle";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
-import { useGetUserFetch } from "@/services/users";
+import { useGetProfileFetch } from "@/services/users";
 
 const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
-  const { isError, response } = await useGetUserFetch(parseInt(params.slug));
+  const { isError, response } = await useGetProfileFetch(
+    parseInt(params.slug),
+    false
+  );
 
   if (isError || !response) return <ErrorPage />;
 

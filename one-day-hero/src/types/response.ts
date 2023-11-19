@@ -1,3 +1,5 @@
+import { DateType } from ".";
+
 export type MissionResponse = {
   status: number;
   data: {
@@ -14,10 +16,8 @@ export type MissionResponse = {
       gu: string;
       dong: string;
     };
-    location: {
-      x: number;
-      y: number;
-    };
+    longitude: number;
+    latitude: number;
     missionInfo: {
       title: string;
       content: string;
@@ -38,6 +38,52 @@ export type MissionResponse = {
       originalName: string;
       path: string;
     };
+  };
+  serverDateTime: string;
+};
+
+export type ProgressMissionListResponse = {
+  status: number;
+  data: {
+    content: {
+      id: number;
+      title: string;
+      missionCategory: {
+        id: number;
+        code: string;
+        name: string;
+      };
+      missionDate: string;
+      bookmarkCount: number;
+      missionStatus:
+        | "MATCHING"
+        | "MATCHING_COMPLETED"
+        | "MISSION_COMPLETED"
+        | "EXPIRED";
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    size: 4;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    first: boolean;
+    last: boolean;
+    numberOfElements: number;
+    empty: boolean;
   };
   serverDateTime: string;
 };
@@ -132,11 +178,44 @@ export type UserResponse = {
       path: string;
     };
     favoriteWorkingDay: {
-      favoriteDate: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
+      favoriteDate: DateType[];
       favoriteStartTime: string;
       favoriteEndTime: string;
     };
     heroScore: number;
+    isHeroMode: boolean;
   };
   serverDateTime: string;
+};
+
+export type UserSummaryResponse = {
+  status: number;
+  data: {
+    id: number;
+    basicInfo: {
+      nickname: string;
+      gender: string;
+      birth: string;
+      introduce: string;
+    };
+    favoriteWorkingDay: {
+      favoriteDate: DateType[];
+      favoriteStartTime: string;
+      favoriteEndTime: string;
+    };
+  };
+  serverDateTime: string;
+};
+
+type dong = {
+  regionId: number;
+  dong: string;
+};
+
+type gu = {
+  [key: string]: dong[] | undefined;
+};
+
+export type favoriteRegionsResponse = {
+  서울시: gu[];
 };

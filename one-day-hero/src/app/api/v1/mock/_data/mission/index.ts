@@ -2,6 +2,7 @@ import {
   MatchingMissionListResponse,
   MissionResponse,
   OngoingMissionListResponse,
+  ProgressMissionListResponse,
   SuggestedMissionListResponse
 } from "@/types/response";
 
@@ -21,10 +22,8 @@ export const missionDetail: MissionResponse = {
       gu: "강남구",
       dong: "역삼동"
     },
-    location: {
-      x: 1234277.388,
-      y: 1234252.23
-    },
+    longitude: 1234277.388,
+    latitude: 1234252.23,
     missionInfo: {
       title: "제목",
       content:
@@ -46,6 +45,76 @@ export const missionDetail: MissionResponse = {
   serverDateTime: "2023-11-02T14:25:44"
 };
 
+export const progessMissionList: ProgressMissionListResponse = {
+  status: 200,
+  data: {
+    response: {
+      content: [
+        {
+          id: 1,
+          title: "제목",
+          missionCategory: {
+            id: 1,
+            code: "MC_001",
+            name: "서빙"
+          },
+          missionDate: "2023-11-06",
+          bookmarkCount: 1,
+          missionStatus: "MATCHING"
+        },
+        {
+          id: 2,
+          title: "제목",
+          missionCategory: {
+            id: 1,
+            code: "MC_001",
+            name: "서빙"
+          },
+          missionDate: "2023-11-06",
+          bookmarkCount: 1,
+          missionStatus: "MATCHING"
+        },
+        {
+          id: 3,
+          title: "제목",
+          missionCategory: {
+            id: 1,
+            code: "MC_001",
+            name: "서빙"
+          },
+          missionDate: "2023-11-06",
+          bookmarkCount: 1,
+          missionStatus: "MATCHING"
+        }
+      ],
+      pageable: {
+        pageNumber: 0,
+        pageSize: 4,
+        sort: {
+          empty: true,
+          sorted: false,
+          unsorted: true
+        },
+        offset: 0,
+        paged: true,
+        unpaged: false
+      },
+      size: 4,
+      number: 0,
+      sort: {
+        empty: true,
+        sorted: false,
+        unsorted: true
+      },
+      first: true,
+      last: true,
+      numberOfElements: 1,
+      empty: false
+    }
+  },
+  serverDateTime: "2023-11-13T15:26:37"
+};
+
 export const ongoingMissionList: OngoingMissionListResponse = {
   status: 200,
   data: [
@@ -63,10 +132,8 @@ export const ongoingMissionList: OngoingMissionListResponse = {
         gu: "마포구",
         dong: "동교동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "더미 데이터 제목입니다.",
         content: "내용1",
@@ -98,10 +165,8 @@ export const ongoingMissionList: OngoingMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목11",
         content: "내용11",
@@ -133,10 +198,8 @@ export const ongoingMissionList: OngoingMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목111",
         content: "내용111",
@@ -168,10 +231,8 @@ export const ongoingMissionList: OngoingMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목2",
         content: "내용2",
@@ -203,10 +264,8 @@ export const ongoingMissionList: OngoingMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목3",
         content: "내용3",
@@ -238,10 +297,8 @@ export const ongoingMissionList: OngoingMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목4",
         content: "내용4",
@@ -273,10 +330,8 @@ export const ongoingMissionList: OngoingMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목5",
         content: "내용5",
@@ -308,10 +363,8 @@ export const ongoingMissionList: OngoingMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목6",
         content: "내용6",
@@ -350,10 +403,8 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
         gu: "마포구",
         dong: "동교동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "더미 데이터 제목입니다.",
         content: "내용1",
@@ -385,10 +436,8 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목11",
         content: "내용11",
@@ -420,10 +469,8 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목111",
         content: "내용111",
@@ -455,10 +502,8 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목2",
         content: "내용2",
@@ -490,10 +535,8 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목3",
         content: "내용3",
@@ -525,10 +568,8 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목4",
         content: "내용4",
@@ -560,10 +601,8 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목5",
         content: "내용5",
@@ -595,10 +634,8 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목6",
         content: "내용6",
@@ -638,10 +675,8 @@ export const completedMissionList: SuggestedMissionListResponse = {
         gu: "마포구",
         dong: "동교동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "더미 데이터 제목입니다.",
         content: "내용1",
@@ -673,10 +708,8 @@ export const completedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목11",
         content: "내용11",
@@ -708,10 +741,8 @@ export const completedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목111",
         content: "내용111",
@@ -743,10 +774,8 @@ export const completedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목2",
         content: "내용2",
@@ -778,10 +807,8 @@ export const completedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목3",
         content: "내용3",
@@ -813,10 +840,8 @@ export const completedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목4",
         content: "내용4",
@@ -848,10 +873,8 @@ export const completedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목5",
         content: "내용5",
@@ -883,10 +906,8 @@ export const completedMissionList: SuggestedMissionListResponse = {
         gu: "강남구",
         dong: "역삼동"
       },
-      location: {
-        x: 1234252.23,
-        y: 1234252.23
-      },
+      longitude: 1234277.388,
+      latitude: 1234252.23,
       missionInfo: {
         title: "제목6",
         content: "내용6",
