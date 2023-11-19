@@ -5,11 +5,16 @@ import TitleBox from "@/components/common/TitleBox";
 import ReviewInfo from "@/components/domain/review/ReviewInfo";
 import { useGetReviewDetailFetch } from "@/services/review";
 
-const ReviewDetailPage = async ({ params }: { params: { slug: string } }) => {
-  revalidateTag(`review${params.slug}`);
+const ReviewDetailPage = async ({
+  params
+}: {
+  params: { userId: string; reviewId: string };
+}) => {
+  revalidateTag(`review${params.reviewId}`);
 
   const { isError, response } = await useGetReviewDetailFetch(
-    parseInt(params.slug)
+    parseInt(params.userId),
+    parseInt(params.reviewId)
   );
 
   if (isError || !response) return <ErrorPage />;

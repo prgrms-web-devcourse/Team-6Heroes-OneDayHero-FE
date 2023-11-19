@@ -29,3 +29,52 @@ export const reviewDetail = {
   },
   serverDateTime: "2023-11-16T16:08:24"
 };
+
+export const reviewSend = {
+  status: 200,
+  data: {
+    userId: 1,
+    sentReviewResponses: {
+      content: [
+        {
+          reviewId: 1,
+          categoryName: "심부름",
+          missionTitle: "심부름 미션",
+          starScore: 3,
+          createdAt: "2023-11-16T16:08:24"
+        },
+        {
+          reviewId: 2,
+          categoryName: "청소",
+          missionTitle: "청소 미션",
+          starScore: 4,
+          createdAt: "2023-11-16T16:08:24"
+        }
+      ],
+      pageable: {
+        pageNumber: 0,
+        pageSize: 5,
+        sort: {
+          sorted: false,
+          unsorted: true,
+          empty: true
+        },
+        offset: 0,
+        paged: true,
+        unpaged: false
+      },
+      numberOfElements: 2,
+      first: true,
+      last: false,
+      size: 5,
+      number: 0,
+      sort: {
+        sorted: false,
+        unsorted: true,
+        empty: true
+      },
+      empty: false
+    }
+  },
+  serverDateTime: "2023-11-16T16:08:24"
+};
