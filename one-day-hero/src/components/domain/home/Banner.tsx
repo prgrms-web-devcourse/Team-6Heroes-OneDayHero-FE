@@ -53,7 +53,7 @@ const Banner = () => {
       )}
       <Label
         size="sm"
-        className="cs:z-1 cs:absolute cs:bottom-4 cs:right-5 cs:shadow-down cs:h-6 text-white">
+        className="cs:z-1 cs:bg-primary cs:absolute cs:bottom-4 cs:right-5 cs:shadow-down cs:h-6 text-white">
         {currentBanner + 1} / {banners.length}
       </Label>
     </div>
