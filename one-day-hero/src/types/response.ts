@@ -182,18 +182,11 @@ export type ReviewDetailResponse = {
     missionTitle: string;
     content: string;
     starScore: 1 | 2 | 3 | 4 | 5;
-    reviewImageResponses: [
-      {
-        id: number;
-        uniqueName: string;
-        path: string;
-      },
-      {
-        id: number;
-        uniqueName: string;
-        path: string;
-      }
-    ];
+    reviewImageResponses: {
+      id: number;
+      uniqueName: string;
+      path: string;
+    }[];
     createdAt: string;
   };
   serverDateTime: string;
