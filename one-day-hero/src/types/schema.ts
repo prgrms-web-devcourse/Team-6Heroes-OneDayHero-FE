@@ -32,3 +32,43 @@ export const OptionalSurveySchema = z.object({
 });
 
 export type OptionalSurveySchemaProps = z.infer<typeof OptionalSurveySchema>;
+
+export const PatchSurveySchema = z.object({
+  userId: z.number().optional(),
+  basicInfo: z
+    .object({
+      nickname: z.string().optional(),
+      gender: z.string().optional(),
+      birth: z.string().optional(),
+      introduce: z.string().optional()
+    })
+    .optional(),
+  favoriteWorkingDay: z
+    .object({
+      favoriteDate: z
+        .enum(["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"])
+        .array()
+        .optional(),
+      favoriteStartTime: z.string().optional(),
+      favoriteEndTime: z.string().optional()
+    })
+    .optional(),
+  favoriteRegions: z.array(z.number()).max(5).optional()
+});
+
+export const PostMissionSchema = z.object({
+  missionCategoryId: z.number(),
+  citizenId: z.number(),
+  regionId: z.number(),
+  latitude: z.number(),
+  longitude: z.number(),
+  missionInfo: z.object({
+    title: z.string(),
+    content: z.string(),
+    missionDate: z.string(),
+    startTime: z.string(),
+    endTime: z.string(),
+    deadlineTime: z.string(),
+    price: z.number()
+  })
+});
