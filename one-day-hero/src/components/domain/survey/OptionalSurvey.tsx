@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import router from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
@@ -14,6 +15,7 @@ import InputLabel from "@/components/common/InputLabel";
 import Label from "@/components/common/Label";
 import LinkButton from "@/components/common/LinkButton";
 import Select from "@/components/common/Select";
+import { useEditProfileFetch } from "@/services/users";
 import { OptionalSurveySchema } from "@/types/schema";
 
 const OptionalSurvey = () => {
@@ -94,8 +96,21 @@ const OptionalSurvey = () => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log("data", data); /** @note 서버로 보낼때 사용할 것 같습니다.  */
+    mutationalFetch(
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          favoriteWorkingDay: data.favoriteWorkingDay,
+          favoriteRegions: data.favoriteRegions
+        })
+      },
+      () => {
+        router.push("/");
+      }
+    );
   };
+
+  const { mutationalFetch } = useEditProfileFetch();
 
   return (
     <>
@@ -217,10 +232,7 @@ const OptionalSurvey = () => {
             className="cs:grow cs:m-2">
             건너뛰기
           </LinkButton>
-          <LinkButton
-            href="/survey/category"
-            className="cs:grow cs:m-2"
-            showChevron={false}>
+          <LinkButton href="/" className="cs:grow cs:m-2" showChevron={false}>
             <Button type="submit">다음</Button>
           </LinkButton>
         </div>
