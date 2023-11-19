@@ -12,12 +12,13 @@ const HomePage = async () => {
       </div>
       <div className="flex flex-col gap-2">
         <span className={`${defaultLabelStyle}`}>찾는 카테고리가 있나요?</span>
-        <Category routeState size="lg" className="cs:gap-1" />
+        <Category routeState size="lg" />
       </div>
       <div className="h-0 border border-neutral-200" />
       <div className="flex flex-col gap-2">
         <span className={`${defaultLabelStyle}`}>이 달의 히어로</span>
         <HeroRecommendList
+          className="cs:m-0"
           heroDataList={[
             { thumbnail: "", nickname: "rabbit", heroScore: 100 },
             { thumbnail: "", nickname: "rabbit", heroScore: 100 },
