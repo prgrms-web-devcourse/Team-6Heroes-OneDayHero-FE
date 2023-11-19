@@ -13,7 +13,6 @@ const ReviewDetailPage = async ({
   revalidateTag(`review${params.reviewId}`);
 
   const { isError, response } = await useGetReviewDetailFetch(
-    parseInt(params.userId),
     parseInt(params.reviewId)
   );
 
@@ -21,12 +20,26 @@ const ReviewDetailPage = async ({
 
   const { data } = response;
 
-  const { missionTitle, missionCategory } = data;
+  const {
+    missionTitle,
+    missionCategory,
+    content,
+    starScore,
+    createdAt,
+    senderNickName
+  } = data;
 
   return (
     <div className="flex w-full flex-col items-center gap-4">
       <TitleBox category={missionCategory.name} title={missionTitle} />
-      <ReviewInfo data={data} />
+      <ReviewInfo
+        reviewId={parseInt(params.reviewId)}
+        categoryName={missionCategory.name}
+        content={content}
+        starScore={starScore}
+        createdAt={createdAt}
+        senderNickName={senderNickName}
+      />
     </div>
   );
 };
