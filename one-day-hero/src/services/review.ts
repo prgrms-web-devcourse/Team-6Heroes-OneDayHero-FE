@@ -1,8 +1,33 @@
-import { ReviewDetailResponse } from "./../types/response";
-import { useFetch } from "./base";
+import { revalidatePath } from "next/cache";
 
-export const useGetReviewDetailFetch = (userId: number, reviewId: number) => {
-  return useFetch<ReviewDetailResponse>(`/review/${userId}/${reviewId}`, {
+import {
+  ReviewDeleteResponse,
+  ReviewDetailResponse,
+  SendReviewResponse
+} from "./../types/response";
+import { useFetch, useInfiniteFetch, useMutationalFetch } from "./base";
+
+export const useGetReviewDetailFetch = (reviewId: number) => {
+  return useFetch<ReviewDetailResponse>(`/reviews/${reviewId}`, {
     next: { tags: [`review${reviewId}`] }
   });
+};
+
+export const useGetSendReviewFetch = async () => {
+  return useInfiniteFetch<SendReviewResponse>(`/me/reviews/send`, 1, {
+    next: { tags: ["sendReview"] }
+  });
+};
+
+export const useDeleteSendReviewFetch = (reviewId: number) => {
+  return useMutationalFetch<ReviewDeleteResponse>(
+    `/reviews/${reviewId}`,
+    {
+      method: "DELETE",
+      body: JSON.stringify({
+        reviewId
+      })
+    },
+    () => revalidatePath(`review/${reviewId}`, "page")
+  );
 };
