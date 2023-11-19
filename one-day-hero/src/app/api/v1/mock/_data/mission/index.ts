@@ -1,8 +1,9 @@
 import {
-  MatchingMissionListResponse,
   MissionResponse,
   ProgressMissionListResponse,
-  SuggestedMissionListResponse
+  ProposalResponse,
+  SuggestedMissionListResponse,
+  SuggestingMissionListResponse
 } from "@/types/response";
 
 export const missionDetail: MissionResponse = {
@@ -337,97 +338,16 @@ export const completedMissionList: ProgressMissionListResponse = {
   serverDateTime: "2023-11-13T15:26:37"
 };
 
-export const matchingMissionList: MatchingMissionListResponse = {
-  status: 200,
+export const matchingMissionList: SuggestingMissionListResponse =
+  suggestedMissionList;
+
+export const proposalDetail: ProposalResponse = {
+  status: 201,
   data: {
-    userId: 1,
-    missionResponses: {
-      content: [
-        {
-          missionId: 1,
-          missionBookmarkId: 5,
-          isAlive: true,
-          missionInfo: {
-            title: "청소 미션",
-            categoryName: "청소",
-            bookmarkCount: 5,
-            price: 35000,
-            missionDate: "2023-12-05",
-            startTime: "14:30",
-            endTime: "18:30"
-          },
-          region: {
-            id: 1,
-            si: "서울시",
-            gu: "강남구",
-            dong: "역삼동"
-          }
-        },
-        {
-          missionId: 2,
-          missionBookmarkId: 6,
-          isAlive: true,
-          missionInfo: {
-            title: "심부름1",
-            categoryName: "심부름",
-            bookmarkCount: 3,
-            price: 10000,
-            missionDate: "2023-12-06",
-            startTime: "10:30",
-            endTime: "12:30"
-          },
-          region: {
-            id: 1,
-            si: "서울시",
-            gu: "강남구",
-            dong: "역삼동"
-          }
-        },
-        {
-          missionId: 5,
-          missionBookmarkId: 10,
-          isAlive: true,
-          missionInfo: {
-            title: "심부름2",
-            categoryName: "심부름",
-            bookmarkCount: 3,
-            price: 10000,
-            missionDate: "2023-12-07",
-            startTime: "12:30",
-            endTime: "13:30"
-          },
-          region: {
-            id: 1,
-            si: "서울시",
-            gu: "강남구",
-            dong: "역삼동"
-          }
-        }
-      ],
-      pageable: {
-        pageNumber: 0,
-        pageSize: 3,
-        sort: {
-          empty: true,
-          sorted: false,
-          unsorted: true
-        },
-        offset: 0,
-        paged: true,
-        unpaged: false
-      },
-      size: 3,
-      number: 0,
-      sort: {
-        empty: true,
-        sorted: false,
-        unsorted: true
-      },
-      first: true,
-      last: false,
-      numberOfElements: 3,
-      empty: false
-    }
+    id: 1,
+    missionId: 1,
+    heroId: 1,
+    missionProposalStatus: "PROPOSAL"
   },
-  serverDateTime: "2023-11-13T15:26:38"
+  serverDateTime: "2023-11-16T16:08:24"
 };

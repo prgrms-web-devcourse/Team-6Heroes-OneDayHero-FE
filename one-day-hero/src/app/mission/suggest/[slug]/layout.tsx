@@ -2,7 +2,7 @@ import React from "react";
 
 import Header from "@/components/common/Header";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
+const SuggestLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header>미션 목록</Header>
@@ -11,4 +11,4 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default layout;
+export default SuggestLayout;

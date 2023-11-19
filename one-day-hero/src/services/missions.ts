@@ -2,10 +2,11 @@ import { revalidatePath } from "next/cache";
 
 import {
   BookmarkResponse,
-  MatchingMissionListResponse,
   MissionResponse,
   ProgressMissionListResponse,
-  SuggestedMissionListResponse
+  ProposalResponse,
+  SuggestedMissionListResponse,
+  SuggestingMissionListResponse
 } from "@/types/response";
 
 import {
@@ -28,6 +29,16 @@ export const useCreateMissionFetch = () => {
       onSuccess?: () => void,
       onError?: () => void
     ) => Promise<CustomResponse<MissionResponse>>;
+  };
+};
+
+export const useProposeMissionFetch = () => {
+  return useMutationalFetch<ProposalResponse>("/mission-proposals") as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: () => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<ProposalResponse>>;
   };
 };
 
@@ -89,8 +100,12 @@ export const useGetCompleteMissionListFetch = (userId: string) => {
   );
 };
 
-export const useGetMatchingMissionListFetch = (userId: number) => {
-  return useFetch<MatchingMissionListResponse>(`/missions/matching/${userId}`, {
-    next: { tags: [`matching`] }
-  });
+export const useGetSuggestingMissionListFetch = (userId: number) => {
+  return useInfiniteFetch<SuggestingMissionListResponse>(
+    `/missions/matching/${userId}`,
+    3,
+    {
+      next: { tags: [`matching${userId}`] }
+    }
+  );
 };
