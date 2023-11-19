@@ -23,7 +23,7 @@ const DayList = forwardRef(
     }: PropsWithChildren<DayListProps>,
     ref
   ) => {
-    const days = ["월", "화", "수", "목", "금", "토", "일"];
+    const days = ["MON", "THU", "WED", "THU", "FRI", "SAT", "SUN"];
 
     return (
       <div className={`${className} flex flex-wrap gap-x-1.5`} {...props}>
