@@ -4,6 +4,11 @@ import Link from "next/link";
 import ReviewInfo from "@/components/domain/review/ReviewInfo";
 import { useGetSendReviewFetch } from "@/services/review";
 
+const user = {
+  id: 1,
+  name: "내이름"
+};
+
 const SendReviewPage = async () => {
   revalidateTag("sendReview");
 
@@ -13,14 +18,7 @@ const SendReviewPage = async () => {
     <div className="w-full">
       {data &&
         data.map(
-          ({
-            reviewId,
-            categoryName,
-            missionTitle,
-            starScore,
-            createdAt,
-            senderNickName
-          }) => (
+          ({ reviewId, categoryName, missionTitle, starScore, createdAt }) => (
             <Link
               key={reviewId}
               href={`/review/1/${reviewId}`}
@@ -30,8 +28,8 @@ const SendReviewPage = async () => {
                 content={missionTitle}
                 starScore={starScore}
                 createdAt={createdAt}
-                senderNickName={senderNickName}
                 reviewId={reviewId}
+                senderNickName={user.name}
               />
             </Link>
           )

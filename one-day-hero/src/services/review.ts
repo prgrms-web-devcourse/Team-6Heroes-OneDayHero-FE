@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 import {
   ReviewDeleteResponse,
@@ -28,6 +28,6 @@ export const useDeleteSendReviewFetch = (reviewId: number) => {
         reviewId
       })
     },
-    () => revalidatePath(`review/${reviewId}`, "page")
+    () => revalidateTag("sendReview")
   );
 };

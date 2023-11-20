@@ -198,7 +198,6 @@ export type SendReviewResponse = {
     userId: number;
     content: {
       reviewId: number;
-      senderNickName: string;
       categoryName: string;
       missionTitle: string;
       starScore: 1 | 2 | 3 | 4 | 5;

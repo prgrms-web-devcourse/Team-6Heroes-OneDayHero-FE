@@ -31,7 +31,7 @@ const ReviewInfo = ({
   const { mutationalFetch: deleteReview } = useDeleteSendReviewFetch(reviewId);
 
   const handleDelete = async () => {
-    await deleteReview();
+    const { isError } = await deleteReview();
   };
 
   return (
