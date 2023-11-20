@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 
+import { getClientToken } from "@/app/utils/cookie";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
 import Input from "@/components/common/Input";
@@ -20,6 +21,7 @@ import CustomCalendar from "./CustomCalendar";
 const hours = Array.from({ length: 24 }, (_, index) => index);
 
 const CreateForm = () => {
+  console.log(getClientToken());
   const [categoryId, setCategoryId] = useState<number>(0);
   const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
     null
