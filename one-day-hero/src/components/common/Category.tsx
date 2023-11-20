@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { BiDish, BiGift, BiStar } from "react-icons/bi";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import {
@@ -52,6 +53,20 @@ const Category = ({
       : CATEGORY_LIST.map((category) => category.id === value)
   );
 
+  const pathName = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams()!;
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
   const containerStyle = "flex py-1";
 
   const itemStyle = `flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white ${
@@ -66,7 +81,11 @@ const Category = ({
       setCategoryActiveState(newActiveState);
     } else {
       /** @note url 구조 따라 link 추가 예정 */
-      console.log("link");
+      if (pathName === "/") {
+        router.push(
+          "/search/mission" + "?" + createQueryString("category", String(id))
+        );
+      }
     }
   };
 
