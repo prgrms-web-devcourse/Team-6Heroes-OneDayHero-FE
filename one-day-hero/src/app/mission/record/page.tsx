@@ -1,34 +1,36 @@
-import ErrorPage from "@/app/error";
-import Container from "@/components/common/Container";
+import { revalidateTag } from "next/cache";
+import Link from "next/link";
+
 import MissionListItem from "@/components/common/Info/MissionListItem";
-import MissionProgressBar from "@/components/common/MissionProgressBar";
-import { useGetCompletedMissionFetch } from "@/services/missions";
+import MissionProgressContainer from "@/components/common/MissionProgressContainer";
+import { useGetCompleteMissionListFetch } from "@/services/missions";
 
 const MissionRecordPage = async () => {
-  const { isError, response } = await useGetCompletedMissionFetch();
+  /**@note mock 데이터 수정사항 반영 용도 */
+  revalidateTag("complete1");
 
-  if (isError || !response) return <ErrorPage />;
-
-  const { data: missions } = response;
+  const { data, fetchNextPage, hasNextPage } =
+    await useGetCompleteMissionListFetch("1");
 
   return (
     <div className="flex w-full flex-col items-center gap-3">
-      {missions &&
-        missions.map(
-          ({ missionStatus, id, missionCategory, missionInfo, region }) =>
-            missionStatus === "MISSION_COMPLETED" && (
-              <Container key={id} className="cs:w-full cs:p-0">
-                <MissionListItem
-                  categories={missionCategory.name}
-                  createAt={missionInfo.missionDate}
-                  location={region.gu + " " + region.dong}
-                  title={missionInfo.title}
-                  className="cs:mb-0 cs:py-5"
-                />
-                <MissionProgressBar missionStatus="MISSION_COMPLETED" />
-              </Container>
-            )
-        )}
+      {data.map((item) => (
+        <Link
+          href={`/mission/${item.id}`}
+          className="flex w-full max-w-screen-sm justify-center"
+          key={item.id}>
+          <MissionProgressContainer missionStatus={item.missionStatus}>
+            <MissionListItem
+              className="cs:p-4"
+              categories={item.missionCategory.name}
+              createAt={item.missionDate}
+              location="구 동"
+              title={item.title}
+              bookmarkCount={item.bookmarkCount}
+            />
+          </MissionProgressContainer>
+        </Link>
+      ))}
     </div>
   );
 };

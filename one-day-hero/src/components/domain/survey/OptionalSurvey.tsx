@@ -1,8 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import { PiWaveSineBold } from "react-icons/pi";
 
@@ -12,9 +13,12 @@ import DayList from "@/components/common/DayList";
 import HorizontalScroll from "@/components/common/HorizontalScroll";
 import InputLabel from "@/components/common/InputLabel";
 import Label from "@/components/common/Label";
-import LinkButton from "@/components/common/LinkButton";
 import Select from "@/components/common/Select";
-import { OptionalSurveySchema } from "@/types/schema";
+import { useEditProfileFetch } from "@/services/users";
+import {
+  OptionalSurveySchema,
+  OptionalSurveySchemaProps
+} from "@/types/schema";
 
 const OptionalSurvey = () => {
   const [favoriteGu, setFavoriteGu] = useState<string>("");
@@ -23,9 +27,14 @@ const OptionalSurvey = () => {
   const [favoriteRegions, setFavoriteRegions] = useState<string[]>([]);
   const [favoriteRegionsId, setFavoriteRegionsId] = useState<number[]>([]);
 
-  const { register, handleSubmit, setValue, getValues } = useForm({
-    resolver: zodResolver(OptionalSurveySchema)
-  });
+  const router = useRouter();
+
+  const { register, handleSubmit, setValue, getValues } =
+    useForm<OptionalSurveySchemaProps>({
+      resolver: zodResolver(OptionalSurveySchema)
+    });
+
+  const { mutationalFetch } = useEditProfileFetch();
 
   const hours = Array.from({ length: 24 }, (_, index) =>
     index < 10 ? "0" + index : index
@@ -78,7 +87,7 @@ const OptionalSurvey = () => {
     setFavoriteRegions(updatedFavoriteRegions);
     setFavoriteRegionsId(updatedFavoriteRegionsId);
 
-    setValue("FavoriteRegions", updatedFavoriteRegionsId);
+    setValue("favoriteRegions", updatedFavoriteRegionsId);
   };
 
   const handleGuChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -93,17 +102,25 @@ const OptionalSurvey = () => {
     setFavoriteDongId(Number(e.target.value));
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log("data", data); /** @note 서버로 보낼때 사용할 것 같습니다.  */
+  const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = (data) => {
+    mutationalFetch(
+      {
+        method: "PATCH",
+        body: JSON.stringify(data)
+      },
+      () => {
+        router.push("/");
+      }
+    );
   };
 
   return (
     <>
       <form
-        onSubmit={handleSubmit(onSubmit, onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         className="flex w-full max-w-screen-sm flex-col gap-8">
         <div>
-          <InputLabel className="cs:text-xl cs:ml-1 cs:mb-1">
+          <InputLabel className="cs:mb-1 cs:ml-1 cs:text-xl">
             희망 근무일
           </InputLabel>
           <DayList
@@ -116,7 +133,7 @@ const OptionalSurvey = () => {
         <div>
           <InputLabel
             htmlFor="working hour"
-            className="cs:text-xl cs:ml-1 cs:mb-1">
+            className="cs:mb-1 cs:ml-1 cs:text-xl">
             희망 근무시간
           </InputLabel>
           <div className="mt-1 flex gap-2">
@@ -151,7 +168,7 @@ const OptionalSurvey = () => {
         <div>
           <InputLabel
             htmlFor="favorite region"
-            className="cs:text-xl cs:ml-1 cs:mb-1">
+            className="cs:mb-1 cs:ml-1 cs:text-xl">
             선호지역(최대 5개)
           </InputLabel>
           <div className="mt-1 flex gap-2">
@@ -198,31 +215,24 @@ const OptionalSurvey = () => {
                 <Label
                   key={region}
                   size="md"
-                  className="cs:min-w-fit cs:px-3 cs:mr-2">
+                  className="cs:mr-2 cs:min-w-fit cs:px-3">
                   {region}
                 </Label>
               ))}
           </HorizontalScroll>
         </div>
 
-        <div className="bg-cancel-lighten h-56 w-full rounded-2xl">
+        <div className="h-56 w-full rounded-2xl bg-cancel-lighten">
           지도자리
         </div>
 
         <div className="mt-12 flex w-full">
-          <LinkButton
-            theme="cancel"
-            href="/"
-            showChevron={false}
-            className="cs:grow cs:m-2">
+          <Button theme="cancel" type="submit" className="cs:m-2 cs:grow">
             건너뛰기
-          </LinkButton>
-          <LinkButton
-            href="/survey/category"
-            className="cs:grow cs:m-2"
-            showChevron={false}>
-            <Button type="submit">다음</Button>
-          </LinkButton>
+          </Button>
+          <Button type="submit" className="cs:m-2 cs:grow">
+            다음
+          </Button>
         </div>
       </form>
     </>

@@ -88,15 +88,60 @@ export type ProgressMissionListResponse = {
   serverDateTime: string;
 };
 
-export type OngoingMissionListResponse = {
-  status: number;
-  data: MissionResponse["data"][];
-  serverDateTime: string;
+export type MissionItemResponse = {
+  id: number;
+  status: "MATCHING" | "MATCHING_COMPLETED" | "MISSION_COMPLETED" | "EXPIRED";
+  bookmarkCount: number;
+  createdAt: string;
+  region: {
+    si: string;
+    gu: string;
+    dong: string;
+  };
+  missionCategory: {
+    code: string;
+    name: string;
+  };
+  missionInfo: {
+    title: string;
+    missionDate: string;
+    startTime: string;
+    endTime: string;
+    price: number;
+  };
 };
 
 export type SuggestedMissionListResponse = {
   status: number;
-  data: MissionResponse["data"][];
+  data: {
+    content: {
+      id: number;
+      mission: MissionItemResponse;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        sorted: boolean;
+        unsorted: boolean;
+        empty: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    last: boolean;
+    size: number;
+    number: number;
+    sort: {
+      sorted: boolean;
+      unsorted: boolean;
+      empty: boolean;
+    };
+    empty: boolean;
+  };
   serverDateTime: string;
 };
 
