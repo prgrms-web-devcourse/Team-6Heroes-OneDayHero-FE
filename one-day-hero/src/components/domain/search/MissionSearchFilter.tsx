@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 import { favoriteRegionsData } from "@/app/api/v1/mock/_data/survey";
@@ -10,7 +11,11 @@ const MissionSearchFilter = () => {
   const [gu, setGu] = useState<string>("");
   const [dong, setDong] = useState<string>("");
   const [dongId, setDongId] = useState<number>(0);
-  const [categoryId, setCategoryId] = useState<number>(0);
+
+  const selectedCategoryId = Number(useSearchParams().get("category"));
+  const [categoryId, setCategoryId] = useState<
+    0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | number
+  >(selectedCategoryId ?? 0);
 
   const seoulGu = favoriteRegionsData["서울시"].map(
     (region) => Object.keys(region)[0]
@@ -67,7 +72,11 @@ const MissionSearchFilter = () => {
         </Select>
       </div>
       <div className="border-background-darken mt-3 flex justify-center border-b pb-2">
-        <Category onSelect={handleCategorySelect} routeState size="sm" />
+        <Category
+          onSelect={handleCategorySelect}
+          value={categoryId}
+          size="sm"
+        />
       </div>
     </>
   );

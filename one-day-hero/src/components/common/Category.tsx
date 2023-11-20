@@ -28,7 +28,7 @@ export const CATEGORY_LIST = [
 ];
 
 type CategoryProps = {
-  value?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  value?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | number;
   routeState?: boolean;
   error?: string;
   // eslint-disable-next-line no-unused-vars
@@ -80,7 +80,6 @@ const Category = ({
       );
       setCategoryActiveState(newActiveState);
     } else {
-      /** @note url 구조 따라 link 추가 예정 */
       if (pathName === "/") {
         router.push(
           "/search/mission" + "?" + createQueryString("category", String(id))
