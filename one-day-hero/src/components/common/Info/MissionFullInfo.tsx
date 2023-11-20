@@ -1,25 +1,33 @@
 import { PropsWithChildren } from "react";
 
 import MissionInfo from "@/components/common/Info/MissionInfo";
-import { MissionResponse } from "@/types/response";
+import { MissionItemResponse } from "@/types/response";
 
 import MissionListItem from "./MissionListItem";
 
-type MissionFullInfoProps = {
-  data: MissionResponse["data"];
+interface MissionFullInfoProps extends React.ComponentProps<"div"> {
+  bookmarkCount: number;
+  createdAt: string;
+  region: MissionItemResponse["region"];
+  missionCategory: MissionItemResponse["missionCategory"];
+  missionInfo: MissionItemResponse["missionInfo"];
   className?: string;
-};
+}
 
 const MissionFullInfo = ({
+  bookmarkCount,
+  createdAt,
+  region,
+  missionCategory,
+  missionInfo,
   className = "",
-  data: { missionCategory, missionInfo, region, bookmarkCount },
   ...props
 }: PropsWithChildren<MissionFullInfoProps>) => {
   return (
     <div className={`${className}`} {...props}>
       <MissionListItem
         categories={missionCategory.name}
-        createAt={missionInfo.missionDate}
+        createAt={createdAt}
         location={region.gu + " " + region.dong}
         title={missionInfo.title}
         bookmarkCount={bookmarkCount}
