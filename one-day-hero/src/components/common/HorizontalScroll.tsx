@@ -3,6 +3,7 @@
 import React, {
   MouseEventHandler,
   PropsWithChildren,
+  useEffect,
   useRef,
   useState
 } from "react";
@@ -22,32 +23,42 @@ const HorizontalScroll = ({
 
   const defaultStyle = "overflow-x-auto flex";
 
-  const handleMouseDown: MouseEventHandler<HTMLDivElement> = (event) => {
+  const handleMouseDown: MouseEventHandler<HTMLDivElement> = (e) => {
     setDragState(true);
-    setStartX(event.clientX);
+    setStartX(e.clientX);
     setCurrentScroll(containerRef.current?.scrollLeft || 0);
   };
 
-  const handleMouseMove: MouseEventHandler<HTMLDivElement> = (event) => {
-    if (containerRef.current && dragState) {
-      const scrollLeft = startX - event.clientX + currentScroll;
-      containerRef.current.scrollLeft = scrollLeft;
-    }
-  };
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (containerRef.current && dragState) {
+        const scrollLeft = startX - e.clientX + currentScroll;
+        containerRef.current.scrollLeft = scrollLeft;
+      }
+    };
 
-  const handleMouseUp = () => {
-    if (containerRef.current && dragState) {
-      setDragState(false);
+    const handleMouseUp = () => {
+      if (containerRef.current && dragState) {
+        setDragState(false);
+      }
+    };
+
+    if (dragState) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
     }
-  };
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dragState, startX, currentScroll]);
 
   return (
     <div
       ref={containerRef}
       className={`${defaultStyle} ${className}`}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}>
+      onMouseDown={handleMouseDown}>
       {children}
     </div>
   );
