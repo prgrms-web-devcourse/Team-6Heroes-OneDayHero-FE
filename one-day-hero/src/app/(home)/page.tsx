@@ -10,7 +10,7 @@ const HomePage = async () => {
   return (
     <div className="flex w-full flex-col gap-8">
       <div>
-        <Banner banners={banners} autoPlay />
+        <Banner banners={banners} />
       </div>
       <div className="flex flex-col gap-2">
         <span className={`${defaultLabelStyle}`}>찾는 카테고리가 있나요?</span>

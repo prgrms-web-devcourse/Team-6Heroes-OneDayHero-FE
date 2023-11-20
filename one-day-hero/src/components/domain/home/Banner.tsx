@@ -6,10 +6,9 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 type BannerProps = {
   banners: StaticImageData[];
-  autoPlay: boolean;
 };
 
-const Banner = ({ banners, autoPlay }: BannerProps) => {
+const Banner = ({ banners }: BannerProps) => {
   const [currentBanner, setCurrentBanner] = useState<number>(0);
 
   const defaultStyle =
@@ -24,10 +23,11 @@ const Banner = ({ banners, autoPlay }: BannerProps) => {
   }, [banners]);
 
   useEffect(() => {
-    if (!autoPlay) return;
+    if (!banners || banners.length === 0) return;
     const slideInterval = setInterval(handleNext, 3000);
+
     return () => clearInterval(slideInterval);
-  }, [autoPlay, handleNext]);
+  }, [banners, handleNext]);
 
   return (
     <>
@@ -38,7 +38,12 @@ const Banner = ({ banners, autoPlay }: BannerProps) => {
               className="relative h-60 w-full shrink-0 transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentBanner * 100}%)` }}
               key={index}>
-              <Image src={banner} alt="배너 아이템" fill priority />
+              <Image
+                src={banner}
+                alt="배너 아이템"
+                fill
+                priority={index === currentBanner}
+              />
             </div>
           ))}
           <IoIosArrowBack
