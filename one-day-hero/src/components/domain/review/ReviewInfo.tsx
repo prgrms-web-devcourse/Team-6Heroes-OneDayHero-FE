@@ -4,7 +4,6 @@ import Image from "next/image";
 
 import { formatDate } from "@/app/utils/formatDate";
 import Container from "@/components/common/Container";
-import KebabMenu from "@/components/common/KebabMenu";
 import Label from "@/components/common/Label";
 import { useDeleteSendReviewFetch } from "@/services/review";
 import test from "~/images/원데히로고 2.png";
@@ -58,20 +57,8 @@ const ReviewInfo = ({
           </div>
           <span className="text-sm font-bold">{senderNickName}</span>
         </div>
-        <KebabMenu
-          menuList={[
-            {
-              name: "수정하기",
-              apiPath: "/test",
-              requiredData: ["slug"]
-            },
-            { name: "삭제하기", apiPath: "/test", requiredData: ["slug"] }
-          ]}
-          size={24}
-        />
       </div>
       <span className="text-sm font-bold">{content}</span>
-      <button onClick={handleDelete}>테스트</button>
     </Container>
   );
 };
