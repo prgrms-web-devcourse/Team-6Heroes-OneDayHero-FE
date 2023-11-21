@@ -1,20 +1,30 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 const KakaoCallbackPage = () => {
-  const { data: session } = useSession();
+  const searchParams = useSearchParams();
+  const code = searchParams.get("code");
+
+  const router = useRouter();
 
   useEffect(() => {
-    /** @note 사용자가 로그인되어 있으면 홈페이지로 리다이렉트 */
-    if (session) {
-      window.location.href = "/";
-    } else {
-      /** @note 사용자가 로그인되어 있지 않으면 Kakao OAuth 로그인을 시작 */
-      signIn("kakao");
-    }
-  }, [session]);
+    if (!code) return;
+
+    const postCode = async () => {
+      await fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/token`, {
+        method: "POST",
+        body: JSON.stringify({
+          code
+        })
+      });
+
+      router.push("/");
+    };
+
+    postCode();
+  }, [code, router]);
 
   return <div>Processing...</div>;
 };

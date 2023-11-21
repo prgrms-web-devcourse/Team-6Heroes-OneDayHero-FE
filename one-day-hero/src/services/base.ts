@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const makeUrl = (baseUrl: string) => (path: string) => baseUrl + path;
 
 const apiBaseUrl =
@@ -18,8 +16,8 @@ export type CustomResponse<T> = {
 export const useFetch = async <T>(
   pathname: string,
   options?: RequestInit,
-  onSuccess?: () => void,
-  onError?: () => void
+  onSuccess?: (response?: Response) => void,
+  onError?: (err?: Error) => void
 ): Promise<CustomResponse<T>> => {
   try {
     const response = await fetch(apiUrl(pathname), options);
@@ -37,7 +35,7 @@ export const useFetch = async <T>(
     const bodyData = (await response.json()) as T;
     customResponse.response = bodyData;
 
-    onSuccess?.();
+    onSuccess?.(response);
 
     return customResponse;
   } catch (err) {
@@ -46,7 +44,7 @@ export const useFetch = async <T>(
       errorMessage: (err as Error)?.message
     };
 
-    onError?.();
+    onError?.(err as Error);
 
     return errorResponse;
   }
@@ -57,8 +55,8 @@ type MutationalFetchParams = string | RequestInit | (() => void);
 export const useMutationalFetch = <T>(
   pathname: string,
   options?: RequestInit,
-  onSuccess?: () => void,
-  onError?: () => void
+  onSuccess?: (response?: Response) => void,
+  onError?: (err?: Error) => void
 ) => {
   const useFetchArguments: MutationalFetchParams[] = [pathname];
 
