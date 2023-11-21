@@ -2,7 +2,7 @@ import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Tabs from "@/components/common/Tabs";
 
-const SearchLayout = ({ children }: { children: React.ReactNode }) => {
+const MissionSearchLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header left="back">검색</Header>
@@ -18,4 +18,4 @@ z-50 flex w-full max-w-screen-sm justify-center">
   );
 };
 
-export default SearchLayout;
+export default MissionSearchLayout;
