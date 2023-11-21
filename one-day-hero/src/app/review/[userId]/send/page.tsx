@@ -21,7 +21,7 @@ const SendReviewPage = async () => {
           ({ reviewId, categoryName, missionTitle, starScore, createdAt }) => (
             <Link
               key={reviewId}
-              href={`/review/1/${reviewId}`}
+              href={`/review/${user.id}/${reviewId}`}
               className="flex w-full justify-center">
               <ReviewInfo
                 categoryName={categoryName}
