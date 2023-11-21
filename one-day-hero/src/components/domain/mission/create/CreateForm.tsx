@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 
+import { formatTime } from "@/app/utils/formatTime";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
 import Input from "@/components/common/Input";
@@ -48,6 +49,11 @@ const CreateForm = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    const deadline =
+      (dateRef.current?.value ?? "") + " " + (startRef.current?.value ?? "");
+
+    const deadlineTime = formatTime(deadline);
+
     const data: MissionCreateRequest = {
       missionCategoryId: categoryId,
       citizenId: 123,
@@ -60,7 +66,7 @@ const CreateForm = () => {
         missionDate: dateRef.current?.value ?? "",
         startTime: startRef.current?.value ?? "",
         endTime: endRef.current?.value ?? "",
-        deadlineTime: startRef.current?.value ?? "",
+        deadlineTime: deadlineTime ?? "",
         price: parseInt(priceRef.current?.value?.trim() ?? "0")
       }
     };
@@ -106,7 +112,7 @@ const CreateForm = () => {
         </div>
         <div>
           <InputLabel>
-            사진 <span className="text-xs text-inactive">(최대 3개)</span>
+            사진 <span className="text-inactive text-xs">(최대 3개)</span>
           </InputLabel>
           <UploadImage onFileSelect={handleFileSelect} />
         </div>
