@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
 import Input from "@/components/common/Input";
@@ -21,7 +20,6 @@ import CustomCalendar from "./CustomCalendar";
 const hours = Array.from({ length: 24 }, (_, index) => index);
 
 const CreateForm = () => {
-  console.log(getClientToken());
   const [categoryId, setCategoryId] = useState<number>(0);
   const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
     null
@@ -108,7 +106,7 @@ const CreateForm = () => {
         </div>
         <div>
           <InputLabel>
-            사진 <span className="text-inactive text-xs">(최대 3개)</span>
+            사진 <span className="text-xs text-inactive">(최대 3개)</span>
           </InputLabel>
           <UploadImage onFileSelect={handleFileSelect} />
         </div>
