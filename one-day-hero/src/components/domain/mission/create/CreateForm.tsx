@@ -12,7 +12,6 @@ import Select from "@/components/common/Select";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
-import { apiUrl } from "@/services/base";
 import { useCreateMissionFetch } from "@/services/missions";
 import { ImageFileType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
@@ -109,7 +108,7 @@ const CreateForm = () => {
         </div>
         <div>
           <InputLabel>
-            사진 <span className="text-xs text-inactive">(최대 3개)</span>
+            사진 <span className="text-inactive text-xs">(최대 3개)</span>
           </InputLabel>
           <UploadImage onFileSelect={handleFileSelect} />
         </div>

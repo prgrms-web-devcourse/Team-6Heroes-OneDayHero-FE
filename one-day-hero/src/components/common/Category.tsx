@@ -32,6 +32,8 @@ type CategoryProps = {
   error?: string;
   // eslint-disable-next-line no-unused-vars
   onSelect?: (idx: number) => void;
+  size?: "sm" | "lg";
+  className?: string;
 };
 
 const initialCategoryState = Array(CATEGORY_LIST.length).fill(false);
@@ -40,7 +42,9 @@ const Category = ({
   value,
   routeState = false,
   error,
-  onSelect
+  onSelect,
+  size = "sm",
+  className
 }: CategoryProps) => {
   const [categoryActiveState, setCategoryActiveState] = useState<boolean[]>(
     !value
@@ -48,10 +52,11 @@ const Category = ({
       : CATEGORY_LIST.map((category) => category.id === value)
   );
 
-  const containerStyle = "flex gap-3 py-1";
+  const containerStyle = "flex py-1";
 
-  const itemStyle =
-    "flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white w-16 h-16 rounded-3xl border border-inactive shadow";
+  const itemStyle = `flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white ${
+    size === "sm" ? "w-16 h-16" : "w-[4.5rem] h-[4.5rem]"
+  } rounded-[25px] m-1 shadow`;
 
   const handleClick = (id: number) => {
     if (!routeState) {
@@ -76,7 +81,7 @@ const Category = ({
   return (
     <div className="flex flex-col">
       <HorizontalScroll>
-        <ul className={`${containerStyle}`}>
+        <ul className={`${containerStyle} ${className}`}>
           {CATEGORY_LIST.map((category) => (
             <div
               key={category.id}
