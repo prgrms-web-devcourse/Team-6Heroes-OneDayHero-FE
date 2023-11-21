@@ -14,7 +14,7 @@ export const useGetProfileFetch = (userId: number, isHero: boolean) => {
 
 export const useGetUserFetch = (token: string) => {
   return useFetch<UserResponse>(`/me`, {
-    headers: { Authorization: token },
+    headers: { Authorization: `Bearer ${token}` },
     next: { tags: [`user`] }
   });
 };
