@@ -12,9 +12,10 @@ export const useGetProfileFetch = (userId: number, isHero: boolean) => {
   );
 };
 
-export const useGetUserFetch = (userId: number) => {
-  return useFetch<UserResponse>(`/me/${userId}`, {
-    next: { tags: [`user${userId}`] }
+export const useGetUserFetch = (token: string) => {
+  return useFetch<UserResponse>(`/me`, {
+    headers: { Authorization: token },
+    next: { tags: [`user`] }
   });
 };
 
