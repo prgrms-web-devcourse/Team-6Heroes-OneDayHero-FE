@@ -2,7 +2,10 @@ import { CustomResponse, useMutationalFetch } from "./base";
 
 type AuthResponse = {
   status: number;
-  token: string;
+  data: {
+    userId: number;
+    accessToken: string;
+  };
   serverDateTime: string;
 };
 

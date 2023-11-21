@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     status: 200
   });
 
-  response.cookies.set("token", tokenResponse.token);
+  response.cookies.set("token", tokenResponse.data.accessToken);
 
   return response;
 }

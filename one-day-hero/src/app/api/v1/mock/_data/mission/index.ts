@@ -47,69 +47,67 @@ export const missionDetail: MissionResponse = {
 export const progessMissionList: ProgressMissionListResponse = {
   status: 200,
   data: {
-    response: {
-      content: [
-        {
+    content: [
+      {
+        id: 1,
+        title: "제목",
+        missionCategory: {
           id: 1,
-          title: "제목",
-          missionCategory: {
-            id: 1,
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionDate: "2023-11-06",
-          bookmarkCount: 1,
-          missionStatus: "MATCHING"
+          code: "MC_001",
+          name: "서빙"
         },
-        {
-          id: 2,
-          title: "제목",
-          missionCategory: {
-            id: 1,
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionDate: "2023-11-06",
-          bookmarkCount: 1,
-          missionStatus: "MATCHING"
-        },
-        {
-          id: 3,
-          title: "제목",
-          missionCategory: {
-            id: 1,
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionDate: "2023-11-06",
-          bookmarkCount: 1,
-          missionStatus: "MATCHING"
-        }
-      ],
-      pageable: {
-        pageNumber: 0,
-        pageSize: 4,
-        sort: {
-          empty: true,
-          sorted: false,
-          unsorted: true
-        },
-        offset: 0,
-        paged: true,
-        unpaged: false
+        missionDate: "2023-11-06",
+        bookmarkCount: 1,
+        missionStatus: "MATCHING"
       },
-      size: 4,
-      number: 0,
+      {
+        id: 2,
+        title: "제목",
+        missionCategory: {
+          id: 1,
+          code: "MC_001",
+          name: "서빙"
+        },
+        missionDate: "2023-11-06",
+        bookmarkCount: 1,
+        missionStatus: "MATCHING"
+      },
+      {
+        id: 3,
+        title: "제목",
+        missionCategory: {
+          id: 1,
+          code: "MC_001",
+          name: "서빙"
+        },
+        missionDate: "2023-11-06",
+        bookmarkCount: 1,
+        missionStatus: "MATCHING"
+      }
+    ],
+    pageable: {
+      pageNumber: 0,
+      pageSize: 4,
       sort: {
         empty: true,
         sorted: false,
         unsorted: true
       },
-      first: true,
-      last: true,
-      numberOfElements: 1,
-      empty: false
-    }
+      offset: 0,
+      paged: true,
+      unpaged: false
+    },
+    size: 4,
+    number: 0,
+    sort: {
+      empty: true,
+      sorted: false,
+      unsorted: true
+    },
+    first: true,
+    last: true,
+    numberOfElements: 1,
+    empty: false
   },
   serverDateTime: "2023-11-13T15:26:37"
 };

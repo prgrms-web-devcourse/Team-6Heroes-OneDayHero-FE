@@ -3,8 +3,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
-
 const KakaoCallbackPage = () => {
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
@@ -22,12 +20,11 @@ const KakaoCallbackPage = () => {
         })
       });
 
-      console.log(getClientToken());
       router.push("/");
     };
 
     postCode();
-  }, [code]);
+  }, [code, router]);
 
   return <div>Processing...</div>;
 };
