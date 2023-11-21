@@ -103,7 +103,6 @@ const OptionalSurvey = () => {
   };
 
   const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = (data) => {
-    console.log("data", data);
     mutationalFetch(
       {
         method: "PATCH",
