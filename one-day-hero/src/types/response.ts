@@ -280,3 +280,42 @@ export type ReviewDeleteResponse = {
   data: null;
   serverDateTime: string;
 };
+
+export type ReviewReceiveResponse = {
+  status: number;
+  data: {
+    content: {
+      reviewId: number;
+      senderId: number;
+      senderNickname: string;
+      categoryName: string;
+      missionTitle: string;
+      starScore: 1 | 2 | 3 | 4 | 5;
+      createdAt: string;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        sorted: boolean;
+        unsorted: boolean;
+        empty: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    last: boolean;
+    size: number;
+    number: number;
+    sort: {
+      sorted: boolean;
+      unsorted: boolean;
+      empty: boolean;
+    };
+    empty: boolean;
+  };
+  serverDateTime: string;
+};

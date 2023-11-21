@@ -3,6 +3,7 @@ import { revalidateTag } from "next/cache";
 import {
   ReviewDeleteResponse,
   ReviewDetailResponse,
+  ReviewReceiveResponse,
   SendReviewResponse
 } from "./../types/response";
 import { useFetch, useInfiniteFetch, useMutationalFetch } from "./base";
@@ -30,4 +31,10 @@ export const useDeleteSendReviewFetch = (reviewId: number) => {
     },
     () => revalidateTag("sendReview")
   );
+};
+
+export const useGetReceiveReviewFetch = () => {
+  return useInfiniteFetch<ReviewReceiveResponse>("/me/reviews/receive", 5, {
+    next: { tags: ["receiveReview"] }
+  });
 };
