@@ -26,7 +26,7 @@ export const useCreateMissionFetch = () => {
   return useMutationalFetch<MissionResponse>("/missions") as {
     mutationalFetch: (
       fetchOptions: RequestInit,
-      onSuccess?: () => void,
+      onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<MissionResponse>>;
   };

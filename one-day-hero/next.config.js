@@ -7,7 +7,8 @@ const nextConfig = {
         destination: `${process.env.NEXT_PUBLIC_BE_URL}/:path*`
       }
     ];
-  }
+  },
+  reactStrictMode: false
 };
 
 module.exports = nextConfig;
