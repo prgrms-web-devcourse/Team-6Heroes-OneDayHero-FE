@@ -72,3 +72,12 @@ export const PostMissionSchema = z.object({
     price: z.number()
   })
 });
+
+export const MissionSearchFilterSchema = z.object({
+  categoryId: z.string().optional(),
+  dongId: z.string().optional()
+});
+
+export type MissionSearchFilterSchemaProps = z.infer<
+  typeof MissionSearchFilterSchema
+>;
