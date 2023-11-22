@@ -1,13 +1,13 @@
 "use client";
 
-import { RefObject, useEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 
 import { useFetch } from "../services/base";
 
 type useInfiniteFetchProps = {
   pathname: string;
   size: number;
-  observerRef?: RefObject<HTMLDivElement>;
+  observerRef?: MutableRefObject<HTMLDivElement | null>;
   options?: RequestInit;
 };
 
@@ -23,25 +23,31 @@ export const useInfiniteFetch = <
 
   const pageRef = useRef<number>(0);
   const searchParamsRef = useRef<string>("");
+  const hasNextPageRef = useRef<boolean>(true);
+  const isLoadingRef = useRef<boolean>(false);
 
-  const observer = useRef(
-    new IntersectionObserver(
+  const observer = useRef<IntersectionObserver>();
+
+  useEffect(() => {
+    observer.current = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             returnMethods.fetchNextPage();
+            console.log("intersecting");
           }
         });
       },
       { threshold: 1 }
-    )
-  );
+    );
+  }, []);
 
   const returnMethods = {
+    data,
     fetchNextPage: async () => {
-      if (!returnMethods.hasNextPage) return { isError: true };
+      if (!hasNextPageRef.current) return { isError: true };
 
-      returnMethods.isLoading = true;
+      isLoadingRef.current = true;
 
       const { isError, response } = await (useFetch<T>).call(
         null,
@@ -52,36 +58,36 @@ export const useInfiniteFetch = <
       );
 
       if (!isError && response) {
-        setData([...data, ...response.data.content]);
-        returnMethods.hasNextPage = !response.data.last;
+        setData((prev) => [...prev, ...response.data.content]);
+        hasNextPageRef.current = !response.data.last;
         pageRef.current += 1;
       }
 
-      returnMethods.isLoading = false;
+      isLoadingRef.current = false;
 
       return { isError };
     },
-    hasNextPage: true,
+    hasNextPage: hasNextPageRef.current,
     setSearchParams: (newSearchParams: string) => {
       searchParamsRef.current = newSearchParams;
       pageRef.current = 0;
 
       returnMethods.fetchNextPage();
     },
-    isLoading: false
+    isLoading: isLoadingRef.current
   };
 
   useEffect(() => {
-    if (!observerRef?.current) return;
+    if (!observerRef?.current || !observer.current) return;
 
-    if (!returnMethods.hasNextPage || returnMethods.isLoading) {
+    if (!hasNextPageRef.current || isLoadingRef.current) {
       observer.current.unobserve(observerRef.current);
       return;
     }
 
-    if (pageRef.current === 0 || !returnMethods.isLoading)
+    if (pageRef.current === 0 || !isLoadingRef.current)
       observer.current.observe(observerRef.current);
-  }, [data, observerRef, returnMethods.hasNextPage, returnMethods.isLoading]);
+  }, [data, observerRef, hasNextPageRef, isLoadingRef]);
 
   return returnMethods;
 };

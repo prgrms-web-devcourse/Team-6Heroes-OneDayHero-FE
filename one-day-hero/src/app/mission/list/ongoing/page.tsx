@@ -1,16 +1,16 @@
-import { revalidateTag } from "next/cache";
+"use client";
+
 import Link from "next/link";
+import { useRef } from "react";
 
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressContainer from "@/components/common/MissionProgressContainer";
 import { useGetProgressMissionListFetch } from "@/services/missions";
 
-const OngoingMissionPage = async () => {
-  /**@note mock 데이터 수정사항 반영 용도 */
-  revalidateTag("progress1");
+const OngoingMissionPage = () => {
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const { data, fetchNextPage, hasNextPage } =
-    await useGetProgressMissionListFetch("1");
+  const { data } = useGetProgressMissionListFetch("1", observerRef);
 
   return (
     <div className="mt-20 w-full max-w-screen-sm space-y-4">
@@ -31,6 +31,7 @@ const OngoingMissionPage = async () => {
           </MissionProgressContainer>
         </Link>
       ))}
+      <div ref={observerRef} />
     </div>
   );
 };

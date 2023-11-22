@@ -1,5 +1,5 @@
 import { revalidatePath } from "next/cache";
-import { RefObject } from "react";
+import { MutableRefObject } from "react";
 
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
 import {
@@ -57,11 +57,12 @@ export const useDeleteBookmarkFetch = (missionId: number, userId: number) => {
 
 export const useGetSuggestedMissionListFetch = (
   heroId: string,
-  observerRef: RefObject<HTMLDivElement>
+  observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<SuggestedMissionListResponse>({
     pathname: `/mission-proposals?heroId=${heroId}`,
     size: 3,
+    observerRef,
     options: {
       next: { tags: [`suggested${heroId}`] }
     }
@@ -70,11 +71,12 @@ export const useGetSuggestedMissionListFetch = (
 
 export const useGetProgressMissionListFetch = (
   userId: string,
-  observerRef: RefObject<HTMLDivElement>
+  observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<ProgressMissionListResponse>({
     pathname: `/missions/progress/${userId}`,
     size: 3,
+    observerRef,
     options: {
       next: { tags: [`progress${userId}`] }
     }
@@ -83,11 +85,12 @@ export const useGetProgressMissionListFetch = (
 
 export const useGetCompleteMissionListFetch = (
   userId: string,
-  observerRef: RefObject<HTMLDivElement>
+  observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<ProgressMissionListResponse>({
     pathname: `/missions/complete/${userId}`,
     size: 3,
+    observerRef,
     options: {
       next: { tags: [`complete${userId}`] }
     }
