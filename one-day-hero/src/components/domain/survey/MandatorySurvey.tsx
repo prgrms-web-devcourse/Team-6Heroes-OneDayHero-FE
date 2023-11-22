@@ -84,7 +84,7 @@ const MandatorySurvey = React.forwardRef(() => {
           </InputLabel>
           <input
             {...register("nickName")}
-            className="h-11 w-full rounded-[10px] border border-inactive p-4 pl-3 placeholder:text-inactive focus:outline-primary"
+            className="border-inactive placeholder:text-inactive focus:outline-primary h-11 w-full rounded-[10px] border p-4 pl-3"
           />
           {errors.nickName && (
             <p className="text-red-500">{`${errors.nickName.message}`}</p>
@@ -97,7 +97,7 @@ const MandatorySurvey = React.forwardRef(() => {
           </InputLabel>
           <textarea
             {...register("introduction")}
-            className="h-40 w-full max-w-screen-sm resize-none rounded-2xl border border-inactive p-4 focus:outline-primary"
+            className="border-inactive focus:outline-primary h-40 w-full max-w-screen-sm resize-none rounded-2xl border p-4"
           />
           {errors.introduction && (
             <p className="text-red-500">{`${errors.introduction.message}`}</p>
