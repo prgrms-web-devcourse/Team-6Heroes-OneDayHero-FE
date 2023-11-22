@@ -5,7 +5,6 @@ import Image from "next/image";
 import { formatDate } from "@/app/utils/formatDate";
 import Container from "@/components/common/Container";
 import Label from "@/components/common/Label";
-import { useDeleteSendReviewFetch } from "@/services/review";
 import test from "~/images/원데히로고 2.png";
 
 import ReadStarRating from "./ReadStarRating";
@@ -15,8 +14,16 @@ type ReviewInfoProps = {
   starScore: 1 | 2 | 3 | 4 | 5;
   createdAt: string;
   content: string;
-  senderNickName: string;
-  reviewId: number;
+  senderNickname: string;
+  profileImage?: string | null;
+  reviewImage?:
+    | {
+        id: number;
+        originalName: string;
+        uniqueName: string;
+        path: string;
+      }[]
+    | null;
 };
 
 const ReviewInfo = ({
@@ -24,24 +31,18 @@ const ReviewInfo = ({
   starScore,
   createdAt,
   content,
-  senderNickName,
-  reviewId
+  senderNickname,
+  profileImage,
+  reviewImage
 }: ReviewInfoProps) => {
-  const { mutationalFetch: deleteReview } = useDeleteSendReviewFetch(reviewId);
-
-  const handleDelete = async () => {
-    const { isError } = await deleteReview();
-  };
-
   return (
     <Container className="cs:flex cs:flex-col cs:w-full cs:gap-5 cs:p-4">
       <div className="flex gap-3">
-        <div className="bg-inactive h-[60px] w-[60px] rounded-full">
+        <div className="bg-inactive relative h-[60px] w-[60px] rounded-full">
           <Image
-            src={test}
+            src={profileImage ? profileImage : test}
             alt="프로필 이미지"
-            width={60}
-            height={60}
+            fill
             className=" bg-cover"
           />
         </div>
@@ -55,9 +56,20 @@ const ReviewInfo = ({
               {formatDate(createdAt)}
             </span>
           </div>
-          <span className="text-sm font-bold">{senderNickName}</span>
+          <span className="text-sm font-bold">{senderNickname}</span>
         </div>
       </div>
+      {reviewImage &&
+        reviewImage.map((image) => (
+          <div key={image.id} className="relative h-32 w-32">
+            <Image
+              src={image.path}
+              alt="리뷰 이미지"
+              fill
+              className="object-cover"
+            />
+          </div>
+        ))}
       <span className="text-sm font-bold">{content}</span>
     </Container>
   );

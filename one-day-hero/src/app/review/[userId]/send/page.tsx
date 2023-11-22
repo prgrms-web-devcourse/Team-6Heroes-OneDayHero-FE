@@ -1,6 +1,7 @@
 import { revalidateTag } from "next/cache";
 import Link from "next/link";
 
+import { getServerToken } from "@/app/utils/auth";
 import ReviewInfo from "@/components/domain/review/ReviewInfo";
 import { useGetSendReviewFetch } from "@/services/review";
 
@@ -12,8 +13,13 @@ const user = {
 const SendReviewPage = async () => {
   revalidateTag("sendReview");
 
-  const { data, hasNextPage, fetchNextPage } = await useGetSendReviewFetch();
+  const token = getServerToken();
 
+  const { data, hasNextPage, fetchNextPage } = await useGetSendReviewFetch(
+    token ?? ""
+  );
+
+  console.log(data);
   return (
     <div className="w-full">
       {data &&

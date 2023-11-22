@@ -1,13 +1,18 @@
 import { revalidateTag } from "next/cache";
 import Link from "next/link";
 
+import { getServerToken } from "@/app/utils/auth";
 import ReviewInfo from "@/components/domain/review/ReviewInfo";
 import { useGetReceiveReviewFetch } from "@/services/review";
 
 const ReviewReceivePage = async () => {
   revalidateTag("receiveReview");
 
-  const { data, hasNextPage, fetchNextPage } = await useGetReceiveReviewFetch();
+  const token = getServerToken();
+
+  const { data, hasNextPage, fetchNextPage } = await useGetReceiveReviewFetch(
+    token ?? ""
+  );
 
   return (
     <div className="w-full">
@@ -19,6 +24,7 @@ const ReviewReceivePage = async () => {
             missionTitle,
             starScore,
             createdAt,
+            profileImage,
             senderNickname
           }) => (
             <Link
@@ -30,8 +36,8 @@ const ReviewReceivePage = async () => {
                 content={missionTitle}
                 starScore={starScore}
                 createdAt={createdAt}
-                reviewId={reviewId}
-                senderNickName={senderNickname}
+                senderNickname={senderNickname}
+                profileImage={profileImage[0] ?? null}
               />
             </Link>
           )

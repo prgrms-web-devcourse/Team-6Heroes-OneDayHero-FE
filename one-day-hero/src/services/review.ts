@@ -1,22 +1,42 @@
 import { revalidateTag } from "next/cache";
 
 import {
+  CreateReviewResponse,
   ReviewDeleteResponse,
   ReviewDetailResponse,
   ReviewReceiveResponse,
   SendReviewResponse
 } from "./../types/response";
-import { useFetch, useInfiniteFetch, useMutationalFetch } from "./base";
+import {
+  CustomResponse,
+  useFetch,
+  useInfiniteFetch,
+  useMutationalFetch
+} from "./base";
 
-export const useGetReviewDetailFetch = (reviewId: number) => {
+export const usePostCreateReviewFetch = () => {
+  return useMutationalFetch<CreateReviewResponse>("/reviews") as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: (response?: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<CreateReviewResponse>>;
+  };
+};
+
+export const useGetReviewDetailFetch = (reviewId: number, token: string) => {
   return useFetch<ReviewDetailResponse>(`/reviews/${reviewId}`, {
-    next: { tags: [`review${reviewId}`] }
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   });
 };
 
-export const useGetSendReviewFetch = async () => {
-  return useInfiniteFetch<SendReviewResponse>(`/me/reviews/send`, 1, {
-    next: { tags: ["sendReview"] }
+export const useGetSendReviewFetch = async (token: string) => {
+  return useInfiniteFetch<SendReviewResponse>(`/me/reviews/send`, 5, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   });
 };
 
@@ -33,8 +53,10 @@ export const useDeleteSendReviewFetch = (reviewId: number) => {
   );
 };
 
-export const useGetReceiveReviewFetch = () => {
+export const useGetReceiveReviewFetch = (token: string) => {
   return useInfiniteFetch<ReviewReceiveResponse>("/me/reviews/receive", 5, {
-    next: { tags: ["receiveReview"] }
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   });
 };
