@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 
+import { getClientToken } from "@/app/utils/cookie";
+import { formatTime } from "@/app/utils/formatTime";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
 import Input from "@/components/common/Input";
@@ -11,6 +13,7 @@ import Select from "@/components/common/Select";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
+import { apiUrl } from "@/services/base";
 import { useCreateMissionFetch } from "@/services/missions";
 import { ImageFileType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
@@ -35,6 +38,8 @@ const CreateForm = () => {
 
   const { mutationalFetch } = useCreateMissionFetch();
 
+  const token = getClientToken();
+
   const router = useRouter();
 
   const handleSelect = (id: number) => {
@@ -48,31 +53,51 @@ const CreateForm = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    const deadline =
+      (dateRef.current?.value ?? "") + " " + (startRef.current?.value ?? "");
+
+    const deadlineTime = formatTime(deadline);
+
+    const formData = new FormData();
+
     const data: MissionCreateRequest = {
       missionCategoryId: categoryId,
-      citizenId: 123,
-      regionId: 123,
-      latitude: 13.123,
-      longitude: 123.123,
+      regionId: 1,
+      latitude: 123.45,
+      longitude: 123.45,
       missionInfo: {
         title: titleRef.current?.value ?? "",
         content: contentRef.current?.value ?? "",
         missionDate: dateRef.current?.value ?? "",
         startTime: startRef.current?.value ?? "",
         endTime: endRef.current?.value ?? "",
-        deadlineTime: startRef.current?.value ?? "",
+        deadlineTime: deadlineTime ?? "",
         price: parseInt(priceRef.current?.value?.trim() ?? "0")
       }
     };
+
+    formData.append("missionCreateRequest", JSON.stringify(data));
+
+    if (selectedImages) {
+      selectedImages?.forEach((image) => {
+        const imageBlob = new Blob([image.file], { type: "image/jpeg" });
+        formData.append(`multipartFiles`, imageBlob);
+      });
+    }
 
     const validationErrors = missionCreateValidation(data);
     setErrors(validationErrors);
 
     if (!Object.keys(validationErrors).length) {
-      const { response } = await mutationalFetch({
+      const { response, errorMessage } = await mutationalFetch({
         method: "POST",
-        body: JSON.stringify(data)
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
+
+      console.log(response, errorMessage);
 
       if (response) router.push(`/mission/${response.data.id}`);
     }
@@ -106,7 +131,7 @@ const CreateForm = () => {
         </div>
         <div>
           <InputLabel>
-            사진 <span className="text-xs text-inactive">(최대 3개)</span>
+            사진 <span className="text-inactive text-xs">(최대 3개)</span>
           </InputLabel>
           <UploadImage onFileSelect={handleFileSelect} />
         </div>
