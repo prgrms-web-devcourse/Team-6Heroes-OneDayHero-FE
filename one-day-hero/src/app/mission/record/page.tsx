@@ -1,16 +1,16 @@
-import { revalidateTag } from "next/cache";
+"use client";
+
 import Link from "next/link";
+import { useRef } from "react";
 
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressContainer from "@/components/common/MissionProgressContainer";
 import { useGetCompleteMissionListFetch } from "@/services/missions";
 
-const MissionRecordPage = async () => {
-  /**@note mock 데이터 수정사항 반영 용도 */
-  revalidateTag("complete1");
+const MissionRecordPage = () => {
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const { data, fetchNextPage, hasNextPage, setSearchParams } =
-    await useGetCompleteMissionListFetch("1");
+  const { data } = useGetCompleteMissionListFetch("1", observerRef);
 
   return (
     <div className="flex w-full flex-col items-center gap-3">
@@ -31,6 +31,7 @@ const MissionRecordPage = async () => {
           </MissionProgressContainer>
         </Link>
       ))}
+      <div ref={observerRef} />
     </div>
   );
 };

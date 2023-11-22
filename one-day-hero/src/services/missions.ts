@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { MutableRefObject } from "react";
 
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";

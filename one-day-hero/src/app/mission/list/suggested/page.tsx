@@ -1,17 +1,17 @@
-import { revalidateTag } from "next/cache";
+"use client";
+
 import Link from "next/link";
+import { useRef } from "react";
 
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
 import { useGetSuggestedMissionListFetch } from "@/services/missions";
 
-const SuggestedMissionPage = async () => {
-  /**@note mock 데이터 수정사항 반영 용도 */
-  revalidateTag("suggested1");
+const SuggestedMissionPage = () => {
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const { data, fetchNextPage, hasNextPage } =
-    await useGetSuggestedMissionListFetch("1");
+  const { data } = useGetSuggestedMissionListFetch("1", observerRef);
 
   return (
     <div className="mt-20 flex w-full max-w-screen-sm flex-col items-center justify-center space-y-4">
@@ -47,6 +47,7 @@ const SuggestedMissionPage = async () => {
           </Container>
         </Link>
       ))}
+      <div ref={observerRef} />
     </div>
   );
 };

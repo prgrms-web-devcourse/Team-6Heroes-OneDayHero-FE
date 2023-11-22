@@ -51,9 +51,11 @@ export const useInfiniteFetch = <
 
       const { isError, response } = await (useFetch<T>).call(
         null,
-        `${pathname}?page=${pageRef.current}&size=${size}&sort=${
-          searchParamsRef.current.length > 0 ? "&" : ""
-        }${searchParamsRef.current}`,
+        `${pathname}${pathname.includes("?") ? "&" : "?"}page=${
+          pageRef.current
+        }&size=${size}&sort=${searchParamsRef.current.length > 0 ? "&" : ""}${
+          searchParamsRef.current
+        }`,
         options
       );
 
