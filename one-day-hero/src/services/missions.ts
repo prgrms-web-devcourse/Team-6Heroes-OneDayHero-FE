@@ -74,7 +74,7 @@ export const useGetSuggestedMissionListFetch = (
 ) => {
   return useInfiniteFetch<SuggestedMissionListResponse>({
     pathname: `/mission-proposals?heroId=${heroId}`,
-    size: 3,
+    size: 10,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
@@ -89,7 +89,7 @@ export const useGetProgressMissionListFetch = (
 ) => {
   return useInfiniteFetch<ProgressMissionListResponse>({
     pathname: `/missions/progress`,
-    size: 3,
+    size: 10,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
@@ -104,7 +104,7 @@ export const useGetCompleteMissionListFetch = (
 ) => {
   return useInfiniteFetch<ProgressMissionListResponse>({
     pathname: `/missions/completed`,
-    size: 3,
+    size: 10,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
@@ -113,12 +113,17 @@ export const useGetCompleteMissionListFetch = (
   });
 };
 
-export const useGetSuggestingMissionListFetch = (userId: number) => {
-  return useInfiniteFetch<SuggestingMissionListResponse>(
-    `/missions/matching/${userId}`,
-    3,
-    {
-      next: { tags: [`matching${userId}`] }
+export const useGetSuggestingMissionListFetch = (
+  token: string,
+  observerRef: MutableRefObject<HTMLDivElement | null>
+) => {
+  return useInfiniteFetch<SuggestingMissionListResponse>({
+    pathname: `/missions/matching`,
+    size: 10,
+    observerRef,
+    options: {
+      headers: { Authorization: `Bearer ${token}` },
+      next: { tags: [`matching`] }
     }
-  );
+  });
 };
