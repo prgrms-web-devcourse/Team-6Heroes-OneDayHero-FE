@@ -1,7 +1,9 @@
 import {
   MissionResponse,
   ProgressMissionListResponse,
-  SuggestedMissionListResponse
+  ProposalResponse,
+  SuggestedMissionListResponse,
+  SuggestingMissionListResponse
 } from "@/types/response";
 
 export const missionDetail: MissionResponse = {
@@ -603,4 +605,18 @@ export const completedMissionList: ProgressMissionListResponse = {
     empty: false
   },
   serverDateTime: "2023-11-13T15:26:37"
+};
+
+export const matchingMissionList: SuggestingMissionListResponse =
+  suggestedMissionList;
+
+export const proposalDetail: ProposalResponse = {
+  status: 201,
+  data: {
+    id: 1,
+    missionId: 1,
+    heroId: 1,
+    missionProposalStatus: "PROPOSAL"
+  },
+  serverDateTime: "2023-11-16T16:08:24"
 };

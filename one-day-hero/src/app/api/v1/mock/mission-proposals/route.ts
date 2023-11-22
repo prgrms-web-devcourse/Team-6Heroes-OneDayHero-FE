@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import { SuggestedMissionListResponse } from "@/types/response";
+import { proposalDetail, SuggestedMissionListResponse } from "@/types/response";
+import { PostProposalSchema } from "@/types/schema";
 
 import { suggestedMissionList } from "../_data/mission";
 
@@ -23,4 +24,16 @@ export function GET(request: NextRequest) {
   };
 
   return NextResponse.json(responseList, { status: 200 });
+}
+
+export async function POST(request: NextRequest) {
+  const missionPostData = await request.json();
+
+  const result = PostProposalSchema.safeParse(missionPostData);
+
+  if (!result.success) {
+    return new NextResponse("Error", { status: 400 });
+  }
+
+  return NextResponse.json(proposalDetail, { status: 201 });
 }
