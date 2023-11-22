@@ -9,7 +9,7 @@ const MissionRecordPage = async () => {
   /**@note mock 데이터 수정사항 반영 용도 */
   revalidateTag("complete1");
 
-  const { data, fetchNextPage, hasNextPage } =
+  const { data, fetchNextPage, hasNextPage, setSearchParams } =
     await useGetCompleteMissionListFetch("1");
 
   return (

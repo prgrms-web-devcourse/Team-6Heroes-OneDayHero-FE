@@ -1,5 +1,7 @@
 import { revalidatePath } from "next/cache";
+import { RefObject } from "react";
 
+import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
 import {
   BookmarkResponse,
   MissionResponse,
@@ -7,12 +9,7 @@ import {
   SuggestedMissionListResponse
 } from "@/types/response";
 
-import {
-  CustomResponse,
-  useFetch,
-  useInfiniteFetch,
-  useMutationalFetch
-} from "./base";
+import { CustomResponse, useFetch, useMutationalFetch } from "./base";
 
 export const useGetMissionFetch = (missionId: string) => {
   return useFetch<MissionResponse>(`/missions/${missionId}`, {
@@ -58,32 +55,41 @@ export const useDeleteBookmarkFetch = (missionId: number, userId: number) => {
   );
 };
 
-export const useGetSuggestedMissionListFetch = (heroId: string) => {
-  return useInfiniteFetch<SuggestedMissionListResponse>(
-    `/mission-proposals?heroId=${heroId}`,
-    3,
-    {
+export const useGetSuggestedMissionListFetch = (
+  heroId: string,
+  observerRef: RefObject<HTMLDivElement>
+) => {
+  return useInfiniteFetch<SuggestedMissionListResponse>({
+    pathname: `/mission-proposals?heroId=${heroId}`,
+    size: 3,
+    options: {
       next: { tags: [`suggested${heroId}`] }
     }
-  );
+  });
 };
 
-export const useGetProgressMissionListFetch = (userId: string) => {
-  return useInfiniteFetch<ProgressMissionListResponse>(
-    `/missions/progress/${userId}`,
-    3,
-    {
+export const useGetProgressMissionListFetch = (
+  userId: string,
+  observerRef: RefObject<HTMLDivElement>
+) => {
+  return useInfiniteFetch<ProgressMissionListResponse>({
+    pathname: `/missions/progress/${userId}`,
+    size: 3,
+    options: {
       next: { tags: [`progress${userId}`] }
     }
-  );
+  });
 };
 
-export const useGetCompleteMissionListFetch = (userId: string) => {
-  return useInfiniteFetch<ProgressMissionListResponse>(
-    `/missions/complete/${userId}`,
-    3,
-    {
+export const useGetCompleteMissionListFetch = (
+  userId: string,
+  observerRef: RefObject<HTMLDivElement>
+) => {
+  return useInfiniteFetch<ProgressMissionListResponse>({
+    pathname: `/missions/complete/${userId}`,
+    size: 3,
+    options: {
       next: { tags: [`complete${userId}`] }
     }
-  );
+  });
 };
