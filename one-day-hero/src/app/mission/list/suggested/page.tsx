@@ -1,17 +1,29 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
+import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
 import { useGetSuggestedMissionListFetch } from "@/services/missions";
 
 const SuggestedMissionPage = () => {
+  const token = getClientToken();
+
+  const router = useRouter();
+
+  if (!token) router.push("/login?redirect=");
+
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const { data } = useGetSuggestedMissionListFetch("1", observerRef);
+  const { data } = useGetSuggestedMissionListFetch(
+    "1",
+    token ?? "",
+    observerRef
+  );
 
   return (
     <div className="mt-20 flex w-full max-w-screen-sm flex-col items-center justify-center space-y-4">

@@ -1,16 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
+import { getClientToken } from "@/app/utils/cookie";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressContainer from "@/components/common/MissionProgressContainer";
 import { useGetProgressMissionListFetch } from "@/services/missions";
 
 const OngoingMissionPage = () => {
+  const token = getClientToken();
+
+  const router = useRouter();
+
+  if (!token) router.push("/login?redirect=");
+
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const { data } = useGetProgressMissionListFetch("1", observerRef);
+  const { data } = useGetProgressMissionListFetch(token ?? "", observerRef);
 
   return (
     <div className="mt-20 w-full max-w-screen-sm space-y-4">

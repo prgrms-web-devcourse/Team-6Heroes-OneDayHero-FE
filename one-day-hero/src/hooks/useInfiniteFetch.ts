@@ -34,7 +34,6 @@ export const useInfiniteFetch = <
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             returnMethods.fetchNextPage();
-            console.log("intersecting");
           }
         });
       },
@@ -73,6 +72,7 @@ export const useInfiniteFetch = <
     setSearchParams: (newSearchParams: string) => {
       searchParamsRef.current = newSearchParams;
       pageRef.current = 0;
+      hasNextPageRef.current = true;
 
       returnMethods.fetchNextPage();
     },

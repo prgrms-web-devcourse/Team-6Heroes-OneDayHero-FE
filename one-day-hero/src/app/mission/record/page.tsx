@@ -1,16 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
+import { getClientToken } from "@/app/utils/cookie";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressContainer from "@/components/common/MissionProgressContainer";
 import { useGetCompleteMissionListFetch } from "@/services/missions";
 
 const MissionRecordPage = () => {
+  const token = getClientToken();
+
+  const router = useRouter();
+
+  if (!token) router.push("/login?redirect=");
+
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const { data } = useGetCompleteMissionListFetch("1", observerRef);
+  const { data } = useGetCompleteMissionListFetch(token ?? "", observerRef);
 
   return (
     <div className="flex w-full flex-col items-center gap-3">

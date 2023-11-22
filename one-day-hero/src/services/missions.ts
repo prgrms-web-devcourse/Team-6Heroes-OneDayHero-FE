@@ -57,6 +57,7 @@ export const useDeleteBookmarkFetch = (missionId: number, userId: number) => {
 
 export const useGetSuggestedMissionListFetch = (
   heroId: string,
+  token: string,
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<SuggestedMissionListResponse>({
@@ -64,35 +65,38 @@ export const useGetSuggestedMissionListFetch = (
     size: 3,
     observerRef,
     options: {
+      headers: { Authorization: `Bearer ${token}` },
       next: { tags: [`suggested${heroId}`] }
     }
   });
 };
 
 export const useGetProgressMissionListFetch = (
-  userId: string,
+  token: string,
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<ProgressMissionListResponse>({
-    pathname: `/missions/progress/${userId}`,
+    pathname: `/missions/progress`,
     size: 3,
     observerRef,
     options: {
-      next: { tags: [`progress${userId}`] }
+      headers: { Authorization: `Bearer ${token}` },
+      next: { tags: [`progress`] }
     }
   });
 };
 
 export const useGetCompleteMissionListFetch = (
-  userId: string,
+  token: string,
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<ProgressMissionListResponse>({
-    pathname: `/missions/complete/${userId}`,
+    pathname: `/missions/completed`,
     size: 3,
     observerRef,
     options: {
-      next: { tags: [`complete${userId}`] }
+      headers: { Authorization: `Bearer ${token}` },
+      next: { tags: [`complete`] }
     }
   });
 };
