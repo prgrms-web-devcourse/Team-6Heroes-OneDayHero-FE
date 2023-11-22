@@ -4,7 +4,9 @@ import {
   BookmarkResponse,
   MissionResponse,
   ProgressMissionListResponse,
-  SuggestedMissionListResponse
+  ProposalResponse,
+  SuggestedMissionListResponse,
+  SuggestingMissionListResponse
 } from "@/types/response";
 
 import {
@@ -27,6 +29,16 @@ export const useCreateMissionFetch = () => {
       onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<MissionResponse>>;
+  };
+};
+
+export const useProposeMissionFetch = () => {
+  return useMutationalFetch<ProposalResponse>("/mission-proposals") as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: () => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<ProposalResponse>>;
   };
 };
 
@@ -84,6 +96,16 @@ export const useGetCompleteMissionListFetch = (userId: string) => {
     3,
     {
       next: { tags: [`complete${userId}`] }
+    }
+  );
+};
+
+export const useGetSuggestingMissionListFetch = (userId: number) => {
+  return useInfiniteFetch<SuggestingMissionListResponse>(
+    `/missions/matching/${userId}`,
+    3,
+    {
+      next: { tags: [`matching${userId}`] }
     }
   );
 };

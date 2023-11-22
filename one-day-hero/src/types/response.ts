@@ -145,12 +145,25 @@ export type SuggestedMissionListResponse = {
   serverDateTime: string;
 };
 
+export type SuggestingMissionListResponse = SuggestedMissionListResponse;
+
 export type BookmarkResponse = {
   status: number;
   data: {
     id: number;
     missionId: number;
     userId: number;
+  };
+  serverDateTime: string;
+};
+
+export type ProposalResponse = {
+  status: number;
+  data: {
+    id: number;
+    missionId: number;
+    heroId: number;
+    missionProposalStatus: "PROPOSAL" | "APPROVE" | "REJECT";
   };
   serverDateTime: string;
 };
