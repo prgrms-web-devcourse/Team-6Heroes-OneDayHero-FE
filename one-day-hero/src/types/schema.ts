@@ -80,3 +80,9 @@ export const PostMissionSchema = z.object({
     price: z.number()
   })
 });
+
+export const PostProposalSchema = z.object({
+  userId: z.number(),
+  missionId: z.number(),
+  heroId: z.number()
+});

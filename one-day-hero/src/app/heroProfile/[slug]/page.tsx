@@ -69,7 +69,7 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">선호 지역</h2>
         <div className="rounded-lg border border-background-darken bg-white p-2">
-          서울시 강남구 역삼동
+          {}
         </div>
       </div>
       <div className="mb-12 w-full">
