@@ -2,9 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import React, { useCallback } from "react";
+import { forwardRef, useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid";
 
 import Button from "@/components/common/Button";
 import InputLabel from "@/components/common/InputLabel";
@@ -16,7 +15,7 @@ import {
   MandatorySurveySchemaProps
 } from "@/types/schema";
 
-const MandatorySurvey = React.forwardRef(() => {
+const MandatorySurvey = forwardRef(() => {
   const router = useRouter();
 
   const {
@@ -24,7 +23,8 @@ const MandatorySurvey = React.forwardRef(() => {
     handleSubmit,
     formState: { errors, isSubmitting },
     clearErrors,
-    setValue
+    setValue,
+    getValues
   } = useForm<MandatorySurveySchemaProps>({
     resolver: zodResolver(MandatorySurveySchema)
   });
@@ -32,31 +32,29 @@ const MandatorySurvey = React.forwardRef(() => {
   const { mutationalFetch } = useEditProfileFetch();
 
   const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = (data) => {
-    mutationalFetch(
-      {
-        method: "PATCH",
-        body: JSON.stringify({
-          basicInfo: {
-            nickname: data.nickName,
-            introduce: data.introduction
-          }
-        })
-      },
-      () => {
-        router.push("/survey/optional");
-      }
-    );
+    console.log("data check", data);
+    // mutationalFetch(
+    //   {
+    //     method: "POST",
+    //     body: JSON.stringify({
+    //       basicInfo: {
+    //         nickname: data.nickName,
+    //         introduce: data.introduction
+    //       }
+    //     })
+    //   },
+    //   () => {
+    //     router.push("/survey/optional");
+    //   }
+    // );
   };
 
   const handleFileSelect = useCallback(
     (file: ImageFileType[]) => {
+      setValue("image", file);
       clearErrors("image");
-      setValue("image", {
-        id: uuidv4(),
-        file
-      });
     },
-    [clearErrors, setValue]
+    [setValue, getValues]
   );
 
   return (
@@ -104,11 +102,7 @@ const MandatorySurvey = React.forwardRef(() => {
           )}
         </div>
 
-        <Button
-          disabled={isSubmitting}
-          type="submit"
-          className="cs:mx-auto cs:mt-24"
-          size="lg">
+        <Button type="submit" className="cs:mx-auto cs:mt-24" size="lg">
           다음
         </Button>
       </form>
