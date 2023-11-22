@@ -178,15 +178,25 @@ export type UserResponse = {
       introduce: string;
     };
     image: {
-      originalName: string;
-      uniqueName: string;
-      path: string;
+      originalName: string | null;
+      uniqueName: string | null;
+      path: string | null;
     };
     favoriteWorkingDay: {
-      favoriteDate: DateType[];
-      favoriteStartTime: string;
-      favoriteEndTime: string;
+      favoriteDate: DateType[] | [];
+      favoriteStartTime: string | null;
+      favoriteEndTime: string | null;
     };
+    favoriteRegions:
+      | [
+          {
+            id: number;
+            si: string;
+            gu: string;
+            dong: string;
+          }
+        ]
+      | [];
     heroScore: number;
     isHeroMode: boolean;
   };
