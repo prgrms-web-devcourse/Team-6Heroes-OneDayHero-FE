@@ -89,17 +89,24 @@ const CreateForm = () => {
     setErrors(validationErrors);
 
     if (!Object.keys(validationErrors).length) {
-      const { response, errorMessage } = await mutationalFetch({
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_FE_URL}/api/createPost`,
+        {
+          method: "POST",
+          body: JSON.stringify({ data, images: selectedImages })
         }
-      });
+      );
+      // const { response, errorMessage } = await mutationalFetch({
+      //   method: "POST",
+      //   body: formData,
+      //   headers: {
+      //     Authorization: `Bearer ${token}`
+      //   }
+      // });
 
-      console.log(response, errorMessage);
+      console.log(response.status);
 
-      if (response) router.push(`/mission/${response.data.id}`);
+      // if (response) router.push(`/mission/${response.data.id}`);
     }
   };
 
@@ -131,7 +138,7 @@ const CreateForm = () => {
         </div>
         <div>
           <InputLabel>
-            사진 <span className="text-inactive text-xs">(최대 3개)</span>
+            사진 <span className="text-xs text-inactive">(최대 3개)</span>
           </InputLabel>
           <UploadImage onFileSelect={handleFileSelect} />
         </div>
