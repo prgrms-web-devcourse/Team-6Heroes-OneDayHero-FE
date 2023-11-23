@@ -2,7 +2,6 @@
 
 import { FormEvent, useRef, useState } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Container from "@/components/common/Container";
 import InputLabel from "@/components/common/InputLabel";
 import Textarea from "@/components/common/Textarea";
@@ -25,8 +24,6 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
   const reviewRef = useRef<HTMLTextAreaElement | null>(null);
   const { mutationalFetch } = usePostCreateReviewFetch();
 
-  const token = getClientToken();
-
   const handleScoreSelect = (count: number) => {
     setScore(count);
   };
@@ -37,6 +34,7 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     if (!editMode) {
       const formData = new FormData();
 
@@ -52,24 +50,22 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
 
       const jsonData = JSON.stringify(data);
 
-      formData.append("reviewCreateRequest", jsonData);
+      formData.append(
+        "reviewCreateRequest",
+        new Blob([jsonData], { type: "application/json" })
+      );
 
       if (selectedImages) {
         selectedImages.forEach((image) => {
-          const imageBlob = new Blob([image.file], {type: 'image/jpeg'})
+          const imageBlob = new Blob([image.file], { type: "image/jpeg" });
           formData.append("images", imageBlob);
         });
       }
 
-      const { response, errorMessage } = await mutationalFetch({
+      await fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/createReview`, {
         method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        body: formData
       });
-
-      console.log(response, errorMessage);
     } else {
       /** @note true면 수정 폼으로 사용 put 요청 */
     }

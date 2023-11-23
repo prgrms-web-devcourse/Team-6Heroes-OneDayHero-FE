@@ -202,19 +202,14 @@ export type UserResponse = {
       favoriteStartTime: string | null;
       favoriteEndTime: string | null;
     };
-    favoriteRegions:
-      | [
-          {
-            id: number;
-            si: string;
-            gu: string;
-            dong: string;
-          }
-        ]
-      | number[]
-      | [];
+    favoriteRegions?: {
+      id: number;
+      si: string;
+      gu: string;
+      dong: string;
+    }[];
     heroScore: number;
-    isHeroMode: boolean;
+    isHeroMode?: boolean;
   };
   serverDateTime: string;
 };

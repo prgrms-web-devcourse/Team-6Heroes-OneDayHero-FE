@@ -13,7 +13,6 @@ import Select from "@/components/common/Select";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
-import { apiUrl } from "@/services/base";
 import { useCreateMissionFetch } from "@/services/missions";
 import { ImageFileType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
@@ -76,12 +75,17 @@ const CreateForm = () => {
       }
     };
 
-    formData.append("missionCreateRequest", JSON.stringify(data));
+    const jsonData = JSON.stringify(data);
+
+    formData.append(
+      "missionCreateRequest",
+      new Blob([jsonData], { type: "application/json" })
+    );
 
     if (selectedImages) {
       selectedImages?.forEach((image) => {
         const imageBlob = new Blob([image.file], { type: "image/jpeg" });
-        formData.append(`multipartFiles`, imageBlob);
+        formData.append(`multipartFiles`, imageBlob, "image.jpg");
       });
     }
 
@@ -89,17 +93,24 @@ const CreateForm = () => {
     setErrors(validationErrors);
 
     if (!Object.keys(validationErrors).length) {
-      const { response, errorMessage } = await mutationalFetch({
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_FE_URL}/api/createPost`,
+        {
+          method: "POST",
+          body: JSON.stringify({ data, images: selectedImages })
         }
-      });
+      );
+      // const { response, errorMessage } = await mutationalFetch({
+      //   method: "POST",
+      //   body: formData,
+      //   headers: {
+      //     Authorization: `Bearer ${token}`
+      //   }
+      // });
 
-      console.log(response, errorMessage);
+      console.log(response.status);
 
-      if (response) router.push(`/mission/${response.data.id}`);
+      // if (response) router.push(`/mission/${response.data.id}`);
     }
   };
 

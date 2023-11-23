@@ -166,7 +166,6 @@ const OptionalSurvey = (userData: UserResponse) => {
           <div className="mt-1 flex gap-2">
             <Select
               id="working hour start"
-              setValue={setValue}
               {...register("favoriteWorkingDay.favoriteStartTime")}>
               {hours.map((hour) => (
                 <option className="text-xs" key={hour}>
@@ -181,7 +180,6 @@ const OptionalSurvey = (userData: UserResponse) => {
 
             <Select
               id="working hour end"
-              setValue={setValue}
               {...register("favoriteWorkingDay.favoriteEndTime")}>
               {hours.map((hour) => (
                 <option className="text-xs" key={hour}>
