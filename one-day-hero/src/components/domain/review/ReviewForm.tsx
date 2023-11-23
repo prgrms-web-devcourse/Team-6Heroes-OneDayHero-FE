@@ -2,7 +2,6 @@
 
 import { FormEvent, useRef, useState } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Container from "@/components/common/Container";
 import InputLabel from "@/components/common/InputLabel";
 import Textarea from "@/components/common/Textarea";

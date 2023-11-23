@@ -168,6 +168,21 @@ export type ProposalResponse = {
   serverDateTime: string;
 };
 
+export type UserInfoForOptionalSurveyResponse = {
+  basicInfo: {
+    nickname: string;
+    gender: string;
+    birth: string;
+    introduce: string;
+  };
+  favoriteWorkingDay?: {
+    favoriteDate?: string[];
+    favoriteStartTime?: string;
+    favoriteEndTime?: string;
+  };
+  favoriteRegions?: number[];
+};
+
 export type UserResponse = {
   status: number;
   data: {
@@ -177,15 +192,15 @@ export type UserResponse = {
       birth: string;
       introduce: string;
     };
-    image: {
-      originalName: string;
-      uniqueName: string;
-      path: string;
+    image?: {
+      originalName: string | null;
+      uniqueName: string | null;
+      path: string | null;
     };
-    favoriteWorkingDay: {
-      favoriteDate: DateType[];
-      favoriteStartTime: string;
-      favoriteEndTime: string;
+    favoriteWorkingDay?: {
+      favoriteDate: DateType[] | [] | null;
+      favoriteStartTime: string | null;
+      favoriteEndTime: string | null;
     };
     favoriteRegions?: {
       id: number;
