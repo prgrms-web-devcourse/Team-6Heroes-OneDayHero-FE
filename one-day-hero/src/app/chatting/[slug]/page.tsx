@@ -1,5 +1,11 @@
+import ChattingClientContainer from "@/components/domain/chatting/ChattingClientContainer";
+
 const ChattingPage = () => {
-  return <div>page</div>;
+  return (
+    <>
+      <ChattingClientContainer />
+    </>
+  );
 };
 
 export default ChattingPage;
