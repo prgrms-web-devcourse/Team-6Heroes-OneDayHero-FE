@@ -16,16 +16,23 @@ import Label from "@/components/common/Label";
 import Select from "@/components/common/Select";
 import { useEditProfileFetch } from "@/services/users";
 import {
+  UserInfoForOptionalSurveyResponse,
+  UserResponse
+} from "@/types/response";
+import {
   OptionalSurveySchema,
   OptionalSurveySchemaProps
 } from "@/types/schema";
-
-const OptionalSurvey = () => {
+const OptionalSurvey = (userData: UserResponse) => {
   const [favoriteGu, setFavoriteGu] = useState<string>("");
   const [favoriteDong, setFavoriteDong] = useState<string>("");
   const [favoriteDongId, setFavoriteDongId] = useState<number>(0);
   const [favoriteRegions, setFavoriteRegions] = useState<string[]>([]);
   const [favoriteRegionsId, setFavoriteRegionsId] = useState<number[]>([]);
+
+  const { basicInfo, favoriteWorkingDay } = userData.data;
+
+  console.log("베이직", basicInfo);
 
   const router = useRouter();
 
@@ -103,10 +110,30 @@ const OptionalSurvey = () => {
   };
 
   const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = (data) => {
+    const { favoriteWorkingDay, favoriteRegions } = data;
+    console.log("data", favoriteWorkingDay, favoriteRegions);
+
+    const userData: UserInfoForOptionalSurveyResponse = {
+      basicInfo: basicInfo,
+      favoriteWorkingDay: favoriteWorkingDay,
+      favoriteRegions: favoriteRegions
+    };
+
+    console.log("전체", userData);
+
+    const formData = new FormData();
+
+    const jsonData = JSON.stringify(userData);
+
+    formData.append(
+      "userUpdateRequest",
+      new Blob([jsonData], { type: "application/json" })
+    );
+
     mutationalFetch(
       {
-        method: "PATCH",
-        body: JSON.stringify(data)
+        method: "POST",
+        body: formData
       },
       () => {
         router.push("/");
@@ -222,7 +249,7 @@ const OptionalSurvey = () => {
           </HorizontalScroll>
         </div>
 
-        <div className="h-56 w-full rounded-2xl bg-cancel-lighten">
+        <div className="bg-cancel-lighten h-56 w-full rounded-2xl">
           지도자리
         </div>
 

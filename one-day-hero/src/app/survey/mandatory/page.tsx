@@ -12,7 +12,7 @@ const MandatorySurveyPage = async () => {
 
   const { isError, response } = await useGetUserFetch(token ?? "");
 
-  console.log("res", response);
+  // console.log("res", response);
 
   if (isError || !response) return <ErrorPage />;
 

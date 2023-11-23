@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { forwardRef, useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import InputLabel from "@/components/common/InputLabel";
 import UploadImage from "@/components/common/UploadImage";
@@ -21,6 +20,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   // const [image, setImage] = useState<ImageFileType[] | null>(null);
 
   const { basicInfo, favoriteRegions, favoriteWorkingDay } = userData.data;
+
   const router = useRouter();
 
   const {
@@ -38,9 +38,10 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
 
   const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = async (data) => {
     // console.log("data check", data.image, getValues("image"));
-    const { file } = getValues("image")[0];
+    const file = getValues("image");
 
-    const formData = new FormData();
+    console.log("내 이미지", file);
+
     const userData: Omit<
       UserResponse["data"],
       "image" | "heroScore" | "isHeroMode" | "serverDateTime"
@@ -55,33 +56,39 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       favoriteRegions: favoriteRegions
     };
 
+    const formData = new FormData();
+
     const jsonData = JSON.stringify(userData);
+    const imageData: any = file; // [{ file: ..., id: ...}]
 
     formData.append(
       "userUpdateRequest",
       new Blob([jsonData], { type: "application/json" })
     );
 
-    const imageData: any = file;
+    formData.append("images", new Blob([imageData], { type: "image/jpeg" }));
 
-    formData.append("images", imageData);
+    fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/createMandatorySurvey`, {
+      method: "POST",
+      body: formData
+    });
 
-    const { response, errorMessage } = await mutationalFetch(
-      {
-        method: "POST",
-        body: formData,
-        headers: {
-          "Content-type": "multipart/form-data",
-          Authorization: `Bearer ${getClientToken()}`
-        }
-      },
-      () => {
-        console.log("post 완료");
-        router.push("/survey/optional");
-      }
-    );
+    // const { response, errorMessage } = await mutationalFetch(
+    //   {
+    //     method: "POST",
+    //     body: formData,
+    //     headers: {
+    //       "Content-Type": "multipart/form-data", //500
+    //       Authorization: `Bearer ${getClientToken()}`
+    //     }
+    //   },
+    //   () => {
+    //     console.log("post 완료");
+    //     router.push("/survey/optional");
+    //   }
+    // );
 
-    console.log("응답 확인", response, errorMessage);
+    // console.log("응답 확인", response, errorMessage);
   };
 
   const handleFileSelect = useCallback(
