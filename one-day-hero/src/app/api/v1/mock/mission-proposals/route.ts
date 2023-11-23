@@ -1,13 +1,29 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
-import {
-  proposalDetail,
-  suggestedMissionList
-} from "@/app/api/v1/mock/_data/mission";
+import { proposalDetail, SuggestedMissionListResponse } from "@/types/response";
 import { PostProposalSchema } from "@/types/schema";
 
-export function GET() {
-  return NextResponse.json(suggestedMissionList, { status: 200 });
+import { suggestedMissionList } from "../_data/mission";
+
+export function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const page = parseInt(searchParams.get("page") || "0");
+  const size = parseInt(searchParams.get("size") || "0");
+  const sort = searchParams.get("sort");
+
+  const responseList: SuggestedMissionListResponse = {
+    ...suggestedMissionList,
+    data: {
+      ...suggestedMissionList.data,
+      content: suggestedMissionList.data.content.slice(
+        page * size,
+        (page + 1) * size
+      ),
+      last: (page + 1) * size >= suggestedMissionList.data.content.length
+    }
+  };
+
+  return NextResponse.json(responseList, { status: 200 });
 }
 
 export async function POST(request: NextRequest) {
