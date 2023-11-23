@@ -6,7 +6,10 @@ export async function POST(request: NextRequest) {
   return NextResponse.json(
     {
       status: 200,
-      token: "asdf",
+      data: {
+        userId: 1,
+        accessToken: "asdf"
+      },
       serverDateTime: "2023-11-13T15:26:38"
     },
     {

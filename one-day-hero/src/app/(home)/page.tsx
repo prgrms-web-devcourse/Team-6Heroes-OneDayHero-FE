@@ -1,34 +1,20 @@
 import Category from "@/components/common/Category";
 import Banner from "@/components/domain/home/Banner";
-import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendList";
+import Assets from "@/config/assets";
 
-const defaultLabelStyle = "text-lg font-semibold";
+const banners = [Assets.Banner1, Assets.Banner2, Assets.Banner3];
 
 const HomePage = async () => {
+  const defaultLabelStyle = "text-lg font-semibold";
+
   return (
     <div className="flex w-full flex-col gap-8">
       <div>
-        <Banner autoPlay />
+        <Banner banners={banners} />
       </div>
       <div className="flex flex-col gap-2">
         <span className={`${defaultLabelStyle}`}>찾는 카테고리가 있나요?</span>
         <Category routeState size="lg" />
-      </div>
-      <div className="h-0 border border-neutral-200" />
-      <div className="flex flex-col gap-2">
-        <span className={`${defaultLabelStyle}`}>이 달의 히어로</span>
-        <HeroRecommendList
-          className="cs:m-0"
-          heroDataList={[
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 }
-          ]}
-        />
       </div>
       <div className="h-0 border border-neutral-200" />
       <div>

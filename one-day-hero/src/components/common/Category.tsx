@@ -55,7 +55,7 @@ const Category = ({
   const containerStyle = "flex py-1";
 
   const itemStyle = `flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white ${
-    size === "sm" ? "w-16 h-16" : "w-[72px] h-[72px]"
+    size === "sm" ? "w-16 h-16" : "w-[4.5rem] h-[4.5rem]"
   } rounded-[25px] m-1 shadow`;
 
   const handleClick = (id: number) => {

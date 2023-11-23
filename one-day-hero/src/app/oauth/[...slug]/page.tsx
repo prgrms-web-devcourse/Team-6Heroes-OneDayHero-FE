@@ -22,12 +22,11 @@ const KakaoCallbackPage = () => {
         })
       });
 
-      console.log(getClientToken());
       router.push("/");
     };
 
     postCode();
-  }, [code]);
+  }, [code, router]);
 
   return <div>Processing...</div>;
 };

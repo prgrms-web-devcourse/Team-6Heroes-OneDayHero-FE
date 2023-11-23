@@ -31,3 +31,9 @@ export type MissionCreateRequest = {
     price: number;
   };
 };
+
+export type MissionProposalRequest = {
+  userId: number;
+  missionId: number;
+  heroId: number;
+};
