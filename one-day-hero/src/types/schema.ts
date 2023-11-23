@@ -86,3 +86,11 @@ export const PostProposalSchema = z.object({
   missionId: z.number(),
   heroId: z.number()
 });
+export const MissionSearchFilterSchema = z.object({
+  categoryId: z.string().optional(),
+  dongId: z.string().optional()
+});
+
+export type MissionSearchFilterSchemaProps = z.infer<
+  typeof MissionSearchFilterSchema
+>;
