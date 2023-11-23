@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 import ErrorPage from "@/app/error";
@@ -12,8 +13,14 @@ import HeroSwitch from "@/components/domain/profile/HeroSwitch";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetUserFetch } from "@/services/users";
 
+import { getServerToken } from "../utils/auth";
+
 const ProfilePage = async () => {
-  const { isError, response } = await useGetUserFetch(1);
+  const token = getServerToken();
+
+  if (!token) redirect("/login?redirect=");
+
+  const { isError, response } = await useGetUserFetch(token ?? "");
 
   if (isError || !response) return <ErrorPage />;
 

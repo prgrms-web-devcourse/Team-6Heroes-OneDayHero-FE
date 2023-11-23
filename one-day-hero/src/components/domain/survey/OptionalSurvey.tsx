@@ -103,6 +103,7 @@ const OptionalSurvey = () => {
   };
 
   const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = (data) => {
+    console.log("data", data);
     mutationalFetch(
       {
         method: "PATCH",
@@ -139,7 +140,6 @@ const OptionalSurvey = () => {
           <div className="mt-1 flex gap-2">
             <Select
               id="working hour start"
-              setValue={setValue}
               {...register("favoriteWorkingDay.favoriteStartTime")}>
               {hours.map((hour) => (
                 <option className="text-xs" key={hour}>
@@ -154,7 +154,6 @@ const OptionalSurvey = () => {
 
             <Select
               id="working hour end"
-              setValue={setValue}
               {...register("favoriteWorkingDay.favoriteEndTime")}>
               {hours.map((hour) => (
                 <option className="text-xs" key={hour}>
@@ -222,7 +221,7 @@ const OptionalSurvey = () => {
           </HorizontalScroll>
         </div>
 
-        <div className="h-56 w-full rounded-2xl bg-cancel-lighten">
+        <div className="bg-cancel-lighten h-56 w-full rounded-2xl">
           지도자리
         </div>
 
