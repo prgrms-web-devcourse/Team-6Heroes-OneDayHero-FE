@@ -2,28 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { getServerToken } from "@/app/utils/auth";
 import { useCreateMissionFetch } from "@/services/missions";
-import { ImageFileType } from "@/types";
 
 export async function POST(request: NextRequest) {
   const token = getServerToken();
 
-  const { data, images } = await request.json();
-
-  const formData = new FormData();
-
-  const jsonData = JSON.stringify(data);
-
-  formData.append(
-    "missionCreateRequest",
-    new Blob([jsonData], { type: "application/json" })
-  );
-
-  if (images) {
-    images?.forEach((image: ImageFileType) => {
-      const imageBlob = new Blob([image.file], { type: "image/jpeg" });
-      formData.append(`multipartFiles`, imageBlob, "image.jpg");
-    });
-  }
+  const data = await request.formData();
 
   const { mutationalFetch } = useCreateMissionFetch();
 
@@ -37,7 +20,7 @@ export async function POST(request: NextRequest) {
       headers: {
         Authorization: `Bearer ${token}`
       },
-      body: formData
+      body: data
     },
     (response) => {
       console.log(response);

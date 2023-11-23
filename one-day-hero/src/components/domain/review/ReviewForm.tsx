@@ -1,16 +1,19 @@
 "use client";
 
 import { FormEvent, useRef, useState } from "react";
+import { z } from "zod";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Container from "@/components/common/Container";
+import ErrorMessage from "@/components/common/ErrorMessage";
 import InputLabel from "@/components/common/InputLabel";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
-import { usePostCreateReviewFetch } from "@/services/review";
 import { ImageFileType } from "@/types";
+import { ReviewFormSchema } from "@/types/schema";
 
 import StarRating from "./StarRating";
+
+type RequestType = z.infer<typeof ReviewFormSchema>;
 
 type ReviewFormProps = {
   editMode?: boolean;
@@ -22,8 +25,10 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
   const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
     null
   );
+  const [errorMessage, setErrorMessage] = useState<
+    Partial<Record<keyof RequestType, string>>
+  >({});
   const reviewRef = useRef<HTMLTextAreaElement | null>(null);
-  const { mutationalFetch } = usePostCreateReviewFetch();
 
   const handleScoreSelect = (count: number) => {
     setScore(count);
@@ -37,17 +42,31 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
     e.preventDefault();
 
     if (!editMode) {
-      const formData = new FormData();
-
-      const data = {
+      const data: RequestType = {
         senderId: 1,
         receiverId: 2,
-        missionId: 1,
+        missionId: 4,
         categoryId: 1,
         missionTitle: "서빙 구함",
         content: reviewRef.current?.value ?? "",
         starScore: score
       };
+
+      const result = ReviewFormSchema.safeParse(data);
+
+      console.log(result);
+
+      if (!result.success) {
+        const validationError: Record<string, string> = {};
+        result.error.errors.map((err) => {
+          validationError[err.path.join()] = err.message;
+        });
+
+        setErrorMessage(validationError);
+        return;
+      }
+
+      const formData = new FormData();
 
       const jsonData = JSON.stringify(data);
 
@@ -59,7 +78,7 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
       if (selectedImages) {
         selectedImages.forEach((image) => {
           const imageBlob = new Blob([image.file], { type: "image/jpeg" });
-          formData.append("images", imageBlob);
+          formData.append(`images`, imageBlob, "image.jpg");
         });
       }
 
@@ -83,12 +102,16 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
           `Nick` 히어로님과의 미션은 어떠셨나요?
         </h1>
         <StarRating onSelect={handleScoreSelect} />
+        {errorMessage.starScore && (
+          <ErrorMessage>{errorMessage.starScore}</ErrorMessage>
+        )}
       </Container>
       <div className="w-full">
         <InputLabel className="cs:text-lg">미션 후기를 남겨주세요.</InputLabel>
         <Textarea
           ref={reviewRef}
           className="cs:w-full cs:h-40 cs:shadow-down cs:border-0"
+          error={errorMessage.content}
         />
       </div>
       <div className="mb-5 flex w-full flex-col justify-start">
