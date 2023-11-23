@@ -1,31 +1,36 @@
 "use client";
+
 import { useRouter } from "next/navigation";
+import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import { getClientToken } from "@/app/utils/cookie";
 import Container from "@/components/common/Container";
 import FooterButton from "@/components/common/FooterButton";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
 import { useToast } from "@/contexts/ToastProvider";
-import { useProposeMissionFetch } from "@/services/missions";
+import {
+  useGetSuggestingMissionListFetch,
+  useProposeMissionFetch
+} from "@/services/missions";
 import { MissionProposalRequest } from "@/types/request";
-import { SuggestingMissionListResponse, UserResponse } from "@/types/response";
+import { UserResponse } from "@/types/response";
 
 type SuggestionFormProps = {
-  missionListData: SuggestingMissionListResponse["data"]["content"];
   heroData: UserResponse["data"];
   heroId: number;
 };
 
-const SuggestionForm = ({
-  missionListData,
-  heroData,
-  heroId
-}: SuggestionFormProps) => {
-  const userId = 123;
+const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
+  const token = getClientToken();
 
   const { showToast } = useToast();
 
   const router = useRouter();
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const { data } = useGetSuggestingMissionListFetch(token ?? "", observerRef);
 
   const {
     handleSubmit,
@@ -33,7 +38,7 @@ const SuggestionForm = ({
     watch,
     formState: { isSubmitting }
   } = useForm<MissionProposalRequest>({
-    defaultValues: { userId, heroId }
+    defaultValues: { heroId }
   });
 
   const selectedMissionId = watch("missionId");
@@ -71,7 +76,7 @@ const SuggestionForm = ({
         <h2 className="w-full break-keep text-left text-xl font-semibold">
           {`"${heroData.basicInfo.nickname}"`} 님에게 제안할 미션을 골라주세요!
         </h2>
-        {missionListData.map(({ id, mission }) => (
+        {data.map(({ id, mission }) => (
           <Container
             key={id}
             onClick={() => {
@@ -89,6 +94,7 @@ const SuggestionForm = ({
             />
           </Container>
         ))}
+        <div ref={observerRef} />
       </div>
       <FooterButton
         formId="suggest"
