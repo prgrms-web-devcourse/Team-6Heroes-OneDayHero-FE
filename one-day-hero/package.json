@@ -17,6 +17,7 @@
     "react-dom": "^18",
     "react-icons": "^4.11.0",
     "sharp": "^0.32.6",
+    "sockjs-client": "^1.6.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

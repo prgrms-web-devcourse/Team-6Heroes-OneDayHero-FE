@@ -1,9 +1,9 @@
 import ChattingClientContainer from "@/components/domain/chatting/ChattingClientContainer";
 
-const ChattingPage = () => {
+const ChattingPage = ({ params }: { params: { slug: string } }) => {
   return (
     <>
-      <ChattingClientContainer />
+      <ChattingClientContainer roomId={params.slug} />
     </>
   );
 };

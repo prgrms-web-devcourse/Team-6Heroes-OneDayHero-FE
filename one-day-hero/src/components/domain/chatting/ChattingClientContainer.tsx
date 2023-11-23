@@ -1,9 +1,8 @@
 "use client";
 
-import * as StompJs from "@stomp/stompjs";
-import { useState } from "react";
-import SockJS from "sockjs-client";
+import { useEffect, useState } from "react";
 
+import { connect } from "@/app/utils/chatting";
 import Container from "@/components/common/Container";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 
@@ -11,17 +10,14 @@ import ChattingInputFooter from "./ChattingInputFooter";
 import MessageContainer from "./MessageContainer";
 import MissionProgressButtonBar from "./MissionProgressButtonBar";
 
-const ChattingClientContainer = () => {
+const ChattingClientContainer = ({ roomId }: { roomId: string }) => {
   const isCitizen = true;
 
   const [newMessages, setNewMessages] = useState<string[]>([]);
 
-  let stompClient;
-
-  const connection = () => {
-    const socket = new SockJS("fef");
-    stompClient = StompJs.Stomp.over(socket);
-  };
+  useEffect(() => {
+    connect(roomId, setNewMessages);
+  }, [roomId]);
 
   return (
     <>
@@ -43,7 +39,7 @@ const ChattingClientContainer = () => {
       <div className="h-32 w-full" />
       <MessageContainer newMessages={newMessages} />
 
-      <ChattingInputFooter setNewMessages={setNewMessages} />
+      <ChattingInputFooter setNewMessages={setNewMessages} roomId={roomId} />
     </>
   );
 };
