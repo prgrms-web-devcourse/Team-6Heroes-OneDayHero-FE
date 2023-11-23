@@ -1,7 +1,6 @@
 "use client";
 
 import { ForwardedRef, forwardRef, PropsWithChildren } from "react";
-import { FieldValues, UseFormSetValue } from "react-hook-form";
 
 import useForm from "@/hooks/useForm";
 
@@ -10,7 +9,6 @@ import ErrorMessage from "./ErrorMessage";
 interface SelectProps extends React.ComponentProps<"select"> {
   className?: string;
   error?: string;
-  setValue?: UseFormSetValue<FieldValues>;
 }
 
 const Select = forwardRef(
@@ -18,7 +16,7 @@ const Select = forwardRef(
     {
       id,
       className,
-      setValue,
+
       children,
       error,
       ...props
@@ -28,7 +26,7 @@ const Select = forwardRef(
     const { handleChange } = useForm("");
 
     const defaultStyle =
-      "border-inactive focus:outline-primary w-full h-[34px] rounded-[10px] border pl-2";
+      "border-inactive focus:outline-primary w-full h-[2.13rem] rounded-[0.625rem] border pl-2";
 
     return (
       <div className="flex w-full flex-col">
