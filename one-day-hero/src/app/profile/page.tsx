@@ -25,14 +25,21 @@ const ProfilePage = async () => {
   if (isError || !response) return <ErrorPage />;
 
   const {
-    data: { basicInfo, favoriteWorkingDay }
+    data: {
+      basicInfo,
+      image,
+      favoriteWorkingDay,
+      favoriteRegions,
+      heroScore,
+      isHeroMode
+    }
   } = response;
 
   return (
     <>
       <div className="flex w-full">
         <Image
-          src={DefaultThumbnail}
+          src={image.path || DefaultThumbnail}
           alt="썸네일"
           width={150}
           className="pointer-events-none mr-3 rounded-full bg-neutral-200"
@@ -53,7 +60,7 @@ const ProfilePage = async () => {
             {HELP_MESSAGES.HERO_MODE_CHANGE}
           </HelpCircle>
         </div>
-        <HeroSwitch isHeroMode={false} />
+        <HeroSwitch isHeroMode={!!isHeroMode} />
       </div>
 
       <div className="w-full">
@@ -65,7 +72,7 @@ const ProfilePage = async () => {
             ))}
           </HelpCircle>
         </div>
-        <HeroScore score={70} />
+        <HeroScore score={heroScore} />
       </div>
       <div className="w-full">
         <div className="mb-2 mt-5 flex items-center">
@@ -85,18 +92,20 @@ const ProfilePage = async () => {
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">선호 지역</h2>
         <div className="rounded-lg border border-background-darken bg-white p-2">
-          서울시 강남구 역삼동
+          {favoriteRegions?.map(({ id, si, gu, dong }) => (
+            <p key={id}>{`${si} ${gu} ${dong}`}</p>
+          ))}
         </div>
       </div>
       <div className="mb-12 w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">소개</h2>
         <div className="rounded-lg border border-background-darken bg-white p-2">
-          <div className="mb-2 flex gap-2">
+          {/* <div className="mb-2 flex gap-2">
             <Label size="lg">카페</Label>
             <Label size="lg">식당</Label>
             <Label size="lg">청소</Label>
-          </div>
-          <p>식당 알바 6개월 경력</p>
+          </div> */}
+          <p>{basicInfo.introduce}</p>
         </div>
       </div>
       <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">

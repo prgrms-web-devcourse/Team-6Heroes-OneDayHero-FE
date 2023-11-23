@@ -187,8 +187,14 @@ export type UserResponse = {
       favoriteStartTime: string;
       favoriteEndTime: string;
     };
+    favoriteRegions?: {
+      id: number;
+      si: string;
+      gu: string;
+      dong: string;
+    }[];
     heroScore: number;
-    isHeroMode: boolean;
+    isHeroMode?: boolean;
   };
   serverDateTime: string;
 };
