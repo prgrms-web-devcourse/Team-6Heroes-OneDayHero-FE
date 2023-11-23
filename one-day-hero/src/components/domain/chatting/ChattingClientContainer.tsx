@@ -1,6 +1,8 @@
 "use client";
 
+import * as StompJs from "@stomp/stompjs";
 import { useState } from "react";
+import SockJS from "sockjs-client";
 
 import Container from "@/components/common/Container";
 import MissionListItem from "@/components/common/Info/MissionListItem";
@@ -13,6 +15,13 @@ const ChattingClientContainer = () => {
   const isCitizen = true;
 
   const [newMessages, setNewMessages] = useState<string[]>([]);
+
+  let stompClient;
+
+  const connection = () => {
+    const socket = new SockJS("fef");
+    stompClient = StompJs.Stomp.over(socket);
+  };
 
   return (
     <>
