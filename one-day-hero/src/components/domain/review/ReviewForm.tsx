@@ -2,10 +2,12 @@
 
 import { FormEvent, useRef, useState } from "react";
 
+import { getClientToken } from "@/app/utils/cookie";
 import Container from "@/components/common/Container";
 import InputLabel from "@/components/common/InputLabel";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
+import { usePostCreateReviewFetch } from "@/services/review";
 import { ImageFileType } from "@/types";
 
 import StarRating from "./StarRating";
@@ -21,6 +23,7 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
     null
   );
   const reviewRef = useRef<HTMLTextAreaElement | null>(null);
+  const { mutationalFetch } = usePostCreateReviewFetch();
 
   const handleScoreSelect = (count: number) => {
     setScore(count);
@@ -30,12 +33,40 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
     setSelectedImages(files);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     if (!editMode) {
-      console.log(score);
-      console.log(selectedImages);
-      /** @note 기본값으로는 생성 폼으로 사용 post 요청 */
+      const formData = new FormData();
+
+      const data = {
+        senderId: 1,
+        receiverId: 2,
+        missionId: 1,
+        categoryId: 1,
+        missionTitle: "서빙 구함",
+        content: reviewRef.current?.value ?? "",
+        starScore: score
+      };
+
+      const jsonData = JSON.stringify(data);
+
+      formData.append(
+        "reviewCreateRequest",
+        new Blob([jsonData], { type: "application/json" })
+      );
+
+      if (selectedImages) {
+        selectedImages.forEach((image) => {
+          const imageBlob = new Blob([image.file], { type: "image/jpeg" });
+          formData.append("images", imageBlob);
+        });
+      }
+
+      await fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/createReview`, {
+        method: "POST",
+        body: formData
+      });
     } else {
       /** @note true면 수정 폼으로 사용 put 요청 */
     }
@@ -45,7 +76,8 @@ const ReviewForm = ({ editMode }: ReviewFormProps) => {
     <form
       id={!editMode ? "createReview" : "editReview"}
       className="flex w-full flex-col items-center gap-5"
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+      encType="multipart/form-data">
       <Container className="cs:w-full cs:py-8 cs:m-0 flex flex-col items-center gap-8 text-center">
         <h1 className="text-lg font-medium">
           `Nick` 히어로님과의 미션은 어떠셨나요?

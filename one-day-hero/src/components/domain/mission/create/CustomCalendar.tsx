@@ -6,6 +6,7 @@ import { ForwardedRef, forwardRef, useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import { BiCalendar } from "react-icons/bi";
 
+import { formatTime } from "@/app/utils/formatTime";
 import Input from "@/components/common/Input";
 
 type ValuePiece = Date | null;
@@ -27,7 +28,7 @@ const CustomCalendar = forwardRef(
       if (selectedDate === null) return;
       onChange(selectedDate);
 
-      const formattedDate = (selectedDate as Date).toISOString().slice(0, 10);
+      const formattedDate = formatTime(selectedDate.toString(), 10);
 
       setInputValue(formattedDate);
       setOpenState(false);
