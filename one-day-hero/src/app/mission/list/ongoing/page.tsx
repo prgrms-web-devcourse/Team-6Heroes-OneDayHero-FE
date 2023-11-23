@@ -1,24 +1,11 @@
 import { revalidateTag } from "next/cache";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
 
-import authOptions from "@/app/api/auth/[...nextauth]/authOptions";
-import ErrorPage from "@/app/error";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressContainer from "@/components/common/MissionProgressContainer";
-import {
-  useGetOngoingMissionListFetch,
-  useGetProgressMissionListFetch
-} from "@/services/missions";
-import { MissionResponse } from "@/types/response";
+import { useGetProgressMissionListFetch } from "@/services/missions";
 
 const OngoingMissionPage = async () => {
-  // const session = await getServerSession(authOptions);
-
-  // if (!session) {
-  //   redirect("/api/auth/signin?callbackUrl=/mission/list/ongoing");
-  // }
   /**@note mock 데이터 수정사항 반영 용도 */
   revalidateTag("progress1");
 

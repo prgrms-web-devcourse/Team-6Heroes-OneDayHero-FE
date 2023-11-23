@@ -13,6 +13,16 @@ type DayListProps = {
   className?: "";
 };
 
+const days = [
+  ["월", "MON"],
+  ["화", "TUE"],
+  ["수", "WED"],
+  ["목", "THU"],
+  ["금", "FRI"],
+  ["토", "SAT"],
+  ["일", "SUN"]
+];
+
 const DayList = forwardRef(
   (
     {
@@ -23,17 +33,16 @@ const DayList = forwardRef(
     }: PropsWithChildren<DayListProps>,
     ref
   ) => {
-    const days = ["MON", "THU", "WED", "THU", "FRI", "SAT", "SUN"];
-
     return (
       <div className={`${className} flex flex-wrap gap-x-1.5`} {...props}>
-        {days.map((day, index) => (
+        {days.map(([dayKR, dayEN]) => (
           <ToggleButton
             setValue={setValue}
             getValues={getValues}
-            key={index}
-            selectedDate={day}
-          />
+            key={dayEN}
+            selectedDate={dayEN}>
+            {dayKR}
+          </ToggleButton>
         ))}
       </div>
     );

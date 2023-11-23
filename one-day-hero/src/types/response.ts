@@ -88,17 +88,64 @@ export type ProgressMissionListResponse = {
   serverDateTime: string;
 };
 
-export type OngoingMissionListResponse = {
-  status: number;
-  data: MissionResponse["data"][];
-  serverDateTime: string;
+export type MissionItemResponse = {
+  id: number;
+  status: "MATCHING" | "MATCHING_COMPLETED" | "MISSION_COMPLETED" | "EXPIRED";
+  bookmarkCount: number;
+  createdAt: string;
+  region: {
+    si: string;
+    gu: string;
+    dong: string;
+  };
+  missionCategory: {
+    code: string;
+    name: string;
+  };
+  missionInfo: {
+    title: string;
+    missionDate: string;
+    startTime: string;
+    endTime: string;
+    price: number;
+  };
 };
 
 export type SuggestedMissionListResponse = {
   status: number;
-  data: MissionResponse["data"][];
+  data: {
+    content: {
+      id: number;
+      mission: MissionItemResponse;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        sorted: boolean;
+        unsorted: boolean;
+        empty: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    last: boolean;
+    size: number;
+    number: number;
+    sort: {
+      sorted: boolean;
+      unsorted: boolean;
+      empty: boolean;
+    };
+    empty: boolean;
+  };
   serverDateTime: string;
 };
+
+export type SuggestingMissionListResponse = SuggestedMissionListResponse;
 
 export type BookmarkResponse = {
   status: number;
@@ -106,6 +153,17 @@ export type BookmarkResponse = {
     id: number;
     missionId: number;
     userId: number;
+  };
+  serverDateTime: string;
+};
+
+export type ProposalResponse = {
+  status: number;
+  data: {
+    id: number;
+    missionId: number;
+    heroId: number;
+    missionProposalStatus: "PROPOSAL" | "APPROVE" | "REJECT";
   };
   serverDateTime: string;
 };
@@ -165,4 +223,29 @@ type gu = {
 
 export type favoriteRegionsResponse = {
   서울시: gu[];
+};
+
+export type ReviewDetailResponse = {
+  status: number;
+  data: {
+    id: number;
+    senderId: number;
+    senderNickName: string;
+    receiverId: number;
+    missionCategory: {
+      id: number;
+      code: string;
+      name: string;
+    };
+    missionTitle: string;
+    content: string;
+    starScore: 1 | 2 | 3 | 4 | 5;
+    reviewImageResponses: {
+      id: number;
+      uniqueName: string;
+      path: string;
+    }[];
+    createdAt: string;
+  };
+  serverDateTime: string;
 };

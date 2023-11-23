@@ -3,9 +3,10 @@ import { revalidatePath } from "next/cache";
 import {
   BookmarkResponse,
   MissionResponse,
-  OngoingMissionListResponse,
   ProgressMissionListResponse,
-  SuggestedMissionListResponse
+  ProposalResponse,
+  SuggestedMissionListResponse,
+  SuggestingMissionListResponse
 } from "@/types/response";
 
 import {
@@ -21,12 +22,6 @@ export const useGetMissionFetch = (missionId: string) => {
   });
 };
 
-export const useGetCompletedMissionFetch = () => {
-  return useFetch<SuggestedMissionListResponse>(`/missions/record`, {
-    next: { tags: ["record"] }
-  });
-};
-
 export const useCreateMissionFetch = () => {
   return useMutationalFetch<MissionResponse>("/missions") as {
     mutationalFetch: (
@@ -34,6 +29,16 @@ export const useCreateMissionFetch = () => {
       onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<MissionResponse>>;
+  };
+};
+
+export const useProposeMissionFetch = () => {
+  return useMutationalFetch<ProposalResponse>("/mission-proposals") as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: () => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<ProposalResponse>>;
   };
 };
 
@@ -65,16 +70,14 @@ export const useDeleteBookmarkFetch = (missionId: number, userId: number) => {
   );
 };
 
-export const useGetOngoingMissionListFetch = () => {
-  return useFetch<OngoingMissionListResponse>(`/missions/list/ongoing`, {
-    next: { tags: [`ongoing`] }
-  });
-};
-
-export const useGetSuggestedMissionListFetch = () => {
-  return useFetch<SuggestedMissionListResponse>(`/missions/list/suggested`, {
-    next: { tags: [`suggested`] }
-  });
+export const useGetSuggestedMissionListFetch = (heroId: string) => {
+  return useInfiniteFetch<SuggestedMissionListResponse>(
+    `/mission-proposals?heroId=${heroId}`,
+    3,
+    {
+      next: { tags: [`suggested${heroId}`] }
+    }
+  );
 };
 
 export const useGetProgressMissionListFetch = (userId: string) => {
@@ -83,6 +86,26 @@ export const useGetProgressMissionListFetch = (userId: string) => {
     3,
     {
       next: { tags: [`progress${userId}`] }
+    }
+  );
+};
+
+export const useGetCompleteMissionListFetch = (userId: string) => {
+  return useInfiniteFetch<ProgressMissionListResponse>(
+    `/missions/complete/${userId}`,
+    3,
+    {
+      next: { tags: [`complete${userId}`] }
+    }
+  );
+};
+
+export const useGetSuggestingMissionListFetch = (userId: number) => {
+  return useInfiniteFetch<SuggestingMissionListResponse>(
+    `/missions/matching/${userId}`,
+    3,
+    {
+      next: { tags: [`matching${userId}`] }
     }
   );
 };

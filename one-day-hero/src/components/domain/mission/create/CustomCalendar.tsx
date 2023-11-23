@@ -34,10 +34,10 @@ const CustomCalendar = forwardRef(
     };
 
     useEffect(() => {
-      const handleOutsideClick = (event: MouseEvent) => {
+      const handleOutsideClick = (e: MouseEvent) => {
         if (
           calendarRef.current &&
-          !calendarRef.current.contains(event.target as Node)
+          !calendarRef.current.contains(e.target as Node)
         ) {
           setOpenState(false);
         }
