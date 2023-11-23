@@ -15,7 +15,6 @@ const ChattingInputFooter = ({ setNewMessages }: ChattingInputFooterProps) => {
   };
 
   const handleSend = () => {
-    console.log(inputValue);
     setNewMessages((prev) => [...prev, inputValue]);
     setInputValue("");
   };
@@ -31,6 +30,9 @@ const ChattingInputFooter = ({ setNewMessages }: ChattingInputFooterProps) => {
           type="text"
           value={inputValue}
           onChange={handleChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSend();
+          }}
         />
         <button
           onClick={handleSend}
