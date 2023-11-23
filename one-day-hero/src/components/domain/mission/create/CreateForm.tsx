@@ -76,12 +76,17 @@ const CreateForm = () => {
       }
     };
 
-    formData.append("missionCreateRequest", JSON.stringify(data));
+    const jsonData = JSON.stringify(data);
+
+    formData.append(
+      "missionCreateRequest",
+      new Blob([jsonData], { type: "application/json" })
+    );
 
     if (selectedImages) {
       selectedImages?.forEach((image) => {
         const imageBlob = new Blob([image.file], { type: "image/jpeg" });
-        formData.append(`multipartFiles`, imageBlob);
+        formData.append(`multipartFiles`, imageBlob, "image.jpg");
       });
     }
 
