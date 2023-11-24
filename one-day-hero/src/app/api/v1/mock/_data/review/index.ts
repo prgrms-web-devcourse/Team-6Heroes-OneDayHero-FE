@@ -1,3 +1,5 @@
+import { SendReviewResponse } from "./../../../../../../types/response";
+
 export const reviewDetail = {
   status: 200,
   data: {
@@ -30,51 +32,99 @@ export const reviewDetail = {
   serverDateTime: "2023-11-16T16:08:24"
 };
 
-export const reviewSend = {
+export const sendReview: SendReviewResponse = {
   status: 200,
   data: {
     userId: 1,
-    sentReviewResponses: {
-      content: [
-        {
-          reviewId: 1,
-          categoryName: "심부름",
-          missionTitle: "심부름 미션",
-          starScore: 3,
-          createdAt: "2023-11-16T16:08:24"
-        },
-        {
-          reviewId: 2,
-          categoryName: "청소",
-          missionTitle: "청소 미션",
-          starScore: 4,
-          createdAt: "2023-11-16T16:08:24"
-        }
-      ],
-      pageable: {
-        pageNumber: 0,
-        pageSize: 5,
-        sort: {
-          sorted: false,
-          unsorted: true,
-          empty: true
-        },
-        offset: 0,
-        paged: true,
-        unpaged: false
+    content: [
+      {
+        reviewId: 1,
+        categoryName: "심부름",
+        missionTitle: "심부름 미션",
+        starScore: 3,
+        createdAt: "2023-11-16T16:08:24"
       },
-      numberOfElements: 2,
-      first: true,
-      last: false,
-      size: 5,
-      number: 0,
+      {
+        reviewId: 2,
+        categoryName: "청소",
+        missionTitle: "청소 미션",
+        starScore: 4,
+        createdAt: "2023-11-16T16:08:24"
+      }
+    ],
+    pageable: {
+      pageNumber: 0,
+      pageSize: 5,
       sort: {
         sorted: false,
         unsorted: true,
         empty: true
       },
-      empty: false
-    }
+      offset: 0,
+      paged: true,
+      unpaged: false
+    },
+    numberOfElements: 2,
+    first: true,
+    last: false,
+    size: 5,
+    number: 0,
+    sort: {
+      sorted: false,
+      unsorted: true,
+      empty: true
+    },
+    empty: false
   },
   serverDateTime: "2023-11-16T16:08:24"
+};
+
+export const receiveReview = {
+  status: 200,
+  data: {
+    content: [
+      {
+        reviewId: 1,
+        senderId: 5,
+        senderNickname: "nickname A",
+        categoryName: "청소",
+        missionTitle: "청소 미션",
+        starScore: 4,
+        createdAt: "2023-11-20T15:41:28"
+      },
+      {
+        reviewId: 2,
+        senderId: 8,
+        senderNickname: "nickname B",
+        categoryName: "심부름",
+        missionTitle: "심부름 미션",
+        starScore: 3,
+        createdAt: "2023-11-20T15:41:28"
+      }
+    ],
+    pageable: {
+      pageNumber: 0,
+      pageSize: 5,
+      sort: {
+        sorted: false,
+        unsorted: true,
+        empty: true
+      },
+      offset: 0,
+      paged: true,
+      unpaged: false
+    },
+    numberOfElements: 2,
+    first: true,
+    last: false,
+    size: 5,
+    number: 0,
+    sort: {
+      sorted: false,
+      unsorted: true,
+      empty: true
+    },
+    empty: false
+  },
+  serverDateTime: "2023-11-20T15:41:28"
 };

@@ -168,6 +168,21 @@ export type ProposalResponse = {
   serverDateTime: string;
 };
 
+export type UserInfoForOptionalSurveyResponse = {
+  basicInfo: {
+    nickname: string;
+    gender: string;
+    birth: string;
+    introduce: string;
+  };
+  favoriteWorkingDay?: {
+    favoriteDate?: string[];
+    favoriteStartTime?: string;
+    favoriteEndTime?: string;
+  };
+  favoriteRegions?: number[];
+};
+
 export type UserResponse = {
   status: number;
   data: {
@@ -177,15 +192,15 @@ export type UserResponse = {
       birth: string;
       introduce: string;
     };
-    image: {
-      originalName: string;
-      uniqueName: string;
-      path: string;
+    image?: {
+      originalName: string | null;
+      uniqueName: string | null;
+      path: string | null;
     };
-    favoriteWorkingDay: {
-      favoriteDate: DateType[];
-      favoriteStartTime: string;
-      favoriteEndTime: string;
+    favoriteWorkingDay?: {
+      favoriteDate: DateType[] | [] | null;
+      favoriteStartTime: string | null;
+      favoriteEndTime: string | null;
     };
     favoriteRegions?: {
       id: number;
@@ -231,27 +246,119 @@ export type favoriteRegionsResponse = {
   서울시: gu[];
 };
 
+export type CreateReviewResponse = {
+  status: number;
+  data: {
+    id: number;
+  };
+  serverDateTime: string;
+};
+
 export type ReviewDetailResponse = {
   status: number;
   data: {
     id: number;
     senderId: number;
-    senderNickName: string;
+    senderNickname: string;
     receiverId: number;
-    missionCategory: {
-      id: number;
-      code: string;
-      name: string;
-    };
+    categoryId: number;
+    categoryCode: string;
+    categoryName: string;
     missionTitle: string;
     content: string;
     starScore: 1 | 2 | 3 | 4 | 5;
     reviewImageResponses: {
       id: number;
+      originalName: string;
       uniqueName: string;
       path: string;
     }[];
     createdAt: string;
+  };
+  serverDateTime: string;
+};
+
+export type SendReviewResponse = {
+  status: number;
+  data: {
+    content: {
+      reviewId: number;
+      categoryName: string;
+      missionTitle: string;
+      starScore: 1 | 2 | 3 | 4 | 5;
+      senderNickname: string;
+      profileImage: [string] | [];
+      createdAt: string;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        sorted: boolean;
+        unsorted: boolean;
+        empty: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    last: boolean;
+    size: number;
+    number: number;
+    sort: {
+      sorted: boolean;
+      unsorted: boolean;
+      empty: boolean;
+    };
+    empty: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type ReviewDeleteResponse = {
+  status: number;
+  data: null;
+  serverDateTime: string;
+};
+
+export type ReviewReceiveResponse = {
+  status: number;
+  data: {
+    content: {
+      reviewId: number;
+      senderId: number;
+      senderNickname: string;
+      profileImage: [string] | [];
+      categoryName: string;
+      missionTitle: string;
+      starScore: 1 | 2 | 3 | 4 | 5;
+      createdAt: string;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    size: number;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    last: boolean;
+    empty: boolean;
   };
   serverDateTime: string;
 };

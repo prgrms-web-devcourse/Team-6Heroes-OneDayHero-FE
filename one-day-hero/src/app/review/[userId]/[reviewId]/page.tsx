@@ -1,6 +1,7 @@
 import { revalidateTag } from "next/cache";
 
 import ErrorPage from "@/app/error";
+import { getServerToken } from "@/app/utils/auth";
 import TitleBox from "@/components/common/TitleBox";
 import ReviewInfo from "@/components/domain/review/ReviewInfo";
 import { useGetReviewDetailFetch } from "@/services/review";
@@ -12,21 +13,38 @@ const ReviewDetailPage = async ({
 }) => {
   revalidateTag(`review${params.reviewId}`);
 
+  const token = getServerToken();
+
   const { isError, response } = await useGetReviewDetailFetch(
-    parseInt(params.userId),
-    parseInt(params.reviewId)
+    parseInt(params.reviewId),
+    token ?? ""
   );
 
   if (isError || !response) return <ErrorPage />;
 
   const { data } = response;
 
-  const { missionTitle, missionCategory } = data;
+  const {
+    missionTitle,
+    categoryName,
+    content,
+    starScore,
+    createdAt,
+    senderNickname,
+    reviewImageResponses
+  } = data;
 
   return (
     <div className="flex w-full flex-col items-center gap-4">
-      <TitleBox category={missionCategory.name} title={missionTitle} />
-      <ReviewInfo data={data} />
+      <TitleBox category={categoryName} title={missionTitle} />
+      <ReviewInfo
+        categoryName={categoryName}
+        content={content}
+        starScore={starScore}
+        createdAt={createdAt}
+        senderNickname={senderNickname}
+        reviewImage={reviewImageResponses}
+      />
     </div>
   );
 };
