@@ -1,9 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import { formatTime } from "@/app/utils/formatTime";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
@@ -13,7 +11,6 @@ import Select from "@/components/common/Select";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
-import { useCreateMissionFetch } from "@/services/missions";
 import { ImageFileType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
 
@@ -35,12 +32,6 @@ const CreateForm = () => {
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
   const { missionCreateValidation } = useFormValidation();
 
-  const { mutationalFetch } = useCreateMissionFetch();
-
-  const token = getClientToken();
-
-  const router = useRouter();
-
   const handleSelect = (id: number) => {
     setCategoryId(id);
   };
@@ -56,8 +47,6 @@ const CreateForm = () => {
       (dateRef.current?.value ?? "") + " " + (startRef.current?.value ?? "");
 
     const deadlineTime = formatTime(deadline);
-
-    const formData = new FormData();
 
     const data: MissionCreateRequest = {
       missionCategoryId: categoryId,
@@ -75,6 +64,8 @@ const CreateForm = () => {
       }
     };
 
+    const formData = new FormData();
+
     const jsonData = JSON.stringify(data);
 
     formData.append(
@@ -83,7 +74,7 @@ const CreateForm = () => {
     );
 
     if (selectedImages) {
-      selectedImages?.forEach((image) => {
+      selectedImages?.forEach((image: ImageFileType) => {
         const imageBlob = new Blob([image.file], { type: "image/jpeg" });
         formData.append(`multipartFiles`, imageBlob, "image.jpg");
       });
@@ -93,24 +84,10 @@ const CreateForm = () => {
     setErrors(validationErrors);
 
     if (!Object.keys(validationErrors).length) {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FE_URL}/api/createPost`,
-        {
-          method: "POST",
-          body: JSON.stringify({ data, images: selectedImages })
-        }
-      );
-      // const { response, errorMessage } = await mutationalFetch({
-      //   method: "POST",
-      //   body: formData,
-      //   headers: {
-      //     Authorization: `Bearer ${token}`
-      //   }
-      // });
-
-      console.log(response.status);
-
-      // if (response) router.push(`/mission/${response.data.id}`);
+      await fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/createPost`, {
+        method: "POST",
+        body: formData
+      });
     }
   };
 
