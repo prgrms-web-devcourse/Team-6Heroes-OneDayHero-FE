@@ -17,15 +17,13 @@ const Footer = () => {
   return (
     <nav className={`${defaultStyle}`}>
       <Link
-        href="/chat"
-        className={`${pathname.startsWith("/chat") && `${active}`}`}>
+        href="/chatting"
+        className={`${pathname === "/chatting" && `${active}`} relative`}>
         <IconGroup title="채팅">
           <BiChat />
         </IconGroup>
       </Link>
-      <Link
-        href="/map"
-        className={`${pathname.startsWith("/map") && `${active}`}`}>
+      <Link href="/map" className={`${pathname === "/map" && `${active}`}`}>
         <IconGroup title="지도">
           <BiMap />
         </IconGroup>
@@ -38,10 +36,9 @@ const Footer = () => {
       <Link
         href="/mission/list/ongoing"
         className={`${
-          pathname.startsWith("/mission/list/ongoing") ||
-          pathname.startsWith("/mission/list/suggested")
-            ? `${active}`
-            : ""
+          (pathname === "/mission/list/ongoing" ||
+            pathname === "/mission/list/suggested") &&
+          `${active}`
         }`}>
         <IconGroup title="미션">
           <BiCalendarCheck />
@@ -49,7 +46,7 @@ const Footer = () => {
       </Link>
       <Link
         href="/profile"
-        className={`${pathname.startsWith("/profile") && `${active}`}`}>
+        className={`${pathname === "profile" && `${active}`}`}>
         <IconGroup title="프로필">
           <BiUser />
         </IconGroup>
