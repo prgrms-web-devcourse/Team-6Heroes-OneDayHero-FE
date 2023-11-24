@@ -4,6 +4,7 @@ import { ChangeEventHandler, Dispatch, SetStateAction, useState } from "react";
 import { AiOutlineArrowUp } from "react-icons/ai";
 
 import { sendMessage } from "@/app/utils/chatting";
+import { useUserId } from "@/contexts/UserIdProvider";
 
 type ChattingInputFooterProps = {
   setNewMessages: Dispatch<SetStateAction<string[]>>;
@@ -14,7 +15,7 @@ const ChattingInputFooter = ({
   setNewMessages,
   roomId
 }: ChattingInputFooterProps) => {
-  const userId = 16;
+  const { userId } = useUserId();
 
   const [inputValue, setInputValue] = useState("");
 
@@ -23,13 +24,13 @@ const ChattingInputFooter = ({
   };
 
   const handleSend = () => {
-    // sendMessage({
-    //   chatRoomId: roomId,
-    //   senderId: userId,
-    //   messageType: "TALK",
-    //   message: inputValue,
-    //   senderNickName: "howon"
-    // });
+    sendMessage({
+      chatRoomId: roomId,
+      senderId: userId,
+      messageType: "TALK",
+      message: inputValue,
+      senderNickName: "howon"
+    });
 
     setNewMessages((prev) => [...prev, inputValue]);
     setInputValue("");

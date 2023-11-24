@@ -1,9 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import { proposalDetail, SuggestedMissionListResponse } from "@/types/response";
+import { SuggestedMissionListResponse } from "@/types/response";
 import { PostProposalSchema } from "@/types/schema";
 
-import { suggestedMissionList } from "../_data/mission";
+import { proposalDetail, suggestedMissionList } from "../_data/mission";
 
 export function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;

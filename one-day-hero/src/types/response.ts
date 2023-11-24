@@ -192,22 +192,24 @@ export type UserResponse = {
       birth: string;
       introduce: string;
     };
-    image?: {
+    image: {
       originalName: string | null;
       uniqueName: string | null;
       path: string | null;
     };
-    favoriteWorkingDay?: {
-      favoriteDate: DateType[] | [] | null;
+    favoriteWorkingDay: {
+      favoriteDate: DateType[] | null;
       favoriteStartTime: string | null;
       favoriteEndTime: string | null;
     };
-    favoriteRegions?: {
-      id: number;
-      si: string;
-      gu: string;
-      dong: string;
-    }[];
+    favoriteRegions:
+      | {
+          id: number;
+          si: string;
+          gu: string;
+          dong: string;
+        }[]
+      | null;
     heroScore: number;
     isHeroMode?: boolean;
   };
@@ -360,5 +362,20 @@ export type ReviewReceiveResponse = {
     last: boolean;
     empty: boolean;
   };
+  serverDateTime: string;
+};
+
+export type ChatRoomsResponse = {
+  status: number;
+  data: {
+    id: number;
+    receiverId: number;
+    title: string;
+    receiverNickname: string;
+    receiverImagePath: string;
+    lastSentMessage: string;
+    headCount: number;
+    lastSentMessageTime: string;
+  }[];
   serverDateTime: string;
 };

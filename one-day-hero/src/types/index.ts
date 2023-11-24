@@ -12,3 +12,6 @@ export type ImageFileType = {
 };
 
 export type DateType = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
+
+export type ArrayElement<ArrayType extends readonly unknown[]> =
+  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;

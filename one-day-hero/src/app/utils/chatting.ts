@@ -4,8 +4,10 @@ import SockJS from "sockjs-client";
 
 import { getClientToken } from "./cookie";
 
-const socket = new SockJS(`${process.env.NEXT_PUBLIC_BE_URL}/ws-chat`);
-const stompClient = StompJs.Stomp.over(socket);
+// const socket = new SockJS(`${process.env.NEXT_PUBLIC_BE_URL}/ws-chat`);
+const stompClient = StompJs.Stomp.over(() => {
+  return new WebSocket(`${process.env.NEXT_PUBLIC_BE_WS_URL}/ws-chat`);
+});
 
 export const connect = (
   roomId: string,
