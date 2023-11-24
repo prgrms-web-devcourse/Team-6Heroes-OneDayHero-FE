@@ -41,7 +41,11 @@ type SendMessageProps = {
 export const sendMessage = (props: SendMessageProps) => {
   stompClient.send(
     `/pub/chatRooms/${props.chatRoomId}/chat`,
-    {},
+    {
+      headers: {
+        Authorization: `Bearer ${getClientToken()}`
+      }
+    },
     JSON.stringify(props)
   );
   console.log(props);
