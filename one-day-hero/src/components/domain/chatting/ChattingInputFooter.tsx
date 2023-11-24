@@ -14,7 +14,7 @@ const ChattingInputFooter = ({
   setNewMessages,
   roomId
 }: ChattingInputFooterProps) => {
-  const userId = 15;
+  const userId = 16;
 
   const [inputValue, setInputValue] = useState("");
 
@@ -23,13 +23,13 @@ const ChattingInputFooter = ({
   };
 
   const handleSend = () => {
-    sendMessage({
-      chatRoomId: roomId,
-      senderId: userId,
-      messageType: "TALK",
-      message: inputValue,
-      senderNickName: "howon"
-    });
+    // sendMessage({
+    //   chatRoomId: roomId,
+    //   senderId: userId,
+    //   messageType: "TALK",
+    //   message: inputValue,
+    //   senderNickName: "howon"
+    // });
 
     setNewMessages((prev) => [...prev, inputValue]);
     setInputValue("");

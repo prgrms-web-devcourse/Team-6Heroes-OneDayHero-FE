@@ -16,7 +16,7 @@ const ChattingClientContainer = ({ roomId }: { roomId: string }) => {
   const [newMessages, setNewMessages] = useState<string[]>([]);
 
   useEffect(() => {
-    connect(roomId, setNewMessages);
+    // connect(roomId, setNewMessages);
   }, [roomId]);
 
   return (
