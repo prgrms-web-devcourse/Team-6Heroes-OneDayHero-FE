@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { getServerToken } from "@/app/utils/auth";
-
-import { usePostCreateReviewFetch } from "./../../../services/review";
+import { useCreateReviewFetch } from "@/services/review";
 
 export async function POST(request: NextRequest) {
   const token = getServerToken();
 
   const data = await request.formData();
 
-  const { mutationalFetch } = usePostCreateReviewFetch();
+  const { mutationalFetch } = useCreateReviewFetch();
 
   const {
     isError,
