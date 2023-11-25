@@ -13,7 +13,7 @@ const ChattingClientContainer = ({ roomId }: { roomId: string }) => {
   const { userId } = useUserId();
   const isCitizen = true;
 
-  const { messages, sendMessage } = useChatting(roomId);
+  const { messages, sendMessage, messageEndRef } = useChatting(roomId);
 
   return (
     <>
@@ -33,7 +33,7 @@ const ChattingClientContainer = ({ roomId }: { roomId: string }) => {
         </Container>
       </div>
       <div className="h-32 w-full" />
-      <MessageContainer messages={messages} />
+      <MessageContainer messages={messages} messageEndRef={messageEndRef} />
 
       <ChattingInputFooter sendMessage={sendMessage} roomId={roomId} />
     </>

@@ -26,7 +26,7 @@ const Message = ({
       className={`mb-4 flex w-full max-w-sm gap-2 ${
         isMine ? "ml-auto flex-row-reverse" : "mr-auto flex-row"
       }`}>
-      <div>
+      <div className="shrink-0">
         <ProfileImage
           src={imagePath}
           alt="profileImage"
@@ -38,7 +38,9 @@ const Message = ({
         <p className={`mb-2 text-xs ${isMine ? "text-right" : "text-left"}`}>
           {ninkName}
         </p>
-        <div className="rounded-xl bg-white p-4">{message}</div>
+        <div className="max-w-[60vw] break-words rounded-xl bg-white p-4">
+          {message}
+        </div>
       </div>
       <div className="flex flex-col-reverse">
         <p className="text-xs">{sentAt}</p>

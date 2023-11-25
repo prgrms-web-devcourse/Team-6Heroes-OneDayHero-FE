@@ -1,16 +1,22 @@
 "use client";
 
+import { MutableRefObject } from "react";
+
 import { MessageProps } from "@/hooks/useChatting";
 
 import Message from "./Message";
 
 type MessageContainerProps = {
   messages: MessageProps[];
+  messageEndRef: MutableRefObject<HTMLDivElement | null>;
 };
 
-const MessageContainer = ({ messages }: MessageContainerProps) => {
+const MessageContainer = ({
+  messages,
+  messageEndRef
+}: MessageContainerProps) => {
   return (
-    <>
+    <div className="relative w-full">
       {messages.map(({ senderNickName, message, senderId }, idx) => {
         return (
           <Message
@@ -23,7 +29,8 @@ const MessageContainer = ({ messages }: MessageContainerProps) => {
           />
         );
       })}
-    </>
+      <div ref={messageEndRef} />
+    </div>
   );
 };
 

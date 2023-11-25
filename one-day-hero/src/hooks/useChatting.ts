@@ -16,6 +16,7 @@ export type MessageProps = {
 const useChatting = (roomId: string) => {
   const [messages, setMessages] = useState<MessageProps[]>([]);
   const clientRef = useRef<StompJs.Client | null>(null);
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   const connect = () => {
     clientRef.current = new StompJs.Client({
@@ -24,7 +25,7 @@ const useChatting = (roomId: string) => {
         Authorization: `Bearer ${getClientToken()}`
       },
       debug: function (str) {
-        console.log(str);
+        // console.log(str);
       },
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
@@ -52,11 +53,12 @@ const useChatting = (roomId: string) => {
   };
 
   const sendMessage = useCallback((props: MessageProps) => {
+    if (props.message.length <= 0) return;
+
     clientRef.current?.publish({
       destination: `/pub/chatRooms/${props.chatRoomId}/chat`,
       body: JSON.stringify(props)
     });
-    console.log(props);
   }, []);
 
   useEffect(() => {
@@ -78,7 +80,20 @@ const useChatting = (roomId: string) => {
     return () => disconnect();
   }, []);
 
-  return { messages, sendMessage };
+  useEffect(() => {
+    if (typeof window === "undefined" || !messageEndRef.current) return;
+
+    window.scrollTo({
+      behavior: "smooth",
+      top:
+        window.scrollY +
+        messageEndRef.current.getBoundingClientRect().top -
+        window.innerHeight +
+        150
+    });
+  }, [messages]);
+
+  return { messages, sendMessage, messageEndRef };
 };
 
 export default useChatting;
