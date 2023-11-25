@@ -234,16 +234,24 @@ export type UserSummaryResponse = {
 };
 
 type dong = {
-  regionId: number;
+  id: number;
   dong: string;
 };
 
 type gu = {
-  [key: string]: dong[] | undefined;
+  gu: string;
+  dong: dong[];
 };
 
-export type favoriteRegionsResponse = {
-  서울시: gu[];
+type si = {
+  si: string;
+  gu: gu[];
+};
+
+export type RegionsResponse = {
+  status: number;
+  data: si[];
+  serverDateTime: string;
 };
 
 export type CreateReviewResponse = {
@@ -322,7 +330,37 @@ export type MissionSearchListResponse = {
   data: {
     content: {
       id: number;
-      mission: MissionItemResponse;
+      missionCategory: {
+        id: number;
+        code: string;
+        name: string;
+      };
+      citizenId: number;
+      bookmarkCount: number;
+      missionStatus:
+        | "MATCHING"
+        | "MATCHING_COMPLETED"
+        | "MISSION_COMPLETED"
+        | "EXPIRED";
+      region: {
+        id: number;
+        si: string;
+        gu: string;
+        dong: string;
+      };
+      longitude: number;
+      latitude: number;
+      missionInfo: {
+        title: string;
+        content: string;
+        missionDate: string;
+        startTime: string;
+        endTime: string;
+        deadlineTime: string;
+        price: number;
+      };
+      paths: string[];
+      isBookmarked: boolean;
     }[];
     pageable: {
       pageNumber: number;
