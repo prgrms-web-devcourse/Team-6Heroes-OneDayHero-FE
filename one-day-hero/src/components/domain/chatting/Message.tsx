@@ -1,8 +1,6 @@
 "use client";
 
-import Image from "next/image";
-
-import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
+import ProfileImage from "@/components/common/ProfileImage";
 
 type MessageProps = {
   message: string;
@@ -27,11 +25,11 @@ const Message = ({
         isMine ? "ml-auto flex-row-reverse" : "mr-auto flex-row"
       }`}>
       <div>
-        <Image
-          src={imagePath || DefaultThumbnail}
+        <ProfileImage
+          src={imagePath}
           alt="profileImage"
-          width={60}
-          className="pointer-events-none mr-3 shrink-0 rounded-full bg-neutral-200 object-fill"
+          height={60}
+          className="cs:mr-3 cs:shrink-0"
         />
       </div>
       <div className="shrink grow">
