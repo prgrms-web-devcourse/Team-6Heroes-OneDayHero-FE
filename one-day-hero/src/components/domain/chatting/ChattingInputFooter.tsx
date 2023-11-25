@@ -1,18 +1,18 @@
 "use client";
 
-import { ChangeEventHandler, Dispatch, SetStateAction, useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 import { AiOutlineArrowUp } from "react-icons/ai";
 
-import { sendMessage } from "@/app/utils/chatting";
 import { useUserId } from "@/contexts/UserIdProvider";
+import { MessageProps } from "@/hooks/useChatting";
 
 type ChattingInputFooterProps = {
-  setNewMessages: Dispatch<SetStateAction<string[]>>;
+  sendMessage: (props: MessageProps) => void;
   roomId: string;
 };
 
 const ChattingInputFooter = ({
-  setNewMessages,
+  sendMessage,
   roomId
 }: ChattingInputFooterProps) => {
   const { userId } = useUserId();
@@ -32,7 +32,6 @@ const ChattingInputFooter = ({
       senderNickName: "howon"
     });
 
-    setNewMessages((prev) => [...prev, inputValue]);
     setInputValue("");
   };
 

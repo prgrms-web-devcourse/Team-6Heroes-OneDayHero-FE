@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-import { connect } from "@/app/utils/chatting";
 import Container from "@/components/common/Container";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import { useUserId } from "@/contexts/UserIdProvider";
+import useChatting from "@/hooks/useChatting";
 
 import ChattingInputFooter from "./ChattingInputFooter";
 import MessageContainer from "./MessageContainer";
@@ -15,11 +13,7 @@ const ChattingClientContainer = ({ roomId }: { roomId: string }) => {
   const { userId } = useUserId();
   const isCitizen = true;
 
-  const [newMessages, setNewMessages] = useState<string[]>([]);
-
-  useEffect(() => {
-    connect(roomId, setNewMessages);
-  }, [roomId]);
+  const { messages, sendMessage } = useChatting(roomId);
 
   return (
     <>
@@ -39,9 +33,9 @@ const ChattingClientContainer = ({ roomId }: { roomId: string }) => {
         </Container>
       </div>
       <div className="h-32 w-full" />
-      <MessageContainer newMessages={newMessages} />
+      <MessageContainer messages={messages} />
 
-      <ChattingInputFooter setNewMessages={setNewMessages} roomId={roomId} />
+      <ChattingInputFooter sendMessage={sendMessage} roomId={roomId} />
     </>
   );
 };

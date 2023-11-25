@@ -1,23 +1,25 @@
 "use client";
 
+import { MessageProps } from "@/hooks/useChatting";
+
 import Message from "./Message";
 
 type MessageContainerProps = {
-  newMessages: string[];
+  messages: MessageProps[];
 };
 
-const MessageContainer = ({ newMessages }: MessageContainerProps) => {
+const MessageContainer = ({ messages }: MessageContainerProps) => {
   return (
     <>
-      {newMessages.map((message, idx) => {
+      {messages.map(({ senderNickName, message, senderId }, idx) => {
         return (
           <Message
             key={idx}
             imagePath=""
             message={message}
-            ninkName="nick"
+            ninkName={senderNickName}
             sentAt="10:00pm"
-            userId={1}
+            userId={senderId}
           />
         );
       })}

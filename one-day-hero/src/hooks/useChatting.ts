@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { getClientToken } from "@/app/utils/cookie";
 
-type SendMessageProps = {
+export type MessageProps = {
   chatRoomId: string;
   senderId: number;
   messageType: "TALK" | "LEAVE";
@@ -14,7 +14,7 @@ type SendMessageProps = {
 };
 
 const useChatting = (roomId: string) => {
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<MessageProps[]>([]);
   const clientRef = useRef<StompJs.Client | null>(null);
 
   const connect = () => {
@@ -34,7 +34,6 @@ const useChatting = (roomId: string) => {
     clientRef.current.onConnect = () => {
       clientRef.current?.subscribe(`/queue/chatRooms/${roomId}`, (message) => {
         const recv = JSON.parse(message.body);
-        console.log("message: ", recv);
         setMessages((prev) => [...prev, recv]);
       });
     };
@@ -52,7 +51,7 @@ const useChatting = (roomId: string) => {
     clientRef.current.deactivate();
   };
 
-  const sendMessage = useCallback((props: SendMessageProps) => {
+  const sendMessage = useCallback((props: MessageProps) => {
     clientRef.current?.publish({
       destination: `/pub/chatRooms/${props.chatRoomId}/chat`,
       body: JSON.stringify(props)

@@ -1,6 +1,7 @@
 "use client";
 
 import ProfileImage from "@/components/common/ProfileImage";
+import { useUserId } from "@/contexts/UserIdProvider";
 
 type MessageProps = {
   message: string;
@@ -17,11 +18,12 @@ const Message = ({
   sentAt,
   userId
 }: MessageProps) => {
-  const isMine = true;
+  const { userId: myUserId } = useUserId();
+  const isMine = userId === myUserId;
 
   return (
     <div
-      className={`flex w-full max-w-sm gap-2 ${
+      className={`mb-4 flex w-full max-w-sm gap-2 ${
         isMine ? "ml-auto flex-row-reverse" : "mr-auto flex-row"
       }`}>
       <div>
