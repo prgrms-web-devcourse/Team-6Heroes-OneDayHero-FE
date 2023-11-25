@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 import { connect } from "@/app/utils/chatting";
 import Container from "@/components/common/Container";
 import MissionListItem from "@/components/common/Info/MissionListItem";
+import { useUserId } from "@/contexts/UserIdProvider";
 
 import ChattingInputFooter from "./ChattingInputFooter";
 import MessageContainer from "./MessageContainer";
 import MissionProgressButtonBar from "./MissionProgressButtonBar";
 
 const ChattingClientContainer = ({ roomId }: { roomId: string }) => {
+  const { userId } = useUserId();
   const isCitizen = true;
 
   const [newMessages, setNewMessages] = useState<string[]>([]);

@@ -10,13 +10,19 @@ import {
 
 type UserIdContextType = {
   userId: number;
-  setUserId: Dispatch<SetStateAction<number>>;
+  setUserId: (value: number) => void;
 };
 
 const UserIdContext = createContext<UserIdContextType | null>(null);
 
 const UserIdProvider = ({ children }: { children: React.ReactNode }) => {
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserIdState] = useState(getSavedUserId());
+
+  const setUserId = (value: number) => {
+    setUserIdState(value);
+    if (typeof window !== "undefined")
+      sessionStorage.setItem("odh_userId", value.toString());
+  };
 
   return (
     <UserIdContext.Provider value={{ userId, setUserId }}>
@@ -31,6 +37,14 @@ export const useUserId = () => {
     throw new Error("UserId Context 코드를 다시 확인해주세요.");
   }
   return context;
+};
+
+const getSavedUserId = () => {
+  const savedUserId =
+    typeof window !== "undefined"
+      ? parseInt(sessionStorage.getItem("odh_userId") || "0")
+      : 0;
+  return !Number.isNaN(savedUserId) ? savedUserId : 0;
 };
 
 export default UserIdProvider;

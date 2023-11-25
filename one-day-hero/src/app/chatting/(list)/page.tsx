@@ -10,9 +10,11 @@ const ChattingListPage = async () => {
 
   if (!token) redirect("/login?redirect=");
 
-  const { isError, response } = await useGetChatRoomsFetch(token);
+  const { isError, errorMessage, response } = await useGetChatRoomsFetch(token);
+  console.log(errorMessage);
 
   if (isError || !response) return <ErrorPage />;
+  console.log(response);
 
   const { data } = response;
 
