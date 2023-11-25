@@ -1,13 +1,19 @@
+import { MutableRefObject } from "react";
+
+import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
 import { MissionSearchListResponse } from "@/types/response";
 
-import { useInfiniteFetch } from "./base";
-
-/** @note ?missionCategoryCodes=MC_00${categoryId}&regionIds=${dongId}  */
 export const useGetMissionSearchListFetch = (
-  categoryId: string,
-  dongId: string
+  token: string,
+  observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
-  return useInfiniteFetch<MissionSearchListResponse>(`/missions`, 3, {
-    next: { tags: [`missionSearch${categoryId}${dongId}`] }
+  return useInfiniteFetch<MissionSearchListResponse>({
+    pathname: `/missions`,
+    size: 4,
+    observerRef,
+    options: {
+      headers: { Authorization: `Bearer ${token}` },
+      next: { tags: [`missionSearch`] }
+    }
   });
 };

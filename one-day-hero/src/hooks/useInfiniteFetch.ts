@@ -7,6 +7,7 @@ import { useFetch } from "../services/base";
 type useInfiniteFetchProps = {
   pathname: string;
   size: number;
+  sort?: string;
   observerRef?: MutableRefObject<HTMLDivElement | null>;
   options?: RequestInit;
 };
@@ -16,6 +17,7 @@ export const useInfiniteFetch = <
 >({
   pathname,
   size,
+  sort,
   observerRef,
   options
 }: useInfiniteFetchProps) => {
@@ -52,9 +54,9 @@ export const useInfiniteFetch = <
         null,
         `${pathname}${pathname.includes("?") ? "&" : "?"}page=${
           pageRef.current
-        }&size=${size}&sort=${searchParamsRef.current.length > 0 ? "&" : ""}${
-          searchParamsRef.current
-        }`,
+        }&size=${size}&sort=${sort ?? ""}${
+          searchParamsRef.current.length > 0 ? "&" : ""
+        }${searchParamsRef.current}`,
         options
       );
 
@@ -74,7 +76,7 @@ export const useInfiniteFetch = <
       pageRef.current = 0;
       hasNextPageRef.current = true;
 
-      returnMethods.fetchNextPage();
+      setData([]);
     },
     isLoading: isLoadingRef.current
   };
