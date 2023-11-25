@@ -14,7 +14,7 @@ import {
   useMutationalFetch
 } from "./base";
 
-export const usePostCreateReviewFetch = () => {
+export const useCreateReviewFetch = () => {
   return useMutationalFetch<CreateReviewResponse>("/reviews") as {
     mutationalFetch: (
       fetchOptions: RequestInit,
