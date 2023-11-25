@@ -28,7 +28,7 @@ export const CATEGORY_LIST = [
 ];
 
 type CategoryProps = {
-  value?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | number;
+  value?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   routeState?: boolean;
   error?: string;
   // eslint-disable-next-line no-unused-vars
