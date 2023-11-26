@@ -175,12 +175,12 @@ export type UserInfoForOptionalSurveyResponse = {
     birth: string;
     introduce: string;
   };
-  favoriteWorkingDay?: {
-    favoriteDate?: string[];
-    favoriteStartTime?: string;
-    favoriteEndTime?: string;
+  favoriteWorkingDay: {
+    favoriteDate: string[];
+    favoriteStartTime: string;
+    favoriteEndTime: string;
   };
-  favoriteRegions?: number[];
+  favoriteRegions: number[];
 };
 
 export type UserResponse = {
