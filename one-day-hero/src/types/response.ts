@@ -362,3 +362,61 @@ export type ReviewReceiveResponse = {
   };
   serverDateTime: string;
 };
+
+export type HeroNicknameSearchResponse = {
+  status: number;
+  data: {
+    content: {
+      id: number;
+      nickname: string;
+      image: {
+        originalName: string | null;
+        uniqueName: string | null;
+        path: string | null;
+      };
+      favoriteMissionCategories: [
+        {
+          code: string;
+          name: string;
+        }
+      ];
+      heroScore: 30;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    size: number;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    last: boolean;
+    empty: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type HeroNicknameResponse = {
+  id: number;
+  nickname: string;
+  image: {
+    originalName: string | null;
+    uniqueName: string | null;
+    path: string | null;
+  };
+  favoriteMissionCategories: [{ code: string; name: string }];
+  heroScore: 30;
+}[];
