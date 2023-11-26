@@ -44,6 +44,7 @@ const MissionSearchPage = () => {
 
   useEffect(() => {
     handleCategorySelect(queryString);
+
     router.push("/search/mission");
   }, []);
 
