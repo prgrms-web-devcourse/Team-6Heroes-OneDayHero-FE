@@ -395,3 +395,11 @@ export type ChatRecordResponse = {
   }[];
   serverDateTime: string;
 };
+
+export type MatchResponse = {
+  status: number;
+  data: {
+    id: number;
+  };
+  serverDateTime: string;
+};

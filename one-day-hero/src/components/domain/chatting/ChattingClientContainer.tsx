@@ -17,6 +17,7 @@ type ChattingClientContainerProps = {
   roomId: string;
   missionData: MissionResponse["data"];
   myImagePath: string;
+  receiverId: number;
   receiverImagePath: string;
 };
 
@@ -24,6 +25,7 @@ const ChattingClientContainer = ({
   roomId,
   missionData,
   myImagePath,
+  receiverId,
   receiverImagePath,
   children
 }: PropsWithChildren<ChattingClientContainerProps>) => {
@@ -39,6 +41,8 @@ const ChattingClientContainer = ({
           {isCitizen ? (
             <MissionProgressButtonBar
               missionStatus={missionData.missionStatus}
+              missionId={missionData.id}
+              receiverId={receiverId}
             />
           ) : (
             <Link href={`/mission/${missionData.id}`} className="w-full">
