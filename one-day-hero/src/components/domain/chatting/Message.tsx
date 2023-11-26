@@ -1,14 +1,11 @@
-"use client";
-
 import ProfileImage from "@/components/common/ProfileImage";
-import { useUserId } from "@/contexts/UserIdProvider";
 
 type MessageProps = {
   message: string;
   ninkName: string;
   imagePath: string;
   sentAt: string;
-  userId: number;
+  isMine: boolean;
 };
 
 const Message = ({
@@ -16,11 +13,8 @@ const Message = ({
   ninkName,
   imagePath,
   sentAt,
-  userId
+  isMine
 }: MessageProps) => {
-  const { userId: myUserId } = useUserId();
-  const isMine = userId === myUserId;
-
   return (
     <div
       className={`mb-4 flex w-full max-w-sm gap-2 ${

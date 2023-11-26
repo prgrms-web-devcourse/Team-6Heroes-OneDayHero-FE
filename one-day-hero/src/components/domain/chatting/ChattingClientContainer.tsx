@@ -13,14 +13,20 @@ import MissionProgressButtonBar from "./MissionProgressButtonBar";
 
 type ChattingClientContainerProps = {
   roomId: string;
+  citizenId: number;
+  myImagePath: string;
+  receiverImagePath: string;
 };
 
 const ChattingClientContainer = ({
   roomId,
+  citizenId,
+  myImagePath,
+  receiverImagePath,
   children
 }: PropsWithChildren<ChattingClientContainerProps>) => {
   const { userId } = useUserId();
-  const isCitizen = true;
+  const isCitizen = userId === citizenId;
 
   const { messages, sendMessage, messageEndRef } = useChatting(roomId);
 
@@ -42,7 +48,11 @@ const ChattingClientContainer = ({
         </Container>
       </div>
       <div className="h-32 w-full" />
-      <MessageContainer messages={messages} messageEndRef={messageEndRef}>
+      <MessageContainer
+        messages={messages}
+        messageEndRef={messageEndRef}
+        myImagePath={myImagePath}
+        receiverImagePath={receiverImagePath}>
         {children}
       </MessageContainer>
 

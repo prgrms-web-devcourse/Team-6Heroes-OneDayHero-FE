@@ -369,6 +369,12 @@ export type ChatRoomsResponse = {
   status: number;
   data: {
     id: number;
+    missionId: number;
+    missionStatus:
+      | "MATCHING"
+      | "MATCHING_COMPLETED"
+      | "MISSION_COMPLETED"
+      | "EXPIRED";
     receiverId: number;
     title: string;
     receiverNickname: string;

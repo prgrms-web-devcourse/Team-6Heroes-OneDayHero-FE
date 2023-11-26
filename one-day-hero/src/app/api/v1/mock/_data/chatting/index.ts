@@ -1,8 +1,12 @@
-export const chattingList = {
+import { ChatRoomsResponse } from "@/types/response";
+
+export const chattingList: ChatRoomsResponse = {
   status: 200,
   data: [
     {
       id: 1,
+      missionId: 1,
+      missionStatus: "MATCHING",
       receiverId: 1,
       title: "심부름 해주실 분을 찾습니다.",
       receiverNickname: "슈퍼 히어로 토끼 A",
@@ -13,6 +17,8 @@ export const chattingList = {
     },
     {
       id: 2,
+      missionId: 2,
+      missionStatus: "MATCHING_COMPLETED",
       receiverId: 2,
       title: "벌레 잡아주실 분을 찾습니다.",
       receiverNickname: "슈퍼 히어로 토끼 B",
