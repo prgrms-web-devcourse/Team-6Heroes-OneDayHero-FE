@@ -1,6 +1,6 @@
 "use client";
 
-import { MutableRefObject } from "react";
+import { MutableRefObject, PropsWithChildren } from "react";
 
 import { MessageProps } from "@/hooks/useChatting";
 
@@ -13,10 +13,12 @@ type MessageContainerProps = {
 
 const MessageContainer = ({
   messages,
-  messageEndRef
-}: MessageContainerProps) => {
+  messageEndRef,
+  children
+}: PropsWithChildren<MessageContainerProps>) => {
   return (
     <div className="relative w-full">
+      {children}
       {messages.map(({ senderNickName, message, senderId }, idx) => {
         return (
           <Message

@@ -63,15 +63,6 @@ const useChatting = (roomId: string) => {
 
   useEffect(() => {
     const enterChatRoom = async () => {
-      await fetch(
-        `${process.env.NEXT_PUBLIC_FE_URL}/back-end/api/v1/chats/${roomId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${getClientToken()}`
-          }
-        }
-      );
-
       connect();
     };
 

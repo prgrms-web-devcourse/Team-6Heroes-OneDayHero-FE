@@ -1,5 +1,7 @@
 "use client";
 
+import { PropsWithChildren } from "react";
+
 import Container from "@/components/common/Container";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import { useUserId } from "@/contexts/UserIdProvider";
@@ -9,7 +11,14 @@ import ChattingInputFooter from "./ChattingInputFooter";
 import MessageContainer from "./MessageContainer";
 import MissionProgressButtonBar from "./MissionProgressButtonBar";
 
-const ChattingClientContainer = ({ roomId }: { roomId: string }) => {
+type ChattingClientContainerProps = {
+  roomId: string;
+};
+
+const ChattingClientContainer = ({
+  roomId,
+  children
+}: PropsWithChildren<ChattingClientContainerProps>) => {
   const { userId } = useUserId();
   const isCitizen = true;
 
@@ -33,7 +42,9 @@ const ChattingClientContainer = ({ roomId }: { roomId: string }) => {
         </Container>
       </div>
       <div className="h-32 w-full" />
-      <MessageContainer messages={messages} messageEndRef={messageEndRef} />
+      <MessageContainer messages={messages} messageEndRef={messageEndRef}>
+        {children}
+      </MessageContainer>
 
       <ChattingInputFooter sendMessage={sendMessage} roomId={roomId} />
     </>

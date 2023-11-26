@@ -36,7 +36,7 @@ const ChatRoomItem = ({
             {formatDate(lastSentMessageTime)}
           </h3>
         </div>
-        <div className="text-sm">{lastSentMessage}</div>
+        <p className="max-w-[50vw] truncate text-sm">{lastSentMessage}</p>
       </div>
       {headCount > 0 && (
         <div className="h-7 w-7 rounded-full bg-active text-center text-white">

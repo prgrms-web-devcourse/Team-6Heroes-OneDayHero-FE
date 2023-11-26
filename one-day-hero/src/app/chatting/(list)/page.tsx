@@ -10,17 +10,17 @@ const ChattingListPage = async () => {
 
   if (!token) redirect("/login?redirect=");
 
-  const { isError, errorMessage, response } = await useGetChatRoomsFetch(token);
-  console.log(errorMessage);
+  const { isError, response } = await useGetChatRoomsFetch(token);
 
   if (isError || !response) return <ErrorPage />;
-  console.log(response);
 
   const { data } = response;
 
   return (
     <>
-      <div className="w-full border-b-[1px] border-b-background-darken" />
+      {data.length > 0 && (
+        <div className="w-full border-b-[1px] border-b-background-darken" />
+      )}
       {data.map((item) => {
         return <ChatRoomItem key={item.id} {...item} />;
       })}

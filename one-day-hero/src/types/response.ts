@@ -379,3 +379,13 @@ export type ChatRoomsResponse = {
   }[];
   serverDateTime: string;
 };
+
+export type ChatRecordResponse = {
+  status: number;
+  data: {
+    message: string;
+    senderNickName: string;
+    sentMessageTime: string;
+  }[];
+  serverDateTime: string;
+};
