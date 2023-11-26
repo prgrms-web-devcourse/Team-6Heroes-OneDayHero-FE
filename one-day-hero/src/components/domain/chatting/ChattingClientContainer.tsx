@@ -63,7 +63,8 @@ const ChattingClientContainer = ({
         messages={messages}
         messageEndRef={messageEndRef}
         myImagePath={myImagePath}
-        receiverImagePath={receiverImagePath}>
+        receiverImagePath={receiverImagePath}
+        missionStatus={missionData.missionStatus}>
         {children}
       </MessageContainer>
 
