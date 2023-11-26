@@ -46,7 +46,7 @@ const ChattingPage = async ({ params }: { params: { slug: string } }) => {
     <>
       <ChattingClientContainer
         roomId={roomId}
-        citizenId={missionResponse.data.citizenId}
+        missionData={missionResponse.data}
         myImagePath={meResponse.data.image.path || ""}
         receiverImagePath={thisRoomData.receiverImagePath}>
         {chatRecordResponse.data.map(
