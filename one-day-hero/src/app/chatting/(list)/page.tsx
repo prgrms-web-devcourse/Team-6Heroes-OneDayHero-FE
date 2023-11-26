@@ -20,6 +20,7 @@ const ChattingListPage = async () => {
 
   return (
     <>
+      <div className="w-full border-b-[1px] border-b-background-darken" />
       {data.map((item) => {
         return <ChatRoomItem key={item.id} {...item} />;
       })}
