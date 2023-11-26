@@ -23,22 +23,16 @@ const ChattingLayout = async ({ params, children }: LayoutProps) => {
   const chattingRoomOutMenuData: KebabMenuDataType = {
     name: "채팅방 나가기",
     description: "해당 채팅방에서 나갑니다.",
-    apiPath: "/chatting/123",
-    requiredData: [{ name: "missionId", default: params.slug }],
-    redirectTo: "/mission/list/ongoing"
+    apiPath: `/chat-rooms/${roomId}/exit`,
+    method: "PATCH",
+    redirectTo: "/chatting"
   };
 
   const cancelMatchingMenuData: KebabMenuDataType = {
     name: "매칭 취소",
     description: "매칭을 취소합니다.",
-    apiPath: "/chatting/123",
-    requiredData: [{ name: "missionId", default: params.slug }]
-  };
-
-  const reportMenuData: KebabMenuDataType = {
-    name: "신고하기",
-    description: "상대방을 신고합니다.",
-    apiPath: "/chatting/123",
+    apiPath: "/mission-matches/cancel",
+    method: "PUT",
     requiredData: [{ name: "missionId", default: params.slug }]
   };
 
@@ -55,11 +49,7 @@ const ChattingLayout = async ({ params, children }: LayoutProps) => {
         right="info"
         rightNode={
           <KebabMenu
-            menuList={[
-              chattingRoomOutMenuData,
-              cancelMatchingMenuData,
-              reportMenuData
-            ]}
+            menuList={[chattingRoomOutMenuData, cancelMatchingMenuData]}
           />
         }>
         {thisRoomData?.receiverNickname || "채팅방"}
