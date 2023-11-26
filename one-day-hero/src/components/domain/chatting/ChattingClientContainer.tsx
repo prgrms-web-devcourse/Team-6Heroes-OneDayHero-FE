@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { PropsWithChildren } from "react";
 
 import Container from "@/components/common/Container";
@@ -40,14 +41,16 @@ const ChattingClientContainer = ({
               missionStatus={missionData.missionStatus}
             />
           ) : (
-            <MissionListItem
-              categories={missionData.missionCategory.name}
-              createAt={missionData.missionInfo.missionDate}
-              location={`${missionData.region.gu} ${missionData.region.dong}`}
-              title={missionData.missionInfo.title}
-              imageSrc={missionData.missionImage?.path}
-              className="p-2"
-            />
+            <Link href={`/mission/${missionData.id}`} className="w-full">
+              <MissionListItem
+                categories={missionData.missionCategory.name}
+                createAt={missionData.missionInfo.missionDate}
+                location={`${missionData.region.gu} ${missionData.region.dong}`}
+                title={missionData.missionInfo.title}
+                imageSrc={missionData.missionImage?.path}
+                className="p-2"
+              />
+            </Link>
           )}
         </Container>
       </div>
