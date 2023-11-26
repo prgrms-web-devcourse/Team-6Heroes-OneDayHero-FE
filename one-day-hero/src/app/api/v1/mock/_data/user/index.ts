@@ -19,6 +19,20 @@ export const userDetail: UserResponse = {
       favoriteStartTime: "12:00",
       favoriteEndTime: "18:00"
     },
+    favoriteRegions: [
+      {
+        id: 1,
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼동"
+      },
+      {
+        id: 2,
+        si: "서울시",
+        gu: "강남구",
+        dong: "청담동"
+      }
+    ],
     heroScore: 60,
     isHeroMode: true
   },

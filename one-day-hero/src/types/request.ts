@@ -17,7 +17,6 @@ export type UserEditRequest = {
 
 export type MissionCreateRequest = {
   missionCategoryId: number;
-  citizenId: number;
   regionId: number;
   latitude: number;
   longitude: number;
@@ -30,4 +29,10 @@ export type MissionCreateRequest = {
     deadlineTime: string;
     price: number;
   };
+};
+
+export type MissionProposalRequest = {
+  userId: number;
+  missionId: number;
+  heroId: number;
 };
