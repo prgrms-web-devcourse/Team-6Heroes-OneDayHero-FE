@@ -19,6 +19,7 @@ import CustomCalendar from "./CustomCalendar";
 const hours = Array.from({ length: 24 }, (_, index) => index);
 
 const CreateForm = () => {
+  console.log(getClientToken());
   const [categoryId, setCategoryId] = useState<number>(0);
   const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
     null
