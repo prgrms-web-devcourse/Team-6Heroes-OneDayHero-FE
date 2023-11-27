@@ -8,17 +8,17 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "@/components/common/Button";
 import InputLabel from "@/components/common/InputLabel";
 import UploadImage from "@/components/common/UploadImage";
-import { useEditProfileFetch } from "@/services/users";
 import { ImageFileType } from "@/types";
-import { UserResponse } from "@/types/response";
+import {
+  UserInfoForOptionalSurveyResponse,
+  UserResponse
+} from "@/types/response";
 import {
   MandatorySurveySchema,
   MandatorySurveySchemaProps
 } from "@/types/schema";
 
 const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
-  // const [image, setImage] = useState<ImageFileType[] | null>(null);
-
   const { basicInfo, favoriteRegions, favoriteWorkingDay } = userData.data;
 
   const router = useRouter();
@@ -26,79 +26,64 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    clearErrors,
+    formState: { errors },
     setValue,
     getValues
   } = useForm<MandatorySurveySchemaProps>({
     resolver: zodResolver(MandatorySurveySchema)
   });
 
-  const { mutationalFetch } = useEditProfileFetch();
+  const sortedFavoriteRegions = favoriteRegions?.map((item) => item.id) ?? [0];
+  const vaildatedFavoriteWorkingDay = favoriteWorkingDay ?? {
+    favoriteDate: [],
+    favoriteStartTime: null,
+    favoriteEndTime: null
+  };
 
   const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = async (data) => {
-    // console.log("data check", data.image, getValues("image"));
     const file = getValues("image");
 
-    console.log("내 이미지", file);
-
-    const userData: Omit<
-      UserResponse["data"],
-      "image" | "heroScore" | "isHeroMode" | "serverDateTime"
-    > = {
+    const userData: UserInfoForOptionalSurveyResponse = {
       basicInfo: {
         nickname: data.nickName,
         gender: basicInfo.gender,
         birth: basicInfo.birth,
         introduce: data.introduction
       },
-      favoriteWorkingDay: favoriteWorkingDay,
-      favoriteRegions: favoriteRegions
+      favoriteWorkingDay: vaildatedFavoriteWorkingDay,
+      favoriteRegions: sortedFavoriteRegions
     };
 
     const formData = new FormData();
 
     const jsonData = JSON.stringify(userData);
-    const imageData: any = file; // [{ file: ..., id: ...}]
+    const imageData = file;
 
     formData.append(
       "userUpdateRequest",
-      new Blob([jsonData], { type: "application/json" })
+      new Blob([jsonData], { type: "application/json" }),
+      "json"
     );
 
-    formData.append("images", new Blob([imageData], { type: "image/jpeg" }));
+    if (imageData) {
+      const imageBlob = new Blob([imageData[0].file], { type: "image/jpeg" });
+
+      formData.append("images", imageBlob, "image.jpeg");
+    }
 
     fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/createMandatorySurvey`, {
       method: "POST",
       body: formData
+    }).then(() => {
+      router.push("/survey/optional");
     });
-
-    // const { response, errorMessage } = await mutationalFetch(
-    //   {
-    //     method: "POST",
-    //     body: formData,
-    //     headers: {
-    //       "Content-Type": "multipart/form-data", //500
-    //       Authorization: `Bearer ${getClientToken()}`
-    //     }
-    //   },
-    //   () => {
-    //     console.log("post 완료");
-    //     router.push("/survey/optional");
-    //   }
-    // );
-
-    // console.log("응답 확인", response, errorMessage);
   };
 
   const handleFileSelect = useCallback(
     (file: ImageFileType[]) => {
-      console.log("이미지 확인", getValues("image"));
       setValue("image", file);
-      // clearErrors("image");
-      console.log("이미지 더블 체크", getValues("image"));
     },
-    [setValue, getValues]
+    [setValue]
   );
 
   return (

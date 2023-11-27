@@ -7,13 +7,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import { PiWaveSineBold } from "react-icons/pi";
 
-import { favoriteRegionsData } from "@/app/api/v1/mock/_data/survey";
+import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import DayList from "@/components/common/DayList";
 import HorizontalScroll from "@/components/common/HorizontalScroll";
 import InputLabel from "@/components/common/InputLabel";
 import Label from "@/components/common/Label";
 import Select from "@/components/common/Select";
+import { useGetRegionsFetch } from "@/services/regions";
 import { useEditProfileFetch } from "@/services/users";
 import {
   UserInfoForOptionalSurveyResponse,
@@ -23,18 +24,55 @@ import {
   OptionalSurveySchema,
   OptionalSurveySchemaProps
 } from "@/types/schema";
+
+type dongProps = { id: number; dong: string };
+
+type guProps = { gu: string; dong: dongProps[] }[];
+
 const OptionalSurvey = (userData: UserResponse) => {
+  const [guData, setGuData] = useState<guProps>([]);
   const [favoriteGu, setFavoriteGu] = useState<string>("");
   const [favoriteDong, setFavoriteDong] = useState<string>("");
   const [favoriteDongId, setFavoriteDongId] = useState<number>(0);
   const [favoriteRegions, setFavoriteRegions] = useState<string[]>([]);
   const [favoriteRegionsId, setFavoriteRegionsId] = useState<number[]>([]);
 
-  const { basicInfo, favoriteWorkingDay } = userData.data;
+  const router = useRouter();
+  const token = getClientToken();
+
+  const { basicInfo } = userData.data;
 
   console.log("베이직", basicInfo);
 
-  const router = useRouter();
+  const { mutationalFetch: getRegionsMutationalFetch } = useGetRegionsFetch(
+    token ?? ""
+  );
+
+  useEffect(() => {
+    const fetchRegions = async () => {
+      try {
+        const { response, isError, errorMessage } =
+          await getRegionsMutationalFetch({
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+
+        if (response) {
+          const { gu } = response.data[0];
+          console.log("gu", gu);
+
+          setGuData(gu);
+        } else if (isError) {
+          console.log(errorMessage);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchRegions();
+  }, []);
 
   const { register, handleSubmit, setValue, getValues } =
     useForm<OptionalSurveySchemaProps>({
@@ -47,13 +85,7 @@ const OptionalSurvey = (userData: UserResponse) => {
     index < 10 ? "0" + index : index
   );
 
-  const seoulGu = favoriteRegionsData["서울시"].map(
-    (region) => Object.keys(region)[0]
-  );
-
-  const seoulDong = favoriteRegionsData["서울시"].filter(
-    (region) => favoriteGu in region
-  )?.[0]?.[favoriteGu];
+  const seoulDong = guData.find((region) => region.gu === favoriteGu)?.dong;
 
   useEffect(() => {
     setValue("favoriteRegions", [...favoriteRegionsId]);
@@ -109,17 +141,20 @@ const OptionalSurvey = (userData: UserResponse) => {
     setFavoriteDongId(Number(e.target.value));
   };
 
-  const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = (data) => {
+  const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = (
+    data: OptionalSurveySchemaProps
+  ) => {
     const { favoriteWorkingDay, favoriteRegions } = data;
-    console.log("data", favoriteWorkingDay, favoriteRegions);
 
     const userData: UserInfoForOptionalSurveyResponse = {
       basicInfo: basicInfo,
-      favoriteWorkingDay: favoriteWorkingDay,
-      favoriteRegions: favoriteRegions
+      favoriteWorkingDay: {
+        favoriteDate: favoriteWorkingDay?.favoriteDate ?? [],
+        favoriteEndTime: favoriteWorkingDay?.favoriteEndTime! ?? null,
+        favoriteStartTime: favoriteWorkingDay?.favoriteStartTime! ?? null
+      },
+      favoriteRegions: favoriteRegions ?? []
     };
-
-    console.log("전체", userData);
 
     const formData = new FormData();
 
@@ -130,15 +165,12 @@ const OptionalSurvey = (userData: UserResponse) => {
       new Blob([jsonData], { type: "application/json" })
     );
 
-    mutationalFetch(
-      {
-        method: "POST",
-        body: formData
-      },
-      () => {
-        router.push("/");
-      }
-    );
+    fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/createOptionalSurvey`, {
+      method: "POST",
+      body: formData
+    }).then(() => {
+      router.push("/");
+    });
   };
 
   return (
@@ -198,26 +230,24 @@ const OptionalSurvey = (userData: UserResponse) => {
           </InputLabel>
           <div className="mt-1 flex gap-2">
             <Select id="favorite gu" onChange={handleGuChange}>
-              {seoulGu.map((gu) => (
-                <option className="text-xs" key={gu} value={gu}>
-                  {gu}
+              {guData.map((data) => (
+                <option className="text-xs" key={data.gu} value={data.gu}>
+                  {data.gu}
                 </option>
               ))}
             </Select>
 
             <Select id="favorite dong" onChange={handleDongChange}>
               {seoulDong &&
-                seoulDong.map(
-                  ({ regionId, dong }: { regionId: number; dong: string }) => (
-                    <option
-                      className="text-xs"
-                      key={regionId}
-                      value={regionId}
-                      data-dong={dong}>
-                      {dong}
-                    </option>
-                  )
-                )}
+                seoulDong.map(({ id, dong }: { id: number; dong: string }) => (
+                  <option
+                    className="text-xs"
+                    key={id}
+                    value={id}
+                    data-dong={dong}>
+                    {dong}
+                  </option>
+                ))}
             </Select>
 
             <Button
@@ -247,9 +277,7 @@ const OptionalSurvey = (userData: UserResponse) => {
           </HorizontalScroll>
         </div>
 
-        <div className="bg-cancel-lighten h-56 w-full rounded-2xl">
-          지도자리
-        </div>
+        <div className="mb-12 h-72 w-full rounded-2xl" />
 
         <div className="mt-12 flex w-full">
           <Button theme="cancel" type="submit" className="cs:m-2 cs:grow">
