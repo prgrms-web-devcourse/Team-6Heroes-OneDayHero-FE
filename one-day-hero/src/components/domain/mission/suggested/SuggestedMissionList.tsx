@@ -28,11 +28,7 @@ const SuggestedMissionList = () => {
   const { showToast } = useToast();
   const router = useRouter();
 
-  const { data } = useGetSuggestedMissionListFetch(
-    "1",
-    token ?? "",
-    observerRef
-  );
+  const { data } = useGetSuggestedMissionListFetch(token ?? "", observerRef);
 
   const { mutationalFetch: rejectProposal } = useRejectProposalFetch();
 

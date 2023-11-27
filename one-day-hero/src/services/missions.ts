@@ -81,17 +81,16 @@ export const useDeleteBookmarkFetch = (missionId: number, userId: number) => {
 };
 
 export const useGetSuggestedMissionListFetch = (
-  heroId: string,
   token: string,
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<SuggestedMissionListResponse>({
-    pathname: `/mission-proposals?heroId=${heroId}`,
-    size: 10,
+    pathname: `/mission-proposals`,
+    size: 4,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
-      next: { tags: [`suggested${heroId}`] }
+      next: { tags: [`suggested`] }
     }
   });
 };
@@ -102,7 +101,7 @@ export const useGetProgressMissionListFetch = (
 ) => {
   return useInfiniteFetch<ProgressMissionListResponse>({
     pathname: `/missions/progress`,
-    size: 10,
+    size: 4,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },

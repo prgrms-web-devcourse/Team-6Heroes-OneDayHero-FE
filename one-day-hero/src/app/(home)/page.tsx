@@ -2,7 +2,11 @@ import { redirect } from "next/navigation";
 
 import Category from "@/components/common/Category";
 import Banner from "@/components/domain/home/Banner";
+import HomeLocation from "@/components/domain/home/HomeLocation";
 import Assets from "@/config/assets";
+import { useGetMainFetch } from "@/services/home";
+
+import { getServerToken } from "../utils/auth";
 
 import { getServerToken } from "../utils/auth";
 
@@ -14,6 +18,10 @@ const HomePage = async () => {
   if (!token) redirect("/login");
 
   const defaultLabelStyle = "text-lg font-semibold";
+
+  const token = getServerToken();
+
+  const { isError, response } = await useGetMainFetch(token!);
 
   return (
     <div className="flex w-full flex-col gap-8">
@@ -28,6 +36,7 @@ const HomePage = async () => {
       <div>
         <span className={`${defaultLabelStyle}`}>곧 마감돼요!</span>
       </div>
+      <HomeLocation />
     </div>
   );
 };
