@@ -9,15 +9,16 @@ import Button from "@/components/common/Button";
 import InputLabel from "@/components/common/InputLabel";
 import UploadImage from "@/components/common/UploadImage";
 import { ImageFileType } from "@/types";
-import { UserResponse } from "@/types/response";
+import {
+  UserInfoForOptionalSurveyResponse,
+  UserResponse
+} from "@/types/response";
 import {
   MandatorySurveySchema,
   MandatorySurveySchemaProps
 } from "@/types/schema";
 
 const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
-  // const [image, setImage] = useState<ImageFileType[] | null>(null);
-
   const { basicInfo, favoriteRegions, favoriteWorkingDay } = userData.data;
 
   const router = useRouter();
@@ -32,22 +33,25 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     resolver: zodResolver(MandatorySurveySchema)
   });
 
+  const sortedFavoriteRegions = favoriteRegions?.map((item) => item.id) ?? [0];
+  const vaildatedFavoriteWorkingDay = favoriteWorkingDay ?? {
+    favoriteDate: [],
+    favoriteStartTime: null,
+    favoriteEndTime: null
+  };
+
   const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = async (data) => {
     const file = getValues("image");
-    console.log("file", file);
 
-    const userData: Omit<
-      UserResponse["data"],
-      "image" | "heroScore" | "isHeroMode" | "serverDateTime"
-    > = {
+    const userData: UserInfoForOptionalSurveyResponse = {
       basicInfo: {
         nickname: data.nickName,
         gender: basicInfo.gender,
         birth: basicInfo.birth,
         introduce: data.introduction
       },
-      favoriteWorkingDay: favoriteWorkingDay,
-      favoriteRegions: favoriteRegions
+      favoriteWorkingDay: vaildatedFavoriteWorkingDay,
+      favoriteRegions: sortedFavoriteRegions
     };
 
     const formData = new FormData();
@@ -55,17 +59,16 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     const jsonData = JSON.stringify(userData);
     const imageData = file;
 
-    console.log("image", imageData);
-
     formData.append(
       "userUpdateRequest",
-      new Blob([jsonData], { type: "application/json" })
+      new Blob([jsonData], { type: "application/json" }),
+      "json"
     );
 
     if (imageData) {
       const imageBlob = new Blob([imageData[0].file], { type: "image/jpeg" });
 
-      formData.append(`multipartFiles`, imageBlob, "image/jpeg");
+      formData.append("images", imageBlob, "image.jpeg");
     }
 
     fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/createMandatorySurvey`, {

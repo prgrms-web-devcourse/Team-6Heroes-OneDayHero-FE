@@ -176,9 +176,9 @@ export type UserInfoForOptionalSurveyResponse = {
     introduce: string;
   };
   favoriteWorkingDay: {
-    favoriteDate: string[];
-    favoriteStartTime: string;
-    favoriteEndTime: string;
+    favoriteDate: string[] | [] | null;
+    favoriteStartTime: string | null;
+    favoriteEndTime: string | null;
   };
   favoriteRegions: number[];
 };
@@ -202,12 +202,14 @@ export type UserResponse = {
       favoriteStartTime: string | null;
       favoriteEndTime: string | null;
     };
-    favoriteRegions?: {
-      id: number;
-      si: string;
-      gu: string;
-      dong: string;
-    }[];
+    favoriteRegions?:
+      | {
+          id: number;
+          si: string;
+          gu: string;
+          dong: string;
+        }[]
+      | [];
     heroScore: number;
     isHeroMode?: boolean;
   };
