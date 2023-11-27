@@ -3,6 +3,7 @@
 import { FormEvent, useRef, useState } from "react";
 
 import { formatTime } from "@/app/utils/formatTime";
+import Button from "@/components/common/Button";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
 import Input from "@/components/common/Input";
@@ -15,11 +16,11 @@ import { ImageFileType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
 
 import CustomCalendar from "./CustomCalendar";
+import PostCode from "./PostCode";
 
 const hours = Array.from({ length: 24 }, (_, index) => index);
 
 const CreateForm = () => {
-  console.log(getClientToken());
   const [categoryId, setCategoryId] = useState<number>(0);
   const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
     null
@@ -181,7 +182,19 @@ const CreateForm = () => {
             error={errors?.missionInfo?.content}
           />
         </div>
+        <div>
+          <InputLabel htmlFor="address" required>
+            미션 위치
+          </InputLabel>
+          <div className="flex gap-3">
+            <Input className="grow" readOnly />
+            <button className="border-inactive focus:outline-primary placeholder:text-inactive h-[34px] w-3/12 rounded-[10px] border text-center">
+              주소 검색
+            </button>
+          </div>
+        </div>
       </Container>
+      <PostCode />
     </form>
   );
 };

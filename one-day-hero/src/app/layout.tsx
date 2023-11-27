@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 
 import Toast from "@/components/common/Toast";
-import NotificationProvider from "@/contexts/NotificationProvider";
 import ToastProvider from "@/contexts/ToastProvider";
 import UserIdProvider from "@/contexts/UserIdProvider";
 
@@ -28,12 +27,10 @@ export default function RootLayout({
       <body className={`${notoSansKR.className} flex flex-col items-center`}>
         <UserIdProvider>
           <ToastProvider>
-            <NotificationProvider>
-              <main className="bg-background flex min-h-screen w-full max-w-screen-sm flex-col items-center px-5 py-24 shadow">
-                {children}
-              </main>
-              <Toast />
-            </NotificationProvider>
+            <main className="bg-background flex min-h-screen w-full max-w-screen-sm flex-col items-center px-5 py-24 shadow">
+              {children}
+            </main>
+            <Toast />
           </ToastProvider>
         </UserIdProvider>
       </body>
