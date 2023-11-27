@@ -562,6 +562,7 @@ export type ChatRecordResponse = {
   status: number;
   data: {
     message: string;
+    senderId: number;
     senderNickName: string;
     sentMessageTime: string;
   }[];

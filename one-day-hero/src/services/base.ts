@@ -32,8 +32,12 @@ export const useFetch = async <T>(
       customResponse.errorMessage = response.statusText;
     }
 
-    const bodyData = (await response.json()) as T;
-    customResponse.response = bodyData;
+    try {
+      const bodyData = (await response.json()) as T;
+      customResponse.response = bodyData;
+    } catch (err) {
+      customResponse.response = undefined;
+    }
 
     onSuccess?.(response);
 
