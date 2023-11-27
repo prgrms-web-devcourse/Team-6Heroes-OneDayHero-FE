@@ -90,8 +90,10 @@ export type ProgressMissionListResponse = {
 
 export type MissionItemResponse = {
   id: number;
+  citizenId: number;
   status: "MATCHING" | "MATCHING_COMPLETED" | "MISSION_COMPLETED" | "EXPIRED";
   bookmarkCount: number;
+  isBookmarked: boolean;
   createdAt: string;
   region: {
     si: string;
@@ -109,6 +111,7 @@ export type MissionItemResponse = {
     endTime: string;
     price: number;
   };
+  imagePath: string;
 };
 
 export type SuggestedMissionListResponse = {

@@ -41,11 +41,34 @@ export const useProposeMissionFetch = () => {
   };
 };
 
-export const useRejectProposalFetch = () => {
-  return useMutationalFetch<MatchResponse>() as {
+export const useRejectProposalFetch = (proposalId: number, token: string) => {
+  return useMutationalFetch<MatchResponse>(
+    `/mission-proposals/${proposalId}/reject`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  ) as {
     mutationalFetch: (
-      pathname: string,
-      fetchOptions: RequestInit,
+      onSuccess?: () => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<MatchResponse>>;
+  };
+};
+
+export const useApproveProposalFetch = (proposalId: number, token: string) => {
+  return useMutationalFetch<MatchResponse>(
+    `/mission-proposals/${proposalId}/approve`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  ) as {
+    mutationalFetch: (
       onSuccess?: () => void,
       onError?: () => void
     ) => Promise<CustomResponse<MatchResponse>>;
