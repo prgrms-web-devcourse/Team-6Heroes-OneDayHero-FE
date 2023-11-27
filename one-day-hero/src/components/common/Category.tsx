@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { BiDish, BiGift, BiStar } from "react-icons/bi";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import {
@@ -27,7 +28,7 @@ export const CATEGORY_LIST = [
 ];
 
 type CategoryProps = {
-  value?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | number;
+  value?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   routeState?: boolean;
   error?: string;
   // eslint-disable-next-line no-unused-vars
@@ -50,6 +51,20 @@ const Category = ({
     !value
       ? initialCategoryState
       : CATEGORY_LIST.map((category) => category.id === value)
+  );
+
+  const pathName = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams()!;
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
   );
 
   const containerStyle = "flex py-1";
