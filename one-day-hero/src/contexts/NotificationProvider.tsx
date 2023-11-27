@@ -40,7 +40,7 @@ const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     eventSource.onerror = (e) => {
-      console.log(e.target, "오류 메세지는 뭘까?");
+      console.log(e.target, "오류 메세지는 뭘까!");
     };
 
     return () => {
