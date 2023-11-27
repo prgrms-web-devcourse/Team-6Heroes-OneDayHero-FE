@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 
 import { formatTime } from "@/app/utils/formatTime";
@@ -31,6 +32,8 @@ const CreateForm = () => {
   const priceRef = useRef<HTMLInputElement | null>(null);
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
   const { missionCreateValidation } = useFormValidation();
+
+  const router = useRouter();
 
   const handleSelect = (id: number) => {
     setCategoryId(id);
@@ -84,10 +87,17 @@ const CreateForm = () => {
     setErrors(validationErrors);
 
     if (!Object.keys(validationErrors).length) {
-      await fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/createPost`, {
-        method: "POST",
-        body: formData
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_FE_URL}/api/createPost`,
+        {
+          method: "POST",
+          body: formData
+        }
+      );
+
+      const createdMissionId = (await response.json()).data.id;
+
+      router.push(`/mission/${createdMissionId}`);
     }
   };
 
@@ -119,7 +129,7 @@ const CreateForm = () => {
         </div>
         <div>
           <InputLabel>
-            사진 <span className="text-inactive text-xs">(최대 3개)</span>
+            사진 <span className="text-xs text-inactive">(최대 3개)</span>
           </InputLabel>
           <UploadImage onFileSelect={handleFileSelect} />
         </div>

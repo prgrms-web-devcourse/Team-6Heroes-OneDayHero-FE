@@ -1,10 +1,18 @@
+import { redirect } from "next/navigation";
+
 import Category from "@/components/common/Category";
 import Banner from "@/components/domain/home/Banner";
 import Assets from "@/config/assets";
 
+import { getServerToken } from "../utils/auth";
+
 const banners = [Assets.Banner1, Assets.Banner2, Assets.Banner3];
 
 const HomePage = async () => {
+  const token = getServerToken();
+
+  if (!token) redirect("/login");
+
   const defaultLabelStyle = "text-lg font-semibold";
 
   return (

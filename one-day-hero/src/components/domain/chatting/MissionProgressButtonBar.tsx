@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
@@ -25,6 +27,7 @@ const MissionProgressButtonBar = ({
   ...props
 }: MissionProgressButtonBarProps) => {
   const token = getClientToken();
+  const router = useRouter();
 
   const { mutationalFetch: createMatchFetch } = useCreateMatchFetch(
     missionId,
@@ -53,18 +56,22 @@ const MissionProgressButtonBar = ({
       ? createMatchFetch()
       : completeMissionFetch());
 
-    if (isError)
+    if (isError) {
       showToast(
         `${
           missionStatus === "MATCHING" ? "매칭" : "미션"
         } 완료에 실패했습니다. 다시 시도해주세요`,
         "error"
       );
-    else
+    } else {
       showToast(
         `${missionStatus === "MATCHING" ? "매칭" : "미션"}이 완료되었습니다`,
         "success"
       );
+
+      onClose();
+      router.refresh();
+    }
   };
 
   const matchedState =

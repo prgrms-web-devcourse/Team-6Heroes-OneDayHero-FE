@@ -20,7 +20,7 @@ const HomeHeader = ({ children }: PropsWithChildren<HomeHeaderProps>) => {
     <header className={headerDefaultStyle}>
       <div className="flex items-center space-x-2">
         <Image
-          src="/images/원데히로고 2.png"
+          src="/images/OneDayHero_logo_sm.svg"
           width={45}
           height={45}
           alt="logo"

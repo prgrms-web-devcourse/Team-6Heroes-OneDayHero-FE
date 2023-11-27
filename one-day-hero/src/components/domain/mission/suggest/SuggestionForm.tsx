@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { getClientToken } from "@/app/utils/cookie";
@@ -66,25 +66,24 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
   const submitProposal: SubmitHandler<MissionProposalRequest> = async (
     data
   ) => {
-    await mutationalFetch(
-      {
-        method: "POST",
-        body: JSON.stringify(data)
-      },
-      () => {
-        showToast(
-          `"${heroData.basicInfo.nickname}" 님에게 미션을 제안했어요!`,
-          "success"
-        );
-        router.push("/mission/list/ongoing");
-      },
-      () => {
-        showToast(
-          `미션 제안 처리 중 문제가 발생했어요. 다시 시도해주세요`,
-          "error"
-        );
-      }
-    );
+    const { isError, response } = await mutationalFetch({
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(data)
+    });
+
+    if (isError) {
+      showToast(
+        `미션 제안 처리 중 문제가 발생했어요. 다시 시도해주세요`,
+        "error"
+      );
+    } else {
+      showToast(
+        `"${heroData.basicInfo.nickname}" 님에게 미션을 제안했어요!`,
+        "success"
+      );
+      router.push("/mission/list/ongoing");
+    }
   };
 
   const selectedStyle =

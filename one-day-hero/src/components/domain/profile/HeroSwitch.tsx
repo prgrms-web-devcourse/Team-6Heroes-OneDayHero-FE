@@ -1,8 +1,8 @@
 "use client";
 
-import { revalidateTag } from "next/cache";
 import { useRouter } from "next/navigation";
 
+import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
 import useModal from "@/hooks/useModal";
@@ -13,6 +13,8 @@ type HeroSwitchProps = {
 };
 
 const HeroSwitch = ({ isHeroMode }: HeroSwitchProps) => {
+  const token = getClientToken();
+
   const { isOpen, onOpen, onClose } = useModal();
 
   const router = useRouter();
@@ -20,7 +22,6 @@ const HeroSwitch = ({ isHeroMode }: HeroSwitchProps) => {
   const callback = () => {
     onClose();
 
-    revalidateTag("user1");
     router.refresh();
   };
 
@@ -29,10 +30,12 @@ const HeroSwitch = ({ isHeroMode }: HeroSwitchProps) => {
   };
 
   const { mutationalFetch: changeHero } = useChangeHeroFetch(
+    token ?? "",
     callback,
     failCallback
   );
   const { mutationalFetch: changeCitizen } = useChangeCitizenFetch(
+    token ?? "",
     callback,
     failCallback
   );

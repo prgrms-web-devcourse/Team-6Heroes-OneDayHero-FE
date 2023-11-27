@@ -20,6 +20,12 @@ const ChattingLayout = async ({ params, children }: LayoutProps) => {
 
   if (!token) redirect("/login?redirect=");
 
+  const { response: chatRoomResponse } = await useGetChatRoomsFetch(token);
+
+  const thisRoomData = chatRoomResponse?.data.find(
+    ({ id }) => id.toString() === roomId
+  );
+
   const chattingRoomOutMenuData: KebabMenuDataType = {
     name: "채팅방 나가기",
     description: "해당 채팅방에서 나갑니다.",
@@ -33,14 +39,8 @@ const ChattingLayout = async ({ params, children }: LayoutProps) => {
     description: "매칭을 취소합니다.",
     apiPath: "/mission-matches/cancel",
     method: "PUT",
-    requiredData: [{ name: "missionId", default: params.slug }]
+    requiredData: [{ name: "missionId", default: thisRoomData?.missionId }]
   };
-
-  const { response: chatRoomResponse } = await useGetChatRoomsFetch(token);
-
-  const thisRoomData = chatRoomResponse?.data.find(
-    ({ id }) => id.toString() === roomId
-  );
 
   return (
     <>
