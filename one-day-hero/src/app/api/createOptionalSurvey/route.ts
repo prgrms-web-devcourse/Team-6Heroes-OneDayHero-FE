@@ -27,4 +27,12 @@ export async function POST(request: NextRequest) {
       status: 400
     });
   }
+
+  return NextResponse.json(
+    {
+      status: 201,
+      serverDateTime: "2023-11-22T23:31:20"
+    },
+    { status: 201 }
+  );
 }
