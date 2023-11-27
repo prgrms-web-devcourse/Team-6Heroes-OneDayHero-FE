@@ -175,12 +175,12 @@ export type UserInfoForOptionalSurveyResponse = {
     birth: string;
     introduce: string;
   };
-  favoriteWorkingDay?: {
-    favoriteDate?: string[];
-    favoriteStartTime?: string;
-    favoriteEndTime?: string;
+  favoriteWorkingDay: {
+    favoriteDate: string[] | [] | null;
+    favoriteStartTime: string | null;
+    favoriteEndTime: string | null;
   };
-  favoriteRegions?: number[];
+  favoriteRegions: number[];
 };
 
 export type UserResponse = {
@@ -202,12 +202,14 @@ export type UserResponse = {
       favoriteStartTime: string | null;
       favoriteEndTime: string | null;
     };
-    favoriteRegions?: {
-      id: number;
-      si: string;
-      gu: string;
-      dong: string;
-    }[];
+    favoriteRegions?:
+      | {
+          id: number;
+          si: string;
+          gu: string;
+          dong: string;
+        }[]
+      | [];
     heroScore: number;
     isHeroMode?: boolean;
   };

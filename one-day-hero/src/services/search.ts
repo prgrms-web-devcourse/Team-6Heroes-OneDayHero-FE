@@ -1,19 +1,19 @@
 import { MutableRefObject } from "react";
 
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
-import { HeroNicknameSearchResponse } from "@/types/response";
+import { MissionSearchListResponse } from "@/types/response";
 
-export const useGetHeroNicknameDetailListFetch = (
+export const useGetMissionSearchListFetch = (
   token: string,
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
-  return useInfiniteFetch<HeroNicknameSearchResponse>({
-    pathname: `/users/hero-search`,
-    size: 3,
+  return useInfiniteFetch<MissionSearchListResponse>({
+    pathname: `/missions`,
+    size: 4,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
-      next: { tags: [`searchHeroNickname`] }
+      next: { tags: [`missionSearch`] }
     }
   });
 };
