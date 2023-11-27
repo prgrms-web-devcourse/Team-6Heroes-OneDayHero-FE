@@ -12,3 +12,7 @@ export type ImageFileType = {
 };
 
 export type DateType = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
+
+export type Coordinates = [number, number];
+
+export type MapType = naver.maps.Map;

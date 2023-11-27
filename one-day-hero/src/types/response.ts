@@ -362,3 +362,55 @@ export type ReviewReceiveResponse = {
   };
   serverDateTime: string;
 };
+
+export type MapResponse = {
+  status: number;
+  data: {
+    content: {
+      id: number;
+      missionCategory: {
+        id: number;
+        code: string;
+        name: string;
+      };
+      region: {
+        id: number;
+        si: string;
+        gu: string;
+        dong: string;
+      };
+      title: string;
+      longitude: number;
+      latitude: number;
+      missionDate: string;
+      startTime: string;
+      endTime: string;
+      price: number;
+      imagePath: string;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    size: number;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    last: boolean;
+    empty: boolean;
+  };
+  serverDateTime: string;
+};
