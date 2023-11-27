@@ -65,8 +65,11 @@ const Category = ({
       );
       setCategoryActiveState(newActiveState);
     } else {
-      /** @note url 구조 따라 link 추가 예정 */
-      console.log("link");
+      if (pathName === "/") {
+        router.push(
+          "/search/mission" + "?" + createQueryString("category", String(id))
+        );
+      }
     }
   };
 

@@ -32,7 +32,7 @@ const HomeHeader = ({ children }: PropsWithChildren<HomeHeaderProps>) => {
       </div>
       <div className="flex space-x-4">
         <BsMoonFill className={iconDefaultStyle} />
-        <Link href="/">
+        <Link href="/search/mission">
           <BsSearch className={iconDefaultStyle} />
         </Link>
         <Link href="/">
