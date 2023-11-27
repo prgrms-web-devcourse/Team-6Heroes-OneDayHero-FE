@@ -46,14 +46,11 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  // return NextResponse.json(
-  //   {
-  //     status: 201,
-  //     data: {
-  //       id: response.data.
-  //     },
-  //     serverDateTime: "2023-11-22T23:31:20"
-  //   },
-  //   { status: 201 }
-  // );
+  return NextResponse.json(
+    {
+      status: 201,
+      serverDateTime: "2023-11-22T23:31:20"
+    },
+    { status: 201 }
+  );
 }

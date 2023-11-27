@@ -1,20 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PropsWithChildren } from "react";
 /** @Note import { FiChevronUp } from 'react-icons/fi'; */
 /** @Note import {BsSunFill } from "react-icons/bs"; */
 import { FiBell } from "react-icons/fi";
 import { IoSearchSharp } from "react-icons/io5";
 import { TbMoon } from "react-icons/tb";
 
-import HomeLocation from "../domain/home/HomeLocation";
-import NotificationCircle from "./NotificationCircle";
+import NotificationCircle from "@/components/common/NotificationCircle";
+
+import HomeLocation from "./HomeLocation";
 
 const HomeHeader = () => {
   const headerDefaultStyle =
     "border-b border-background-darken flex h-16 w-full items-center justify-between space-x-4 bg-background p-3 fixed max-w-screen-sm z-40 top-0";
 
-  const iconDefaultStyle = "w-5 h-5 hover:text-red-500  ";
+  const iconDefaultStyle = "w-5 h-5 hover:text-red-500";
 
   return (
     <header className={headerDefaultStyle}>
@@ -42,5 +42,4 @@ const HomeHeader = () => {
     </header>
   );
 };
-
 export default HomeHeader;

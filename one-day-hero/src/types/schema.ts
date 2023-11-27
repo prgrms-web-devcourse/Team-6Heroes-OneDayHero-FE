@@ -4,7 +4,7 @@ export const MandatorySurveySchema = z.object({
   image: z
     .array(
       z.object({
-        file: z.object({}),
+        file: z.any(),
         id: z.string()
       })
     )
@@ -81,6 +81,14 @@ export const PostMissionSchema = z.object({
   })
 });
 
+export const MissionSearchFilterSchema = z.object({
+  categoryId: z.string().optional(),
+  dongId: z.string().optional()
+});
+
+export type MissionSearchFilterSchemaProps = z.infer<
+  typeof MissionSearchFilterSchema
+>;
 export const PostProposalSchema = z.object({
   userId: z.number(),
   missionId: z.number(),

@@ -23,6 +23,7 @@
   "devDependencies": {
     "@hookform/resolvers": "^3.3.2",
     "@types/event-source-polyfill": "^1.0.5",
+    "@stomp/stompjs": "^7.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

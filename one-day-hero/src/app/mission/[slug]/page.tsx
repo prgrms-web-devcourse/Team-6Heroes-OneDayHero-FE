@@ -1,6 +1,8 @@
+import { redirect } from "next/navigation";
 import { BiChevronRight, BiEdit, BiMap } from "react-icons/bi";
 
 import ErrorPage from "@/app/error";
+import { getServerToken, getServerUserId } from "@/app/utils/auth";
 import BookmarkButton from "@/components/common/BookmarkButton";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
@@ -12,10 +14,12 @@ import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendLi
 import { useGetMissionFetch } from "@/services/missions";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
-  /**@note useSession 사용 예정 */
-  const userId = parseInt(params.slug);
+  const missionId = params.slug;
+  const token = getServerToken();
 
-  const { isError, response } = await useGetMissionFetch("1");
+  if (!token) redirect("/login?redirect=");
+
+  const { isError, response } = await useGetMissionFetch(missionId, token);
 
   if (isError || !response) return <ErrorPage />;
 
@@ -31,6 +35,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
     }
   } = response;
 
+  const userId = parseInt(getServerUserId() ?? "-1");
   const isOwner = userId === citizenId;
 
   return (
@@ -67,7 +72,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           </div>
         </Button>
       </Container>
-      <h1 className="mb-2 mt-4 w-full break-keep text-lg font-semibold">
+      {/* <h1 className="mb-2 mt-4 w-full break-keep text-lg font-semibold">
         미션에 딱 맞는 히어로님을 만나보시겠어요?
       </h1>
       {isOwner && (
@@ -83,7 +88,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
             { thumbnail: "", nickname: "rabbit", heroScore: 100 }
           ]}
         />
-      )}
+      )} */}
       {!isOwner && <CitizenInfo citizenId={userId} />}
       {isOwner && (
         <Button size="lg">

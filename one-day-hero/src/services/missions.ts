@@ -1,4 +1,4 @@
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { MutableRefObject } from "react";
 
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
@@ -13,8 +13,9 @@ import {
 
 import { CustomResponse, useFetch, useMutationalFetch } from "./base";
 
-export const useGetMissionFetch = (missionId: string) => {
+export const useGetMissionFetch = (missionId: string, token: string) => {
   return useFetch<MissionResponse>(`/missions/${missionId}`, {
+    headers: { Authorization: `Bearer ${token}` },
     next: { tags: [`mission${missionId}`] }
   });
 };
@@ -68,17 +69,16 @@ export const useDeleteBookmarkFetch = (missionId: number, userId: number) => {
 };
 
 export const useGetSuggestedMissionListFetch = (
-  heroId: string,
   token: string,
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<SuggestedMissionListResponse>({
-    pathname: `/mission-proposals?heroId=${heroId}`,
-    size: 10,
+    pathname: `/mission-proposals`,
+    size: 4,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
-      next: { tags: [`suggested${heroId}`] }
+      next: { tags: [`suggested`] }
     }
   });
 };
@@ -89,7 +89,7 @@ export const useGetProgressMissionListFetch = (
 ) => {
   return useInfiniteFetch<ProgressMissionListResponse>({
     pathname: `/missions/progress`,
-    size: 10,
+    size: 4,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },

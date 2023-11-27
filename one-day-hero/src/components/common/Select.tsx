@@ -16,7 +16,6 @@ const Select = forwardRef(
     {
       id,
       className,
-
       children,
       error,
       ...props
