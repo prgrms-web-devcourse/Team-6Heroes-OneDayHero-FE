@@ -17,7 +17,7 @@ const Footer = () => {
   return (
     <nav className={`${defaultStyle}`}>
       <Link
-        href="/chat"
+        href="/chatting"
         className={`${pathname.startsWith("/chat") && `${active}`}`}>
         <IconGroup title="채팅">
           <BiChat />
