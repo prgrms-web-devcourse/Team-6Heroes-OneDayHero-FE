@@ -72,7 +72,7 @@ w-full max-w-screen-sm">
       <section className="mt-40 flex w-full max-w-screen-sm flex-col items-center justify-center gap-y-4">
         {data.length !== 0 ? (
           data.map(({ nickname, id, heroScore, image }) => (
-            <Link href="/search/hero" key={uuidv4()} className="w-full">
+            <Link href={`/heroProfile/${id}`} key={uuidv4()} className="w-full">
               <Container className="cs:mx-auto">
                 <div className="mt-2 flex pr-2">
                   <Image
