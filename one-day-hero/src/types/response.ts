@@ -475,3 +475,71 @@ export type MatchResponse = {
   };
   serverDateTime: string;
 };
+
+export type HomeResponse = {
+  status: number;
+  data: {
+    missionCategories: {
+      id: number;
+      code: string;
+      name: string;
+    }[];
+    soonExpiredMissions: {
+      id: number;
+      title: string;
+      region: {
+        id: number;
+        si: string;
+        gu: string;
+        dong: string;
+      };
+      missionCategory: {
+        id: number;
+        code: string;
+        name: string;
+      };
+      missionDate: string;
+      bookmarkCount: number;
+      missionStatus: string;
+      imagePath: string;
+      isBookmarked: boolean;
+    }[];
+  };
+  serverDateTime: string;
+};
+
+export type NotificationResponse = {
+  status: number;
+  data: {
+    content: {
+      id: string;
+      title: string;
+      content: string;
+      createdAt: string;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    size: number;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    first: boolean;
+    last: boolean;
+    numberOfElements: number;
+    empty: boolean;
+  };
+  serverDateTime: string;
+};
