@@ -277,9 +277,7 @@ const OptionalSurvey = (userData: UserResponse) => {
           </HorizontalScroll>
         </div>
 
-        <div className="bg-cancel-lighten h-56 w-full rounded-2xl">
-          지도자리
-        </div>
+        <div className="mb-12 h-72 w-full rounded-2xl" />
 
         <div className="mt-12 flex w-full">
           <Button theme="cancel" type="submit" className="cs:m-2 cs:grow">
