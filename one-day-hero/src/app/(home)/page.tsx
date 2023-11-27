@@ -13,9 +13,7 @@ const HomePage = async () => {
 
   const token = getServerToken();
 
-  // const { isError, response } = await useGetMainFetch(token!);
-
-  // console.log(response, "@@@@@@@2");
+  const { isError, response } = await useGetMainFetch(token!);
 
   return (
     <div className="flex w-full flex-col gap-8">

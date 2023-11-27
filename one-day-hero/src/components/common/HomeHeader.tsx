@@ -7,13 +7,10 @@ import { FiBell } from "react-icons/fi";
 import { IoSearchSharp } from "react-icons/io5";
 import { TbMoon } from "react-icons/tb";
 
+import HomeLocation from "../domain/home/HomeLocation";
 import NotificationCircle from "./NotificationCircle";
 
-type HomeHeaderProps = {
-  onClick?: () => void;
-};
-
-const HomeHeader = ({ children }: PropsWithChildren<HomeHeaderProps>) => {
+const HomeHeader = () => {
   const headerDefaultStyle =
     "border-b border-background-darken flex h-16 w-full items-center justify-between space-x-4 bg-background p-3 fixed max-w-screen-sm z-40 top-0";
 
@@ -29,7 +26,7 @@ const HomeHeader = ({ children }: PropsWithChildren<HomeHeaderProps>) => {
           alt="logo"
         />
         <div className="top-1 flex space-x-1">
-          <h1 className="text-lg font-bold">{children}</h1>
+          <HomeLocation />
         </div>
       </div>
       <div className="flex space-x-4">
