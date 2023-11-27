@@ -1,8 +1,8 @@
 import { HomeResponse } from "./../types/response";
 import { useFetch } from "./base";
 
-const INITIAL_LAT = 37.5666103;
-const INITIAL_LNG = 126.9783882;
+const INITIAL_LAT = 37.4979517;
+const INITIAL_LNG = 127.0276188;
 
 export const useGetMainFetch = (
   token: string,
