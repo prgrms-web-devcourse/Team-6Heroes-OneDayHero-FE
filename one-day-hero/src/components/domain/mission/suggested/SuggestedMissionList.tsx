@@ -13,11 +13,7 @@ const SuggestedMissionList = () => {
   const token = getClientToken();
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const { data } = useGetSuggestedMissionListFetch(
-    "1",
-    token ?? "",
-    observerRef
-  );
+  const { data } = useGetSuggestedMissionListFetch(token ?? "", observerRef);
 
   return (
     <>
