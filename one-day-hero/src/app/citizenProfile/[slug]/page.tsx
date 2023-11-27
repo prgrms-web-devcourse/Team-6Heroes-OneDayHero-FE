@@ -1,7 +1,9 @@
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 import ErrorPage from "@/app/error";
+import { getServerToken } from "@/app/utils/auth";
 import { calculateAge, parseGender } from "@/app/utils/formatProfile";
 import HeroScore from "@/components/common/HeroScore";
 import LinkButton from "@/components/common/LinkButton";
@@ -10,9 +12,14 @@ import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetProfileFetch } from "@/services/users";
 
 const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
+  const token = getServerToken();
+
+  if (!token) redirect("/login?redirect=");
+
   const { isError, response } = await useGetProfileFetch(
     parseInt(params.slug),
-    false
+    false,
+    token
   );
 
   if (isError || !response) return <ErrorPage />;

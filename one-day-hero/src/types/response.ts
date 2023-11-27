@@ -145,7 +145,36 @@ export type SuggestedMissionListResponse = {
   serverDateTime: string;
 };
 
-export type SuggestingMissionListResponse = SuggestedMissionListResponse;
+export type SuggestingMissionListResponse = {
+  status: number;
+  data: {
+    missionMatchingResponses: {
+      id: number;
+      title: string;
+      missionCategory: {
+        id: number;
+        code: string;
+        name: string;
+      };
+      region: {
+        id: number;
+        si: string;
+        gu: string;
+        dong: string;
+      };
+      missionCreatedAt: string;
+      missionDate: string;
+      startTime: string;
+      endTime: string;
+      price: number;
+      bookmarkCount: number;
+      missionStatus: string;
+      imagePath: string;
+      isBookmarked: true;
+    }[];
+  };
+  serverDateTime: string;
+};
 
 export type BookmarkResponse = {
   status: number;

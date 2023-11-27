@@ -114,17 +114,12 @@ export const useGetCompleteMissionListFetch = (
   });
 };
 
-export const useGetSuggestingMissionListFetch = (
-  token: string,
-  observerRef: MutableRefObject<HTMLDivElement | null>
-) => {
-  return useInfiniteFetch<SuggestingMissionListResponse>({
-    pathname: `/missions/matching`,
-    size: 10,
-    observerRef,
-    options: {
+export const useGetSuggestingMissionListFetch = (token: string) => {
+  return useMutationalFetch<SuggestingMissionListResponse>(
+    `/missions/matching`,
+    {
       headers: { Authorization: `Bearer ${token}` },
       next: { tags: [`matching`] }
     }
-  });
+  );
 };

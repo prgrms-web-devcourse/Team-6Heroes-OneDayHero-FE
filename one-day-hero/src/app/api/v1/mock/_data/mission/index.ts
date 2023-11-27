@@ -607,8 +607,62 @@ export const completedMissionList: ProgressMissionListResponse = {
   serverDateTime: "2023-11-13T15:26:37"
 };
 
-export const matchingMissionList: SuggestingMissionListResponse =
-  suggestedMissionList;
+export const matchingMissionList: SuggestingMissionListResponse = {
+  status: 200,
+  data: {
+    missionMatchingResponses: [
+      {
+        id: 1,
+        title: "제목",
+        missionCategory: {
+          id: 1,
+          code: "MC_001",
+          name: "서빙"
+        },
+        region: {
+          id: 1,
+          si: "서울시",
+          gu: "강남구",
+          dong: "역삼동"
+        },
+        missionCreatedAt: "2023-11-03T12:00:00",
+        missionDate: "2023-11-06",
+        startTime: "12:00",
+        endTime: "18:00",
+        price: 20000,
+        bookmarkCount: 1,
+        missionStatus: "MATCHING",
+        imagePath: "s3://path",
+        isBookmarked: true
+      },
+      {
+        id: 2,
+        title: "제목",
+        missionCategory: {
+          id: 1,
+          code: "MC_001",
+          name: "서빙"
+        },
+        region: {
+          id: 1,
+          si: "서울시",
+          gu: "강남구",
+          dong: "역삼동"
+        },
+        missionCreatedAt: "2023-10-29T12:00:00",
+        missionDate: "2023-11-06",
+        startTime: "12:00",
+        endTime: "18:00",
+        price: 20000,
+        bookmarkCount: 1,
+        missionStatus: "MATCHING",
+        imagePath: "s3://path",
+        isBookmarked: true
+      }
+    ]
+  },
+  serverDateTime: "2023-11-26T20:05:40"
+};
 
 export const proposalDetail: ProposalResponse = {
   status: 201,
