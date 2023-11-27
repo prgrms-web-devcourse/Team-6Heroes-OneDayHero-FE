@@ -8,8 +8,6 @@ import { useGetMainFetch } from "@/services/home";
 
 import { getServerToken } from "../utils/auth";
 
-import { getServerToken } from "../utils/auth";
-
 const banners = [Assets.Banner1, Assets.Banner2, Assets.Banner3];
 
 const HomePage = async () => {
@@ -18,8 +16,6 @@ const HomePage = async () => {
   if (!token) redirect("/login");
 
   const defaultLabelStyle = "text-lg font-semibold";
-
-  const token = getServerToken();
 
   const { isError, response } = await useGetMainFetch(token!);
 
