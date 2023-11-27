@@ -33,25 +33,21 @@ const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
         }
       });
 
-      eventSource.addEventListener("message", (e) => {
-        console.log(e.data);
-      });
-
-      eventSource.onmessage = async (e) => {
-        const res = e.data;
+      eventSource.onmessage = async (event) => {
+        const res = event.data;
         console.log(res);
+
+        setAlarmStatus(true);
       };
 
-      // eventSource.onerror = (e) => {
-      //   console.log(e.target, "오류 메세지는 뭘까!");
-      // };
-
-      // eventSource.onmessage = ({ data }) => {
-      //   console.log(data);
-      // };
+      eventSource.onerror = (e) => {
+        setAlarmStatus(false);
+        throw new Error("알림 구독에서 에러가 발생했습니다.");
+      };
 
       return () => {
         if (eventSource) {
+          setAlarmStatus(false);
           eventSource.close();
         }
       };
