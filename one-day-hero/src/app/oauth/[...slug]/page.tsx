@@ -52,7 +52,7 @@ const KakaoCallbackPage = () => {
     };
 
     postCode();
-  }, [code, router]);
+  }, []);
 
   return <div>Processing...</div>;
 };

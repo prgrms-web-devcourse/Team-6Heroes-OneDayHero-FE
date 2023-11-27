@@ -3,16 +3,23 @@ import { BiChevronRight } from "react-icons/bi";
 
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 import ErrorPage from "@/app/error";
+import { getServerToken } from "@/app/utils/auth";
 import Container from "@/components/common/Container";
 import HeroScore from "@/components/common/HeroScore";
-import { useGetUserFetch } from "@/services/users";
+import { useGetProfileFetch } from "@/services/users";
 
 interface CitizenInfoProps extends React.ComponentProps<"div"> {
   citizenId: number;
 }
 
 const CitizenInfo = async ({ citizenId, className }: CitizenInfoProps) => {
-  const { isError, response } = await useGetUserFetch(citizenId);
+  const token = getServerToken();
+
+  const { isError, response } = await useGetProfileFetch(
+    citizenId,
+    false,
+    token ?? ""
+  );
 
   if (isError || !response) return <ErrorPage />;
 

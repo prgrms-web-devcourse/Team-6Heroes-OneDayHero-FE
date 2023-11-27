@@ -34,6 +34,7 @@ export async function POST(request: NextRequest) {
   );
 
   response.cookies.set("token", tokenResponse.data.accessToken);
+  response.cookies.set("userId", tokenResponse.data.userId.toString());
 
   return response;
 }

@@ -175,12 +175,12 @@ export type UserInfoForOptionalSurveyResponse = {
     birth: string;
     introduce: string;
   };
-  favoriteWorkingDay?: {
-    favoriteDate?: string[];
-    favoriteStartTime?: string;
-    favoriteEndTime?: string;
+  favoriteWorkingDay: {
+    favoriteDate: string[] | [] | null;
+    favoriteStartTime: string | null;
+    favoriteEndTime: string | null;
   };
-  favoriteRegions?: number[];
+  favoriteRegions: number[];
 };
 
 export type UserResponse = {
@@ -192,22 +192,24 @@ export type UserResponse = {
       birth: string;
       introduce: string;
     };
-    image?: {
+    image: {
       originalName: string | null;
       uniqueName: string | null;
       path: string | null;
     };
-    favoriteWorkingDay?: {
-      favoriteDate: DateType[] | [] | null;
+    favoriteWorkingDay: {
+      favoriteDate: DateType[] | null;
       favoriteStartTime: string | null;
       favoriteEndTime: string | null;
     };
-    favoriteRegions?: {
-      id: number;
-      si: string;
-      gu: string;
-      dong: string;
-    }[];
+    favoriteRegions:
+      | {
+          id: number;
+          si: string;
+          gu: string;
+          dong: string;
+        }[]
+      | null;
     heroScore: number;
     isHeroMode?: boolean;
   };
@@ -234,16 +236,24 @@ export type UserSummaryResponse = {
 };
 
 type dong = {
-  regionId: number;
+  id: number;
   dong: string;
 };
 
 type gu = {
-  [key: string]: dong[] | undefined;
+  gu: string;
+  dong: dong[];
 };
 
-export type favoriteRegionsResponse = {
-  서울시: gu[];
+type si = {
+  si: string;
+  gu: gu[];
+};
+
+export type RegionsResponse = {
+  status: number;
+  data: si[];
+  serverDateTime: string;
 };
 
 export type CreateReviewResponse = {
@@ -317,6 +327,70 @@ export type SendReviewResponse = {
   serverDateTime: string;
 };
 
+export type MissionSearchListResponse = {
+  status: number;
+  data: {
+    content: {
+      id: number;
+      missionCategory: {
+        id: number;
+        code: string;
+        name: string;
+      };
+      citizenId: number;
+      bookmarkCount: number;
+      missionStatus:
+        | "MATCHING"
+        | "MATCHING_COMPLETED"
+        | "MISSION_COMPLETED"
+        | "EXPIRED";
+      region: {
+        id: number;
+        si: string;
+        gu: string;
+        dong: string;
+      };
+      longitude: number;
+      latitude: number;
+      missionInfo: {
+        title: string;
+        content: string;
+        missionDate: string;
+        startTime: string;
+        endTime: string;
+        deadlineTime: string;
+        price: number;
+      };
+      paths: string[];
+      isBookmarked: boolean;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        sorted: boolean;
+        unsorted: boolean;
+        empty: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    last: boolean;
+    size: number;
+    number: number;
+    sort: {
+      sorted: boolean;
+      unsorted: boolean;
+      empty: boolean;
+    };
+    empty: boolean;
+  };
+  serverDateTime: string;
+};
+
 export type ReviewDeleteResponse = {
   status: number;
   data: null;
@@ -358,6 +432,113 @@ export type ReviewReceiveResponse = {
     numberOfElements: number;
     first: boolean;
     last: boolean;
+    empty: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type ChatRoomsResponse = {
+  status: number;
+  data: {
+    id: number;
+    missionId: number;
+    missionStatus:
+      | "MATCHING"
+      | "MATCHING_COMPLETED"
+      | "MISSION_COMPLETED"
+      | "EXPIRED";
+    receiverId: number;
+    title: string;
+    receiverNickname: string;
+    receiverImagePath: string;
+    lastSentMessage: string;
+    headCount: number;
+    lastSentMessageTime: string;
+  }[];
+  serverDateTime: string;
+};
+
+export type ChatRecordResponse = {
+  status: number;
+  data: {
+    message: string;
+    senderNickName: string;
+    sentMessageTime: string;
+  }[];
+  serverDateTime: string;
+};
+
+export type MatchResponse = {
+  status: number;
+  data: {
+    id: number;
+  };
+  serverDateTime: string;
+};
+
+export type HomeResponse = {
+  status: number;
+  data: {
+    missionCategories: {
+      id: number;
+      code: string;
+      name: string;
+    }[];
+    soonExpiredMissions: {
+      id: number;
+      title: string;
+      region: {
+        id: number;
+        si: string;
+        gu: string;
+        dong: string;
+      };
+      missionCategory: {
+        id: number;
+        code: string;
+        name: string;
+      };
+      missionDate: string;
+      bookmarkCount: number;
+      missionStatus: string;
+      imagePath: string;
+      isBookmarked: boolean;
+    }[];
+  };
+  serverDateTime: string;
+};
+
+export type NotificationResponse = {
+  status: number;
+  data: {
+    content: {
+      id: string;
+      title: string;
+      content: string;
+      createdAt: string;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    size: number;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    first: boolean;
+    last: boolean;
+    numberOfElements: number;
     empty: boolean;
   };
   serverDateTime: string;

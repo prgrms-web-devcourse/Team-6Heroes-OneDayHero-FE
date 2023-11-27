@@ -1,10 +1,8 @@
+import { ArrayElement } from "@/types";
 import { UserResponse } from "@/types/response";
 
-type ArrayElement<ArrayType extends readonly unknown[]> =
-  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
-
 type DateEN = ArrayElement<
-  UserResponse["data"]["favoriteWorkingDay"]["favoriteDate"]
+  Exclude<UserResponse["data"]["favoriteWorkingDay"]["favoriteDate"], null>
 >;
 
 const DateMap: { [key in DateEN]: string } = {
@@ -18,12 +16,12 @@ const DateMap: { [key in DateEN]: string } = {
 };
 
 type FavoriteDateListProps = {
-  favoriteDate: DateEN[];
+  favoriteDate?: DateEN[];
   className?: string;
 };
 
 const FavoriteDateList = ({
-  favoriteDate,
+  favoriteDate = [],
   className
 }: FavoriteDateListProps) => {
   const defaultStyle =

@@ -4,7 +4,7 @@ export const MandatorySurveySchema = z.object({
   image: z
     .array(
       z.object({
-        file: z.object({}),
+        file: z.any(),
         id: z.string()
       })
     )

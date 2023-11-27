@@ -13,3 +13,11 @@ export const formatTime = (time: string, length?: number) => {
     length
   );
 };
+
+export const formatHour = (time?: string) => {
+  const date = time ? new Date(time) : new Date();
+  const hour = date.getHours();
+  return `${hour % 12 ? hour % 12 : 12}:${date.getMinutes()} ${
+    hour >= 12 ? "pm" : "am"
+  }`;
+};
