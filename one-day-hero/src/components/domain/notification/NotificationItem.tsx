@@ -6,10 +6,15 @@ import { BsFillCircleFill } from "react-icons/bs";
 import { getClientToken } from "@/app/utils/cookie";
 import { formatDate } from "@/app/utils/formatDate";
 import Container from "@/components/common/Container";
+import { useNotification } from "@/contexts/NotificationProvider";
 import { useGetNotificationFetch } from "@/services/notification";
 
 const NotificationItem = () => {
   const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const { setAlarmStatus } = useNotification();
+
+  setAlarmStatus(false);
 
   const token = getClientToken();
 
