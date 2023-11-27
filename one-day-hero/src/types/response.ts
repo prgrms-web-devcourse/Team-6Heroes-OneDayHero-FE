@@ -545,6 +545,16 @@ export type ChatRoomsResponse = {
   serverDateTime: string;
 };
 
+export type ChatRoomSummaryResponse = {
+  status: number;
+  data: {
+    id: number;
+    missionId: number;
+    headCount: number;
+  };
+  serverDateTime: string;
+};
+
 export type ChatRecordResponse = {
   status: number;
   data: {

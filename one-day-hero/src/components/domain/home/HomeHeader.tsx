@@ -31,7 +31,7 @@ const HomeHeader = () => {
       </div>
       <div className="flex space-x-4">
         <TbMoon className={iconDefaultStyle} />
-        <Link href="/">
+        <Link href="/search/mission">
           <IoSearchSharp className={iconDefaultStyle} />
         </Link>
         <Link href="/" className="relative">
