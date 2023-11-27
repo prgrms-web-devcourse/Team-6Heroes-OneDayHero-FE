@@ -81,7 +81,9 @@ const ProfilePage = async () => {
             {HELP_MESSAGES.FAVORITE_WORK_TIME}
           </HelpCircle>
         </div>
-        <FavoriteDateList favoriteDate={favoriteWorkingDay.favoriteDate} />
+        <FavoriteDateList
+          favoriteDate={favoriteWorkingDay.favoriteDate || []}
+        />
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">희망 근무시간</h2>
