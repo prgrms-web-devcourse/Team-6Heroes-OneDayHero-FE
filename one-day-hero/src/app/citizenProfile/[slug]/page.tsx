@@ -18,7 +18,7 @@ const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
   if (isError || !response) return <ErrorPage />;
 
   const {
-    data: { basicInfo }
+    data: { basicInfo, heroScore }
   } = response;
 
   return (
@@ -48,7 +48,7 @@ const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
             ))}
           </HelpCircle>
         </div>
-        <HeroScore score={70} />
+        <HeroScore score={heroScore} />
       </div>
       <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
         리뷰

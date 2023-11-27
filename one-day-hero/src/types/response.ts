@@ -145,6 +145,8 @@ export type SuggestedMissionListResponse = {
   serverDateTime: string;
 };
 
+export type SuggestingMissionListResponse = SuggestedMissionListResponse;
+
 export type BookmarkResponse = {
   status: number;
   data: {
@@ -153,6 +155,32 @@ export type BookmarkResponse = {
     userId: number;
   };
   serverDateTime: string;
+};
+
+export type ProposalResponse = {
+  status: number;
+  data: {
+    id: number;
+    missionId: number;
+    heroId: number;
+    missionProposalStatus: "PROPOSAL" | "APPROVE" | "REJECT";
+  };
+  serverDateTime: string;
+};
+
+export type UserInfoForOptionalSurveyResponse = {
+  basicInfo: {
+    nickname: string;
+    gender: string;
+    birth: string;
+    introduce: string;
+  };
+  favoriteWorkingDay?: {
+    favoriteDate?: string[];
+    favoriteStartTime?: string;
+    favoriteEndTime?: string;
+  };
+  favoriteRegions?: number[];
 };
 
 export type UserResponse = {
@@ -164,18 +192,24 @@ export type UserResponse = {
       birth: string;
       introduce: string;
     };
-    image: {
-      originalName: string;
-      uniqueName: string;
-      path: string;
+    image?: {
+      originalName: string | null;
+      uniqueName: string | null;
+      path: string | null;
     };
-    favoriteWorkingDay: {
-      favoriteDate: DateType[];
-      favoriteStartTime: string;
-      favoriteEndTime: string;
+    favoriteWorkingDay?: {
+      favoriteDate: DateType[] | [] | null;
+      favoriteStartTime: string | null;
+      favoriteEndTime: string | null;
     };
+    favoriteRegions?: {
+      id: number;
+      si: string;
+      gu: string;
+      dong: string;
+    }[];
     heroScore: number;
-    isHeroMode: boolean;
+    isHeroMode?: boolean;
   };
   serverDateTime: string;
 };
@@ -212,23 +246,30 @@ export type favoriteRegionsResponse = {
   서울시: gu[];
 };
 
+export type CreateReviewResponse = {
+  status: number;
+  data: {
+    id: number;
+  };
+  serverDateTime: string;
+};
+
 export type ReviewDetailResponse = {
   status: number;
   data: {
     id: number;
     senderId: number;
-    senderNickName: string;
+    senderNickname: string;
     receiverId: number;
-    missionCategory: {
-      id: number;
-      code: string;
-      name: string;
-    };
+    categoryId: number;
+    categoryCode: string;
+    categoryName: string;
     missionTitle: string;
     content: string;
     starScore: 1 | 2 | 3 | 4 | 5;
     reviewImageResponses: {
       id: number;
+      originalName: string;
       uniqueName: string;
       path: string;
     }[];
@@ -237,12 +278,17 @@ export type ReviewDetailResponse = {
   serverDateTime: string;
 };
 
-export type MissionSearchListResponse = {
+export type SendReviewResponse = {
   status: number;
   data: {
     content: {
-      id: number;
-      mission: MissionItemResponse;
+      reviewId: number;
+      categoryName: string;
+      missionTitle: string;
+      starScore: 1 | 2 | 3 | 4 | 5;
+      senderNickname: string;
+      profileImage: [string] | [];
+      createdAt: string;
     }[];
     pageable: {
       pageNumber: number;
@@ -266,6 +312,52 @@ export type MissionSearchListResponse = {
       unsorted: boolean;
       empty: boolean;
     };
+    empty: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type ReviewDeleteResponse = {
+  status: number;
+  data: null;
+  serverDateTime: string;
+};
+
+export type ReviewReceiveResponse = {
+  status: number;
+  data: {
+    content: {
+      reviewId: number;
+      senderId: number;
+      senderNickname: string;
+      profileImage: [string] | [];
+      categoryName: string;
+      missionTitle: string;
+      starScore: 1 | 2 | 3 | 4 | 5;
+      createdAt: string;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    size: number;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    last: boolean;
     empty: boolean;
   };
   serverDateTime: string;

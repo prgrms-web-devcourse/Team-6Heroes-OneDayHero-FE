@@ -2,8 +2,16 @@ import { z } from "zod";
 
 export const MandatorySurveySchema = z.object({
   image: z
-    .any()
-    .refine((files) => files?.length == 1, "프로필 이미지를 선택해 주세요."),
+    .array(
+      z.object({
+        file: z.object({}),
+        id: z.string()
+      })
+    )
+    .refine((image) => image.length > 0, {
+      message: "이미지를 선택해 주세요.",
+      path: ["image"]
+    }),
   nickName: z
     .string()
     .refine(
@@ -81,3 +89,22 @@ export const MissionSearchFilterSchema = z.object({
 export type MissionSearchFilterSchemaProps = z.infer<
   typeof MissionSearchFilterSchema
 >;
+export const PostProposalSchema = z.object({
+  userId: z.number(),
+  missionId: z.number(),
+  heroId: z.number()
+});
+
+export const ReviewFormSchema = z.object({
+  senderId: z.number(),
+  receiverId: z.number(),
+  categoryId: z.number(),
+  missionId: z.number(),
+  missionTitle: z
+    .string()
+    .refine((title) => title.length > 3, "3글자 이상 작성해주세요!"),
+  content: z
+    .string()
+    .refine((content) => content.length > 10, "10글자 이상 작성해주세요."),
+  starScore: z.number().refine((score) => score > 0, "별점을 작성해주세요!")
+});

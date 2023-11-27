@@ -26,11 +26,14 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const response = new NextResponse(null, {
-    status: 200
-  });
+  const response = new NextResponse(
+    JSON.stringify({ userId: tokenResponse.data.userId }),
+    {
+      status: 200
+    }
+  );
 
-  response.cookies.set("token", tokenResponse.token);
+  response.cookies.set("token", tokenResponse.data.accessToken);
 
   return response;
 }

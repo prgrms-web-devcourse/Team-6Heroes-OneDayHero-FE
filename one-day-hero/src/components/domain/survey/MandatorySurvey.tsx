@@ -2,21 +2,25 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import React, { useCallback } from "react";
+import { forwardRef, useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid";
 
 import Button from "@/components/common/Button";
 import InputLabel from "@/components/common/InputLabel";
 import UploadImage from "@/components/common/UploadImage";
 import { useEditProfileFetch } from "@/services/users";
 import { ImageFileType } from "@/types";
+import { UserResponse } from "@/types/response";
 import {
   MandatorySurveySchema,
   MandatorySurveySchemaProps
 } from "@/types/schema";
 
-const MandatorySurvey = React.forwardRef(() => {
+const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
+  // const [image, setImage] = useState<ImageFileType[] | null>(null);
+
+  const { basicInfo, favoriteRegions, favoriteWorkingDay } = userData.data;
+
   const router = useRouter();
 
   const {
@@ -24,39 +28,77 @@ const MandatorySurvey = React.forwardRef(() => {
     handleSubmit,
     formState: { errors, isSubmitting },
     clearErrors,
-    setValue
+    setValue,
+    getValues
   } = useForm<MandatorySurveySchemaProps>({
     resolver: zodResolver(MandatorySurveySchema)
   });
 
   const { mutationalFetch } = useEditProfileFetch();
 
-  const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = (data) => {
-    mutationalFetch(
-      {
-        method: "PATCH",
-        body: JSON.stringify({
-          basicInfo: {
-            nickname: data.nickName,
-            introduce: data.introduction
-          }
-        })
+  const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = async (data) => {
+    // console.log("data check", data.image, getValues("image"));
+    const file = getValues("image");
+
+    console.log("내 이미지", file);
+
+    const userData: Omit<
+      UserResponse["data"],
+      "image" | "heroScore" | "isHeroMode" | "serverDateTime"
+    > = {
+      basicInfo: {
+        nickname: data.nickName,
+        gender: basicInfo.gender,
+        birth: basicInfo.birth,
+        introduce: data.introduction
       },
-      () => {
-        router.push("/survey/optional");
-      }
+      favoriteWorkingDay: favoriteWorkingDay,
+      favoriteRegions: favoriteRegions
+    };
+
+    const formData = new FormData();
+
+    const jsonData = JSON.stringify(userData);
+    const imageData: any = file; // [{ file: ..., id: ...}]
+
+    formData.append(
+      "userUpdateRequest",
+      new Blob([jsonData], { type: "application/json" })
     );
+
+    formData.append("images", new Blob([imageData], { type: "image/jpeg" }));
+
+    fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/createMandatorySurvey`, {
+      method: "POST",
+      body: formData
+    });
+
+    // const { response, errorMessage } = await mutationalFetch(
+    //   {
+    //     method: "POST",
+    //     body: formData,
+    //     headers: {
+    //       "Content-Type": "multipart/form-data", //500
+    //       Authorization: `Bearer ${getClientToken()}`
+    //     }
+    //   },
+    //   () => {
+    //     console.log("post 완료");
+    //     router.push("/survey/optional");
+    //   }
+    // );
+
+    // console.log("응답 확인", response, errorMessage);
   };
 
   const handleFileSelect = useCallback(
     (file: ImageFileType[]) => {
-      clearErrors("image");
-      setValue("image", {
-        id: uuidv4(),
-        file
-      });
+      console.log("이미지 확인", getValues("image"));
+      setValue("image", file);
+      // clearErrors("image");
+      console.log("이미지 더블 체크", getValues("image"));
     },
-    [clearErrors, setValue]
+    [setValue, getValues]
   );
 
   return (
@@ -84,7 +126,7 @@ const MandatorySurvey = React.forwardRef(() => {
           </InputLabel>
           <input
             {...register("nickName")}
-            className="h-11 w-full rounded-[10px] border border-inactive p-4 pl-3 placeholder:text-inactive focus:outline-primary"
+            className="border-inactive placeholder:text-inactive focus:outline-primary h-11 w-full rounded-[10px] border p-4 pl-3"
           />
           {errors.nickName && (
             <p className="text-red-500">{`${errors.nickName.message}`}</p>
@@ -97,18 +139,14 @@ const MandatorySurvey = React.forwardRef(() => {
           </InputLabel>
           <textarea
             {...register("introduction")}
-            className="h-40 w-full max-w-screen-sm resize-none rounded-2xl border border-inactive p-4 focus:outline-primary"
+            className="border-inactive focus:outline-primary h-40 w-full max-w-screen-sm resize-none rounded-2xl border p-4"
           />
           {errors.introduction && (
             <p className="text-red-500">{`${errors.introduction.message}`}</p>
           )}
         </div>
 
-        <Button
-          disabled={isSubmitting}
-          type="submit"
-          className="cs:mx-auto cs:mt-24"
-          size="lg">
+        <Button type="submit" className="cs:mx-auto cs:mt-24" size="lg">
           다음
         </Button>
       </form>

@@ -72,39 +72,3 @@ export const useMutationalFetch = <T>(
     mutationalFetch: (useFetch<T>).bind(null, ...useFetchArguments)
   };
 };
-
-export const useInfiniteFetch = async <
-  T extends { data: { content: any[]; last: boolean } }
->(
-  pathname: string,
-  size: number,
-  options?: RequestInit
-) => {
-  let page = 0;
-
-  const returnMethods = {
-    data: <T["data"]["content"]>[],
-    fetchNextPage: async () => {
-      if (!returnMethods.hasNextPage) return { isError: true };
-
-      const { isError, response } = await (useFetch<T>).call(
-        null,
-        `${pathname}?page=${page}&size=${size}&sort=`,
-        options
-      );
-
-      if (!isError && response) {
-        returnMethods.data.push(...response.data.content);
-        returnMethods.hasNextPage = !response.data.last;
-        page += 1;
-      }
-
-      return { isError };
-    },
-    hasNextPage: true
-  };
-
-  await returnMethods.fetchNextPage();
-
-  return returnMethods;
-};

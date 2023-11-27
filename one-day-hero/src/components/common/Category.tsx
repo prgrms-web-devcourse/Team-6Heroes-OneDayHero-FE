@@ -1,7 +1,6 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BiDish, BiGift, BiStar } from "react-icons/bi";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import {
@@ -53,24 +52,10 @@ const Category = ({
       : CATEGORY_LIST.map((category) => category.id === value)
   );
 
-  const pathName = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams()!;
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams]
-  );
-
   const containerStyle = "flex py-1";
 
   const itemStyle = `flex-shrink-0 select-none flex justify-center items-center cursor-pointer bg-white ${
-    size === "sm" ? "w-16 h-16" : "w-[72px] h-[72px]"
+    size === "sm" ? "w-16 h-16" : "w-[4.5rem] h-[4.5rem]"
   } rounded-[25px] m-1 shadow`;
 
   const handleClick = (id: number) => {
