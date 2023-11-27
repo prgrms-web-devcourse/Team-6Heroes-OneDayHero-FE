@@ -13,8 +13,9 @@ import {
 
 import { CustomResponse, useFetch, useMutationalFetch } from "./base";
 
-export const useGetMissionFetch = (missionId: string) => {
+export const useGetMissionFetch = (missionId: string, token: string) => {
   return useFetch<MissionResponse>(`/missions/${missionId}`, {
+    headers: { Authorization: `Bearer ${token}` },
     next: { tags: [`mission${missionId}`] }
   });
 };

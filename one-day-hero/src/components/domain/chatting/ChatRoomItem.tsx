@@ -1,13 +1,14 @@
-import Image from "next/image";
+import Link from "next/link";
 
-import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 import { formatDate } from "@/app/utils/formatDate";
+import ProfileImage from "@/components/common/ProfileImage";
 import { ArrayElement } from "@/types";
 import { ChatRoomsResponse } from "@/types/response";
 
 type ChatRoomItemProps = ArrayElement<ChatRoomsResponse["data"]>;
 
 const ChatRoomItem = ({
+  id,
   title,
   receiverImagePath,
   receiverNickname,
@@ -16,13 +17,15 @@ const ChatRoomItem = ({
   headCount
 }: ChatRoomItemProps) => {
   return (
-    <div className="flex w-full gap-2 border-b-[1px] border-b-background-darken">
+    <Link
+      href={`/chatting/${id}`}
+      className="flex w-full items-center gap-2 border-b-[1px] border-b-background-darken py-4">
       <div>
-        <Image
-          src={receiverImagePath || DefaultThumbnail}
+        <ProfileImage
+          src={receiverImagePath}
           alt={`${receiverNickname}의 프로필`}
-          width={60}
-          className="pointer-events-none mr-3 shrink-0 rounded-full bg-neutral-200 object-fill"
+          height={60}
+          className="mr-3 shrink-0"
         />
       </div>
       <div className="shrink grow">
@@ -33,10 +36,14 @@ const ChatRoomItem = ({
             {formatDate(lastSentMessageTime)}
           </h3>
         </div>
-        <div className="text-sm">{lastSentMessage}</div>
+        <p className="max-w-[50vw] truncate text-sm">{lastSentMessage}</p>
       </div>
-      <div>{headCount}</div>
-    </div>
+      {headCount > 0 && (
+        <div className="h-7 w-7 rounded-full bg-active text-center text-white">
+          {headCount}
+        </div>
+      )}
+    </Link>
   );
 };
 

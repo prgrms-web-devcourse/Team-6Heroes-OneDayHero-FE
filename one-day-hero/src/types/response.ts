@@ -441,6 +441,12 @@ export type ChatRoomsResponse = {
   status: number;
   data: {
     id: number;
+    missionId: number;
+    missionStatus:
+      | "MATCHING"
+      | "MATCHING_COMPLETED"
+      | "MISSION_COMPLETED"
+      | "EXPIRED";
     receiverId: number;
     title: string;
     receiverNickname: string;
@@ -452,60 +458,20 @@ export type ChatRoomsResponse = {
   serverDateTime: string;
 };
 
-export type HeroNicknameSearchResponse = {
+export type ChatRecordResponse = {
   status: number;
   data: {
-    content: {
-      id: number;
-      nickname: string;
-      image: {
-        originalName: string | null;
-        uniqueName: string | null;
-        path: string | null;
-      };
-      favoriteMissionCategories: [
-        {
-          code: string;
-          name: string;
-        }
-      ];
-      heroScore: 30;
-    }[];
-    pageable: {
-      pageNumber: number;
-      pageSize: number;
-      sort: {
-        empty: boolean;
-        sorted: boolean;
-        unsorted: boolean;
-      };
-      offset: number;
-      paged: boolean;
-      unpaged: boolean;
-    };
-    size: number;
-    number: number;
-    sort: {
-      empty: boolean;
-      sorted: boolean;
-      unsorted: boolean;
-    };
-    numberOfElements: number;
-    first: boolean;
-    last: boolean;
-    empty: boolean;
-  };
+    message: string;
+    senderNickName: string;
+    sentMessageTime: string;
+  }[];
   serverDateTime: string;
 };
 
-export type HeroNicknameResponse = {
-  id: number;
-  nickname: string;
-  image: {
-    originalName: string | null;
-    uniqueName: string | null;
-    path: string | null;
+export type MatchResponse = {
+  status: number;
+  data: {
+    id: number;
   };
-  favoriteMissionCategories: [{ code: string; name: string }];
-  heroScore: 30;
-}[];
+  serverDateTime: string;
+};

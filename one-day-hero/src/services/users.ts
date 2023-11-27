@@ -3,10 +3,15 @@ import { UserResponse } from "@/types/response";
 
 import { CustomResponse, useFetch, useMutationalFetch } from "./base";
 
-export const useGetProfileFetch = (userId: number, isHero: boolean) => {
+export const useGetProfileFetch = (
+  userId: number,
+  isHero: boolean,
+  token: string
+) => {
   return useFetch<UserResponse>(
     `/users/${userId}/${isHero ? "hero-profile" : "citizen-profile"}`,
     {
+      headers: { Authorization: `Bearer ${token}` },
       next: { tags: [`user${userId}`] }
     }
   );

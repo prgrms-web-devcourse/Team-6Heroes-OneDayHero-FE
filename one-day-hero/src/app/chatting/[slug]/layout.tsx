@@ -1,8 +1,12 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
+import { getServerToken } from "@/app/utils/auth";
 import Container from "@/components/common/Container";
 import Header from "@/components/common/Header";
 import KebabMenu from "@/components/common/KebabMenu";
+import { useGetChatRoomsFetch } from "@/services/chats";
 import { KebabMenuDataType } from "@/types";
 
 type LayoutProps = {
@@ -10,28 +14,33 @@ type LayoutProps = {
   children: React.ReactNode;
 };
 
-const ChattingLayout = ({ params, children }: LayoutProps) => {
+const ChattingLayout = async ({ params, children }: LayoutProps) => {
+  const roomId = params.slug;
+  const token = getServerToken();
+
+  if (!token) redirect("/login?redirect=");
+
   const chattingRoomOutMenuData: KebabMenuDataType = {
     name: "채팅방 나가기",
     description: "해당 채팅방에서 나갑니다.",
-    apiPath: "/chatting/123",
-    requiredData: [{ name: "missionId", default: params.slug }],
-    redirectTo: "/mission/list/ongoing"
+    apiPath: `/chat-rooms/${roomId}/exit`,
+    method: "PATCH",
+    redirectTo: "/chatting"
   };
 
   const cancelMatchingMenuData: KebabMenuDataType = {
     name: "매칭 취소",
     description: "매칭을 취소합니다.",
-    apiPath: "/chatting/123",
+    apiPath: "/mission-matches/cancel",
+    method: "PUT",
     requiredData: [{ name: "missionId", default: params.slug }]
   };
 
-  const reportMenuData: KebabMenuDataType = {
-    name: "신고하기",
-    description: "상대방을 신고합니다.",
-    apiPath: "/chatting/123",
-    requiredData: [{ name: "missionId", default: params.slug }]
-  };
+  const { response: chatRoomResponse } = await useGetChatRoomsFetch(token);
+
+  const thisRoomData = chatRoomResponse?.data.find(
+    ({ id }) => id.toString() === roomId
+  );
 
   return (
     <>
@@ -40,21 +49,19 @@ const ChattingLayout = ({ params, children }: LayoutProps) => {
         right="info"
         rightNode={
           <KebabMenu
-            menuList={[
-              chattingRoomOutMenuData,
-              cancelMatchingMenuData,
-              reportMenuData
-            ]}
+            menuList={[chattingRoomOutMenuData, cancelMatchingMenuData]}
           />
         }>
-        슈퍼 히어로 토끼
+        {thisRoomData?.receiverNickname || "채팅방"}
       </Header>
 
-      <div className="fixed top-20 z-40 flex w-full max-w-screen-sm justify-center">
+      <Link
+        href={`/mission/${thisRoomData?.id}`}
+        className="fixed top-20 z-40 flex w-full max-w-screen-sm justify-center">
         <Container className="cs:flex cs:h-8 cs:w-11/12 cs:items-center cs:bg-primary-light">
-          제목이 들어갈 자리입니다.
+          {thisRoomData?.title || "미션 제목"}
         </Container>
-      </div>
+      </Link>
 
       {children}
     </>

@@ -1,10 +1,53 @@
-import { ChatRoomsResponse } from "@/types/response";
+import {
+  ChatRecordResponse,
+  ChatRoomsResponse,
+  MatchResponse
+} from "@/types/response";
 
-import { useFetch } from "./base";
+import { CustomResponse, useFetch, useMutationalFetch } from "./base";
 
 export const useGetChatRoomsFetch = (token: string) => {
-  return useFetch<ChatRoomsResponse>(`/chat-rooms/users`, {
+  return useFetch<ChatRoomsResponse>(`/chat-rooms/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+    next: { revalidate: 10 }
+  });
+};
+
+export const useGetChatRecordFetch = (roomId: string, token: string) => {
+  return useFetch<ChatRecordResponse>(`/chat-rooms/${roomId}`, {
     headers: { Authorization: `Bearer ${token}` },
     next: { revalidate: 0 }
   });
+};
+
+export const useCreateMatchFetch = (
+  missionId: number,
+  heroId: number,
+  token: string
+) => {
+  return useMutationalFetch<MatchResponse>("/mission-matches", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify({
+      missionId,
+      heroId
+    })
+  }) as {
+    mutationalFetch: (
+      onSuccess?: (response?: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<MatchResponse>>;
+  };
+};
+
+export const useCompleteMissionFetch = (missionId: number, token: string) => {
+  return useMutationalFetch<MatchResponse>(`/missions/${missionId}/complete`, {
+    method: "PATCH",
+    headers: { Authorization: `Bearer ${token}` }
+  }) as {
+    mutationalFetch: (
+      onSuccess?: (response?: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<MatchResponse>>;
+  };
 };

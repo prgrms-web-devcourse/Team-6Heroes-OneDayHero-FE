@@ -1,17 +1,36 @@
 "use client";
 
+import Link from "next/link";
+import { PropsWithChildren } from "react";
+
 import Container from "@/components/common/Container";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import { useUserId } from "@/contexts/UserIdProvider";
 import useChatting from "@/hooks/useChatting";
+import { MissionResponse } from "@/types/response";
 
 import ChattingInputFooter from "./ChattingInputFooter";
 import MessageContainer from "./MessageContainer";
 import MissionProgressButtonBar from "./MissionProgressButtonBar";
 
-const ChattingClientContainer = ({ roomId }: { roomId: string }) => {
+type ChattingClientContainerProps = {
+  roomId: string;
+  missionData: MissionResponse["data"];
+  myImagePath: string;
+  receiverId: number;
+  receiverImagePath: string;
+};
+
+const ChattingClientContainer = ({
+  roomId,
+  missionData,
+  myImagePath,
+  receiverId,
+  receiverImagePath,
+  children
+}: PropsWithChildren<ChattingClientContainerProps>) => {
   const { userId } = useUserId();
-  const isCitizen = true;
+  const isCitizen = userId === missionData.citizenId;
 
   const { messages, sendMessage, messageEndRef } = useChatting(roomId);
 
@@ -20,20 +39,34 @@ const ChattingClientContainer = ({ roomId }: { roomId: string }) => {
       <div className="fixed top-[7.5rem] z-40 flex w-full max-w-screen-sm justify-center">
         <Container className="cs:flex cs:w-11/12 cs:items-center">
           {isCitizen ? (
-            <MissionProgressButtonBar missionStatus="MATCHING" />
-          ) : (
-            <MissionListItem
-              categories="서빙"
-              createAt="2023-11-17"
-              location="마포구 동교동"
-              title="심부름 해주실 분 찾습니다."
-              className="p-2"
+            <MissionProgressButtonBar
+              missionStatus={missionData.missionStatus}
+              missionId={missionData.id}
+              receiverId={receiverId}
             />
+          ) : (
+            <Link href={`/mission/${missionData.id}`} className="w-full">
+              <MissionListItem
+                categories={missionData.missionCategory.name}
+                createAt={missionData.missionInfo.missionDate}
+                location={`${missionData.region.gu} ${missionData.region.dong}`}
+                title={missionData.missionInfo.title}
+                imageSrc={missionData.missionImage?.path}
+                className="p-2"
+              />
+            </Link>
           )}
         </Container>
       </div>
       <div className="h-32 w-full" />
-      <MessageContainer messages={messages} messageEndRef={messageEndRef} />
+      <MessageContainer
+        messages={messages}
+        messageEndRef={messageEndRef}
+        myImagePath={myImagePath}
+        receiverImagePath={receiverImagePath}
+        missionStatus={missionData.missionStatus}>
+        {children}
+      </MessageContainer>
 
       <ChattingInputFooter sendMessage={sendMessage} roomId={roomId} />
     </>
