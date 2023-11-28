@@ -23,33 +23,33 @@ const NotificationContext = createContext<NotificationContextType | null>(null);
 const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
   const [alarmStatus, setAlarmStatus] = useState<boolean>(false);
 
-  useEffect(() => {
-    const token = getClientToken();
+  // useEffect(() => {
+  //   const token = getClientToken();
 
-    const eventSource = new EventSourcePolyfill(
-      `${process.env.NEXT_PUBLIC_BE_URL}:8082/api/v1/sse/subscribe`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+  //   const eventSource = new EventSourcePolyfill(
+  //     `${process.env.NEXT_PUBLIC_BE_URL}:8082/api/v1/sse/subscribe`,
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     }
+  //   );
 
-    eventSource.onopen = (e) => {
-      console.log("SSE 연결 성공!!");
-    };
+  //   eventSource.onopen = (e) => {
+  //     console.log("SSE 연결 성공!!");
+  //   };
 
-    eventSource.onerror = (e) => {
-      console.log(e.target, "오류 메세지는 뭘까!");
-    };
+  //   eventSource.onerror = (e) => {
+  //     console.log(e.target, "오류 메세지는 뭘까!");
+  //   };
 
-    return () => {
-      if (eventSource) {
-        setAlarmStatus(false);
-        eventSource.close();
-      }
-    };
-  }, []);
+  //   return () => {
+  //     if (eventSource) {
+  //       setAlarmStatus(false);
+  //       eventSource.close();
+  //     }
+  //   };
+  // }, []);
 
   return (
     <NotificationContext.Provider value={{ alarmStatus, setAlarmStatus }}>

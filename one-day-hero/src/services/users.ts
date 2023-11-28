@@ -25,13 +25,15 @@ export const useGetUserFetch = (token: string) => {
 };
 
 export const useChangeHeroFetch = (
+  token: string,
   onSuccess?: (response?: Response) => void,
   onError?: () => void
 ) => {
   return useMutationalFetch<UserResponse>(
     "/me/change-hero",
     {
-      method: "PATCH"
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` }
     },
     onSuccess,
     onError
@@ -39,13 +41,15 @@ export const useChangeHeroFetch = (
 };
 
 export const useChangeCitizenFetch = (
+  token: string,
   onSuccess?: (response?: Response) => void,
   onError?: () => void
 ) => {
   return useMutationalFetch<UserResponse>(
     "/me/change-citizen",
     {
-      method: "PATCH"
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` }
     },
     onSuccess,
     onError

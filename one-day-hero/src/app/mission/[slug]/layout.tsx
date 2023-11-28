@@ -11,11 +11,13 @@ type LayoutProps = {
 };
 
 const layout = ({ params, children }: LayoutProps) => {
+  const missionId = params.slug;
+
   const missionDeleteMenuData: KebabMenuDataType = {
     name: "미션 삭제",
     description: "해당 미션을 삭제합니다",
-    apiPath: "/missions/123",
-    requiredData: [{ name: "missionId", default: params.slug }],
+    apiPath: `/missions/${missionId}`,
+    method: "DELETE",
     redirectTo: "/mission/list/ongoing"
   };
 

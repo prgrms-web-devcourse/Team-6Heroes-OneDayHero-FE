@@ -4,6 +4,7 @@ import { MutableRefObject } from "react";
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
 import {
   BookmarkResponse,
+  MatchResponse,
   MissionResponse,
   ProgressMissionListResponse,
   ProposalResponse,
@@ -37,6 +38,40 @@ export const useProposeMissionFetch = () => {
       onSuccess?: () => void,
       onError?: () => void
     ) => Promise<CustomResponse<ProposalResponse>>;
+  };
+};
+
+export const useRejectProposalFetch = (proposalId: number, token: string) => {
+  return useMutationalFetch<MatchResponse>(
+    `/mission-proposals/${proposalId}/reject`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  ) as {
+    mutationalFetch: (
+      onSuccess?: () => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<MatchResponse>>;
+  };
+};
+
+export const useApproveProposalFetch = (proposalId: number, token: string) => {
+  return useMutationalFetch<MatchResponse>(
+    `/mission-proposals/${proposalId}/approve`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  ) as {
+    mutationalFetch: (
+      onSuccess?: () => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<MatchResponse>>;
   };
 };
 
@@ -113,17 +148,12 @@ export const useGetCompleteMissionListFetch = (
   });
 };
 
-export const useGetSuggestingMissionListFetch = (
-  token: string,
-  observerRef: MutableRefObject<HTMLDivElement | null>
-) => {
-  return useInfiniteFetch<SuggestingMissionListResponse>({
-    pathname: `/missions/matching`,
-    size: 10,
-    observerRef,
-    options: {
+export const useGetSuggestingMissionListFetch = (token: string) => {
+  return useMutationalFetch<SuggestingMissionListResponse>(
+    `/missions/matching`,
+    {
       headers: { Authorization: `Bearer ${token}` },
       next: { tags: [`matching`] }
     }
-  });
+  );
 };

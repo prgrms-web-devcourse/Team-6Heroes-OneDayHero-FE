@@ -1,6 +1,7 @@
 import {
   ChatRecordResponse,
   ChatRoomsResponse,
+  ChatRoomSummaryResponse,
   MatchResponse
 } from "@/types/response";
 
@@ -49,5 +50,26 @@ export const useCompleteMissionFetch = (missionId: number, token: string) => {
       onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<MatchResponse>>;
+  };
+};
+
+export const useCreateChatRoomFetch = (
+  missionId: number,
+  heroId: number,
+  citizenId: number,
+  token: string
+) => {
+  return useMutationalFetch<ChatRoomSummaryResponse>("/chat-rooms", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify({
+      missionId,
+      userIds: [heroId, citizenId]
+    })
+  }) as {
+    mutationalFetch: (
+      onSuccess?: (response?: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<ChatRoomSummaryResponse>>;
   };
 };

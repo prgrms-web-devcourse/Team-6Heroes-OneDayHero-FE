@@ -8,21 +8,6 @@ export async function POST(request: NextRequest) {
 
   const formData = await request.formData();
 
-  // console.log("response 확인", res);
-
-  // const formData = new FormData();
-
-  // formData.append(
-  //   "userUpdateRequest",
-  //   new Blob([jsonData], { type: "application/json" })
-  // );
-
-  // formData.append(
-  //   "images",
-  //   new Blob([file], { type: "image/jpeg" }),
-  //   file[0].file.name
-  // );
-
   const { mutationalFetch } = useEditProfileFetch();
 
   const { isError, response, errorMessage } = await mutationalFetch(
@@ -33,9 +18,8 @@ export async function POST(request: NextRequest) {
         Authorization: `Bearer ${token}`
       }
     },
-    () => {
-      console.log("post 완료");
-      // router.push("/survey/optional");
+    (response) => {
+      console.log(response);
     }
   );
 

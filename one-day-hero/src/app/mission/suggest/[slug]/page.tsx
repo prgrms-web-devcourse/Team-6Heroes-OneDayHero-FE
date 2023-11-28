@@ -12,7 +12,7 @@ const MissionSuggestPage = async ({ params }: { params: { slug: string } }) => {
   if (!token) redirect("/login?redirect=");
 
   const { isError: heroIsError, response: heroResponse } =
-    await useGetProfileFetch(heroId, false);
+    await useGetProfileFetch(heroId, false, token);
 
   if (heroIsError || !heroResponse) return <ErrorPage />;
 
