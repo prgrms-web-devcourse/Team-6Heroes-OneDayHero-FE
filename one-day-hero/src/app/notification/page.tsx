@@ -10,15 +10,15 @@ import ErrorPage from "../error";
 import { getServerToken } from "../utils/auth";
 
 const NotificationPage = async () => {
-  const token = getServerToken();
+  // const token = getServerToken();
 
-  const { response, isError } = await useGetNotificationFetch(token!);
+  // const { response, isError } = await useGetNotificationFetch(token!);
 
-  if (isError || !response) return <ErrorPage />;
+  // if (isError || !response) return <ErrorPage />;
 
-  const {
-    data: { content, empty }
-  } = response;
+  // const {
+  //   data: { content, empty }
+  // } = response;
 
   // const fetchSSE = () => {
   //   const eventSource = new EventSourcePolyfill(apiUrl("/sse/subscribe"), {
@@ -47,7 +47,7 @@ const NotificationPage = async () => {
 
   return (
     <div className="flex w-full flex-col items-center">
-      {!empty ? (
+      {/* {!empty ? (
         content &&
         content.map((item) => (
           <NotificationItem
@@ -66,8 +66,8 @@ const NotificationPage = async () => {
             아직은 알림이 없네요.. <br />
             기다리면 좋은 소식이 있을거에요!
           </h1>
-        </>
-      )}
+        </> */}
+      {/* )} */}
     </div>
   );
 };
