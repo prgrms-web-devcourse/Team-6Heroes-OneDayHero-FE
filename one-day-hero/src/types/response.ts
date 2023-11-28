@@ -90,8 +90,10 @@ export type ProgressMissionListResponse = {
 
 export type MissionItemResponse = {
   id: number;
+  citizenId: number;
   status: "MATCHING" | "MATCHING_COMPLETED" | "MISSION_COMPLETED" | "EXPIRED";
   bookmarkCount: number;
+  isBookmarked: boolean;
   createdAt: string;
   region: {
     si: string;
@@ -109,6 +111,7 @@ export type MissionItemResponse = {
     endTime: string;
     price: number;
   };
+  imagePath: string;
 };
 
 export type SuggestedMissionListResponse = {
@@ -145,7 +148,36 @@ export type SuggestedMissionListResponse = {
   serverDateTime: string;
 };
 
-export type SuggestingMissionListResponse = SuggestedMissionListResponse;
+export type SuggestingMissionListResponse = {
+  status: number;
+  data: {
+    missionMatchingResponses: {
+      id: number;
+      title: string;
+      missionCategory: {
+        id: number;
+        code: string;
+        name: string;
+      };
+      region: {
+        id: number;
+        si: string;
+        gu: string;
+        dong: string;
+      };
+      missionCreatedAt: string;
+      missionDate: string;
+      startTime: string;
+      endTime: string;
+      price: number;
+      bookmarkCount: number;
+      missionStatus: string;
+      imagePath: string;
+      isBookmarked: true;
+    }[];
+  };
+  serverDateTime: string;
+};
 
 export type BookmarkResponse = {
   status: number;
@@ -391,6 +423,64 @@ export type MissionSearchListResponse = {
   serverDateTime: string;
 };
 
+export type HeroNicknameSearchResponse = {
+  status: number;
+  data: {
+    content: {
+      id: number;
+      nickname: string;
+      image: {
+        originalName: string | null;
+        uniqueName: string | null;
+        path: string | null;
+      };
+      favoriteMissionCategories: [
+        {
+          code: string;
+          name: string;
+        }
+      ];
+      heroScore: 30;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    size: number;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    last: boolean;
+    empty: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type HeroNicknameResponse = {
+  id: number;
+  nickname: string;
+  image: {
+    originalName: string | null;
+    uniqueName: string | null;
+    path: string | null;
+  };
+  favoriteMissionCategories: [{ code: string; name: string }];
+  heroScore: 30;
+}[];
+
 export type ReviewDeleteResponse = {
   status: number;
   data: null;
@@ -455,6 +545,16 @@ export type ChatRoomsResponse = {
     headCount: number;
     lastSentMessageTime: string;
   }[];
+  serverDateTime: string;
+};
+
+export type ChatRoomSummaryResponse = {
+  status: number;
+  data: {
+    id: number;
+    missionId: number;
+    headCount: number;
+  };
   serverDateTime: string;
 };
 

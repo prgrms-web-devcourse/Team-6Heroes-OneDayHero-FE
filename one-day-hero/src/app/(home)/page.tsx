@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 import Category from "@/components/common/Category";
 import Banner from "@/components/domain/home/Banner";
 import HomeLocation from "@/components/domain/home/HomeLocation";
@@ -9,9 +11,11 @@ import { getServerToken } from "../utils/auth";
 const banners = [Assets.Banner1, Assets.Banner2, Assets.Banner3];
 
 const HomePage = async () => {
-  const defaultLabelStyle = "text-lg font-semibold";
-
   const token = getServerToken();
+
+  if (!token) redirect("/login");
+
+  const defaultLabelStyle = "text-lg font-semibold";
 
   const { isError, response } = await useGetMainFetch(token!);
 

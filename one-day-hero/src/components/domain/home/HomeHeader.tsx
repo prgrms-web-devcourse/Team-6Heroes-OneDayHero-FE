@@ -20,7 +20,7 @@ const HomeHeader = () => {
     <header className={headerDefaultStyle}>
       <div className="flex items-center space-x-2">
         <Image
-          src="/images/원데히로고 2.png"
+          src="/images/OneDayHero_logo_sm.svg"
           width={45}
           height={45}
           alt="logo"
@@ -31,7 +31,7 @@ const HomeHeader = () => {
       </div>
       <div className="flex space-x-4">
         <TbMoon className={iconDefaultStyle} />
-        <Link href="/">
+        <Link href="/search/mission">
           <IoSearchSharp className={iconDefaultStyle} />
         </Link>
         <Link href="/" className="relative">

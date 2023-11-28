@@ -53,18 +53,21 @@ export const useFetch = async <T>(
 type MutationalFetchParams = string | RequestInit | (() => void);
 
 export const useMutationalFetch = <T>(
-  pathname: string,
+  pathname?: string,
   options?: RequestInit,
   onSuccess?: (response?: Response) => void,
   onError?: (err?: Error) => void
 ) => {
-  const useFetchArguments: MutationalFetchParams[] = [pathname];
+  const useFetchArguments: MutationalFetchParams[] = [];
 
-  if (options) {
-    useFetchArguments.push(options);
-    if (onSuccess) {
-      useFetchArguments.push(onSuccess);
-      if (onError) useFetchArguments.push(onError);
+  if (pathname) {
+    useFetchArguments.push(pathname);
+    if (options) {
+      useFetchArguments.push(options);
+      if (onSuccess) {
+        useFetchArguments.push(onSuccess);
+        if (onError) useFetchArguments.push(onError);
+      }
     }
   }
 

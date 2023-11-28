@@ -1,4 +1,7 @@
 import { revalidateTag } from "next/cache";
+import { MutableRefObject } from "react";
+
+import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
 
 import {
   CreateReviewResponse,
@@ -7,12 +10,7 @@ import {
   ReviewReceiveResponse,
   SendReviewResponse
 } from "./../types/response";
-import {
-  CustomResponse,
-  useFetch,
-  useInfiniteFetch,
-  useMutationalFetch
-} from "./base";
+import { CustomResponse, useFetch, useMutationalFetch } from "./base";
 
 export const useCreateReviewFetch = () => {
   return useMutationalFetch<CreateReviewResponse>("/reviews") as {
@@ -32,11 +30,19 @@ export const useGetReviewDetailFetch = (reviewId: number, token: string) => {
   });
 };
 
-export const useGetSendReviewFetch = async (token: string) => {
-  return useInfiniteFetch<SendReviewResponse>(`/me/reviews/send`, 5, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+export const useGetSendReviewFetch = (
+  token: string,
+  observerRef: MutableRefObject<HTMLDivElement | null>
+) => {
+  return useInfiniteFetch<SendReviewResponse>({
+    pathname: `/me/reviews/send`,
+    size: 5,
+    options: {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    },
+    observerRef
   });
 };
 
@@ -53,10 +59,18 @@ export const useDeleteSendReviewFetch = (reviewId: number) => {
   );
 };
 
-export const useGetReceiveReviewFetch = (token: string) => {
-  return useInfiniteFetch<ReviewReceiveResponse>("/me/reviews/receive", 5, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+export const useGetReceiveReviewFetch = (
+  token: string,
+  observerRef: MutableRefObject<HTMLDivElement | null>
+) => {
+  return useInfiniteFetch<SendReviewResponse>({
+    pathname: `/me/reviews/receive`,
+    size: 5,
+    options: {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    },
+    observerRef
   });
 };

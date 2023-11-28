@@ -9,6 +9,7 @@ import Container from "@/components/common/Container";
 import IconGroup from "@/components/common/IconGroup";
 import MissionInfo from "@/components/common/Info/MissionInfo";
 import Label from "@/components/common/Label";
+import ChattingButton from "@/components/domain/missionDetail/ChattingButton";
 import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
 import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendList";
 import { useGetMissionFetch } from "@/services/missions";
@@ -107,9 +108,10 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
             size="lg"
             className="cs:grow"
           />
-          <Button size="sm" className="cs:grow">
-            채팅하기
-          </Button>
+          <ChattingButton
+            missionId={parseInt(missionId)}
+            citizenId={citizenId}
+          />
         </div>
       )}
     </>

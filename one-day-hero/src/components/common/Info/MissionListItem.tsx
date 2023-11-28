@@ -2,7 +2,7 @@ import Image from "next/image";
 import { BiMap, BiStar } from "react-icons/bi";
 
 import Label from "@/components/common/Label";
-import test from "~/images/test.png";
+import defaultProfileImage from "~/images/OneDayHero_logo_sm.svg";
 
 import IconGroup from "../IconGroup";
 
@@ -28,9 +28,9 @@ const MissionListItem = ({
   return (
     <div className={`flex w-full ${className}`}>
       <div className="flex grow gap-4">
-        <div className="bg-inactive overflow-hidden rounded-[10px]">
+        <div className="overflow-hidden rounded-[10px] bg-inactive">
           <Image
-            src={imageSrc || test}
+            src={imageSrc || defaultProfileImage}
             alt="프로필 사진"
             width={60}
             height={60}
