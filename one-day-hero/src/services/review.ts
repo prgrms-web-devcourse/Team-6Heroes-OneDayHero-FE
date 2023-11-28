@@ -60,11 +60,12 @@ export const useDeleteSendReviewFetch = (reviewId: number) => {
 };
 
 export const useGetReceiveReviewFetch = (
+  userId: number,
   token: string,
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<SendReviewResponse>({
-    pathname: `/me/reviews/receive`,
+    pathname: `/reviews/users/${userId}/receive`,
     size: 5,
     options: {
       headers: {

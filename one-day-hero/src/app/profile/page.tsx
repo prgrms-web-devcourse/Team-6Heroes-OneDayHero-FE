@@ -13,7 +13,7 @@ import HeroSwitch from "@/components/domain/profile/HeroSwitch";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetUserFetch } from "@/services/users";
 
-import { getServerToken } from "../utils/auth";
+import { getServerToken, getServerUserId } from "../utils/auth";
 
 const ProfilePage = async () => {
   const token = getServerToken();
@@ -23,6 +23,8 @@ const ProfilePage = async () => {
   const { isError, response } = await useGetUserFetch(token ?? "");
 
   if (isError || !response) return <ErrorPage />;
+
+  const userId = getServerUserId() ?? "-1";
 
   const {
     data: {
@@ -110,7 +112,9 @@ const ProfilePage = async () => {
           <p>{basicInfo.introduce}</p>
         </div>
       </div>
-      <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
+      <LinkButton
+        href={`/review/${userId}/receive`}
+        className="cs:mb-3 cs:w-full">
         리뷰
       </LinkButton>
       <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
