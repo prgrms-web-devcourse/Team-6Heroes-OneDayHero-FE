@@ -27,7 +27,7 @@ type ReviewFormProps = {
   categoryId?: number;
   editDefaultData?: {
     content: string;
-    starScore: number;
+    starScore: 1 | 2 | 3 | 4 | 5;
   };
 };
 

@@ -6,7 +6,7 @@ const MissionSearchLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header left="back">검색</Header>
-      <div className="fixed top-16 z-50 h-[15.2rem] w-full max-w-screen-sm bg-background" />
+      <div className="fixed top-16 z-50 h-[11rem] w-full max-w-screen-sm bg-background" />
       <div
         className="fixed
 z-50 flex w-full max-w-screen-sm justify-center">

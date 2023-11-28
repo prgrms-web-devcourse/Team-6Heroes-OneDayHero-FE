@@ -42,7 +42,7 @@ const ChattingPage = async ({ params }: { params: { slug: string } }) => {
     !thisRoomData
   )
     return <ErrorPage />;
-  console.log(chatRecordResponse);
+
   return (
     <>
       <ChattingClientContainer

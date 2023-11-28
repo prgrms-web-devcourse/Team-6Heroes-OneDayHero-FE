@@ -19,7 +19,7 @@ const ReceivedReviewList = ({ userId }: ReceivedReviewListProps) => {
   const { data } = useGetReceiveReviewFetch(userId, token, observerRef);
 
   return (
-    <div className="w-full">
+    <div className="mt-20 w-full">
       {data.map(
         ({
           reviewId,

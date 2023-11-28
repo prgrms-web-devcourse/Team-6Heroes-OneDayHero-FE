@@ -303,6 +303,7 @@ export type ReviewDetailResponse = {
     senderId: number;
     senderNickname: string;
     receiverId: number;
+    receiverNickname: string;
     categoryId: number;
     categoryCode: string;
     categoryName: string;

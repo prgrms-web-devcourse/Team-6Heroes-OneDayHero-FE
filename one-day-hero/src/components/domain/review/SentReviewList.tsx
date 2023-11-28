@@ -15,7 +15,7 @@ const SentReviewList = () => {
   const { data } = useGetSendReviewFetch(token, observerRef);
 
   return (
-    <div className="w-full">
+    <div className="mt-20 w-full">
       {data.map(
         ({
           reviewId,

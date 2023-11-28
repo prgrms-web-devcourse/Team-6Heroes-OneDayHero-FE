@@ -14,18 +14,13 @@ export async function POST(request: NextRequest) {
     isError,
     errorMessage,
     response: postResponse
-  } = await mutationalFetch(
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      body: data
+  } = await mutationalFetch({
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`
     },
-    (response) => {
-      console.log(response);
-    }
-  );
+    body: data
+  });
 
   if (isError || !postResponse) {
     console.log(errorMessage);
