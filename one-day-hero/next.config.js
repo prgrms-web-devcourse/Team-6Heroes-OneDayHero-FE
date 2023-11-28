@@ -13,7 +13,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "team-06-bucket.s3.ap-northeast-2.amazonaws.com",
+        hostname: process.env.NEXT_PUBLIC_BE_S3_URL,
         port: "",
         pathname: "/**"
       }
