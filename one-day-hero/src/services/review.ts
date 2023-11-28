@@ -21,6 +21,16 @@ export const useCreateReviewFetch = () => {
   };
 };
 
+export const useEditReviewFetch = (reviewId: number) => {
+  return useMutationalFetch<CreateReviewResponse>(`/reviews/${reviewId}`) as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: (response?: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<CreateReviewResponse>>;
+  };
+};
+
 export const useGetReviewDetailFetch = (reviewId: number, token: string) => {
   return useFetch<ReviewDetailResponse>(`/reviews/${reviewId}`, {
     headers: {

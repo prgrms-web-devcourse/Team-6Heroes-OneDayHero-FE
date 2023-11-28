@@ -21,7 +21,8 @@ const Textarea = forwardRef(
       readOnly,
       readOnlyValue,
       className,
-      error
+      error,
+      ...props
     }: TextareaProps,
     ref: ForwardedRef<HTMLTextAreaElement>
   ) => {
@@ -42,6 +43,7 @@ const Textarea = forwardRef(
           className={`${defaultStyle} ${className} ${
             error && "border-2 border-red-500"
           }`}
+          {...props}
         />
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </>

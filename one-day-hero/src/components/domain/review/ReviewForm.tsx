@@ -13,6 +13,7 @@ import UploadImage from "@/components/common/UploadImage";
 import { useToast } from "@/contexts/ToastProvider";
 import { useUserId } from "@/contexts/UserIdProvider";
 import { ImageFileType } from "@/types";
+import { ReviewDetailResponse } from "@/types/response";
 import { ReviewFormSchema } from "@/types/schema";
 
 import StarRating from "./StarRating";
@@ -28,7 +29,8 @@ type ReviewFormProps = {
   editDefaultData?: {
     content: string;
     starScore: 1 | 2 | 3 | 4 | 5;
-    images: ImageFileType[];
+    imageDatas: ReviewDetailResponse["data"]["reviewImageResponses"];
+    reviewId: number;
   };
 };
 
@@ -42,7 +44,7 @@ const ReviewForm = ({
 }: ReviewFormProps) => {
   const { userId } = useUserId();
 
-  const [score, setScore] = useState<number>(0);
+  const [score, setScore] = useState<number>(editDefaultData?.starScore ?? 0);
   const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
     null
   );
@@ -54,13 +56,6 @@ const ReviewForm = ({
 
   const { showToast } = useToast();
   const router = useRouter();
-
-  useEffect(() => {
-    if (!editDefaultData || !reviewRef.current) return;
-
-    reviewRef.current.value = editDefaultData.content;
-    setScore(editDefaultData.starScore);
-  }, []);
 
   const handleScoreSelect = (count: number) => {
     setScore(count);
@@ -113,7 +108,11 @@ const ReviewForm = ({
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FE_URL}/api/createReview`,
+        `${process.env.NEXT_PUBLIC_FE_URL}/api/${
+          editDefaultData
+            ? `editReview/${editDefaultData.reviewId}`
+            : "createReview"
+        }`,
         {
           method: "POST",
           body: formData
@@ -126,10 +125,18 @@ const ReviewForm = ({
 
       const reviewId = (await response.json()).data.id;
 
-      showToast("리뷰가 생성되었습니다!", "success");
+      showToast(
+        `리뷰가 ${editDefaultData ? "수정" : "생성"}되었습니다!`,
+        "success"
+      );
       router.replace(`/review/${reviewId}`);
     } catch (err) {
-      showToast("리뷰 생성 중 오류가 발생했어요. 다시 시도해주세요", "error");
+      showToast(
+        `리뷰 ${
+          editDefaultData ? "수정" : "생성"
+        } 중 오류가 발생했어요. 다시 시도해주세요`,
+        "error"
+      );
     }
   };
 
@@ -143,7 +150,10 @@ const ReviewForm = ({
         <h1 className="text-lg font-medium">
           &quot;{receiverNickname}&quot; 히어로님과의 미션은 어떠셨나요?
         </h1>
-        <StarRating onSelect={handleScoreSelect} />
+        <StarRating
+          onSelect={handleScoreSelect}
+          value={editDefaultData?.starScore}
+        />
         {errorMessage.starScore && (
           <ErrorMessage>{errorMessage.starScore}</ErrorMessage>
         )}
@@ -154,13 +164,17 @@ const ReviewForm = ({
           ref={reviewRef}
           className="cs:h-40 cs:w-full cs:border-0 cs:shadow-down"
           error={errorMessage.content}
+          value={editDefaultData?.content}
         />
       </div>
       <div className="mb-5 flex w-full flex-col justify-start">
         <InputLabel className="cs:text-base">
           사진 <span className="text-sm text-inactive">(최대 3개)</span>
         </InputLabel>
-        <UploadImage onFileSelect={handleFileSelect} />
+        <UploadImage
+          onFileSelect={handleFileSelect}
+          defaultImages={editDefaultData?.imageDatas}
+        />
       </div>
       <Button type="submit" className="cs:mt-3">
         제출하기

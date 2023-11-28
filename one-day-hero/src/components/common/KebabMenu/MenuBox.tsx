@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { MouseEventHandler, useState } from "react";
 
 import useModal from "@/hooks/useModal";
@@ -20,6 +21,8 @@ const MenuBox = ({ menuList }: MenuBoxProps) => {
   const [enoughBottomSpace, setEnoughBottomSpace] = useState(true);
 
   const { isOpen, onOpen, onClose } = useModal();
+
+  const router = useRouter();
 
   const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
     const boxHeight = menuList.length * MENU_ITEM_HEIGHT;
@@ -53,6 +56,11 @@ const MenuBox = ({ menuList }: MenuBoxProps) => {
         }}>
         {menuList.map((menuData, index) => {
           const handleMenuClick = () => {
+            if (!menuData?.apiPath) {
+              router.push(menuData.redirectTo ?? "/");
+              return;
+            }
+
             onOpen();
             setSelectedMenuData(menuData);
           };

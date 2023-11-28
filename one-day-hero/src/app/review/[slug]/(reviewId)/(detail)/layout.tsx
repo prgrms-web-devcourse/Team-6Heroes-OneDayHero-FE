@@ -31,13 +31,14 @@ const ReviewDetailLayout = async ({
             menuList={[
               {
                 name: "수정하기",
-                apiPath: `/reviews/${0}`,
-                method: "POST"
+                redirectTo: `/review/${reviewId}/edit`
               },
               {
                 name: "삭제하기",
-                apiPath: `/reviews/${0}`,
-                method: "DELETE"
+                description: "해당 리뷰를 삭제합니다",
+                apiPath: `/reviews/${reviewId}`,
+                method: "DELETE",
+                redirectTo: `/review/${senderId}/send`
               }
             ]}
             size={24}
