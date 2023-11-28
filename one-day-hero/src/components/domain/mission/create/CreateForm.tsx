@@ -3,7 +3,6 @@
 import { FormEvent, useRef, useState } from "react";
 
 import { formatTime } from "@/app/utils/formatTime";
-import Button from "@/components/common/Button";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
 import Input from "@/components/common/Input";
@@ -12,7 +11,7 @@ import Select from "@/components/common/Select";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
-import { ImageFileType } from "@/types";
+import { ImageFileType, LocationType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
 
 import CustomCalendar from "./CustomCalendar";
@@ -25,6 +24,7 @@ const CreateForm = () => {
   const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
     null
   );
+  const [location, setLocation] = useState<LocationType | null>(null);
   const [errors, setErrors] = useState<FormErrors | null>(null);
   const titleRef = useRef<HTMLInputElement | null>(null);
   const dateRef = useRef<HTMLInputElement | null>(null);
@@ -42,6 +42,10 @@ const CreateForm = () => {
     setSelectedImages(files);
   };
 
+  const handleOnChage = (location: LocationType) => {
+    setLocation(location);
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -53,8 +57,8 @@ const CreateForm = () => {
     const data: MissionCreateRequest = {
       missionCategoryId: categoryId,
       regionId: 1,
-      latitude: 123.45,
-      longitude: 123.45,
+      latitude: location?.lat ?? 0,
+      longitude: location?.lng ?? 0,
       missionInfo: {
         title: titleRef.current?.value ?? "",
         content: contentRef.current?.value ?? "",
@@ -186,15 +190,11 @@ const CreateForm = () => {
           <InputLabel htmlFor="address" required>
             미션 위치
           </InputLabel>
-          <div className="flex gap-3">
-            <Input className="grow" readOnly />
-            <button className="border-inactive focus:outline-primary placeholder:text-inactive h-[34px] w-3/12 rounded-[10px] border text-center">
-              주소 검색
-            </button>
+          <div className="flex w-full gap-3">
+            <PostCode onChange={handleOnChage} />
           </div>
         </div>
       </Container>
-      <PostCode />
     </form>
   );
 };

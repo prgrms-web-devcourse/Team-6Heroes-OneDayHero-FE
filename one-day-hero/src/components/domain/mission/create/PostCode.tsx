@@ -1,18 +1,78 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 
-const PostCode = () => {
-  const [address, setAddress] = useState<string>("");
+import Input from "@/components/common/Input";
+import useModal from "@/hooks/useModal";
+import { LocationType } from "@/types";
 
-  const handleComplete = (data) => {
+type PostCodeProps = {
+  onChange: (location: LocationType) => void;
+};
+
+const PostCode = ({ onChange }: PostCodeProps) => {
+  const [address, setAddress] = useState<string>("");
+  const [location, setLocation] = useState<LocationType | null>(null);
+  const { isOpen, onOpen, onClose } = useModal();
+
+  const handleComplete = async (data: { roadAddress: string }) => {
     const { roadAddress } = data;
 
+    const response = await fetch(
+      `https://dapi.kakao.com/v2/local/search/address.json?query=${roadAddress}`,
+      {
+        headers: {
+          Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_MAP_REST_KEY}`
+        }
+      }
+    );
+
+    if (!response.ok) throw new Error("위치를 제대로 입력해주세요.");
+
+    const res = await response.json();
+
+    setLocation({
+      lat: res.documents[0].x,
+      lng: res.documents[0].y
+    });
+
     setAddress(roadAddress);
+    onClose();
   };
 
-  return <DaumPostcodeEmbed onComplete={handleComplete} />;
+  useEffect(() => {
+    if (location === null) return;
+
+    onChange(location);
+  }, [location, onChange]);
+
+  const handleClick = () => {
+    onOpen();
+  };
+
+  return (
+    <div className="flex w-full gap-2 ">
+      <Input className="grow" readOnly readOnlyValue={address} />
+      <button
+        type="button"
+        onClick={handleClick}
+        className=" border-inactive focus:outline-primary h-[34px] w-3/12 rounded-[10px] border text-center">
+        주소 검색
+      </button>
+      {isOpen && (
+        <div className="flex items-center justify-center">
+          <div
+            className="absolute left-0 top-0 z-10 h-full w-full bg-black opacity-60"
+            onClick={onClose}
+          />
+          <div className="rouded-md absolute bottom-20 left-1/2 z-20 w-10/12 translate-x-[-50%] bg-white">
+            <DaumPostcodeEmbed onComplete={handleComplete} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default PostCode;
