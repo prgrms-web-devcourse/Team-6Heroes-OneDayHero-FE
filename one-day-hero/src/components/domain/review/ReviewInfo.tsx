@@ -5,6 +5,7 @@ import Image from "next/image";
 import { formatDate } from "@/app/utils/formatDate";
 import Container from "@/components/common/Container";
 import Label from "@/components/common/Label";
+import ProfileImage from "@/components/common/ProfileImage";
 import test from "~/images/원데히로고 2.png";
 
 import ReadStarRating from "./ReadStarRating";
@@ -36,23 +37,22 @@ const ReviewInfo = ({
   reviewImage
 }: ReviewInfoProps) => {
   return (
-    <Container className="cs:flex cs:flex-col cs:w-full cs:gap-5 cs:p-4">
+    <Container className="cs:flex cs:w-full cs:flex-col cs:gap-5 cs:p-4">
       <div className="flex gap-3">
-        <div className="bg-inactive relative h-[60px] w-[60px] rounded-full">
-          <Image
-            src={profileImage ? profileImage : test}
+        <div className="relative h-[60px] w-[60px] rounded-full bg-inactive">
+          <ProfileImage
+            src={profileImage || ""}
             alt="프로필 이미지"
-            fill
-            className=" bg-cover"
+            height={60}
           />
         </div>
         <div className="flex grow flex-col gap-[3px]">
-          <Label size="sm" className="cs:w-[67px] whitespace-nowrap">
+          <Label size="sm" className="whitespace-nowrap cs:w-[67px]">
             {categoryName}
           </Label>
           <div className="flex gap-2">
             <ReadStarRating value={starScore} />
-            <span className="text-inactive text-xs">
+            <span className="text-xs text-inactive">
               {formatDate(createdAt)}
             </span>
           </div>

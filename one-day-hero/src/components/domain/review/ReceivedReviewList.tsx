@@ -27,7 +27,8 @@ const ReceivedReviewList = ({ userId }: ReceivedReviewListProps) => {
           missionTitle,
           starScore,
           createdAt,
-          senderNickname
+          senderNickname,
+          profileImage
         }) => (
           <Link
             key={reviewId}
@@ -39,10 +40,12 @@ const ReceivedReviewList = ({ userId }: ReceivedReviewListProps) => {
               starScore={starScore}
               createdAt={createdAt}
               senderNickname={senderNickname}
+              profileImage={profileImage[0]}
             />
           </Link>
         )
       )}
+      <div ref={observerRef} />
     </div>
   );
 };

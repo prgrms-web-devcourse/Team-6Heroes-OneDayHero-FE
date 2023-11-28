@@ -320,15 +320,16 @@ export type ReviewDetailResponse = {
   serverDateTime: string;
 };
 
-export type SendReviewResponse = {
+export type ReviewListResponse = {
   status: number;
   data: {
     content: {
       reviewId: number;
+      senderId?: number;
+      senderNickname: string;
       categoryName: string;
       missionTitle: string;
       starScore: 1 | 2 | 3 | 4 | 5;
-      senderNickname: string;
       profileImage: [string] | [];
       createdAt: string;
     }[];

@@ -23,7 +23,8 @@ const SentReviewList = () => {
           missionTitle,
           starScore,
           createdAt,
-          senderNickname
+          senderNickname,
+          profileImage
         }) => (
           <Link
             key={reviewId}
@@ -35,10 +36,12 @@ const SentReviewList = () => {
               starScore={starScore}
               createdAt={createdAt}
               senderNickname={senderNickname}
+              profileImage={profileImage[0]}
             />
           </Link>
         )
       )}
+      <div ref={observerRef} />
     </div>
   );
 };
