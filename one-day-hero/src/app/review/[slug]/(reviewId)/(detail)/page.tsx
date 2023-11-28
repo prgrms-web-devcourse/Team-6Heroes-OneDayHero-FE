@@ -32,6 +32,7 @@ const ReviewDetailPage = async ({ params }: { params: { slug: string } }) => {
         content={content}
         starScore={starScore}
         createdAt={createdAt}
+        categoryName={categoryName}
         senderId={senderId}
         senderNickname={senderNickname}
         reviewImage={reviewImageResponses}
