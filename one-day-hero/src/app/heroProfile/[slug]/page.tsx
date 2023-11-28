@@ -13,15 +13,12 @@ import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetProfileFetch } from "@/services/users";
 
 const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
+  const heroId = parseInt(params.slug);
   const token = getServerToken();
 
   if (!token) redirect("/login?redirect=");
 
-  const { isError, response } = await useGetProfileFetch(
-    parseInt(params.slug),
-    true,
-    token
-  );
+  const { isError, response } = await useGetProfileFetch(heroId, true, token);
 
   if (isError || !response) return <ErrorPage />;
 
@@ -94,12 +91,14 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
           <p>{basicInfo.introduce}</p>
         </div>
       </div>
-      <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
+      <LinkButton
+        href={`/review/${heroId}/receive`}
+        className="cs:mb-3 cs:w-full">
         리뷰
       </LinkButton>
-      <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
+      {/* <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
         미션 기록
-      </LinkButton>
+      </LinkButton> */}
     </>
   );
 };

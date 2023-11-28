@@ -4,12 +4,15 @@ import Link from "next/link";
 import { useRef } from "react";
 
 import { getClientToken } from "@/app/utils/cookie";
+import { useUserId } from "@/contexts/UserIdProvider";
 import { useGetSendReviewFetch } from "@/services/review";
 
 import ReviewInfo from "./ReviewInfo";
 
 const SentReviewList = () => {
   const token = getClientToken() ?? "";
+  const { userId } = useUserId();
+
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   const { data } = useGetSendReviewFetch(token, observerRef);
@@ -35,6 +38,7 @@ const SentReviewList = () => {
               content={missionTitle}
               starScore={starScore}
               createdAt={createdAt}
+              senderId={userId}
               senderNickname={senderNickname}
               profileImage={profileImage[0]}
             />
