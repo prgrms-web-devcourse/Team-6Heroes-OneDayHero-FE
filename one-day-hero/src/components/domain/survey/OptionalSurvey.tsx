@@ -42,8 +42,6 @@ const OptionalSurvey = (userData: UserResponse) => {
 
   const { basicInfo } = userData.data;
 
-  console.log("베이직", basicInfo);
-
   const { mutationalFetch: getRegionsMutationalFetch } = useGetRegionsFetch(
     token ?? ""
   );
@@ -60,7 +58,6 @@ const OptionalSurvey = (userData: UserResponse) => {
 
         if (response) {
           const { gu } = response.data[0];
-          console.log("gu", gu);
 
           setGuData(gu);
         } else if (isError) {
