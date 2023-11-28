@@ -28,6 +28,7 @@ type ReviewFormProps = {
   editDefaultData?: {
     content: string;
     starScore: 1 | 2 | 3 | 4 | 5;
+    images: ImageFileType[];
   };
 };
 

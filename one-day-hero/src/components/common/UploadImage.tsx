@@ -21,6 +21,7 @@ interface UploadImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   size?: "md" | "lg";
   // eslint-disable-next-line no-unused-vars
   onFileSelect: (files: ImageFileType[]) => void;
+  defaultImages?: ImageFileType[];
 }
 
 const UploadImage = forwardRef(
@@ -29,13 +30,14 @@ const UploadImage = forwardRef(
       size = "md",
       className = "",
       onFileSelect,
+      defaultImages,
       ...props
     }: PropsWithChildren<UploadImageProps>,
     ref
   ) => {
     const [selectedImages, setSelectedImages] = useState<
       ImageFileType[] | null
-    >(null);
+    >(defaultImages ?? null);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const { showToast } = useToast();
 

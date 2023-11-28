@@ -1,9 +1,10 @@
 import ErrorPage from "@/app/error";
 import { getServerToken } from "@/app/utils/auth";
-import Button from "@/components/common/Button";
+import { imageUrlToFile } from "@/app/utils/imageUrlToFile";
 import TitleBox from "@/components/common/TitleBox";
 import ReviewForm from "@/components/domain/review/ReviewForm";
 import { useGetReviewDetailFetch } from "@/services/review";
+import { ImageFileType } from "@/types";
 
 const ReviewEditPage = async ({ params }: { params: { slug: string } }) => {
   const reviewId = parseInt(params.slug);
@@ -13,19 +14,31 @@ const ReviewEditPage = async ({ params }: { params: { slug: string } }) => {
 
   if (isError || !response) return <ErrorPage />;
 
-  const { content, starScore, reviewImageResponses, receiverNickname } =
-    response.data;
+  const {
+    missionTitle,
+    categoryName,
+    content,
+    starScore,
+    reviewImageResponses,
+    receiverNickname
+  } = response.data;
+
+  const images: ImageFileType[] = await Promise.all(
+    reviewImageResponses.map(async ({ id, uniqueName, path }) => {
+      return {
+        id: id.toString(),
+        file: await imageUrlToFile(path, uniqueName)
+      };
+    })
+  );
 
   return (
     <div className="flex w-full flex-col items-center gap-5">
-      <TitleBox category="서빙" title="미션 타이틀" />
+      <TitleBox category={categoryName} title={missionTitle} />
       <ReviewForm
         receiverNickname={receiverNickname}
-        editDefaultData={{ content, starScore }}
+        editDefaultData={{ content, starScore, images }}
       />
-      <Button form="editReview" type="submit" className="cs:mt-3">
-        제출하기
-      </Button>
     </div>
   );
 };
