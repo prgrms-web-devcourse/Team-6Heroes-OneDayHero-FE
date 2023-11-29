@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { forwardRef, useCallback } from "react";
+import { forwardRef, useCallback, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "@/components/common/Button";
@@ -28,10 +28,23 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     handleSubmit,
     formState: { errors },
     setValue,
-    getValues
+    getValues,
+    clearErrors,
+    setError,
+    watch
   } = useForm<MandatorySurveySchemaProps>({
     resolver: zodResolver(MandatorySurveySchema)
   });
+
+  const imageWatch = watch("image");
+
+  useEffect(() => {
+    if (!errors.image) {
+      clearErrors("image");
+    } else {
+      return;
+    }
+  }, [imageWatch]);
 
   const sortedFavoriteRegions = favoriteRegions?.map((item) => item.id) ?? [0];
   const vaildatedFavoriteWorkingDay = favoriteWorkingDay ?? {
@@ -82,6 +95,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   const handleFileSelect = useCallback(
     (file: ImageFileType[]) => {
       setValue("image", file);
+      clearErrors("image");
     },
     [setValue]
   );
@@ -101,7 +115,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
             onFileSelect={handleFileSelect}
           />
           {errors.image && (
-            <p className="text-red-500">{`${errors.image.message}`}</p>
+            <p className="text-red-500">프로필 이미지를 업로드 해주세요.</p>
           )}
         </div>
 
