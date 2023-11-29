@@ -1,6 +1,6 @@
-import Banner1 from "~/images/Banner3.png";
-import Banner2 from "~/images/img.jpg";
-import Banner3 from "~/images/test.png";
+import Banner1 from "~/images/GuideBanner1.jpg";
+import Banner2 from "~/images/GuideBanner2.jpg";
+import Banner3 from "~/images/GuideBanner3.jpg";
 
 const Assets = {
   Banner1,
