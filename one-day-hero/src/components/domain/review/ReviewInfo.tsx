@@ -65,7 +65,7 @@ const ReviewInfo = ({
           </Label>
           <div className="flex gap-2">
             <ReadStarRating value={starScore} />
-            <span className="text-xs text-inactive">
+            <span className="text-xs text-inactive" suppressHydrationWarning>
               {formatDate(createdAt)}
             </span>
           </div>
