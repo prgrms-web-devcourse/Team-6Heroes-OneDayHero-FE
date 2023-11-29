@@ -646,3 +646,36 @@ export type NotificationResponse = {
   };
   serverDateTime: string;
 };
+
+export type ProfileResponse = {
+  status: number;
+  data: {
+    basicInfo: {
+      nickname: string;
+      gender: string;
+      birth: string;
+      introduce: string;
+    };
+    image: {
+      originalName: string | null;
+      uniqueName: string | null;
+      path: string | null;
+    };
+    favoriteWorkingDay: {
+      favoriteDate: string[] | undefined;
+      favoriteStartTime: string | undefined;
+      favoriteEndTime: string | undefined;
+    };
+    favoriteRegions:
+      | {
+          id: number;
+          si: string;
+          gu: string;
+          dong: string;
+        }[]
+      | undefined;
+    heroScore: number;
+    isHeroMode?: boolean;
+  };
+  serverDateTime: string;
+};
