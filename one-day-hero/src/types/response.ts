@@ -312,8 +312,8 @@ export type ReviewDetailResponse = {
     starScore: 1 | 2 | 3 | 4 | 5;
     reviewImageResponses: {
       id: number;
-      originalName: string;
-      uniqueName: string;
+      originalName?: string;
+      uniqueName?: string;
       path: string;
     }[];
     createdAt: string;
@@ -695,6 +695,14 @@ export type MapResponse = {
     first: boolean;
     last: boolean;
     empty: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type EditMissionResponse = {
+  status: number;
+  data: {
+    id: number;
   };
   serverDateTime: string;
 };
