@@ -1,5 +1,3 @@
-import { SendReviewResponse } from "./../../../../../../types/response";
-
 export const reviewDetail = {
   status: 200,
   data: {
@@ -32,7 +30,7 @@ export const reviewDetail = {
   serverDateTime: "2023-11-16T16:08:24"
 };
 
-export const sendReview: SendReviewResponse = {
+export const sendReview = {
   status: 200,
   data: {
     userId: 1,

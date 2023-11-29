@@ -6,153 +6,88 @@ export const MissionSearchList: MissionSearchListResponse = {
     content: [
       {
         id: 1,
-        mission: {
+        missionCategory: {
           id: 1,
-          status: "MATCHING",
-          bookmarkCount: 5,
-          createdAt: "2023-11-16T16:08:24",
-          region: {
-            si: "서울시",
-            gu: "프로구",
-            dong: "래머동"
-          },
-          missionCategory: {
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionInfo: {
-            title: "미션 제목",
-            missionDate: "2023-10-30",
-            startTime: "12:00",
-            endTime: "18:00",
-            price: 30000
-          }
-        }
+          code: "MC_001",
+          name: "서빙"
+        },
+        citizenId: 1,
+        region: {
+          id: 1,
+          si: "서울시",
+          gu: "강남구",
+          dong: "역삼동"
+        },
+        longitude: 127.02880308004335,
+        latitude: 37.49779692073204,
+        missionInfo: {
+          title: "제목",
+          content: "내용",
+          missionDate: "2023-10-21",
+          startTime: "09:00",
+          endTime: "09:30",
+          deadlineTime: "2023-10-21T08:30:00",
+          price: 1000
+        },
+        bookmarkCount: 0,
+        missionStatus: "MATCHING",
+        paths: ["path://1", "path://2"],
+        isBookmarked: true
       },
       {
         id: 2,
-        mission: {
-          id: 2,
-          status: "MATCHING",
-          bookmarkCount: 5,
-          createdAt: "2023-11-15T16:08:24",
-          region: {
-            si: "서울시",
-            gu: "프로구",
-            dong: "래머동"
-          },
-          missionCategory: {
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionInfo: {
-            title: "미션 제목",
-            missionDate: "2023-10-30",
-            startTime: "12:00",
-            endTime: "18:00",
-            price: 30000
-          }
-        }
-      },
-      {
-        id: 3,
-        mission: {
-          id: 3,
-          status: "MATCHING_COMPLETED",
-          bookmarkCount: 5,
-          createdAt: "2023-11-13T16:08:24",
-          region: {
-            si: "서울시",
-            gu: "프로구",
-            dong: "래머동"
-          },
-          missionCategory: {
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionInfo: {
-            title: "미션 제목",
-            missionDate: "2023-10-30",
-            startTime: "12:00",
-            endTime: "18:00",
-            price: 30000
-          }
-        }
-      },
-      {
-        id: 4,
-        mission: {
-          id: 4,
-          status: "MISSION_COMPLETED",
-          bookmarkCount: 5,
-          createdAt: "2023-11-14T16:08:24",
-          region: {
-            si: "서울시",
-            gu: "프로구",
-            dong: "래머동"
-          },
-          missionCategory: {
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionInfo: {
-            title: "미션 제목",
-            missionDate: "2023-10-30",
-            startTime: "12:00",
-            endTime: "18:00",
-            price: 30000
-          }
-        }
-      },
-      {
-        id: 5,
-        mission: {
-          id: 5,
-          status: "EXPIRED",
-          bookmarkCount: 5,
-          createdAt: "2023-11-13T16:08:24",
-          region: {
-            si: "서울시",
-            gu: "프로구",
-            dong: "래머동"
-          },
-          missionCategory: {
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionInfo: {
-            title: "미션 제목",
-            missionDate: "2023-10-30",
-            startTime: "12:00",
-            endTime: "18:00",
-            price: 30000
-          }
-        }
+        missionCategory: {
+          id: 1,
+          code: "MC_001",
+          name: "서빙"
+        },
+        citizenId: 1,
+        region: {
+          id: 1,
+          si: "서울시",
+          gu: "강남구",
+          dong: "역삼동"
+        },
+        longitude: 127.02880308004335,
+        latitude: 37.49779692073204,
+        missionInfo: {
+          title: "제목",
+          content: "내용",
+          missionDate: "2023-10-22",
+          startTime: "09:00",
+          endTime: "09:30",
+          deadlineTime: "2023-10-22T08:30:00",
+          price: 1000
+        },
+        bookmarkCount: 0,
+        missionStatus: "MATCHING",
+        paths: ["path://3", "path://4"],
+        isBookmarked: true
       }
     ],
     pageable: {
       pageNumber: 0,
-      pageSize: 5,
+      pageSize: 4,
       sort: {
+        empty: true,
         sorted: false,
-        unsorted: true,
-        empty: true
+        unsorted: true
       },
       offset: 0,
       paged: true,
       unpaged: false
     },
-    numberOfElements: 5,
-    first: true,
-    last: false,
-    size: 5,
+    size: 4,
     number: 0,
     sort: {
+      empty: true,
       sorted: false,
-      unsorted: true,
-      empty: true
+      unsorted: true
     },
+    first: true,
+    last: true,
+    numberOfElements: 2,
     empty: false
   },
-  serverDateTime: "2023-11-16T16:08:24"
+  serverDateTime: "2023-11-29T13:44:34"
 };
