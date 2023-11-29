@@ -26,30 +26,33 @@ const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
   // useEffect(() => {
   //   const token = getClientToken();
 
-  //   const eventSource = new EventSourcePolyfill(
-  //     `${process.env.NEXT_PUBLIC_BE_URL}:8082/api/v1/sse/subscribe`,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       }
-  //     }
-  //   );
+    if (token) {
+      const eventSource = new EventSourcePolyfill(apiUrl("/sse/subscribe"), {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
-  //   eventSource.onopen = (e) => {
-  //     console.log("SSE 연결 성공!!");
-  //   };
+      eventSource.onmessage = async (event) => {
+        const res = event.data;
+        console.log(res);
 
-  //   eventSource.onerror = (e) => {
-  //     console.log(e.target, "오류 메세지는 뭘까!");
-  //   };
+        setAlarmStatus(true);
+      };
 
-  //   return () => {
-  //     if (eventSource) {
-  //       setAlarmStatus(false);
-  //       eventSource.close();
-  //     }
-  //   };
-  // }, []);
+      eventSource.onerror = (e) => {
+        setAlarmStatus(false);
+        throw new Error("알림 구독에서 에러가 발생했습니다.");
+      };
+
+      return () => {
+        if (eventSource) {
+          setAlarmStatus(false);
+          eventSource.close();
+        }
+      };
+    }
+  }, []);
 
   return (
     <NotificationContext.Provider value={{ alarmStatus, setAlarmStatus }}>
