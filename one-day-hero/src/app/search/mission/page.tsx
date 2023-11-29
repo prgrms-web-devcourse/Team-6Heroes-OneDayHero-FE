@@ -194,7 +194,7 @@ w-full max-w-screen-sm">
                   region={region}
                   missionCategory={missionCategory}
                   missionInfo={missionInfo}
-                  missionImagePath={paths[0]}
+                  missionImagePath={paths?.[0] ?? ""}
                 />
               </Container>
             </Link>
