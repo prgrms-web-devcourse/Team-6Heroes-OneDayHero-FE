@@ -24,4 +24,5 @@ export type ArrayElement<ArrayType extends readonly unknown[]> =
 export type LocationType = {
   lat: number;
   lng: number;
+  resionName: string;
 };

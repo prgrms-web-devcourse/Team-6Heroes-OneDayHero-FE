@@ -28,16 +28,13 @@ export type MissionResponse = {
       price: number;
     };
     bookmarkCount: number;
-    isBookmarked: boolean;
     missionStatus:
       | "MATCHING"
       | "MATCHING_COMPLETED"
       | "MISSION_COMPLETED"
       | "EXPIRED";
-    missionImage: {
-      originalName: string;
-      path: string;
-    };
+    paths: string[];
+    isBookmarked: boolean;
   };
   serverDateTime: string;
 };

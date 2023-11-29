@@ -33,17 +33,16 @@ const PostCode = ({ onChange }: PostCodeProps) => {
     const res = await response.json();
 
     setLocation({
-      lat: res.documents[0].x,
-      lng: res.documents[0].y
+      lat: res.documents[0].y,
+      lng: res.documents[0].x,
+      resionName: res.documents[0].address.region_3depth_h_name
     });
-
     setAddress(roadAddress);
     onClose();
   };
 
   useEffect(() => {
     if (location === null) return;
-
     onChange(location);
   }, [location, onChange]);
 
