@@ -54,12 +54,17 @@ export type ProgressMissionListResponse = {
         name: string;
       };
       missionDate: string;
+      si: string;
+      gu: string;
+      dong: string;
       bookmarkCount: number;
       missionStatus:
         | "MATCHING"
         | "MATCHING_COMPLETED"
         | "MISSION_COMPLETED"
         | "EXPIRED";
+      imagePath: string;
+      isBookmarked: boolean;
     }[];
     pageable: {
       pageNumber: number;

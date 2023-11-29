@@ -58,7 +58,14 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
       <Container className="cs:w-full">
         <HorizontalScroll>
           {missionImage.map(({ path, id }) => (
-            <Image key={id} src={path} alt="미션 사진" width={60} height={60} />
+            <Image
+              key={id}
+              src={path}
+              alt="미션 사진"
+              width={150}
+              height={150}
+              className="object-fill"
+            />
           ))}
         </HorizontalScroll>
         <div className="mt-2 gap-1">

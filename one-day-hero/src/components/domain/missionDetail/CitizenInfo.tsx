@@ -25,7 +25,7 @@ const CitizenInfo = async ({ citizenId, className }: CitizenInfoProps) => {
   if (isError || !response) return <ErrorPage />;
 
   const {
-    data: { basicInfo }
+    data: { basicInfo, heroScore }
   } = response;
 
   return (
@@ -44,7 +44,7 @@ const CitizenInfo = async ({ citizenId, className }: CitizenInfoProps) => {
           />
           <div className="grow">
             <h3 className="text-base font-semibold">{basicInfo.nickname}</h3>
-            <HeroScore score={70} size="sm" />
+            <HeroScore score={heroScore} size="sm" />
           </div>
         </div>
       </Container>
