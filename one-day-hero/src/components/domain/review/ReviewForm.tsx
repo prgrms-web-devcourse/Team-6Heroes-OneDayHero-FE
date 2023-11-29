@@ -95,7 +95,7 @@ const ReviewForm = ({
     const jsonData = JSON.stringify(data);
 
     formData.append(
-      "reviewCreateRequest",
+      editDefaultData ? "reviewUpdateRequest" : "reviewCreateRequest",
       new Blob([jsonData], { type: "application/json" })
     );
 
