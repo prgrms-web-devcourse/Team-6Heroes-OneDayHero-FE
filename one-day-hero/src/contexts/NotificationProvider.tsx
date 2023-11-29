@@ -23,8 +23,8 @@ const NotificationContext = createContext<NotificationContextType | null>(null);
 const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
   const [alarmStatus, setAlarmStatus] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   const token = getClientToken();
+  useEffect(() => {
+    const token = getClientToken();
 
     if (token) {
       const eventSource = new EventSourcePolyfill(apiUrl("/sse/subscribe"), {

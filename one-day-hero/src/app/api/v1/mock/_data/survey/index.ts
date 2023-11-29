@@ -1,6 +1,4 @@
-import { favoriteRegionsResponse } from "@/types/response";
-
-export const favoriteRegionsData: favoriteRegionsResponse = {
+export const favoriteRegionsData = {
   서울시: [
     {
       강남구: [
