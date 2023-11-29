@@ -28,7 +28,10 @@ export const useCreateMatchFetch = (
 ) => {
   return useMutationalFetch<MatchResponse>("/mission-matches", {
     method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({
       missionId,
       heroId
@@ -61,7 +64,10 @@ export const useCreateChatRoomFetch = (
 ) => {
   return useMutationalFetch<ChatRoomSummaryResponse>("/chat-rooms", {
     method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({
       missionId,
       userIds: [heroId, citizenId]

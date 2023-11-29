@@ -28,7 +28,7 @@ const MissionListItem = ({
   return (
     <div className={`flex w-full ${className}`}>
       <div className="flex grow gap-4">
-        <div className="overflow-hidden rounded-[10px] bg-inactive">
+        <div className="bg-inactive overflow-hidden rounded-[10px]">
           <Image
             src={imageSrc || defaultProfileImage}
             alt="프로필 사진"
@@ -38,7 +38,7 @@ const MissionListItem = ({
           />
         </div>
         <div className="flex flex-col gap-1">
-          <Label size="sm" className="w-16">
+          <Label size="sm" className="w-[5.05rem]">
             {categories}
           </Label>
           <span className="text-md font-semibold">{title}</span>

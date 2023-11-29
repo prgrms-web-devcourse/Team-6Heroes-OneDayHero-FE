@@ -34,7 +34,7 @@ const HomeHeader = () => {
         <Link href="/search/mission">
           <IoSearchSharp className={iconDefaultStyle} />
         </Link>
-        <Link href="/" className="relative">
+        <Link href="/notification" className="relative">
           <FiBell className={iconDefaultStyle} />
           <NotificationCircle />
         </Link>

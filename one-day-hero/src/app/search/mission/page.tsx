@@ -39,7 +39,7 @@ const MissionSearchPage = () => {
 
   const { mutationalFetch } = useGetRegionsFetch(token ?? "");
 
-  const queryString = Number(useSearchParams().get("category"));
+  const queryString = Number(useSearchParams().get("category")) ?? 0;
   const router = useRouter();
 
   useEffect(() => {
@@ -98,6 +98,7 @@ const MissionSearchPage = () => {
     const gu = guRef.current?.value;
 
     setSelectedGu(gu);
+    setSelectedDong("선택");
   };
 
   const handleDongSelect = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -163,8 +164,12 @@ w-full max-w-screen-sm">
           </select>
         </div>
 
-        <div className="border-background-darken mt-3 flex justify-center border-b pb-2">
-          <Category onSelect={handleCategorySelect} size="sm" />
+        <div className="mt-3 flex justify-center border-b border-background-darken pb-2">
+          <Category
+            value={queryString}
+            onSelect={handleCategorySelect}
+            size="sm"
+          />
         </div>
       </section>
 
@@ -176,7 +181,8 @@ w-full max-w-screen-sm">
             missionInfo,
             region,
             missionStatus,
-            missionCategory
+            missionCategory,
+            paths
           }) => (
             <Link
               href={`/mission/${id}`}
@@ -189,6 +195,7 @@ w-full max-w-screen-sm">
                   region={region}
                   missionCategory={missionCategory}
                   missionInfo={missionInfo}
+                  missionImagePath={paths[0]}
                 />
               </Container>
             </Link>

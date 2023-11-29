@@ -19,6 +19,7 @@ type MessageContainerProps = {
     | "MATCHING_COMPLETED"
     | "MISSION_COMPLETED"
     | "EXPIRED";
+  missionId: number;
 };
 
 const MessageContainer = ({
@@ -27,6 +28,7 @@ const MessageContainer = ({
   myImagePath,
   receiverImagePath,
   missionStatus,
+  missionId,
   children
 }: PropsWithChildren<MessageContainerProps>) => {
   const { userId } = useUserId();
@@ -66,7 +68,7 @@ const MessageContainer = ({
             완료된 미션의 채팅방입니다
           </p>
           <LinkButton
-            href={`/review/create`}
+            href={`/mission/${missionId}/review`}
             showChevron
             className="cs:h-12 cs:w-full cs:rounded-full">
             리뷰 작성하기

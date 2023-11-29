@@ -10,7 +10,13 @@ const MissionListLayout = ({ children }: { children: React.ReactNode }) => {
       <div
         className="fixed
 z-50 flex w-full max-w-screen-sm justify-center">
-        <Tabs leftText="진행중인 미션" rightText="제안받은 미션" />
+        <Tabs
+          leftRoute={{ name: "진행중인 미션", path: "/mission/list/ongoing" }}
+          rightRoute={{
+            name: "제안받은 미션",
+            path: "/mission/list/suggested"
+          }}
+        />
       </div>
       {children}
       <Footer />

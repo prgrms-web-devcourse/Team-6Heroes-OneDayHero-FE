@@ -39,7 +39,12 @@ const KakaoCallbackPage = () => {
         setUserId(userId);
 
         showToast("로그인 성공!", "success");
-        router.push("/");
+
+        if (response.status === 200) {
+          router.push("/");
+        } else if (response.status === 201) {
+          router.push("/survey/mandatory");
+        }
       } catch (err) {
         console.error(err);
 
@@ -54,7 +59,7 @@ const KakaoCallbackPage = () => {
     postCode();
   }, []);
 
-  return <div>Processing...</div>;
+  return <div className="text-bold text-2xl">Loading...</div>;
 };
 
 export default KakaoCallbackPage;
