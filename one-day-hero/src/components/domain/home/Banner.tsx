@@ -41,8 +41,9 @@ const Banner = ({ banners }: BannerProps) => {
               <Image
                 src={banner}
                 alt="배너 아이템"
-                fill
+                height={240}
                 priority={index === currentBanner}
+                className="mx-auto"
               />
             </div>
           ))}
