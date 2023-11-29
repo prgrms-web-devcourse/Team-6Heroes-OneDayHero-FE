@@ -25,7 +25,7 @@ const HeroRecommendList = ({
       <ul className="flex">
         {heroDataList.map(({ thumbnail, nickname, heroScore }) => (
           <Container
-            className="cs:m-1 cs:shadow relative flex w-24 shrink-0 select-none flex-col items-center"
+            className="relative flex w-24 shrink-0 select-none flex-col items-center cs:m-1 cs:shadow"
             key={nickname}>
             {/** @note TODO: key를 unique한 걸로 수정해야함 */}
             <Image
@@ -35,7 +35,7 @@ const HeroRecommendList = ({
               className="pointer-events-none rounded-full"
             />
             <h3 className="text-base font-semibold">{nickname}</h3>
-            <p className="text-sub text-sm">{heroScore}점</p>
+            <p className="text-sm text-sub">{heroScore}점</p>
             <BiSolidHeart className="absolute left-3 top-3 fill-yellow-300" />
           </Container>
         ))}
