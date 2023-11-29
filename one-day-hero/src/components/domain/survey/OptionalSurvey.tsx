@@ -14,6 +14,7 @@ import HorizontalScroll from "@/components/common/HorizontalScroll";
 import InputLabel from "@/components/common/InputLabel";
 import Label from "@/components/common/Label";
 import Select from "@/components/common/Select";
+import { useToast } from "@/contexts/ToastProvider";
 import { useGetRegionsFetch } from "@/services/regions";
 import { useEditProfileFetch } from "@/services/users";
 import {
@@ -37,12 +38,12 @@ const OptionalSurvey = (userData: UserResponse) => {
   const [favoriteRegions, setFavoriteRegions] = useState<string[]>([]);
   const [favoriteRegionsId, setFavoriteRegionsId] = useState<number[]>([]);
 
+  const { showToast } = useToast();
+
   const router = useRouter();
   const token = getClientToken();
 
   const { basicInfo } = userData.data;
-
-  console.log("베이직", basicInfo);
 
   const { mutationalFetch: getRegionsMutationalFetch } = useGetRegionsFetch(
     token ?? ""
@@ -60,7 +61,6 @@ const OptionalSurvey = (userData: UserResponse) => {
 
         if (response) {
           const { gu } = response.data[0];
-          console.log("gu", gu);
 
           setGuData(gu);
         } else if (isError) {
@@ -99,14 +99,12 @@ const OptionalSurvey = (userData: UserResponse) => {
     }
 
     if (favoriteRegions.includes(selectedGuDong)) {
-      alert("이미 선택한 지역입니다."); /**@note toast로 바꿀 예정 */
+      showToast("이미 선택한 지역입니다.", "error");
       return;
     }
 
     if (favoriteRegions.length === 5) {
-      alert(
-        "선호지역은 최대 5개 선택할 수 있습니다."
-      ); /**@note toast로 바꿀 예정 */
+      showToast("선호지역은 최대 5개 선택할 수 있습니다.", "error");
     }
 
     setFavoriteRegions([...favoriteRegions, selectedGuDong]);
