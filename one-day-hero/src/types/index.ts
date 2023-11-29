@@ -25,5 +25,15 @@ export type ImageDataType = {
 
 export type DateType = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
 
+export type Coordinates = [number, number];
+
+export type MapType = naver.maps.Map;
+
 export type ArrayElement<ArrayType extends readonly unknown[]> =
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+
+export type LocationType = {
+  lat: number;
+  lng: number;
+  resionName: string;
+};
