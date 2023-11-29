@@ -12,9 +12,11 @@ import {
 import { BiCamera, BiX } from "react-icons/bi";
 import { v4 as uuidv4 } from "uuid";
 
+import { getClientToken } from "@/app/utils/cookie";
 import { useToast } from "@/contexts/ToastProvider";
+import { CustomResponse } from "@/services/base";
 import { ImageFileType } from "@/types";
-import { ReviewDetailResponse } from "@/types/response";
+import { EmptyResponse, ReviewDetailResponse } from "@/types/response";
 
 import HorizontalScroll from "./HorizontalScroll";
 
@@ -22,7 +24,14 @@ interface UploadImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   size?: "md" | "lg";
   // eslint-disable-next-line no-unused-vars
   onFileSelect: (files: ImageFileType[]) => void;
+  maxImageLength?: number;
   defaultImages?: ReviewDetailResponse["data"]["reviewImageResponses"];
+  deleteImageFetch?: (
+    pathname: string,
+    fetchOptions: RequestInit,
+    onSuccess?: (response?: Response) => void,
+    onError?: () => void
+  ) => Promise<CustomResponse<EmptyResponse>>;
 }
 
 const UploadImage = forwardRef(
@@ -31,17 +40,24 @@ const UploadImage = forwardRef(
       size = "md",
       className = "",
       onFileSelect,
+      maxImageLength = 3,
       defaultImages,
+      deleteImageFetch,
       ...props
     }: PropsWithChildren<UploadImageProps>,
     ref
   ) => {
+    const token = getClientToken() ?? "";
+
     const [selectedImages, setSelectedImages] = useState<
       ImageFileType[] | null
     >(null);
     const [prevImages, setPrevImages] = useState<
       ReviewDetailResponse["data"]["reviewImageResponses"] | null
     >(defaultImages ?? null);
+
+    const imagesLength =
+      (prevImages?.length ?? 0) + (selectedImages?.length ?? 0);
 
     const inputRef = useRef<HTMLInputElement | null>(null);
     const { showToast } = useToast();
@@ -60,6 +76,11 @@ const UploadImage = forwardRef(
     };
 
     const handleUpload = () => {
+      if (size === "md" && imagesLength >= maxImageLength) {
+        showToast(`최대 ${maxImageLength}개까지 선택 가능합니다.`, "error");
+        return;
+      }
+
       inputRef?.current?.click();
     };
 
@@ -69,9 +90,18 @@ const UploadImage = forwardRef(
       setSelectedImages(newFile ?? []);
     };
 
-    const handlePrevDelete = (id: number) => (e: MouseEvent) => {
+    const handlePrevDelete = (id: number) => async (e: MouseEvent) => {
       e.stopPropagation();
+
+      if (!deleteImageFetch) return;
       /**@note await DELETE 요청 필요 */
+      const { isError } = await deleteImageFetch(`/review-images/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (isError) return;
+
       const newFile = prevImages?.filter((image) => image.id !== id);
       setPrevImages(newFile ?? []);
     };
@@ -82,16 +112,6 @@ const UploadImage = forwardRef(
           id: uuidv4(),
           file
         }));
-
-        if (
-          size === "md" &&
-          (newFile.length > 3 ||
-            (selectedImages?.length ?? 0) + newFile.length > 3)
-        ) {
-          e.target.value = "";
-          showToast("최대 3개까지 선택 가능합니다.", "error");
-          return;
-        }
 
         setSelectedImages(
           size === "md"
@@ -125,9 +145,7 @@ const UploadImage = forwardRef(
             />
             <div className="flex flex-col items-center justify-center">
               <BiCamera />
-              {size === "md" && (
-                <p className="text-base">{selectedImages?.length ?? 0} / 3</p>
-              )}
+              {size === "md" && <p className="text-base">{imagesLength} / 3</p>}
             </div>
           </div>
           {prevImages &&

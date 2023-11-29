@@ -483,7 +483,7 @@ export type HeroNicknameResponse = {
   heroScore: 30;
 }[];
 
-export type ReviewDeleteResponse = {
+export type EmptyResponse = {
   status: number;
   data: null;
   serverDateTime: string;
