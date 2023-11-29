@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { useToast } from "@/contexts/ToastProvider";
 import { ImageFileType } from "@/types";
+import { ReviewDetailResponse } from "@/types/response";
 
 import HorizontalScroll from "./HorizontalScroll";
 
@@ -21,6 +22,7 @@ interface UploadImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   size?: "md" | "lg";
   // eslint-disable-next-line no-unused-vars
   onFileSelect: (files: ImageFileType[]) => void;
+  defaultImages?: ReviewDetailResponse["data"]["reviewImageResponses"];
 }
 
 const UploadImage = forwardRef(
@@ -29,6 +31,7 @@ const UploadImage = forwardRef(
       size = "md",
       className = "",
       onFileSelect,
+      defaultImages,
       ...props
     }: PropsWithChildren<UploadImageProps>,
     ref
@@ -36,6 +39,10 @@ const UploadImage = forwardRef(
     const [selectedImages, setSelectedImages] = useState<
       ImageFileType[] | null
     >(null);
+    const [prevImages, setPrevImages] = useState<
+      ReviewDetailResponse["data"]["reviewImageResponses"] | null
+    >(defaultImages ?? null);
+
     const inputRef = useRef<HTMLInputElement | null>(null);
     const { showToast } = useToast();
 
@@ -56,10 +63,17 @@ const UploadImage = forwardRef(
       inputRef?.current?.click();
     };
 
-    const handleDelete = (id: string, e: MouseEvent) => {
+    const handleDelete = (id: string) => (e: MouseEvent) => {
       e.stopPropagation();
       const newFile = selectedImages?.filter((image) => image.id !== id);
       setSelectedImages(newFile ?? []);
+    };
+
+    const handlePrevDelete = (id: number) => (e: MouseEvent) => {
+      e.stopPropagation();
+      /**@note await DELETE 요청 필요 */
+      const newFile = prevImages?.filter((image) => image.id !== id);
+      setPrevImages(newFile ?? []);
     };
 
     const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
@@ -116,6 +130,25 @@ const UploadImage = forwardRef(
               )}
             </div>
           </div>
+          {prevImages &&
+            prevImages.map((image) => (
+              <div
+                key={image.id}
+                onClick={size === "lg" ? handleUpload : undefined}
+                className={`${imageSizes[size]} shrink-0 overflow-hidden`}>
+                <BiX
+                  size={size === "lg" ? 30 : 20}
+                  className="absolute right-[6px] top-[6px] z-10 text-black"
+                  onClick={handlePrevDelete(image.id)}
+                />
+                <Image
+                  src={image.path}
+                  alt="올린 이미지"
+                  fill
+                  className="bg-cover"
+                />
+              </div>
+            ))}
           {selectedImages &&
             selectedImages.map((image) => (
               <div
@@ -125,7 +158,7 @@ const UploadImage = forwardRef(
                 <BiX
                   size={size === "lg" ? 30 : 20}
                   className="absolute right-[6px] top-[6px] z-10 text-black"
-                  onClick={(e: MouseEvent) => handleDelete(image.id, e)}
+                  onClick={handleDelete(image.id)}
                 />
                 <Image
                   src={URL.createObjectURL(image.file)}

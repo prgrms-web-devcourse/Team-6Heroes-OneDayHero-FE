@@ -29,7 +29,10 @@ const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
 
   const { mutationalFetch } = useMutationalFetch(apiPath ?? "", {
     method: method,
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application-json"
+    },
     body: requestBody ? JSON.stringify(requestBody) : undefined
   });
 

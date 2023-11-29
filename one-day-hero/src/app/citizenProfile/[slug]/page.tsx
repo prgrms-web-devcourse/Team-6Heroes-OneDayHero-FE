@@ -12,12 +12,13 @@ import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetProfileFetch } from "@/services/users";
 
 const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
+  const citizenId = parseInt(params.slug);
   const token = getServerToken();
 
   if (!token) redirect("/login?redirect=");
 
   const { isError, response } = await useGetProfileFetch(
-    parseInt(params.slug),
+    citizenId,
     false,
     token
   );
@@ -57,7 +58,9 @@ const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
         </div>
         <HeroScore score={heroScore} />
       </div>
-      <LinkButton href="/mission/record" className="cs:mb-3 cs:w-full">
+      <LinkButton
+        href={`/review/${citizenId}/receive`}
+        className="cs:mb-3 cs:w-full">
         리뷰
       </LinkButton>
     </>

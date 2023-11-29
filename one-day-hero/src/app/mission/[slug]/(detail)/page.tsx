@@ -43,7 +43,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
     <>
       <Container className="cs:w-full">
         <Label size="sm">{missionCategory.name}</Label>
-        <h1 className="text-xl font-semibold">{missionInfo.title + "title"}</h1>
+        <h1 className="text-xl font-semibold">{missionInfo.title}</h1>
       </Container>
       <Container className="cs:w-full">
         <MissionInfo

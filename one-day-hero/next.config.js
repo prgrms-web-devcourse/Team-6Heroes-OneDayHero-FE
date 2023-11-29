@@ -8,7 +8,17 @@ const nextConfig = {
       }
     ];
   },
-  reactStrictMode: false
+  reactStrictMode: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: process.env.NEXT_PUBLIC_BE_S3_URL,
+        port: "",
+        pathname: "/**"
+      }
+    ]
+  }
 };
 
 module.exports = nextConfig;

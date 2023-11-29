@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
+import { getServerToken, getServerUserId } from "@/app/utils/auth";
 import { formatHour } from "@/app/utils/formatTime";
 import ChattingClientContainer from "@/components/domain/chatting/ChattingClientContainer";
 import Message from "@/components/domain/chatting/Message";
@@ -12,6 +12,7 @@ import { useGetUserFetch } from "@/services/users";
 const ChattingPage = async ({ params }: { params: { slug: string } }) => {
   const roomId = params.slug;
   const token = getServerToken();
+  const userId = getServerUserId() ?? "-1";
 
   if (!token) redirect("/login?redirect=");
 
@@ -51,7 +52,7 @@ const ChattingPage = async ({ params }: { params: { slug: string } }) => {
         receiverId={thisRoomData.receiverId}
         receiverImagePath={thisRoomData.receiverImagePath}>
         {chatRecordResponse.data.map(
-          ({ message, senderNickName, sentMessageTime }, index) => {
+          ({ message, senderNickName, sentMessageTime, senderId }, index) => {
             return (
               <Message
                 key={index}
@@ -59,7 +60,7 @@ const ChattingPage = async ({ params }: { params: { slug: string } }) => {
                 message={message}
                 ninkName={senderNickName}
                 sentAt={formatHour(sentMessageTime)}
-                isMine={senderNickName === meResponse.data.basicInfo.nickname}
+                isMine={senderId === parseInt(userId)}
               />
             );
           }

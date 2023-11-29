@@ -164,7 +164,7 @@ w-full max-w-screen-sm">
           </select>
         </div>
 
-        <div className="border-background-darken mt-3 flex justify-center border-b pb-2">
+        <div className="mt-3 flex justify-center border-b border-background-darken pb-2">
           <Category
             value={queryString}
             onSelect={handleCategorySelect}
@@ -181,7 +181,8 @@ w-full max-w-screen-sm">
             missionInfo,
             region,
             missionStatus,
-            missionCategory
+            missionCategory,
+            paths
           }) => (
             <Link
               href={`/mission/${id}`}
@@ -194,6 +195,7 @@ w-full max-w-screen-sm">
                   region={region}
                   missionCategory={missionCategory}
                   missionInfo={missionInfo}
+                  missionImagePath={paths[0]}
                 />
               </Container>
             </Link>

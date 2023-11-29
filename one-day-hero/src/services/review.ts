@@ -7,13 +7,22 @@ import {
   CreateReviewResponse,
   ReviewDeleteResponse,
   ReviewDetailResponse,
-  ReviewReceiveResponse,
-  SendReviewResponse
+  ReviewListResponse
 } from "./../types/response";
 import { CustomResponse, useFetch, useMutationalFetch } from "./base";
 
 export const useCreateReviewFetch = () => {
   return useMutationalFetch<CreateReviewResponse>("/reviews") as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: (response?: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<CreateReviewResponse>>;
+  };
+};
+
+export const useEditReviewFetch = (reviewId: number) => {
+  return useMutationalFetch<CreateReviewResponse>(`/reviews/${reviewId}`) as {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,
@@ -34,7 +43,7 @@ export const useGetSendReviewFetch = (
   token: string,
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
-  return useInfiniteFetch<SendReviewResponse>({
+  return useInfiniteFetch<ReviewListResponse>({
     pathname: `/me/reviews/send`,
     size: 5,
     options: {
@@ -60,11 +69,12 @@ export const useDeleteSendReviewFetch = (reviewId: number) => {
 };
 
 export const useGetReceiveReviewFetch = (
+  userId: number,
   token: string,
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
-  return useInfiniteFetch<SendReviewResponse>({
-    pathname: `/me/reviews/receive`,
+  return useInfiniteFetch<ReviewListResponse>({
+    pathname: `/reviews/users/${userId}/receive`,
     size: 5,
     options: {
       headers: {

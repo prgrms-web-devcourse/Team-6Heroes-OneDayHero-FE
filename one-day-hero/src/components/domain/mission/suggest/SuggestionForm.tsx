@@ -68,7 +68,10 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
   ) => {
     const { isError, response } = await mutationalFetch({
       method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(data)
     });
 
@@ -109,7 +112,8 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
             startTime,
             endTime,
             price,
-            region
+            region,
+            imagePath
           }) => (
             <Container
               key={id}
@@ -125,6 +129,7 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
                 missionCategory={missionCategory}
                 missionInfo={{ title, missionDate, startTime, endTime, price }}
                 region={region}
+                missionImagePath={imagePath}
               />
             </Container>
           )
