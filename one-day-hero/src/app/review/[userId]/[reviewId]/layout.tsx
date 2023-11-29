@@ -12,10 +12,14 @@ const ReviewDetailLayout = ({ children }: { children: React.ReactNode }) => {
             menuList={[
               {
                 name: "수정하기",
-                apiPath: "/test",
-                requiredData: ["slug"]
+                apiPath: `/reviews/${0}`,
+                method: "POST"
               },
-              { name: "삭제하기", apiPath: "/test", requiredData: ["slug"] }
+              {
+                name: "삭제하기",
+                apiPath: `/reviews/${0}`,
+                method: "DELETE"
+              }
             ]}
             size={24}
           />

@@ -39,7 +39,7 @@ const MissionSearchPage = () => {
 
   const { mutationalFetch } = useGetRegionsFetch(token ?? "");
 
-  const queryString = Number(useSearchParams().get("category"));
+  const queryString = Number(useSearchParams().get("category")) ?? 0;
   const router = useRouter();
 
   useEffect(() => {
@@ -98,6 +98,7 @@ const MissionSearchPage = () => {
     const gu = guRef.current?.value;
 
     setSelectedGu(gu);
+    setSelectedDong("선택");
   };
 
   const handleDongSelect = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -164,7 +165,11 @@ w-full max-w-screen-sm">
         </div>
 
         <div className="border-background-darken mt-3 flex justify-center border-b pb-2">
-          <Category onSelect={handleCategorySelect} size="sm" />
+          <Category
+            value={queryString}
+            onSelect={handleCategorySelect}
+            size="sm"
+          />
         </div>
       </section>
 

@@ -39,7 +39,12 @@ const KakaoCallbackPage = () => {
         setUserId(userId);
 
         showToast("로그인 성공!", "success");
-        router.push("/");
+
+        if (response.status === 200) {
+          router.push("/");
+        } else if (response.status === 201) {
+          router.push("/survey/mandatory");
+        }
       } catch (err) {
         console.error(err);
 

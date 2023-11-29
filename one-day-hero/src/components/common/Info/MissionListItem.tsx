@@ -2,7 +2,7 @@ import Image from "next/image";
 import { BiMap, BiStar } from "react-icons/bi";
 
 import Label from "@/components/common/Label";
-import test from "~/images/test.png";
+import defaultProfileImage from "~/images/OneDayHero_logo_sm.svg";
 
 import IconGroup from "../IconGroup";
 
@@ -30,7 +30,7 @@ const MissionListItem = ({
       <div className="flex grow gap-4">
         <div className="bg-inactive overflow-hidden rounded-[10px]">
           <Image
-            src={imageSrc || test}
+            src={imageSrc || defaultProfileImage}
             alt="프로필 사진"
             width={60}
             height={60}
@@ -38,7 +38,7 @@ const MissionListItem = ({
           />
         </div>
         <div className="flex flex-col gap-1">
-          <Label size="sm" className="w-16">
+          <Label size="sm" className="w-[5.05rem]">
             {categories}
           </Label>
           <span className="text-md font-semibold">{title}</span>

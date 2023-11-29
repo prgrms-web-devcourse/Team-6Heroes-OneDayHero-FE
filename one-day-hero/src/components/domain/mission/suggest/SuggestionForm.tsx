@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { getClientToken } from "@/app/utils/cookie";
@@ -14,7 +14,7 @@ import {
   useProposeMissionFetch
 } from "@/services/missions";
 import { MissionProposalRequest } from "@/types/request";
-import { UserResponse } from "@/types/response";
+import { SuggestingMissionListResponse, UserResponse } from "@/types/response";
 
 type SuggestionFormProps = {
   heroData: UserResponse["data"];
@@ -23,14 +23,31 @@ type SuggestionFormProps = {
 
 const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
   const token = getClientToken();
+  const [data, setData] = useState<
+    SuggestingMissionListResponse["data"]["missionMatchingResponses"]
+  >([]);
 
   const { showToast } = useToast();
 
   const router = useRouter();
 
-  const observerRef = useRef<HTMLDivElement | null>(null);
+  const { mutationalFetch: getMissionsFetch } =
+    useGetSuggestingMissionListFetch(token ?? "");
 
-  const { data } = useGetSuggestingMissionListFetch(token ?? "", observerRef);
+  useEffect(() => {
+    const getMissions = async () => {
+      const { isError, response } = await getMissionsFetch();
+
+      if (isError || !response) {
+        router.refresh();
+        return;
+      }
+
+      setData(response.data.missionMatchingResponses);
+    };
+
+    getMissions();
+  }, []);
 
   const {
     handleSubmit,
@@ -49,19 +66,24 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
   const submitProposal: SubmitHandler<MissionProposalRequest> = async (
     data
   ) => {
-    await mutationalFetch(
-      {
-        method: "POST",
-        body: JSON.stringify(data)
-      },
-      () => {
-        showToast(
-          `"${heroData.basicInfo.nickname}" 님에게 미션을 제안했어요!`,
-          "success"
-        );
-        router.push("/mission/list/ongoing");
-      }
-    );
+    const { isError, response } = await mutationalFetch({
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(data)
+    });
+
+    if (isError) {
+      showToast(
+        `미션 제안 처리 중 문제가 발생했어요. 다시 시도해주세요`,
+        "error"
+      );
+    } else {
+      showToast(
+        `"${heroData.basicInfo.nickname}" 님에게 미션을 제안했어요!`,
+        "success"
+      );
+      router.push("/mission/list/ongoing");
+    }
   };
 
   const selectedStyle =
@@ -76,25 +98,37 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
         <h2 className="w-full break-keep text-left text-xl font-semibold">
           {`"${heroData.basicInfo.nickname}"`} 님에게 제안할 미션을 골라주세요!
         </h2>
-        {data.map(({ id, mission }) => (
-          <Container
-            key={id}
-            onClick={() => {
-              setValue("missionId", id);
-            }}
-            className={`cs:m-0 cs:w-full ${
-              selectedMissionId === id ? selectedStyle : ""
-            }`}>
-            <MissionFullInfo
-              bookmarkCount={mission.bookmarkCount}
-              createdAt={mission.createdAt}
-              missionCategory={mission.missionCategory}
-              missionInfo={mission.missionInfo}
-              region={mission.region}
-            />
-          </Container>
-        ))}
-        <div ref={observerRef} />
+        {data.map(
+          ({
+            id,
+            bookmarkCount,
+            missionCreatedAt,
+            missionCategory,
+            title,
+            missionDate,
+            startTime,
+            endTime,
+            price,
+            region
+          }) => (
+            <Container
+              key={id}
+              onClick={() => {
+                setValue("missionId", id);
+              }}
+              className={`cs:m-0 cs:w-full ${
+                selectedMissionId === id ? selectedStyle : ""
+              }`}>
+              <MissionFullInfo
+                bookmarkCount={bookmarkCount}
+                createdAt={missionCreatedAt}
+                missionCategory={missionCategory}
+                missionInfo={{ title, missionDate, startTime, endTime, price }}
+                region={region}
+              />
+            </Container>
+          )
+        )}
       </div>
       <FooterButton
         formId="suggest"
