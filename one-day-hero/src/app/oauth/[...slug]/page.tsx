@@ -54,7 +54,7 @@ const KakaoCallbackPage = () => {
     postCode();
   }, []);
 
-  return <div>Processing...</div>;
+  return <div className="text-bold text-2xl">Loading...</div>;
 };
 
 export default KakaoCallbackPage;
