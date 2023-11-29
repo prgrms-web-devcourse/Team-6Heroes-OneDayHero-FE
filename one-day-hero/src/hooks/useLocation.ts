@@ -43,7 +43,7 @@ const useLocation = () => {
 
         const { results } = await response.json();
 
-        setAddress(results[3].address_components[1].long_name);
+        setAddress(results[0].address_components[1].long_name);
       } catch (error) {
         console.error("에러");
       }
