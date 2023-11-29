@@ -1,4 +1,3 @@
-import { revalidatePath } from "next/cache";
 import { MutableRefObject } from "react";
 
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
@@ -75,32 +74,30 @@ export const useApproveProposalFetch = (proposalId: number, token: string) => {
   };
 };
 
-export const usePostBookmarkFetch = (missionId: number, userId: number) => {
-  return useMutationalFetch<BookmarkResponse>(
-    "/bookmarks",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        missionId,
-        userId
-      })
+export const usePostBookmarkFetch = (missionId: number, token: string) => {
+  return useMutationalFetch<BookmarkResponse>("/bookmarks", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
     },
-    () => revalidatePath("/mission/[slug]", "page")
-  );
+    body: JSON.stringify({
+      missionId
+    })
+  });
 };
 
-export const useDeleteBookmarkFetch = (missionId: number, userId: number) => {
-  return useMutationalFetch<BookmarkResponse>(
-    "/bookmarks",
-    {
-      method: "DELETE",
-      body: JSON.stringify({
-        missionId,
-        userId
-      })
+export const useDeleteBookmarkFetch = (missionId: number, token: string) => {
+  return useMutationalFetch<BookmarkResponse>("/bookmarks", {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
     },
-    () => revalidatePath("/mission/[slug]", "page")
-  );
+    body: JSON.stringify({
+      missionId
+    })
+  });
 };
 
 export const useGetSuggestedMissionListFetch = (

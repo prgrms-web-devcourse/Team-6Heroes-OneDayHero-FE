@@ -26,9 +26,10 @@ const OngoingMissionList = () => {
               className="cs:p-4"
               categories={item.missionCategory.name}
               createAt={item.missionDate}
-              location="구 동"
+              location={`${item.si} ${item.gu} ${item.dong}`}
               title={item.title}
               bookmarkCount={item.bookmarkCount}
+              imageSrc={item.imagePath}
             />
           </MissionProgressContainer>
         </Link>
