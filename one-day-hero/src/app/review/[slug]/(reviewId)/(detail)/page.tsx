@@ -1,24 +1,14 @@
-import { revalidateTag } from "next/cache";
-
 import ErrorPage from "@/app/error";
 import { getServerToken } from "@/app/utils/auth";
 import TitleBox from "@/components/common/TitleBox";
 import ReviewInfo from "@/components/domain/review/ReviewInfo";
 import { useGetReviewDetailFetch } from "@/services/review";
 
-const ReviewDetailPage = async ({
-  params
-}: {
-  params: { userId: string; reviewId: string };
-}) => {
-  revalidateTag(`review${params.reviewId}`);
+const ReviewDetailPage = async ({ params }: { params: { slug: string } }) => {
+  const reviewId = parseInt(params.slug);
+  const token = getServerToken() ?? "";
 
-  const token = getServerToken();
-
-  const { isError, response } = await useGetReviewDetailFetch(
-    parseInt(params.reviewId),
-    token ?? ""
-  );
+  const { isError, response } = await useGetReviewDetailFetch(reviewId, token);
 
   if (isError || !response) return <ErrorPage />;
 
@@ -30,6 +20,7 @@ const ReviewDetailPage = async ({
     content,
     starScore,
     createdAt,
+    senderId,
     senderNickname,
     reviewImageResponses
   } = data;
@@ -38,10 +29,11 @@ const ReviewDetailPage = async ({
     <div className="flex w-full flex-col items-center gap-4">
       <TitleBox category={categoryName} title={missionTitle} />
       <ReviewInfo
-        categoryName={categoryName}
         content={content}
         starScore={starScore}
         createdAt={createdAt}
+        categoryName={categoryName}
+        senderId={senderId}
         senderNickname={senderNickname}
         reviewImage={reviewImageResponses}
       />

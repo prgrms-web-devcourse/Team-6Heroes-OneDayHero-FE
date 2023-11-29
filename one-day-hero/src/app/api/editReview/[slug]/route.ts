@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { getServerToken } from "@/app/utils/auth";
-import { useCreateMissionFetch } from "@/services/missions";
+import { useEditReviewFetch } from "@/services/review";
 
-export async function POST(request: NextRequest) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { slug: string } }
+) {
   const token = getServerToken();
 
   const data = await request.formData();
 
-  const { mutationalFetch } = useCreateMissionFetch();
+  const { mutationalFetch } = useEditReviewFetch(parseInt(params.slug));
 
   const {
     isError,
