@@ -191,7 +191,6 @@ w-full max-w-screen-sm">
               <Container className="cs:w-11/12" missionStatus={missionStatus}>
                 <MissionFullInfo
                   bookmarkCount={bookmarkCount}
-                  createdAt={missionInfo.missionDate}
                   region={region}
                   missionCategory={missionCategory}
                   missionInfo={missionInfo}

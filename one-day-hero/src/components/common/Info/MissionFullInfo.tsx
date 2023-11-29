@@ -6,18 +6,16 @@ import { MissionItemResponse } from "@/types/response";
 import MissionListItem from "./MissionListItem";
 
 interface MissionFullInfoProps extends React.ComponentProps<"div"> {
-  bookmarkCount: number;
-  createdAt: string;
   region: MissionItemResponse["region"];
   missionCategory: MissionItemResponse["missionCategory"];
   missionInfo: MissionItemResponse["missionInfo"];
   missionImagePath: string;
+  bookmarkCount?: number;
   className?: string;
 }
 
 const MissionFullInfo = ({
   bookmarkCount,
-  createdAt,
   region,
   missionCategory,
   missionInfo,
@@ -29,7 +27,7 @@ const MissionFullInfo = ({
     <div className={`${className}`} {...props}>
       <MissionListItem
         categories={missionCategory.name}
-        createAt={createdAt}
+        createAt={missionInfo.missionDate}
         location={region.gu + " " + region.dong}
         title={missionInfo.title}
         bookmarkCount={bookmarkCount}

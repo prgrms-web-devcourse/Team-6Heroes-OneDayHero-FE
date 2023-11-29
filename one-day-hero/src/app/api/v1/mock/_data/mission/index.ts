@@ -22,27 +22,32 @@ export const missionDetail: MissionResponse = {
       gu: "강남구",
       dong: "역삼동"
     },
-    longitude: 1234277.388,
-    latitude: 1234252.23,
+    longitude: 127.02880308004335,
+    latitude: 37.49779692073204,
     missionInfo: {
       title: "제목",
-      content:
-        "[Intervention]Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113",
+      content: "내용",
       missionDate: "2023-10-10",
       startTime: "10:00",
       endTime: "10:30",
-      deadlineTime: "10:00",
+      deadlineTime: "2023-10-10T09:30:00",
       price: 10000
     },
     bookmarkCount: 0,
-    isBookmarked: true,
     missionStatus: "MATCHING",
-    missionImage: {
-      originalName: "xxx.jpeg",
-      path: "~~~~"
-    }
+    missionImage: [
+      {
+        id: 1,
+        path: "s3://path1"
+      },
+      {
+        id: 2,
+        path: "s3://path2"
+      }
+    ],
+    isBookmarked: true
   },
-  serverDateTime: "2023-11-02T14:25:44"
+  serverDateTime: "2023-11-29T13:44:34"
 };
 
 export const progessMissionList: ProgressMissionListResponse = {
