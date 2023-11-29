@@ -28,16 +28,16 @@ export type MissionResponse = {
       price: number;
     };
     bookmarkCount: number;
-    isBookmarked: boolean;
     missionStatus:
       | "MATCHING"
       | "MATCHING_COMPLETED"
       | "MISSION_COMPLETED"
       | "EXPIRED";
     missionImage: {
-      originalName: string;
+      id: number;
       path: string;
-    };
+    }[];
+    isBookmarked: boolean;
   };
   serverDateTime: string;
 };
@@ -642,6 +642,58 @@ export type NotificationResponse = {
     first: boolean;
     last: boolean;
     numberOfElements: number;
+    empty: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type MapResponse = {
+  status: number;
+  data: {
+    content: {
+      id: number;
+      missionCategory: {
+        id: number;
+        code: string;
+        name: string;
+      };
+      region: {
+        id: number;
+        si: string;
+        gu: string;
+        dong: string;
+      };
+      title: string;
+      longitude: number;
+      latitude: number;
+      missionDate: string;
+      startTime: string;
+      endTime: string;
+      price: number;
+      imagePath: string;
+    }[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      offset: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    size: number;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    last: boolean;
     empty: boolean;
   };
   serverDateTime: string;

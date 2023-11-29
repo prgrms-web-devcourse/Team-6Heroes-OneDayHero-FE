@@ -17,7 +17,7 @@ export type UserEditRequest = {
 
 export type MissionCreateRequest = {
   missionCategoryId: number;
-  regionId: number;
+  regionName: string;
   latitude: number;
   longitude: number;
   missionInfo: {

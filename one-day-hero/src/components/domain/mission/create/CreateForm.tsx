@@ -12,10 +12,11 @@ import Select from "@/components/common/Select";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
-import { ImageFileType } from "@/types";
+import { ImageFileType, LocationType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
 
 import CustomCalendar from "./CustomCalendar";
+import PostCode from "./PostCode";
 
 const hours = Array.from({ length: 24 }, (_, index) => index);
 
@@ -24,6 +25,7 @@ const CreateForm = () => {
   const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
     null
   );
+  const [location, setLocation] = useState<LocationType | null>(null);
   const [errors, setErrors] = useState<FormErrors | null>(null);
   const titleRef = useRef<HTMLInputElement | null>(null);
   const dateRef = useRef<HTMLInputElement | null>(null);
@@ -43,6 +45,10 @@ const CreateForm = () => {
     setSelectedImages(files);
   };
 
+  const handleOnChage = (location: LocationType) => {
+    setLocation(location);
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -53,9 +59,9 @@ const CreateForm = () => {
 
     const data: MissionCreateRequest = {
       missionCategoryId: categoryId,
-      regionId: 1,
-      latitude: 123.45,
-      longitude: 123.45,
+      regionName: location?.resionName ?? "",
+      latitude: location?.lat ?? 0,
+      longitude: location?.lng ?? 0,
       missionInfo: {
         title: titleRef.current?.value ?? "",
         content: contentRef.current?.value ?? "",
@@ -129,7 +135,7 @@ const CreateForm = () => {
         </div>
         <div>
           <InputLabel>
-            사진 <span className="text-xs text-inactive">(최대 3개)</span>
+            사진 <span className="text-inactive text-xs">(최대 3개)</span>
           </InputLabel>
           <UploadImage onFileSelect={handleFileSelect} />
         </div>
@@ -189,6 +195,14 @@ const CreateForm = () => {
             placeholder="미션 내용이나 비고를 작성해주세요!"
             error={errors?.missionInfo?.content}
           />
+        </div>
+        <div>
+          <InputLabel htmlFor="address" required>
+            미션 위치
+          </InputLabel>
+          <div className="flex w-full gap-3">
+            <PostCode onChange={handleOnChage} />
+          </div>
         </div>
       </Container>
     </form>
