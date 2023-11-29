@@ -33,7 +33,10 @@ export type MissionResponse = {
       | "MATCHING_COMPLETED"
       | "MISSION_COMPLETED"
       | "EXPIRED";
-    paths: string[];
+    missionImage: {
+      id: number;
+      path: string;
+    }[];
     isBookmarked: boolean;
   };
   serverDateTime: string;

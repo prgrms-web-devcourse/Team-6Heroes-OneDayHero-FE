@@ -35,7 +35,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
       citizenId,
       bookmarkCount,
       isBookmarked,
-      paths,
+      missionImage,
       latitude,
       longitude
     }
@@ -57,14 +57,8 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
       </Container>
       <Container className="cs:w-full">
         <HorizontalScroll>
-          {paths.map((path, index) => (
-            <Image
-              key={index}
-              src={path}
-              alt="미션 사진"
-              width={60}
-              height={60}
-            />
+          {missionImage.map(({ path, id }) => (
+            <Image key={id} src={path} alt="미션 사진" width={60} height={60} />
           ))}
         </HorizontalScroll>
         <div className="mt-2 gap-1">
