@@ -39,7 +39,7 @@ const MapPage = ({ searchParams }: MapPageProps) => {
     if (location.lat === 0 && location.lng === 0) return;
     setSearchParams(`longitude=127.030921234166&latitude=37.4924272855457`);
   }, [location]);
-  // lat=37.4924272855457&lng=127.030921234166
+  /** note 위치 기반 테스트 lat=37.4924272855457&lng=127.030921234166 */
 
   const initializeMap = () => {
     const mapOptions = {
@@ -53,7 +53,7 @@ const MapPage = ({ searchParams }: MapPageProps) => {
         position: naver.maps.Position.BOTTOM_LEFT
       }
     };
-    //새로운 네이버 맵 인스턴스 생성
+
     const map = new window.naver.maps.Map("map", mapOptions);
     mapRef.current = map;
 
@@ -88,7 +88,6 @@ const MapPage = ({ searchParams }: MapPageProps) => {
     }
   };
 
-  //맵이 unmount되었을 때 맵 인스턴스 destory하기
   useEffect(() => {
     return () => {
       mapRef.current?.destroy();
