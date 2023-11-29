@@ -4,17 +4,27 @@ import { useEffect, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 
 import Input from "@/components/common/Input";
+import { useToast } from "@/contexts/ToastProvider";
 import useModal from "@/hooks/useModal";
 import { LocationType } from "@/types";
 
 type PostCodeProps = {
+  defaultLocation?: LocationType;
   onChange: (location: LocationType) => void;
 };
 
-const PostCode = ({ onChange }: PostCodeProps) => {
-  const [address, setAddress] = useState<string>("");
-  const [location, setLocation] = useState<LocationType | null>(null);
+const PostCode = ({ onChange, defaultLocation }: PostCodeProps) => {
+  const [address, setAddress] = useState<string>(
+    defaultLocation?.resionName ?? ""
+  );
+  const [location, setLocation] = useState<LocationType | null>(
+    defaultLocation ?? null
+  );
   const { isOpen, onOpen, onClose } = useModal();
+
+  const { showToast } = useToast();
+
+  console.log(defaultLocation);
 
   const handleComplete = async (data: { roadAddress: string }) => {
     const { roadAddress } = data;
@@ -28,8 +38,10 @@ const PostCode = ({ onChange }: PostCodeProps) => {
       }
     );
 
-    if (!response.ok) throw new Error("위치를 제대로 입력해주세요.");
-
+    if (!response.ok) {
+      showToast("위치 정보를 찾을 수 없어요", "error");
+      throw new Error("위치를 제대로 입력해주세요.");
+    }
     const res = await response.json();
 
     setLocation({
