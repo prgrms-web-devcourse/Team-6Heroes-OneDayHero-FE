@@ -48,7 +48,12 @@ const ProfilePage = async () => {
           priority
         />
         <div className="flex grow flex-col justify-evenly text-base">
-          <h3 className="font-semibold text-sub">히어로</h3>
+          <h3
+            className={`font-semibold ${
+              isHeroMode ? "text-sub" : "text-primary"
+            }`}>
+            {isHeroMode ? "히어로" : "시민"}
+          </h3>
           <h3 className="">{basicInfo.nickname}</h3>
           <h3 className="">{`${calculateAge(basicInfo.birth)}세 / ${parseGender(
             basicInfo.gender

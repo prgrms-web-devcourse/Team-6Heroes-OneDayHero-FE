@@ -148,7 +148,7 @@ const ReviewForm = ({
       encType="multipart/form-data">
       <Container className="flex flex-col items-center gap-8 text-center cs:m-0 cs:w-full cs:py-8">
         <h1 className="text-lg font-medium">
-          &quot;{receiverNickname}&quot; 히어로님과의 미션은 어떠셨나요?
+          &quot;{receiverNickname}&quot; 님과의 미션은 어떠셨나요?
         </h1>
         <StarRating
           onSelect={handleScoreSelect}

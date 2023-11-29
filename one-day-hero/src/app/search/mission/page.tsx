@@ -164,7 +164,7 @@ w-full max-w-screen-sm">
           </select>
         </div>
 
-        <div className="mt-3 flex justify-center border-b border-background-darken pb-2">
+        <div className="mt-3 flex justify-center border-b border-background-darken bg-background pb-2">
           <Category
             value={queryString}
             onSelect={handleCategorySelect}
