@@ -4,6 +4,7 @@ import { MutableRefObject } from "react";
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
 import {
   BookmarkResponse,
+  EditMissionResponse,
   MatchResponse,
   MissionResponse,
   ProgressMissionListResponse,
@@ -28,6 +29,16 @@ export const useCreateMissionFetch = () => {
       onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<MissionResponse>>;
+  };
+};
+
+export const useEditMissionFetch = (missionId: number) => {
+  return useMutationalFetch<EditMissionResponse>(`/missions/${missionId}`) as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: (response: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<EditMissionResponse>>;
   };
 };
 
