@@ -6,7 +6,8 @@ import { ForwardedRef, forwardRef, useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import { BiCalendar } from "react-icons/bi";
 
-import Input from "./Input";
+import { formatTime } from "@/app/utils/formatTime";
+import Input from "@/components/common/Input";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -24,25 +25,20 @@ const CustomCalendar = forwardRef(
     const calendarRef = useRef<HTMLDivElement | null>(null);
 
     const handleChangeDate = (selectedDate: Value) => {
+      if (selectedDate === null) return;
       onChange(selectedDate);
-      const formatDate = new Date(selectedDate as Date).toLocaleDateString(
-        "ko-KR",
-        {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          weekday: "long"
-        }
-      );
-      setInputValue(formatDate);
+
+      const formattedDate = formatTime(selectedDate.toString(), 10);
+
+      setInputValue(formattedDate);
       setOpenState(false);
     };
 
     useEffect(() => {
-      const handleOutsideClick = (event: MouseEvent) => {
+      const handleOutsideClick = (e: MouseEvent) => {
         if (
           calendarRef.current &&
-          !calendarRef.current.contains(event.target as Node)
+          !calendarRef.current.contains(e.target as Node)
         ) {
           setOpenState(false);
         }

@@ -1,19 +1,13 @@
-import { ChangeEvent, useEffect, useState } from "react";
-const useForm = (initialValue: string, error: string) => {
-  const [value, setValue] = useState<string>(initialValue);
-  const [errorState, setErrorState] = useState<boolean>(false);
+import { ChangeEvent, useState } from "react";
+const useForm = (initialValue: string) => {
+  const [changeValue, setChangeValue] = useState<string>(initialValue);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    setValue(e.target.value);
-    errorState && setErrorState(false);
+    setChangeValue(e.target.value);
   };
 
-  useEffect(() => {
-    error && setErrorState(true);
-  }, [error, errorState]);
-
-  return { value, errorState, handleChange };
+  return { changeValue, handleChange };
 };
 export default useForm;

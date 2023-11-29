@@ -1,18 +1,26 @@
 import { PropsWithChildren } from "react";
 
 import MissionInfo from "@/components/common/Info/MissionInfo";
-import { MissionResponse } from "@/types/response";
+import { MissionItemResponse } from "@/types/response";
 
 import MissionListItem from "./MissionListItem";
 
-type MissionFullInfoProps = {
-  data: MissionResponse["data"];
+interface MissionFullInfoProps extends React.ComponentProps<"div"> {
+  region: MissionItemResponse["region"];
+  missionCategory: MissionItemResponse["missionCategory"];
+  missionInfo: MissionItemResponse["missionInfo"];
+  missionImagePath: string;
+  bookmarkCount?: number;
   className?: string;
-};
+}
 
 const MissionFullInfo = ({
+  bookmarkCount,
+  region,
+  missionCategory,
+  missionInfo,
+  missionImagePath,
   className = "",
-  data: { missionCategory, missionInfo, region, bookmarkCount },
   ...props
 }: PropsWithChildren<MissionFullInfoProps>) => {
   return (
@@ -23,6 +31,7 @@ const MissionFullInfo = ({
         location={region.gu + " " + region.dong}
         title={missionInfo.title}
         bookmarkCount={bookmarkCount}
+        imageSrc={missionImagePath}
         className="p-2"
       />
       <MissionInfo

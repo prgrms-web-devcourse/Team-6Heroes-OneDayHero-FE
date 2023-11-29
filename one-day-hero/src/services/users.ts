@@ -1,10 +1,67 @@
+/* eslint-disable no-unused-vars */
 import { UserResponse } from "@/types/response";
 
-import { apiUrl } from "./urls";
+import { CustomResponse, useFetch, useMutationalFetch } from "./base";
 
-export const getUser = async (userId: number): Promise<UserResponse> => {
-  const response = await fetch(apiUrl(`/users/${userId}`), {
-    next: { tags: [`user${userId}`] }
+export const useGetProfileFetch = (
+  userId: number,
+  isHero: boolean,
+  token: string
+) => {
+  return useFetch<UserResponse>(
+    `/users/${userId}/${isHero ? "hero-profile" : "citizen-profile"}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+      next: { tags: [`user${userId}`] }
+    }
+  );
+};
+
+export const useGetUserFetch = (token: string) => {
+  return useFetch<UserResponse>(`/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+    next: { tags: [`user`] }
   });
-  return response.json();
+};
+
+export const useChangeHeroFetch = (
+  token: string,
+  onSuccess?: (response?: Response) => void,
+  onError?: () => void
+) => {
+  return useMutationalFetch<UserResponse>(
+    "/me/change-hero",
+    {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` }
+    },
+    onSuccess,
+    onError
+  );
+};
+
+export const useChangeCitizenFetch = (
+  token: string,
+  onSuccess?: (response?: Response) => void,
+  onError?: () => void
+) => {
+  return useMutationalFetch<UserResponse>(
+    "/me/change-citizen",
+    {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` }
+    },
+    onSuccess,
+    onError
+  );
+};
+
+export const useEditProfileFetch = () => {
+  return useMutationalFetch<UserResponse>("/me") as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: (response?: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<UserResponse>>;
+  };
 };

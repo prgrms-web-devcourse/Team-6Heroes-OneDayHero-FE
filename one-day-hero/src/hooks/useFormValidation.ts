@@ -1,33 +1,36 @@
 import { FORM_ERROR_MESSAGES } from "@/constants/errorMessage";
+import { MissionCreateRequest } from "@/types/request";
 
-export type MissionInfoProps = {
-  content: string;
-  missionDate: string;
-  startTime: string;
-  endTime: string;
-  price: string;
-};
+export type MissionInfoProps = MissionCreateRequest["missionInfo"];
 
 export type FormErrors = {
-  categoryId?: string;
-  missionInfo?: Partial<MissionInfoProps>;
+  missionCategoryId?: string;
+  missionInfo?: Partial<Record<keyof MissionInfoProps, string>>;
 };
 
 export type FormRequest = {
-  categoryId: number;
+  missionCategoryId: number;
   missionInfo: MissionInfoProps;
 };
 
 const useFormValidation = () => {
-  const formValidation = (data: FormRequest) => {
+  const missionCreateValidation = (data: FormRequest) => {
     const errors: FormErrors = {};
+
     const {
-      categoryId,
-      missionInfo: { missionDate, startTime, endTime, price, content }
+      missionCategoryId,
+      missionInfo: { title, missionDate, startTime, endTime, price, content }
     } = data;
 
-    if (!categoryId) {
-      errors.categoryId = FORM_ERROR_MESSAGES.CHECK_EMPTY_CATEGORY;
+    if (!missionCategoryId) {
+      errors.missionCategoryId = FORM_ERROR_MESSAGES.CHECK_EMPTY_CATEGORY;
+    }
+
+    if (!title || title.trim().length <= 0) {
+      errors.missionInfo = {
+        ...errors.missionInfo,
+        title: FORM_ERROR_MESSAGES.CHECK_EMPTY_TITLE
+      };
     }
 
     if (!missionDate || missionDate.length <= 0) {
@@ -45,7 +48,7 @@ const useFormValidation = () => {
       };
     }
 
-    if (!price || price.trim().length <= 0 || isNaN(Number(price))) {
+    if (!price || isNaN(price)) {
       errors.missionInfo = {
         ...errors.missionInfo,
         price: FORM_ERROR_MESSAGES.CHECK_EMPTY_PRICE
@@ -62,7 +65,7 @@ const useFormValidation = () => {
     return errors;
   };
 
-  return { formValidation };
+  return { missionCreateValidation };
 };
 
 export default useFormValidation;

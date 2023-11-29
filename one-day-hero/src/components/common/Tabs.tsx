@@ -3,25 +3,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-interface TabsProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  leftText: string;
-  rightText: string;
-}
-
-const route: { [key: string]: string } = {
-  "진행중인 미션": "/mission/list/ongoing",
-  "제안받은 미션": "/mission/list/suggested",
-  미션: "/search/mission",
-  히어로: "/search/hero",
-  "받은 리뷰": "/review/get",
-  "내가 쓴 리뷰": "/review/send"
+type TabRoute = {
+  name: string;
+  path: string;
 };
 
-const Tabs = ({ leftText = "", rightText = "", className = "" }: TabsProps) => {
-  const pathName = usePathname();
+interface TabsProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  leftRoute: TabRoute;
+  rightRoute: TabRoute;
+}
 
-  const leftRoute = route[leftText] || "/";
-  const rightRoute = route[rightText] || "/";
+const Tabs = ({ leftRoute, rightRoute, className = "" }: TabsProps) => {
+  const pathName = usePathname();
 
   const tabContainerDefaultStyle =
     "flex z-50 w-8/12 bg-white justify-center items-center text-base text-center h-12 rounded-full";
@@ -34,17 +27,17 @@ const Tabs = ({ leftText = "", rightText = "", className = "" }: TabsProps) => {
       <div className={`${tabContainerDefaultStyle} ${className}`}>
         <Link
           className={`${tabDefaultStyle} ${
-            pathName === leftRoute ? "bg-primary " : ""
+            pathName === leftRoute.path ? "bg-primary " : ""
           }`}
-          href={leftRoute}>
-          {leftText}
+          href={leftRoute.path}>
+          {leftRoute.name}
         </Link>
         <Link
           className={`${tabDefaultStyle} ${
-            pathName === rightRoute ? "bg-primary" : ""
+            pathName === rightRoute.path ? "bg-primary" : ""
           }`}
-          href={rightRoute}>
-          {rightText}
+          href={rightRoute.path}>
+          {rightRoute.name}
         </Link>
       </div>
     </>

@@ -3,6 +3,10 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 
+import Toast from "@/components/common/Toast";
+import ToastProvider from "@/contexts/ToastProvider";
+import UserIdProvider from "@/contexts/UserIdProvider";
+
 const notoSansKR = Noto_Sans_KR({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"]
@@ -21,9 +25,14 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body className={`${notoSansKR.className} flex flex-col items-center`}>
-        <main className="flex min-h-screen w-full max-w-screen-sm flex-col items-center bg-background px-5 py-24 shadow">
-          {children}
-        </main>
+        <UserIdProvider>
+          <ToastProvider>
+            <main className="flex min-h-screen w-full max-w-screen-sm flex-col items-center bg-background px-5 py-24 shadow">
+              {children}
+            </main>
+            <Toast />
+          </ToastProvider>
+        </UserIdProvider>
       </body>
     </html>
   );

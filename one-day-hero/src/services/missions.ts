@@ -1,87 +1,159 @@
 import { revalidatePath } from "next/cache";
+import { MutableRefObject } from "react";
 
+import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
 import {
+  BookmarkResponse,
+  MatchResponse,
   MissionResponse,
-  SuggestedMissionListResponse
+  ProgressMissionListResponse,
+  ProposalResponse,
+  SuggestedMissionListResponse,
+  SuggestingMissionListResponse
 } from "@/types/response";
 
-import { apiUrl } from "./urls";
+import { CustomResponse, useFetch, useMutationalFetch } from "./base";
 
-export const getTestMissions = async () => {
-  const res = await fetch(apiUrl("/missions"));
-  return res.json();
-};
-
-export const getMission = async (
-  missionId: string
-): Promise<MissionResponse> => {
-  const response = await fetch(apiUrl(`/missions/${missionId}`), {
+export const useGetMissionFetch = (missionId: string, token: string) => {
+  return useFetch<MissionResponse>(`/missions/${missionId}`, {
+    headers: { Authorization: `Bearer ${token}` },
     next: { tags: [`mission${missionId}`] }
   });
-  return response.json();
 };
 
-export const getCompletedMission =
-  async (): Promise<SuggestedMissionListResponse> => {
-    const response = await fetch(apiUrl(`/missions/record`), {
-      next: { tags: ["record"] }
-    });
-
-    return response.json();
+export const useCreateMissionFetch = () => {
+  return useMutationalFetch<MissionResponse>("/missions") as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: (response?: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<MissionResponse>>;
   };
-
-export const postBookmark = async (missionId: number, userId: number) => {
-  const response = await fetch(apiUrl("/bookmarks"), {
-    method: "POST",
-    body: JSON.stringify({
-      missionId,
-      userId
-    })
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  revalidatePath("/mission/[slug]", "page");
-
-  return response.json();
 };
 
-export const deleteBookmark = async (missionId: number, userId: number) => {
-  const response = await fetch(apiUrl("/bookmarks"), {
-    method: "DELETE",
-    body: JSON.stringify({
-      missionId,
-      userId
-    })
-  });
-
-  revalidatePath("/mission/[slug]", "page");
-
-  return response.json();
+export const useProposeMissionFetch = () => {
+  return useMutationalFetch<ProposalResponse>("/mission-proposals") as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: () => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<ProposalResponse>>;
+  };
 };
 
-export const getOngoingMissionList = async () => {
-  try {
-    const response = await fetch(apiUrl(`/missions/list/ongoing`), {
-      next: { tags: [`ongoing`] }
-    });
-
-    return response.json();
-  } catch (err) {
-    console.error(err);
-  }
+export const useRejectProposalFetch = (proposalId: number, token: string) => {
+  return useMutationalFetch<MatchResponse>(
+    `/mission-proposals/${proposalId}/reject`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  ) as {
+    mutationalFetch: (
+      onSuccess?: () => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<MatchResponse>>;
+  };
 };
 
-export const getSuggestedMissionList = async () => {
-  try {
-    const response = await fetch(apiUrl(`/missions/list/suggested`), {
+export const useApproveProposalFetch = (proposalId: number, token: string) => {
+  return useMutationalFetch<MatchResponse>(
+    `/mission-proposals/${proposalId}/approve`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  ) as {
+    mutationalFetch: (
+      onSuccess?: () => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<MatchResponse>>;
+  };
+};
+
+export const usePostBookmarkFetch = (missionId: number, userId: number) => {
+  return useMutationalFetch<BookmarkResponse>(
+    "/bookmarks",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        missionId,
+        userId
+      })
+    },
+    () => revalidatePath("/mission/[slug]", "page")
+  );
+};
+
+export const useDeleteBookmarkFetch = (missionId: number, userId: number) => {
+  return useMutationalFetch<BookmarkResponse>(
+    "/bookmarks",
+    {
+      method: "DELETE",
+      body: JSON.stringify({
+        missionId,
+        userId
+      })
+    },
+    () => revalidatePath("/mission/[slug]", "page")
+  );
+};
+
+export const useGetSuggestedMissionListFetch = (
+  token: string,
+  observerRef: MutableRefObject<HTMLDivElement | null>
+) => {
+  return useInfiniteFetch<SuggestedMissionListResponse>({
+    pathname: `/mission-proposals`,
+    size: 4,
+    observerRef,
+    options: {
+      headers: { Authorization: `Bearer ${token}` },
       next: { tags: [`suggested`] }
-    });
+    }
+  });
+};
 
-    return response.json();
-  } catch (err) {
-    console.error(err);
-  }
+export const useGetProgressMissionListFetch = (
+  token: string,
+  observerRef: MutableRefObject<HTMLDivElement | null>
+) => {
+  return useInfiniteFetch<ProgressMissionListResponse>({
+    pathname: `/missions/progress`,
+    size: 4,
+    observerRef,
+    options: {
+      headers: { Authorization: `Bearer ${token}` },
+      next: { tags: [`progress`] }
+    }
+  });
+};
+
+export const useGetCompleteMissionListFetch = (
+  token: string,
+  observerRef: MutableRefObject<HTMLDivElement | null>
+) => {
+  return useInfiniteFetch<ProgressMissionListResponse>({
+    pathname: `/missions/completed`,
+    size: 10,
+    observerRef,
+    options: {
+      headers: { Authorization: `Bearer ${token}` },
+      next: { tags: [`complete`] }
+    }
+  });
+};
+
+export const useGetSuggestingMissionListFetch = (token: string) => {
+  return useMutationalFetch<SuggestingMissionListResponse>(
+    `/missions/matching`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+      next: { tags: [`matching`] }
+    }
+  );
 };

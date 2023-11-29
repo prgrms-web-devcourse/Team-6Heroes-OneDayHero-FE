@@ -22,10 +22,10 @@ const HeroRecommendList = ({
 }: HeroRecommendListProps) => {
   return (
     <HorizontalScroll className={className}>
-      <ul className="flex gap-1">
+      <ul className="flex">
         {heroDataList.map(({ thumbnail, nickname, heroScore }) => (
           <Container
-            className="relative flex w-24 shrink-0 select-none flex-col items-center"
+            className="relative flex w-24 shrink-0 select-none flex-col items-center cs:m-1 cs:shadow"
             key={nickname}>
             {/** @note TODO: key를 unique한 걸로 수정해야함 */}
             <Image
