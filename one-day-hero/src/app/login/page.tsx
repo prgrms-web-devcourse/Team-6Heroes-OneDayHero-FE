@@ -1,5 +1,11 @@
+import { Gugi } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+
+const gugi = Gugi({
+  weight: ["400"],
+  subsets: ["latin"]
+});
 
 const LoginPage = () => {
   return (
@@ -11,8 +17,10 @@ const LoginPage = () => {
         height={335}
         priority
       />
-      <div className="flex flex-col items-center justify-center space-y-20">
-        <h1 className="text-5xl font-black">원데이 히어로</h1>
+      <div className="flex flex-col items-center justify-center gap-40">
+        <h1 className={`${gugi.className} text-[3.4rem] font-black`}>
+          원데이 히어로
+        </h1>
         <Link
           href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.AUTH_URL}&response_type=code`}>
           <Image
@@ -21,11 +29,6 @@ const LoginPage = () => {
             width={300}
             height={60}
           />
-        </Link>
-        <Link href="/">
-          <h3 className="text-base text-inactive-darken underline underline-offset-4">
-            비회원으로 둘러보기
-          </h3>
         </Link>
       </div>
     </div>

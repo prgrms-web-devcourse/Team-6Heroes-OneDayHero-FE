@@ -1,17 +1,12 @@
 import { z } from "zod";
 
 export const MandatorySurveySchema = z.object({
-  image: z
-    .array(
-      z.object({
-        file: z.any(),
-        id: z.string()
-      })
-    )
-    .refine((image) => image.length > 0, {
-      message: "이미지를 선택해 주세요.",
-      path: ["image"]
-    }),
+  image: z.array(
+    z.object({
+      file: z.any(),
+      id: z.string()
+    })
+  ),
   nickName: z
     .string()
     .refine(
