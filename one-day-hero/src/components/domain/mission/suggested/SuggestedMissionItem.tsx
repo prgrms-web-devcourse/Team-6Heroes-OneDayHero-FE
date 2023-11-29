@@ -101,7 +101,6 @@ const SuggestedMissionItem = ({
         <Container className="cs:w-11/12" missionStatus={missionData.status}>
           <MissionFullInfo
             bookmarkCount={missionData.bookmarkCount}
-            createdAt={missionData.createdAt}
             region={missionData.region}
             missionCategory={missionData.missionCategory}
             missionInfo={missionData.missionInfo}

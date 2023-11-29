@@ -105,7 +105,6 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
           ({
             id,
             bookmarkCount,
-            missionCreatedAt,
             missionCategory,
             title,
             missionDate,
@@ -125,7 +124,6 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
               }`}>
               <MissionFullInfo
                 bookmarkCount={bookmarkCount}
-                createdAt={missionCreatedAt}
                 missionCategory={missionCategory}
                 missionInfo={{ title, missionDate, startTime, endTime, price }}
                 region={region}
