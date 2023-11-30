@@ -16,10 +16,9 @@ import Label from "@/components/common/Label";
 import Select from "@/components/common/Select";
 import { useToast } from "@/contexts/ToastProvider";
 import { useGetRegionsFetch } from "@/services/regions";
-import { useEditProfileFetch } from "@/services/users";
 import {
-  UserInfoForOptionalSurveyResponse,
-  UserResponse
+  ProfileResponse,
+  UserInfoForOptionalSurveyResponse
 } from "@/types/response";
 import {
   OptionalSurveySchema,
@@ -30,7 +29,7 @@ type dongProps = { id: number; dong: string };
 
 type guProps = { gu: string; dong: dongProps[] }[];
 
-const OptionalSurvey = (userData: UserResponse) => {
+const OptionalSurvey = (userData: ProfileResponse) => {
   const [guData, setGuData] = useState<guProps>([]);
   const [favoriteGu, setFavoriteGu] = useState<string>("");
   const [favoriteDong, setFavoriteDong] = useState<string>("");
@@ -43,7 +42,24 @@ const OptionalSurvey = (userData: UserResponse) => {
   const router = useRouter();
   const token = getClientToken();
 
-  const { basicInfo } = userData.data;
+  const {
+    basicInfo,
+    favoriteWorkingDay: defaultWorkingDay,
+    favoriteRegions: defaultRegions
+  } = userData.data;
+
+  useEffect(() => {
+    const favoriteRegions = defaultRegions?.map(
+      (region) => region.gu + " " + region.dong
+    );
+    const favoriteRegionsId = defaultRegions?.map((region) => region.id);
+
+    setFavoriteRegions(favoriteRegions!);
+    setFavoriteRegionsId(favoriteRegionsId!);
+
+    setValue("favoriteWorkingDay.favoriteDate", defaultWorkingDay.favoriteDate);
+    setValue("favoriteRegions", favoriteRegionsId!);
+  }, []);
 
   const { mutationalFetch: getRegionsMutationalFetch } = useGetRegionsFetch(
     token ?? ""
@@ -74,12 +90,12 @@ const OptionalSurvey = (userData: UserResponse) => {
     fetchRegions();
   }, []);
 
-  const { register, handleSubmit, setValue, getValues } =
+  const { register, handleSubmit, setValue, getValues, watch } =
     useForm<OptionalSurveySchemaProps>({
       resolver: zodResolver(OptionalSurveySchema)
     });
 
-  const { mutationalFetch } = useEditProfileFetch();
+  const favoriteWorkingDayWatch = watch("favoriteWorkingDay.favoriteDate");
 
   const hours = Array.from({ length: 24 }, (_, index) =>
     index < 10 ? "0" + index : index
@@ -184,6 +200,7 @@ const OptionalSurvey = (userData: UserResponse) => {
             {...register("favoriteWorkingDay.favoriteDate")}
             setValue={setValue}
             getValues={getValues}
+            watch={favoriteWorkingDayWatch}
           />
         </div>
 
@@ -195,6 +212,7 @@ const OptionalSurvey = (userData: UserResponse) => {
           </InputLabel>
           <div className="mt-1 flex gap-2">
             <Select
+              value={defaultWorkingDay.favoriteStartTime}
               id="working hour start"
               {...register("favoriteWorkingDay.favoriteStartTime")}>
               {hours.map((hour) => (
@@ -209,6 +227,7 @@ const OptionalSurvey = (userData: UserResponse) => {
             </span>
 
             <Select
+              value={defaultWorkingDay.favoriteEndTime}
               id="working hour end"
               {...register("favoriteWorkingDay.favoriteEndTime")}>
               {hours.map((hour) => (
@@ -224,7 +243,8 @@ const OptionalSurvey = (userData: UserResponse) => {
           <InputLabel
             htmlFor="favorite region"
             className="cs:mb-1 cs:ml-1 cs:text-xl">
-            선호지역(최대 5개)
+            선호지역
+            <span className="text-cancel-darken text-sm">(최대 5개)</span>
           </InputLabel>
           <div className="mt-1 flex gap-2">
             <Select id="favorite gu" onChange={handleGuChange}>
@@ -275,7 +295,7 @@ const OptionalSurvey = (userData: UserResponse) => {
           </HorizontalScroll>
         </div>
 
-        <div className="mb-12 h-72 w-full rounded-2xl" />
+        <div className="h-56 w-full rounded-2xl" />
 
         <div className="mt-12 flex w-full">
           <Button theme="cancel" type="submit" className="cs:m-2 cs:grow">
