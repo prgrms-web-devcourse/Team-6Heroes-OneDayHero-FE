@@ -6,6 +6,7 @@ import { useMutationalFetch } from "@/hooks/useMutationalFetch";
 import {
   BookmarkResponse,
   EditMissionResponse,
+  EmptyResponse,
   MatchResponse,
   MissionResponse,
   ProgressMissionListResponse,
@@ -47,7 +48,7 @@ export const safeCreateMissionFetch = (data: FormData, token: string) => {
 export const useEditMissionFetch = (missionId: number) => {
   return useMutationalFetch<EditMissionResponse>(
     "route",
-    `editMission/${missionId}`
+    `/editMission/${missionId}`
   ) as {
     mutationalFetch: (
       fetchOptions: RequestInit,
@@ -206,4 +207,16 @@ export const useGetSuggestingMissionListFetch = (token: string) => {
       next: { tags: [`matching`] }
     }
   );
+};
+
+export const useDeleteMissionFetch = () => {
+  return useMutationalFetch<EmptyResponse>("backend") as {
+    mutationalFetch: (
+      pathname: string,
+      fetchOptions: RequestInit,
+      onSuccess?: (response?: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<EmptyResponse>>;
+    isLoading: boolean;
+  };
 };

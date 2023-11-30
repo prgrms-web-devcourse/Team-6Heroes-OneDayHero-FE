@@ -137,12 +137,8 @@ export const MissionFormSchema = z.object({
       .string()
       .refine((date) => date >= currentDate, "생성할 수 없는 날짜입니다!")
       .refine((date) => date.length > 0, "미션 날짜를 입력해주세요!"),
-    startTime: z
-      .string()
-      .refine((time) => time.length > 0, "시작 시간을 설정해주세요!"),
-    endTime: z
-      .string()
-      .refine((time) => time.length > 0, "마감 시간을 설정해주세요!"),
+    startTime: z.string().endsWith("00", "마감 시간을 설정해주세요!"),
+    endTime: z.string().endsWith("00", "마감 시간을 설정해주세요!"),
     price: z
       .number()
       .min(1000, "포상금을 1000 이상의 값으로 입력해주세요!")

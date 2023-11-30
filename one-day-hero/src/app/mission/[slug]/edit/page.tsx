@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
 import MissionForm from "@/components/domain/mission/create/MissionForm";
-import { useGetMissionFetch } from "@/services/missions";
+import { safeGetMissionFetch } from "@/services/missions";
+import { getServerToken } from "@/utils/auth";
 
 type MissionEditProps = {
   params: {
@@ -17,7 +17,7 @@ const MissionEditPage = async ({ params }: MissionEditProps) => {
 
   if (!token) redirect("/login?redirect=");
 
-  const { isError, response } = await useGetMissionFetch(missionId, token);
+  const { isError, response } = await safeGetMissionFetch(missionId, token);
 
   if (isError || !response) return <ErrorPage />;
 

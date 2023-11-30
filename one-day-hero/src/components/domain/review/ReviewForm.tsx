@@ -121,8 +121,8 @@ const ReviewForm = ({
     }
 
     const { isError, errorMessage, response } = await (editDefaultData
-      ? createReviewFetch
-      : editReviewFetch)({
+      ? editReviewFetch
+      : createReviewFetch)({
       method: "POST",
       body: formData
     });

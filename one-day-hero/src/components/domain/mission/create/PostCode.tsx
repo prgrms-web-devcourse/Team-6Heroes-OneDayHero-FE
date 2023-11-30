@@ -24,8 +24,6 @@ const PostCode = ({ onChange, defaultLocation }: PostCodeProps) => {
 
   const { showToast } = useToast();
 
-  console.log(defaultLocation);
-
   const handleComplete = async (data: { roadAddress: string }) => {
     const { roadAddress } = data;
 

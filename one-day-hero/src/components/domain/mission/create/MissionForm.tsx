@@ -15,6 +15,7 @@ import UploadImage from "@/components/common/UploadImage";
 import { useToast } from "@/contexts/ToastProvider";
 import {
   useCreateMissionFetch,
+  useDeleteMissionFetch,
   useEditMissionFetch
 } from "@/services/missions";
 import { ImageFileType, LocationType } from "@/types";
@@ -73,6 +74,8 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
 
   const { mutationalFetch: editMissionFetch, isLoading: editLoading } =
     useEditMissionFetch(editDefaultData?.id ?? 0);
+
+  const { mutationalFetch: deleteImageFetch } = useDeleteMissionFetch();
 
   const handleSelect = (id: number) => {
     setCategoryId(id);
@@ -166,7 +169,10 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
     });
 
     if (isError || !response) {
-      showToast(`리뷰 ${editDefaultData ? "수정" : "생성"}`, "error");
+      showToast(
+        `미션 ${editDefaultData ? "수정" : "생성"}에 실패했습니다!`,
+        "error"
+      );
       return;
     }
 
@@ -177,7 +183,9 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
       "success"
     );
 
-    router.push(`/mission/${missionId}`);
+    startTransition(() => {
+      router.replace(`/mission/${missionId}`);
+    });
   };
 
   return (
@@ -216,6 +224,8 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
             사진 <span className="text-inactive text-xs">(최대 3개)</span>
           </InputLabel>
           <UploadImage
+            deleteImageFetch={deleteImageFetch}
+            pathname="/mission-images"
             onFileSelect={handleFileSelect}
             defaultImages={editDefaultData?.missionImage}
           />
