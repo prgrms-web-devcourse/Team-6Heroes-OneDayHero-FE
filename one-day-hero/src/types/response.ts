@@ -307,6 +307,7 @@ export type ReviewDetailResponse = {
     id: number;
     senderId: number;
     senderNickname: string;
+    senderProfileImage: [string];
     receiverId: number;
     receiverNickname: string;
     categoryId: number;
