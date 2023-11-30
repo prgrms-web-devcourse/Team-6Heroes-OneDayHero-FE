@@ -1,17 +1,23 @@
 import React from "react";
 
+import { getServerToken, getServerUserId } from "@/app/utils/auth";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import KebabMenu from "@/components/common/KebabMenu";
+import { useGetMissionFetch } from "@/services/missions";
 import { KebabMenuDataType } from "@/types";
 
-type LayoutProps = {
+type MissionDetailLayoutProps = {
   params: { slug: string };
   children: React.ReactNode;
 };
 
-const layout = ({ params, children }: LayoutProps) => {
+const MissionDetailLayout = async ({
+  params,
+  children
+}: MissionDetailLayoutProps) => {
   const missionId = params.slug;
+  const token = getServerToken() ?? "";
 
   const missionDeleteMenuData: KebabMenuDataType = {
     name: "미션 삭제",
@@ -21,10 +27,15 @@ const layout = ({ params, children }: LayoutProps) => {
     redirectTo: "/mission/list/ongoing"
   };
 
+  const { isError, response } = await useGetMissionFetch(missionId, token);
+
+  const userId = parseInt(getServerUserId() ?? "-1");
+  const isOwner = userId === response?.data.citizenId;
+
   return (
     <>
       <Header
-        right="info"
+        right={isOwner ? "info" : "none"}
         rightNode={<KebabMenu menuList={[missionDeleteMenuData]} />}>
         미션 상세
       </Header>
@@ -34,4 +45,4 @@ const layout = ({ params, children }: LayoutProps) => {
   );
 };
 
-export default layout;
+export default MissionDetailLayout;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 import { getClientToken } from "@/app/utils/cookie";
 import { useToast } from "@/contexts/ToastProvider";
@@ -27,15 +28,15 @@ const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
     refresh
   } =
     menuData || ({ apiPath: "", method: "GET", name: "" } as KebabMenuDataType);
-
   const token = getClientToken();
+  const [isPending, startTransition] = useTransition();
 
   const requestBody = requiredData?.reduce((acc, cur) => {
     const newAcc = { ...acc, [cur.name]: cur.default };
     return newAcc;
   }, {});
 
-  const { mutationalFetch } = useMutationalFetch(apiPath ?? "", {
+  const { mutationalFetch, isLoading } = useMutationalFetch(apiPath ?? "", {
     method: method,
     headers: {
       Authorization: `Bearer ${token}`,
@@ -78,7 +79,8 @@ const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
           theme="active"
           size="sm"
           className="cs:h-12 cs:w-4/12"
-          onClick={handleConfirm}>
+          onClick={handleConfirm}
+          disabled={isLoading || isPending}>
           확인
         </Button>
       </div>
