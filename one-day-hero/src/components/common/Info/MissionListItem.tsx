@@ -10,7 +10,7 @@ type MissionListItemProps = {
   imageSrc?: string;
   title: string;
   categories: string;
-  createAt: string;
+  missionDate: string;
   location: string;
   bookmarkCount?: number;
   className?: string;
@@ -20,7 +20,7 @@ const MissionListItem = ({
   imageSrc,
   title,
   categories,
-  createAt,
+  missionDate,
   location,
   bookmarkCount,
   className
@@ -28,7 +28,7 @@ const MissionListItem = ({
   return (
     <div className={`flex w-full ${className}`}>
       <div className="flex grow gap-4">
-        <div className="overflow-hidden rounded-[10px] bg-inactive">
+        <div className="bg-inactive overflow-hidden rounded-[10px]">
           <Image
             src={imageSrc || defaultProfileImage}
             alt="프로필 사진"
@@ -43,7 +43,7 @@ const MissionListItem = ({
           </Label>
           <span className="text-md font-semibold">{title}</span>
           <div className="flex gap-2">
-            <span className="text-xs">{createAt}</span>
+            <span className="text-xs">{missionDate}</span>
             <IconGroup title={location} direction="row" size="sm">
               <BiMap />
             </IconGroup>

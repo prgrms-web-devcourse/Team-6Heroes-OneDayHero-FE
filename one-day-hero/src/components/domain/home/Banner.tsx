@@ -61,7 +61,7 @@ const Banner = ({ banners }: BannerProps) => {
             {banners.map((_, index) => (
               <div
                 key={index}
-                className={`h-3 w-3 rounded-full bg-white transition-all ${
+                className={`h-3 w-3 rounded-full bg-gray-200 transition-all ${
                   currentBanner === index ? "p-2" : "bg-opacity-50"
                 }`}
               />

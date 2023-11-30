@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
 import ChatRoomItem from "@/components/domain/chatting/ChatRoomItem";
 import { useGetChatRoomsFetch } from "@/services/chats";
+import { getServerToken } from "@/utils/auth";
 
 const ChattingListPage = async () => {
   const token = getServerToken();
@@ -19,7 +19,7 @@ const ChattingListPage = async () => {
   return (
     <>
       {data.length > 0 && (
-        <div className="w-full border-b-[1px] border-b-background-darken" />
+        <div className="border-b-background-darken w-full border-b-[1px]" />
       )}
       {data.map((item) => {
         return <ChatRoomItem key={item.id} {...item} />;

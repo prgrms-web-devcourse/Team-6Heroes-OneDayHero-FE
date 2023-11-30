@@ -1,8 +1,8 @@
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
 import TitleBox from "@/components/common/TitleBox";
 import ReviewInfo from "@/components/domain/review/ReviewInfo";
 import { useGetReviewDetailFetch } from "@/services/review";
+import { getServerToken } from "@/utils/auth";
 
 const ReviewDetailPage = async ({ params }: { params: { slug: string } }) => {
   const reviewId = parseInt(params.slug);
@@ -22,6 +22,7 @@ const ReviewDetailPage = async ({ params }: { params: { slug: string } }) => {
     createdAt,
     senderId,
     senderNickname,
+    senderProfileImage,
     reviewImageResponses
   } = data;
 
@@ -33,6 +34,7 @@ const ReviewDetailPage = async ({ params }: { params: { slug: string } }) => {
         starScore={starScore}
         createdAt={createdAt}
         categoryName={categoryName}
+        profileImage={senderProfileImage[0]}
         senderId={senderId}
         senderNickname={senderNickname}
         reviewImage={reviewImageResponses}

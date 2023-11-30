@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MouseEventHandler } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
@@ -18,6 +17,7 @@ import {
   useRejectProposalFetch
 } from "@/services/missions";
 import { MissionItemResponse } from "@/types/response";
+import { getClientToken } from "@/utils/cookie";
 
 type SuggestedMissionItemProps = {
   proposalId: number;

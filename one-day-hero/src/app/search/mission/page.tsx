@@ -5,13 +5,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
 import Select from "@/components/common/Select";
 import { useGetRegionsFetch } from "@/services/regions";
 import { useGetMissionSearchListFetch } from "@/services/search";
+import { getClientToken } from "@/utils/cookie";
 
 type dongProps = { id: number; dong: string };
 
@@ -164,7 +164,7 @@ w-full max-w-screen-sm">
           </select>
         </div>
 
-        <div className="mt-3 flex justify-center border-b border-background-darken bg-background pb-2">
+        <div className="border-background-darken bg-background mt-3 flex justify-center border-b pb-2">
           <Category
             value={queryString}
             onSelect={handleCategorySelect}

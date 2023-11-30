@@ -2,12 +2,12 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 
-import { getServerToken } from "@/app/utils/auth";
 import Container from "@/components/common/Container";
 import Header from "@/components/common/Header";
 import KebabMenu from "@/components/common/KebabMenu";
 import { useGetChatRoomsFetch } from "@/services/chats";
 import { KebabMenuDataType } from "@/types";
+import { getServerToken } from "@/utils/auth";
 
 type LayoutProps = {
   params: { slug: string };

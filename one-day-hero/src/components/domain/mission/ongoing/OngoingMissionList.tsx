@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useRef } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressContainer from "@/components/common/MissionProgressContainer";
 import { useGetProgressMissionListFetch } from "@/services/missions";
+import { getClientToken } from "@/utils/cookie";
 
 const OngoingMissionList = () => {
   const token = getClientToken();
@@ -25,7 +25,7 @@ const OngoingMissionList = () => {
             <MissionListItem
               className="cs:p-4"
               categories={item.missionCategory.name}
-              createAt={item.missionDate}
+              missionDate={item.missionDate}
               location={`${item.si} ${item.gu} ${item.dong}`}
               title={item.title}
               bookmarkCount={item.bookmarkCount}

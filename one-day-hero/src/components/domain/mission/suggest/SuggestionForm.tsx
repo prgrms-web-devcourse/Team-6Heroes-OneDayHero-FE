@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Container from "@/components/common/Container";
 import FooterButton from "@/components/common/FooterButton";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
@@ -15,6 +14,7 @@ import {
 } from "@/services/missions";
 import { MissionProposalRequest } from "@/types/request";
 import { SuggestingMissionListResponse, UserResponse } from "@/types/response";
+import { getClientToken } from "@/utils/cookie";
 
 type SuggestionFormProps = {
   heroData: UserResponse["data"];

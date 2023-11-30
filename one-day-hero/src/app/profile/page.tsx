@@ -10,7 +10,7 @@ import HeroSwitch from "@/components/domain/profile/HeroSwitch";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetUserFetch } from "@/services/users";
 
-import { getServerToken, getServerUserId } from "../utils/auth";
+import { getServerToken, getServerUserId } from "../../utils/auth";
 
 const ProfilePage = async () => {
   const token = getServerToken();
@@ -90,7 +90,7 @@ const ProfilePage = async () => {
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">희망 근무시간</h2>
-        <div className="min-h-[2.625rem] rounded-lg border border-background-darken bg-white p-2">
+        <div className="border-background-darken min-h-[2.625rem] rounded-lg border bg-white p-2">
           {`${favoriteWorkingDay.favoriteStartTime || ""} ~ ${
             favoriteWorkingDay.favoriteEndTime || ""
           }`}
@@ -98,7 +98,7 @@ const ProfilePage = async () => {
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">선호 지역</h2>
-        <div className="min-h-[2.625rem] rounded-lg border border-background-darken bg-white p-2">
+        <div className="border-background-darken min-h-[2.625rem] rounded-lg border bg-white p-2">
           {favoriteRegions?.map(({ id, si, gu, dong }) => (
             <p key={id}>{`${si} ${gu} ${dong}`}</p>
           ))}
@@ -106,7 +106,7 @@ const ProfilePage = async () => {
       </div>
       <div className="mb-12 w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">소개</h2>
-        <div className="rounded-lg border border-background-darken bg-white p-2">
+        <div className="border-background-darken rounded-lg border bg-white p-2">
           <p>{basicInfo.introduce}</p>
         </div>
       </div>

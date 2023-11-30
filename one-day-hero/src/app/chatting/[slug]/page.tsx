@@ -1,13 +1,13 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken, getServerUserId } from "@/app/utils/auth";
-import { formatHour } from "@/app/utils/formatTime";
 import ChattingClientContainer from "@/components/domain/chatting/ChattingClientContainer";
 import Message from "@/components/domain/chatting/Message";
 import { useGetChatRecordFetch, useGetChatRoomsFetch } from "@/services/chats";
 import { useGetMissionFetch } from "@/services/missions";
 import { useGetUserFetch } from "@/services/users";
+import { getServerToken, getServerUserId } from "@/utils/auth";
+import { formatHour } from "@/utils/formatTime";
 
 const ChattingPage = async ({ params }: { params: { slug: string } }) => {
   const roomId = params.slug;

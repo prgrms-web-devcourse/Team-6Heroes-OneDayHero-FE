@@ -48,7 +48,7 @@ const ChattingClientContainer = ({
             <Link href={`/mission/${missionData.id}`} className="w-full">
               <MissionListItem
                 categories={missionData.missionCategory.name}
-                createAt={missionData.missionInfo.missionDate}
+                missionDate={missionData.missionInfo.missionDate}
                 location={`${missionData.region.gu} ${missionData.region.dong}`}
                 title={missionData.missionInfo.title}
                 imageSrc={missionData.missionImage[0].path}

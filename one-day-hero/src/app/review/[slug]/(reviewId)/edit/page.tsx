@@ -1,8 +1,8 @@
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
 import TitleBox from "@/components/common/TitleBox";
 import ReviewForm from "@/components/domain/review/ReviewForm";
 import { useGetReviewDetailFetch } from "@/services/review";
+import { getServerToken } from "@/utils/auth";
 
 const ReviewEditPage = async ({ params }: { params: { slug: string } }) => {
   const reviewId = parseInt(params.slug);
