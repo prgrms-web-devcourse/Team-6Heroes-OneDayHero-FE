@@ -10,6 +10,7 @@ import ToggleButton from "./ToggleButton";
 type DayListProps = {
   getValues: UseFormGetValues<FieldValues>;
   setValue: UseFormSetValue<FieldValues>;
+  watch: string[] | undefined;
   className?: "";
 };
 
@@ -40,9 +41,9 @@ const DayList = forwardRef(
             setValue={setValue}
             getValues={getValues}
             key={dayEN}
-            selectedDate={dayEN}>
-            {dayKR}
-          </ToggleButton>
+            dateName={dayEN}
+            dayKR={dayKR}
+          />
         ))}
       </div>
     );

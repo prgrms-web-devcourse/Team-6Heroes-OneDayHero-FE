@@ -9,6 +9,7 @@ import ErrorMessage from "./ErrorMessage";
 interface SelectProps extends React.ComponentProps<"select"> {
   className?: string;
   error?: string;
+  value?: string;
 }
 
 const Select = forwardRef(
@@ -18,6 +19,7 @@ const Select = forwardRef(
       className,
       children,
       error,
+      value,
       ...props
     }: PropsWithChildren<SelectProps>,
     ref: ForwardedRef<HTMLSelectElement>
@@ -37,7 +39,7 @@ const Select = forwardRef(
             error && "border-2 border-red-500"
           }`}
           {...props}>
-          <option value="">선택</option>
+          <option>{value ?? "선택"}</option>
           {children}
         </select>
         {error && <ErrorMessage>{error}</ErrorMessage>}
