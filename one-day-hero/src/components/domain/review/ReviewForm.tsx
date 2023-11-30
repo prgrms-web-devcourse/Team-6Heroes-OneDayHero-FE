@@ -185,6 +185,7 @@ const ReviewForm = ({
           onFileSelect={handleFileSelect}
           defaultImages={editDefaultData?.imageDatas}
           deleteImageFetch={deleteImageFetch}
+          pathname="/review-images"
         />
       </div>
       <Button

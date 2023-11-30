@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import { PiWaveSineBold } from "react-icons/pi";
@@ -43,6 +43,7 @@ const OptionalSurvey = (userData: ProfileResponse) => {
 
   const router = useRouter();
   const token = getClientToken();
+  const [isPending, startTransition] = useTransition();
 
   const {
     basicInfo,
@@ -160,7 +161,8 @@ const OptionalSurvey = (userData: ProfileResponse) => {
     setFavoriteDongId(Number(e.target.value));
   };
 
-  const { mutationalFetch: editProfileFetch } = useEditProfileFetch();
+  const { mutationalFetch: editProfileFetch, isLoading } =
+    useEditProfileFetch();
 
   const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = async (
     data: OptionalSurveySchemaProps
@@ -199,7 +201,9 @@ const OptionalSurvey = (userData: ProfileResponse) => {
       return;
     }
 
-    router.push("/");
+    startTransition(() => {
+      router.push("/");
+    });
   };
 
   return (
@@ -313,10 +317,17 @@ const OptionalSurvey = (userData: ProfileResponse) => {
         <div className="h-56 w-full rounded-2xl" />
 
         <div className="mt-12 flex w-full">
-          <Button theme="cancel" type="submit" className="cs:m-2 cs:grow">
+          <Button
+            theme="cancel"
+            type="submit"
+            className="cs:m-2 cs:grow"
+            disabled={isLoading || isPending}>
             건너뛰기
           </Button>
-          <Button type="submit" className="cs:m-2 cs:grow">
+          <Button
+            type="submit"
+            className="cs:m-2 cs:grow"
+            disabled={isLoading || isPending}>
             다음
           </Button>
         </div>

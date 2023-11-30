@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { MutableRefObject } from "react";
 
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
@@ -14,7 +15,7 @@ import {
 
 import { CustomResponse, safeFetch } from "./base";
 
-export const useGetMissionFetch = (missionId: string, token: string) => {
+export const safeGetMissionFetch = (missionId: string, token: string) => {
   return safeFetch<MissionResponse>("backend", `/missions/${missionId}`, {
     headers: { Authorization: `Bearer ${token}` },
     next: { tags: [`mission${missionId}`] }

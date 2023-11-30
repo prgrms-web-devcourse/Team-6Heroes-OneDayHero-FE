@@ -6,7 +6,9 @@ import { BsChevronLeft } from "react-icons/bs";
 const BackButton = () => {
   const router = useRouter();
 
-  return <BsChevronLeft onClick={() => router.back()} />;
+  return (
+    <BsChevronLeft className="cursor-pointer" onClick={() => router.back()} />
+  );
 };
 
 export default BackButton;

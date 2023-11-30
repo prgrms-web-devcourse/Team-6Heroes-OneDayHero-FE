@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { forwardRef, useCallback, useEffect } from "react";
+import { forwardRef, useCallback, useEffect, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "@/components/common/Button";
@@ -25,6 +25,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
 
   const router = useRouter();
   const { showToast } = useToast();
+  const [isPending, startTransition] = useTransition();
 
   const {
     register,
@@ -56,7 +57,8 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     favoriteEndTime: null
   };
 
-  const { mutationalFetch: editProfileFetch } = useEditProfileFetch();
+  const { mutationalFetch: editProfileFetch, isLoading } =
+    useEditProfileFetch();
 
   const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = async (data) => {
     const file = getValues("image");
@@ -102,7 +104,9 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       return;
     }
 
-    router.push("/survey/optional");
+    startTransition(() => {
+      router.push("/survey/optional");
+    });
   };
 
   const handleFileSelect = useCallback(
@@ -160,7 +164,11 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
           )}
         </div>
 
-        <Button type="submit" className="cs:mx-auto cs:mt-24" size="lg">
+        <Button
+          type="submit"
+          className="cs:mx-auto cs:mt-24"
+          size="lg"
+          disabled={isLoading || isPending}>
           다음
         </Button>
       </form>

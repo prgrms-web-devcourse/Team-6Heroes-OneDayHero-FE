@@ -4,7 +4,7 @@ import { UserResponse } from "@/types/response";
 
 import { CustomResponse, safeFetch } from "./base";
 
-export const useGetProfileFetch = (
+export const safeGetProfileFetch = (
   userId: number,
   isHero: boolean,
   token: string
@@ -19,7 +19,7 @@ export const useGetProfileFetch = (
   );
 };
 
-export const useGetUserFetch = (token: string) => {
+export const safeGetUserFetch = (token: string) => {
   return safeFetch<UserResponse>("backend", `/me`, {
     headers: { Authorization: `Bearer ${token}` },
     next: { tags: [`user`] }

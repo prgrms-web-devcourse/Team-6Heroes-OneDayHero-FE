@@ -52,7 +52,7 @@ const ReceivedReviewList = ({ userId }: ReceivedReviewListProps) => {
               createdAt={createdAt}
               senderId={senderId ?? 0}
               senderNickname={senderNickname}
-              profileImage={profileImage[0]}
+              profileImage={profileImage?.[0]}
             />
           </Link>
         )

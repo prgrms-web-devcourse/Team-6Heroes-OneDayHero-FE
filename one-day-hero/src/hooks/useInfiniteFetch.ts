@@ -86,5 +86,6 @@ export const useInfiniteFetch = <
     if (pageRef.current === 0 || !isLoadingRef.current)
       observer.current.observe(observerRef.current);
   }, [data, observerRef, hasNextPageRef, isLoadingRef]);
+
   return returnMethods;
 };

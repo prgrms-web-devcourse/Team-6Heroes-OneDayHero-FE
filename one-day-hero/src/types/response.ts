@@ -307,7 +307,7 @@ export type ReviewDetailResponse = {
     id: number;
     senderId: number;
     senderNickname: string;
-    senderProfileImage: [string];
+    senderProfileImage: string[];
     receiverId: number;
     receiverNickname: string;
     categoryId: number;
@@ -337,7 +337,7 @@ export type ReviewListResponse = {
       categoryName: string;
       missionTitle: string;
       starScore: 1 | 2 | 3 | 4 | 5;
-      profileImage: [string] | [];
+      profileImage: string[];
       createdAt: string;
     }[];
     pageable: {

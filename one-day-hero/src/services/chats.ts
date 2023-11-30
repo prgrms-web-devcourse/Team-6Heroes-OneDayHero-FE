@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useMutationalFetch } from "@/hooks/useMutationalFetch";
 import {
   ChatRecordResponse,
@@ -8,14 +9,14 @@ import {
 
 import { CustomResponse, safeFetch } from "./base";
 
-export const useGetChatRoomsFetch = (token: string) => {
+export const safeGetChatRoomsFetch = (token: string) => {
   return safeFetch<ChatRoomsResponse>("backend", `/chat-rooms/me`, {
     headers: { Authorization: `Bearer ${token}` },
     next: { revalidate: 0 }
   });
 };
 
-export const useGetChatRecordFetch = (roomId: string, token: string) => {
+export const safeGetChatRecordFetch = (roomId: string, token: string) => {
   return safeFetch<ChatRecordResponse>("backend", `/chat-rooms/${roomId}`, {
     headers: { Authorization: `Bearer ${token}` },
     next: { revalidate: 0 }

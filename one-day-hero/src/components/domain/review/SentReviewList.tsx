@@ -40,7 +40,7 @@ const SentReviewList = () => {
               createdAt={createdAt}
               senderId={userId}
               senderNickname={senderNickname}
-              profileImage={profileImage[0]}
+              profileImage={profileImage?.[0]}
             />
           </Link>
         )

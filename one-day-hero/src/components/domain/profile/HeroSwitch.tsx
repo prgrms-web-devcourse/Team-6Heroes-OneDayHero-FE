@@ -46,8 +46,8 @@ const HeroSwitch = ({ isHeroMode }: HeroSwitchProps) => {
         <div
           className={`absolute top-[0.125rem] h-7 w-7 rounded-full ${
             isHeroMode
-              ? "bg-sub-darken hover:bg-sub right-[0.125rem]"
-              : "bg-primary-darken hover:bg-primary left-[0.125rem]"
+              ? "right-[0.125rem] bg-sub-darken hover:bg-sub"
+              : "left-[0.125rem] bg-primary-darken hover:bg-primary"
           }`}
         />
       </div>

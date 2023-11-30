@@ -53,7 +53,7 @@ const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
   const router = useRouter();
 
   const handleConfirm = async () => {
-    const { isError, response } = await mutationalFetch();
+    const { isError } = await mutationalFetch();
 
     if (isError) {
       showToast(`${name}에 오류가 발생했습니다. 다시 시도해주세요.`, "error");
@@ -62,8 +62,10 @@ const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
 
     showToast(`${name}에 성공했습니다.`, "success");
 
-    refresh && router.refresh();
-    redirectTo && router.push(redirectTo);
+    startTransition(() => {
+      refresh && router.refresh();
+      redirectTo && router.push(redirectTo);
+    });
   };
 
   return (

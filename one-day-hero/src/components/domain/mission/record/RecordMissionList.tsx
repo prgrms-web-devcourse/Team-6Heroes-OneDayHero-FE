@@ -26,7 +26,7 @@ const RecordMissionList = () => {
               className="cs:p-4"
               categories={item.missionCategory.name}
               missionDate={item.missionDate}
-              location="구 동"
+              location={`${item.si} ${item.gu} ${item.dong}`}
               title={item.title}
               bookmarkCount={item.bookmarkCount}
             />

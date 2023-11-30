@@ -1,11 +1,11 @@
 import React from "react";
 
-import { getServerToken, getServerUserId } from "@/app/utils/auth";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import KebabMenu from "@/components/common/KebabMenu";
-import { useGetMissionFetch } from "@/services/missions";
+import { safeGetMissionFetch } from "@/services/missions";
 import { KebabMenuDataType } from "@/types";
+import { getServerToken, getServerUserId } from "@/utils/auth";
 
 type MissionDetailLayoutProps = {
   params: { slug: string };
@@ -27,7 +27,7 @@ const MissionDetailLayout = async ({
     redirectTo: "/mission/list/ongoing"
   };
 
-  const { isError, response } = await useGetMissionFetch(missionId, token);
+  const { response } = await safeGetMissionFetch(missionId, token);
 
   const userId = parseInt(getServerUserId() ?? "-1");
   const isOwner = userId === response?.data.citizenId;
