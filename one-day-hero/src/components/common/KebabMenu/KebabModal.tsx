@@ -36,14 +36,18 @@ const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
     return newAcc;
   }, {});
 
-  const { mutationalFetch, isLoading } = useMutationalFetch(apiPath ?? "", {
-    method: method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json"
-    },
-    body: requestBody ? JSON.stringify(requestBody) : undefined
-  });
+  const { mutationalFetch, isLoading } = useMutationalFetch(
+    "backend",
+    apiPath ?? "",
+    {
+      method: method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: requestBody ? JSON.stringify(requestBody) : undefined
+    }
+  );
 
   const { showToast } = useToast();
   const router = useRouter();

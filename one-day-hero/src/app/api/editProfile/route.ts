@@ -5,23 +5,13 @@ import { getServerToken } from "@/app/utils/auth";
 import { safeEditProfileFetch } from "@/services/users";
 
 export async function POST(request: NextRequest) {
-  const token = getServerToken();
+  const token = getServerToken() ?? "";
 
-  const formData = await request.formData();
+  const data = await request.formData();
 
-  const { mutationalFetch } = safeEditProfileFetch();
-
-  const { isError, response, errorMessage } = await mutationalFetch({
-    method: "POST",
-    body: formData,
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
+  const { isError, response } = await safeEditProfileFetch(data, token);
 
   if (isError || !response) {
-    console.log(errorMessage);
-
     return NextResponse.json(response ?? {}, {
       status: 400
     });

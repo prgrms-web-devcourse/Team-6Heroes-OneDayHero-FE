@@ -16,6 +16,7 @@ import Label from "@/components/common/Label";
 import Select from "@/components/common/Select";
 import { useToast } from "@/contexts/ToastProvider";
 import { useGetRegionsFetch } from "@/services/regions";
+import { useEditProfileFetch } from "@/services/users";
 import { DateType } from "@/types";
 import {
   ProfileResponse,
@@ -159,6 +160,8 @@ const OptionalSurvey = (userData: ProfileResponse) => {
     setFavoriteDongId(Number(e.target.value));
   };
 
+  const { mutationalFetch: editProfileFetch } = useEditProfileFetch();
+
   const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = async (
     data: OptionalSurveySchemaProps
   ) => {
@@ -183,29 +186,20 @@ const OptionalSurvey = (userData: ProfileResponse) => {
       new Blob([jsonData], { type: "application/json" })
     );
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FE_URL}/api/createOptionalSurvey`,
-        {
-          method: "POST",
-          body: formData
-        }
+    const { isError, errorMessage, response } = await editProfileFetch({
+      method: "POST",
+      body: formData
+    });
+
+    if (isError || !response) {
+      showToast(
+        errorMessage ?? "프로필 수정 중 오류가 발생했어요. 다시 시도해주세요",
+        "error"
       );
-
-      if (!response.ok) {
-        const data = await response.json();
-
-        const errorCode = data?.code;
-        const errorMessage = data?.message;
-
-        showToast(errorMessage, "error");
-        return;
-      }
-
-      router.push("/");
-    } catch (err) {
-      console.error(err);
+      return;
     }
+
+    router.push("/");
   };
 
   return (

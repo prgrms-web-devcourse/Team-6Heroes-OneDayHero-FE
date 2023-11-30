@@ -9,6 +9,7 @@ import Button from "@/components/common/Button";
 import InputLabel from "@/components/common/InputLabel";
 import UploadImage from "@/components/common/UploadImage";
 import { useToast } from "@/contexts/ToastProvider";
+import { useEditProfileFetch } from "@/services/users";
 import { ImageFileType } from "@/types";
 import {
   UserInfoForOptionalSurveyResponse,
@@ -55,6 +56,8 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     favoriteEndTime: null
   };
 
+  const { mutationalFetch: editProfileFetch } = useEditProfileFetch();
+
   const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = async (data) => {
     const file = getValues("image");
 
@@ -86,29 +89,20 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       formData.append("userImages", imageBlob, "image.jpeg");
     }
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FE_URL}/api/createMandatorySurvey`,
-        {
-          method: "POST",
-          body: formData
-        }
+    const { isError, errorMessage, response } = await editProfileFetch({
+      method: "POST",
+      body: formData
+    });
+
+    if (isError || !response) {
+      showToast(
+        errorMessage ?? "프로필 수정 중 오류가 발생했어요. 다시 시도해주세요",
+        "error"
       );
-
-      if (!response.ok) {
-        const data = await response.json();
-
-        const errorCode = data?.code;
-        const errorMessage = data?.message;
-
-        showToast(errorMessage, "error");
-        return;
-      }
-
-      router.push("/survey/optional");
-    } catch (err) {
-      console.error(err);
+      return;
     }
+
+    router.push("/survey/optional");
   };
 
   const handleFileSelect = useCallback(

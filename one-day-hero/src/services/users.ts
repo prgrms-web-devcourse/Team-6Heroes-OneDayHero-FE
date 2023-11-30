@@ -2,14 +2,15 @@
 import { useMutationalFetch } from "@/hooks/useMutationalFetch";
 import { UserResponse } from "@/types/response";
 
-import { CustomResponse, safeMutationalFetch, useFetch } from "./base";
+import { CustomResponse, safeFetch } from "./base";
 
 export const useGetProfileFetch = (
   userId: number,
   isHero: boolean,
   token: string
 ) => {
-  return useFetch<UserResponse>(
+  return safeFetch<UserResponse>(
+    "backend",
     `/users/${userId}/${isHero ? "hero-profile" : "citizen-profile"}`,
     {
       headers: { Authorization: `Bearer ${token}` },
@@ -19,7 +20,7 @@ export const useGetProfileFetch = (
 };
 
 export const useGetUserFetch = (token: string) => {
-  return useFetch<UserResponse>(`/me`, {
+  return safeFetch<UserResponse>("backend", `/me`, {
     headers: { Authorization: `Bearer ${token}` },
     next: { tags: [`user`] }
   });
@@ -31,6 +32,7 @@ export const useChangeHeroFetch = (
   onError?: () => void
 ) => {
   return useMutationalFetch<UserResponse>(
+    "backend",
     "/me/change-hero",
     {
       method: "PATCH",
@@ -47,6 +49,7 @@ export const useChangeCitizenFetch = (
   onError?: () => void
 ) => {
   return useMutationalFetch<UserResponse>(
+    "backend",
     "/me/change-citizen",
     {
       method: "PATCH",
@@ -57,12 +60,23 @@ export const useChangeCitizenFetch = (
   );
 };
 
-export const safeEditProfileFetch = () => {
-  return safeMutationalFetch<UserResponse>("/me") as {
+export const useEditProfileFetch = () => {
+  return useMutationalFetch<UserResponse>("route", `/editProfile`) as {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<UserResponse>>;
+    isLoading: boolean;
   };
+};
+
+export const safeEditProfileFetch = (data: FormData, token: string) => {
+  return safeFetch<UserResponse>("backend", "/me", {
+    method: "POST",
+    body: data,
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
 };

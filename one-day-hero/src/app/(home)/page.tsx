@@ -17,7 +17,7 @@ const HomePage = async () => {
 
   const defaultLabelStyle = "text-lg font-semibold";
 
-  const { isError, response } = await useGetMainFetch(token!);
+  const { isError, response } = await useGetMainFetch(token);
 
   return (
     <div className="flex w-full flex-col gap-8">

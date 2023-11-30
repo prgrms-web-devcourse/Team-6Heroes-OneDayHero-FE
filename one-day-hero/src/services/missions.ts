@@ -12,27 +12,41 @@ import {
   SuggestingMissionListResponse
 } from "@/types/response";
 
-import { CustomResponse, safeMutationalFetch, useFetch } from "./base";
+import { CustomResponse, safeFetch } from "./base";
 
 export const useGetMissionFetch = (missionId: string, token: string) => {
-  return useFetch<MissionResponse>(`/missions/${missionId}`, {
+  return safeFetch<MissionResponse>("backend", `/missions/${missionId}`, {
     headers: { Authorization: `Bearer ${token}` },
     next: { tags: [`mission${missionId}`] }
   });
 };
 
-export const safeCreateMissionFetch = () => {
-  return safeMutationalFetch<MissionResponse>("/missions") as {
+export const useCreateMissionFetch = () => {
+  return useMutationalFetch<MissionResponse>("route", `/createMission`) as {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<MissionResponse>>;
+    isLoading: boolean;
   };
 };
 
+export const safeCreateMissionFetch = (data: FormData, token: string) => {
+  return safeFetch<MissionResponse>("backend", "/missions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: data
+  });
+};
+
 export const useProposeMissionFetch = () => {
-  return useMutationalFetch<ProposalResponse>("/mission-proposals") as {
+  return useMutationalFetch<ProposalResponse>(
+    "backend",
+    "/mission-proposals"
+  ) as {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: () => void,
@@ -43,6 +57,7 @@ export const useProposeMissionFetch = () => {
 
 export const useRejectProposalFetch = (proposalId: number, token: string) => {
   return useMutationalFetch<MatchResponse>(
+    "backend",
     `/mission-proposals/${proposalId}/reject`,
     {
       method: "PATCH",
@@ -60,6 +75,7 @@ export const useRejectProposalFetch = (proposalId: number, token: string) => {
 
 export const useApproveProposalFetch = (proposalId: number, token: string) => {
   return useMutationalFetch<MatchResponse>(
+    "backend",
     `/mission-proposals/${proposalId}/approve`,
     {
       method: "PATCH",
@@ -76,7 +92,7 @@ export const useApproveProposalFetch = (proposalId: number, token: string) => {
 };
 
 export const usePostBookmarkFetch = (missionId: number, token: string) => {
-  return useMutationalFetch<BookmarkResponse>("/bookmarks", {
+  return useMutationalFetch<BookmarkResponse>("backend", "/bookmarks", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -89,7 +105,7 @@ export const usePostBookmarkFetch = (missionId: number, token: string) => {
 };
 
 export const useDeleteBookmarkFetch = (missionId: number, token: string) => {
-  return useMutationalFetch<BookmarkResponse>("/bookmarks", {
+  return useMutationalFetch<BookmarkResponse>("backend", "/bookmarks", {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -106,6 +122,7 @@ export const useGetSuggestedMissionListFetch = (
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<SuggestedMissionListResponse>({
+    baseUrlType: "backend",
     pathname: `/mission-proposals`,
     size: 10,
     observerRef,
@@ -121,6 +138,7 @@ export const useGetProgressMissionListFetch = (
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<ProgressMissionListResponse>({
+    baseUrlType: "backend",
     pathname: `/missions/progress`,
     size: 10,
     observerRef,
@@ -136,6 +154,7 @@ export const useGetCompleteMissionListFetch = (
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<ProgressMissionListResponse>({
+    baseUrlType: "backend",
     pathname: `/missions/completed`,
     size: 10,
     observerRef,
@@ -148,6 +167,7 @@ export const useGetCompleteMissionListFetch = (
 
 export const useGetSuggestingMissionListFetch = (token: string) => {
   return useMutationalFetch<SuggestingMissionListResponse>(
+    "backend",
     `/missions/matching`,
     {
       headers: { Authorization: `Bearer ${token}` },

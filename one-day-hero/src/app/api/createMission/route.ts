@@ -5,26 +5,16 @@ import { getServerToken } from "@/app/utils/auth";
 import { safeCreateMissionFetch } from "@/services/missions";
 
 export async function POST(request: NextRequest) {
-  const token = getServerToken();
+  const token = getServerToken() ?? "";
 
   const data = await request.formData();
 
-  const { mutationalFetch } = safeCreateMissionFetch();
-
-  const {
-    isError,
-    errorMessage,
-    response: postResponse
-  } = await mutationalFetch({
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-    body: data
-  });
+  const { isError, response: postResponse } = await safeCreateMissionFetch(
+    data,
+    token
+  );
 
   if (isError || !postResponse) {
-    console.log(errorMessage);
     return NextResponse.json(postResponse ?? {}, {
       status: 400
     });

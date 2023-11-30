@@ -8,26 +8,18 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
-  const token = getServerToken();
+  const token = getServerToken() ?? "";
+  const reviewId = parseInt(params.slug);
 
   const data = await request.formData();
 
-  const { mutationalFetch } = safeEditReviewFetch(parseInt(params.slug));
-
-  const {
-    isError,
-    errorMessage,
-    response: postResponse
-  } = await mutationalFetch({
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-    body: data
-  });
+  const { isError, response: postResponse } = await safeEditReviewFetch(
+    reviewId,
+    data,
+    token
+  );
 
   if (isError || !postResponse) {
-    console.log(errorMessage);
     return NextResponse.json(postResponse ?? {}, {
       status: 400
     });

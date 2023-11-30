@@ -13,6 +13,7 @@ import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import { useToast } from "@/contexts/ToastProvider";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
+import { useCreateMissionFetch } from "@/services/missions";
 import { ImageFileType, LocationType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
 
@@ -38,6 +39,8 @@ const CreateForm = () => {
 
   const router = useRouter();
   const { showToast } = useToast();
+
+  const { mutationalFetch: createMissionFetch } = useCreateMissionFetch();
 
   const handleSelect = (id: number) => {
     setCategoryId(id);
@@ -95,31 +98,22 @@ const CreateForm = () => {
     setErrors(validationErrors);
 
     if (!Object.keys(validationErrors).length) {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_FE_URL}/api/createPost`,
-          {
-            method: "POST",
-            body: formData
-          }
+      const { isError, errorMessage, response } = await createMissionFetch({
+        method: "POST",
+        body: formData
+      });
+
+      if (isError || !response) {
+        showToast(
+          errorMessage ?? "미션 제출 중 오류가 발생했어요. 다시 시도해주세요",
+          "error"
         );
-
-        if (!response.ok) {
-          const data = await response.json();
-
-          const errorCode = data?.code;
-          const errorMessage = data?.message;
-
-          showToast(errorMessage, "error");
-          return;
-        }
-
-        const createdMissionId = (await response.json()).data.id;
-
-        router.replace(`/mission/${createdMissionId}`);
-      } catch (err) {
-        showToast("생성 중 오류가 발생했습니다. 다시 시도해주세요", "error");
+        return;
       }
+
+      const createdMissionId = response.data.id;
+
+      router.replace(`/mission/${createdMissionId}`);
     }
   };
 

@@ -42,6 +42,7 @@ const ProfilePage = async () => {
             src={image.path || ""}
             alt="프로필 이미지"
             width={150}
+            height={150}
             priority
           />
           <h3

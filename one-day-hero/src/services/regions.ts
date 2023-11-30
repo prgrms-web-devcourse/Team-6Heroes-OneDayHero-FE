@@ -4,7 +4,7 @@ import { RegionsResponse } from "@/types/response";
 import { CustomResponse } from "./base";
 
 export const useGetRegionsFetch = (token: string) => {
-  return useMutationalFetch<RegionsResponse>(`/regions`) as {
+  return useMutationalFetch<RegionsResponse>("backend", `/regions`) as {
     mutationalFetch: (
       fetchOptions?: RequestInit,
       onSuccess?: (response?: Response) => void,

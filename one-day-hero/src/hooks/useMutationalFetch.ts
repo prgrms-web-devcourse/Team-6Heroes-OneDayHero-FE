@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 
-import { MutationalFetchParams, useFetch } from "@/services/base";
+import { safeFetch } from "@/services/base";
+
+type MutationalFetchParams = string | RequestInit | (() => void);
 
 export function useMutationalFetch<T>(
+  baseUrlType: "backend" | "route",
   pathname?: string,
   options?: RequestInit,
   onSuccess?: (response?: Response) => void,
@@ -18,7 +21,7 @@ export function useMutationalFetch<T>(
     }
   };
 
-  const useFetchArguments: MutationalFetchParams[] = [];
+  const useFetchArguments: MutationalFetchParams[] = [baseUrlType];
 
   if (pathname) {
     useFetchArguments.push(pathname);
@@ -32,7 +35,7 @@ export function useMutationalFetch<T>(
   }
 
   return {
-    mutationalFetch: (useFetch<T>).bind(customThis, ...useFetchArguments),
+    mutationalFetch: (safeFetch<T>).bind(customThis, ...useFetchArguments),
     isLoading
   };
 }

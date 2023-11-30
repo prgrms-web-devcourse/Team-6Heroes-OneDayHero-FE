@@ -5,23 +5,11 @@ import { safePostAuthCodeFetch } from "@/services/auth";
 export async function POST(request: NextRequest) {
   const { code } = await request.json();
 
-  const { mutationalFetch } = safePostAuthCodeFetch();
-
-  const {
-    isError,
-    errorMessage,
-    response: tokenResponse
-  } = await mutationalFetch({
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ code })
-  });
+  const { isError, response: tokenResponse } =
+    await safePostAuthCodeFetch(code);
 
   if (isError || !tokenResponse) {
-    console.log(errorMessage);
-    return new NextResponse(null, {
+    return NextResponse.json(tokenResponse ?? {}, {
       status: tokenResponse?.status ?? 400
     });
   }
