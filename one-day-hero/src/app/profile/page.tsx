@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { calculateAge, parseGender } from "@/app/utils/formatProfile";
 import HeroScore from "@/components/common/HeroScore";
 import LinkButton from "@/components/common/LinkButton";
 import ProfileImage from "@/components/common/ProfileImage";
@@ -38,26 +37,26 @@ const ProfilePage = async () => {
   return (
     <>
       <div className="flex w-full">
-        <ProfileImage
-          src={image.path || ""}
-          alt="프로필 이미지"
-          width={150}
-          priority
-        />
-        <div className="flex grow flex-col justify-evenly text-base">
+        <div className="flex grow flex-col items-center justify-evenly gap-3 text-base">
+          <ProfileImage
+            src={image.path || ""}
+            alt="프로필 이미지"
+            width={150}
+            priority
+          />
           <h3
-            className={`font-semibold ${
+            className={`text-xl font-bold ${
               isHeroMode ? "text-sub" : "text-primary"
             }`}>
             {isHeroMode ? "히어로" : "시민"}
           </h3>
-          <h3 className="">{basicInfo.nickname}</h3>
-          <h3 className="">{`${calculateAge(basicInfo.birth)}세 / ${parseGender(
+          <h3 className="text-lg font-bold">{basicInfo.nickname}</h3>
+          {/* <h3 className="">{`${calculateAge(basicInfo.birth)}세 / ${parseGender(
             basicInfo.gender
-          )}`}</h3>
+          )}`}</h3> */}
         </div>
       </div>
-      <div className="mt-5 flex w-full items-center justify-between">
+      <div className="mt-8 flex w-full items-center justify-between">
         <div className="flex items-center">
           <h2 className="text-xl font-semibold">히어로 전환</h2>
           <HelpCircle className="cs:ml-2">
@@ -91,13 +90,15 @@ const ProfilePage = async () => {
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">희망 근무시간</h2>
-        <div className="rounded-lg border border-background-darken bg-white p-2">
-          {`${favoriteWorkingDay.favoriteStartTime} ~ ${favoriteWorkingDay.favoriteEndTime}`}
+        <div className="min-h-[2.625rem] rounded-lg border border-background-darken bg-white p-2">
+          {`${favoriteWorkingDay.favoriteStartTime || ""} ~ ${
+            favoriteWorkingDay.favoriteEndTime || ""
+          }`}
         </div>
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">선호 지역</h2>
-        <div className="rounded-lg border border-background-darken bg-white p-2">
+        <div className="min-h-[2.625rem] rounded-lg border border-background-darken bg-white p-2">
           {favoriteRegions?.map(({ id, si, gu, dong }) => (
             <p key={id}>{`${si} ${gu} ${dong}`}</p>
           ))}
