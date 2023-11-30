@@ -1,7 +1,7 @@
-import { getServerUserId } from "@/app/utils/auth";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Tabs from "@/components/common/Tabs";
+import { getServerUserId } from "@/utils/auth";
 
 type SendReviewLayoutProps = {
   params: { slug: string };
@@ -16,7 +16,7 @@ const SendReviewLayout = ({ params, children }: SendReviewLayoutProps) => {
       <Header>리뷰</Header>
       {myUserId === params.slug && (
         <>
-          <div className="fixed top-16 z-50 h-28 w-full max-w-screen-sm bg-background" />
+          <div className="bg-background fixed top-16 z-50 h-28 w-full max-w-screen-sm" />
           <div className="fixed z-50 flex w-full max-w-screen-sm justify-center">
             <Tabs
               leftRoute={{

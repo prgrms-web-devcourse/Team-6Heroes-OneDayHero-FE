@@ -8,16 +8,15 @@ import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
 import HelpCircle from "@/components/domain/profile/HelpCircle";
 import HeroSwitch from "@/components/domain/profile/HeroSwitch";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
-import { useGetUserFetch } from "@/services/users";
-
-import { getServerToken, getServerUserId } from "../utils/auth";
+import { safeGetUserFetch } from "@/services/users";
+import { getServerToken, getServerUserId } from "@/utils/auth";
 
 const ProfilePage = async () => {
   const token = getServerToken();
 
   if (!token) redirect("/login?redirect=");
 
-  const { isError, response } = await useGetUserFetch(token ?? "");
+  const { isError, response } = await safeGetUserFetch(token ?? "");
 
   if (isError || !response) return <ErrorPage />;
 
@@ -42,6 +41,7 @@ const ProfilePage = async () => {
             src={image.path || ""}
             alt="프로필 이미지"
             width={150}
+            height={150}
             priority
           />
           <h3
@@ -51,9 +51,6 @@ const ProfilePage = async () => {
             {isHeroMode ? "히어로" : "시민"}
           </h3>
           <h3 className="text-lg font-bold">{basicInfo.nickname}</h3>
-          {/* <h3 className="">{`${calculateAge(basicInfo.birth)}세 / ${parseGender(
-            basicInfo.gender
-          )}`}</h3> */}
         </div>
       </div>
       <div className="mt-8 flex w-full items-center justify-between">

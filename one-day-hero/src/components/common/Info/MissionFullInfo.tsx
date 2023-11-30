@@ -27,7 +27,7 @@ const MissionFullInfo = ({
     <div className={`${className}`} {...props}>
       <MissionListItem
         categories={missionCategory.name}
-        createAt={missionInfo.missionDate}
+        missionDate={missionInfo.missionDate}
         location={`${region.si} ${region.gu} ${region.dong}`}
         title={missionInfo.title}
         bookmarkCount={bookmarkCount}

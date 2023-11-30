@@ -1,16 +1,16 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
 import ChatRoomItem from "@/components/domain/chatting/ChatRoomItem";
-import { useGetChatRoomsFetch } from "@/services/chats";
+import { safeGetChatRoomsFetch } from "@/services/chats";
+import { getServerToken } from "@/utils/auth";
 
 const ChattingListPage = async () => {
   const token = getServerToken();
 
   if (!token) redirect("/login?redirect=");
 
-  const { isError, response } = await useGetChatRoomsFetch(token);
+  const { isError, response } = await safeGetChatRoomsFetch(token);
 
   if (isError || !response) return <ErrorPage />;
 

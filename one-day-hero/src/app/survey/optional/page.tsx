@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
 import OptionalSurvey from "@/components/domain/survey/OptionalSurvey";
-import { useGetUserFetch } from "@/services/users";
+import { safeGetUserFetch } from "@/services/users";
+import { getServerToken } from "@/utils/auth";
 
 const OptionalSurveyPage = async () => {
   const token = getServerToken();
@@ -12,7 +12,7 @@ const OptionalSurveyPage = async () => {
     redirect("/login?redirect=");
   }
 
-  const { isError, response } = await useGetUserFetch(token ?? "");
+  const { isError, response } = await safeGetUserFetch(token ?? "");
 
   if (isError || !response) return <ErrorPage />;
 

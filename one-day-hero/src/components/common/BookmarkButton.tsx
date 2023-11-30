@@ -1,15 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { BiSolidStar } from "react-icons/bi";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import {
   useDeleteBookmarkFetch,
   usePostBookmarkFetch
 } from "@/services/missions";
+import { getClientToken } from "@/utils/cookie";
 
 import IconGroup from "./IconGroup";
 
@@ -30,22 +30,21 @@ const BookmarkButton = ({
 }: BookmarkButtonProps) => {
   const token = getClientToken() ?? "";
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const [optimisticBookmarkState, setOptimisticBookmarkState] = useState({
     bookmarkCount,
     isBookmarked
   });
 
-  const { mutationalFetch: postBookmark } = usePostBookmarkFetch(
-    missionId,
-    token
-  );
-  const { mutationalFetch: deleteBookmark } = useDeleteBookmarkFetch(
-    missionId,
-    token
-  );
+  const { mutationalFetch: postBookmark, isLoading: postLoading } =
+    usePostBookmarkFetch(missionId, token);
+  const { mutationalFetch: deleteBookmark, isLoading: deleteLoading } =
+    useDeleteBookmarkFetch(missionId, token);
 
   const handleClick = async () => {
+    if (postLoading || deleteLoading || isPending) return;
+
     const currentBookmarkState = optimisticBookmarkState;
 
     setOptimisticBookmarkState({
@@ -62,7 +61,9 @@ const BookmarkButton = ({
       return;
     }
 
-    router.refresh();
+    startTransition(() => {
+      router.refresh();
+    });
   };
 
   const starColor = optimisticBookmarkState.isBookmarked

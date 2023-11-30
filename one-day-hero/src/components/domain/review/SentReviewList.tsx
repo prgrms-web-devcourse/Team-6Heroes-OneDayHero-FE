@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useRef } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import { useUserId } from "@/contexts/UserIdProvider";
 import { useGetSendReviewFetch } from "@/services/review";
+import { getClientToken } from "@/utils/cookie";
 
 import ReviewInfo from "./ReviewInfo";
 
@@ -40,7 +40,7 @@ const SentReviewList = () => {
               createdAt={createdAt}
               senderId={userId}
               senderNickname={senderNickname}
-              profileImage={profileImage[0]}
+              profileImage={profileImage?.[0]}
             />
           </Link>
         )

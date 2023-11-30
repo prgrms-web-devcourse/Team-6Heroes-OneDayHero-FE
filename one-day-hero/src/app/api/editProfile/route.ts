@@ -1,7 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
-import { safeCreateReviewFetch } from "@/services/review";
+import { safeEditProfileFetch } from "@/services/users";
 import { getServerToken } from "@/utils/auth";
 
 export async function POST(request: NextRequest) {
@@ -9,25 +9,19 @@ export async function POST(request: NextRequest) {
 
   const data = await request.formData();
 
-  const { isError, response: postResponse } = await safeCreateReviewFetch(
-    data,
-    token
-  );
+  const { isError, response } = await safeEditProfileFetch(data, token);
 
-  if (isError || !postResponse) {
-    return NextResponse.json(postResponse ?? {}, {
+  if (isError || !response) {
+    return NextResponse.json(response ?? {}, {
       status: 400
     });
   }
 
-  revalidateTag("reviews");
+  revalidateTag("user");
 
   return NextResponse.json(
     {
       status: 201,
-      data: {
-        id: postResponse.data.id
-      },
       serverDateTime: "2023-11-22T23:31:20"
     },
     { status: 201 }

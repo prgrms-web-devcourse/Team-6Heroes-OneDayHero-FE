@@ -5,13 +5,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
 import Select from "@/components/common/Select";
 import { useGetRegionsFetch } from "@/services/regions";
 import { useGetMissionSearchListFetch } from "@/services/search";
+import { getClientToken } from "@/utils/cookie";
 
 type dongProps = { id: number; dong: string };
 
@@ -121,9 +121,7 @@ const MissionSearchPage = () => {
 
   return (
     <>
-      <section
-        className="fixed z-50 mt-[4.5rem] 
-w-full max-w-screen-sm">
+      <section className="fixed z-50 mt-[4.5rem] w-full max-w-screen-sm">
         <div className="mx-4 mt-1 flex gap-2">
           <Select value="서울특별시">
             <option value="서울특별시" key={uuidv4()}>

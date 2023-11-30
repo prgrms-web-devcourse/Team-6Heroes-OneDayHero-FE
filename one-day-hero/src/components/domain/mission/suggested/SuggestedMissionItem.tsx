@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useTransition } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
@@ -18,6 +17,7 @@ import {
   useRejectProposalFetch
 } from "@/services/missions";
 import { MissionItemResponse } from "@/types/response";
+import { getClientToken } from "@/utils/cookie";
 
 type SuggestedMissionItemProps = {
   proposalId: number;
@@ -35,21 +35,20 @@ const SuggestedMissionItem = ({
   const { isOpen, onClose, onOpen } = useModal();
   const { showToast } = useToast();
   const router = useRouter();
+  const [isRejectPending, startRejectTranstion] = useTransition();
+  const [isApprovePending, startApproveTranstion] = useTransition();
 
-  const { mutationalFetch: rejectProposal } = useRejectProposalFetch(
-    proposalId,
-    token
-  );
-  const { mutationalFetch: approveProposal } = useApproveProposalFetch(
-    proposalId,
-    token
-  );
-  const { mutationalFetch: createChatRoom } = useCreateChatRoomFetch(
-    missionData.id,
-    userId,
-    missionData.citizenId,
-    token
-  );
+  const { mutationalFetch: rejectProposal, isLoading: isRejectLoading } =
+    useRejectProposalFetch(proposalId, token);
+  const { mutationalFetch: approveProposal, isLoading: isApproveLoading } =
+    useApproveProposalFetch(proposalId, token);
+  const { mutationalFetch: createChatRoom, isLoading: isCreateChatLoading } =
+    useCreateChatRoomFetch(
+      missionData.id,
+      userId,
+      missionData.citizenId,
+      token
+    );
 
   const handleRejectClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
@@ -76,7 +75,9 @@ const SuggestedMissionItem = ({
       return;
     }
 
-    router.push(`/chatting/${response.data.id}`);
+    startApproveTranstion(() => {
+      router.push(`/chatting/${response.data.id}`);
+    });
   };
 
   const handleConfirm = async () => {
@@ -90,7 +91,9 @@ const SuggestedMissionItem = ({
     showToast(`${missionData.missionInfo.title} 미션을 거절했아요`, "success");
     onClose();
 
-    router.refresh();
+    startRejectTranstion(() => {
+      router.refresh();
+    });
   };
 
   return (
@@ -120,7 +123,10 @@ const SuggestedMissionItem = ({
               size="sm"
               textSize="sm"
               className="cs:h-10"
-              onClick={handleChattingClick}>
+              onClick={handleChattingClick}
+              disabled={
+                isApproveLoading || isApprovePending || isCreateChatLoading
+              }>
               채팅하기
             </Button>
           </div>
@@ -143,7 +149,8 @@ const SuggestedMissionItem = ({
             theme="active"
             size="sm"
             className="cs:h-12 cs:w-4/12"
-            onClick={handleConfirm}>
+            onClick={handleConfirm}
+            disabled={isRejectLoading || isRejectPending}>
             확인
           </Button>
         </div>

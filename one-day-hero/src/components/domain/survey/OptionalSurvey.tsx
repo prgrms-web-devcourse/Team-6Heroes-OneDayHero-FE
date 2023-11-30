@@ -2,12 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import { PiWaveSineBold } from "react-icons/pi";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import DayList from "@/components/common/DayList";
 import HorizontalScroll from "@/components/common/HorizontalScroll";
@@ -16,6 +15,7 @@ import Label from "@/components/common/Label";
 import Select from "@/components/common/Select";
 import { useToast } from "@/contexts/ToastProvider";
 import { useGetRegionsFetch } from "@/services/regions";
+import { useEditProfileFetch } from "@/services/users";
 import { DateType } from "@/types";
 import {
   ProfileResponse,
@@ -25,6 +25,7 @@ import {
   OptionalSurveySchema,
   OptionalSurveySchemaProps
 } from "@/types/schema";
+import { getClientToken } from "@/utils/cookie";
 
 type dongProps = { id: number; dong: string };
 
@@ -42,6 +43,7 @@ const OptionalSurvey = (userData: ProfileResponse) => {
 
   const router = useRouter();
   const token = getClientToken();
+  const [isPending, startTransition] = useTransition();
 
   const {
     basicInfo,
@@ -159,6 +161,9 @@ const OptionalSurvey = (userData: ProfileResponse) => {
     setFavoriteDongId(Number(e.target.value));
   };
 
+  const { mutationalFetch: editProfileFetch, isLoading } =
+    useEditProfileFetch();
+
   const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = async (
     data: OptionalSurveySchemaProps
   ) => {
@@ -183,29 +188,22 @@ const OptionalSurvey = (userData: ProfileResponse) => {
       new Blob([jsonData], { type: "application/json" })
     );
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FE_URL}/api/createOptionalSurvey`,
-        {
-          method: "POST",
-          body: formData
-        }
+    const { isError, errorMessage, response } = await editProfileFetch({
+      method: "POST",
+      body: formData
+    });
+
+    if (isError || !response) {
+      showToast(
+        errorMessage ?? "프로필 수정 중 오류가 발생했어요. 다시 시도해주세요",
+        "error"
       );
-
-      if (!response.ok) {
-        const data = await response.json();
-
-        const errorCode = data?.code;
-        const errorMessage = data?.message;
-
-        showToast(errorMessage, "error");
-        return;
-      }
-
-      router.push("/");
-    } catch (err) {
-      console.error(err);
+      return;
     }
+
+    startTransition(() => {
+      router.push("/");
+    });
   };
 
   return (
@@ -319,10 +317,17 @@ const OptionalSurvey = (userData: ProfileResponse) => {
         <div className="h-56 w-full rounded-2xl" />
 
         <div className="mt-12 flex w-full">
-          <Button theme="cancel" type="submit" className="cs:m-2 cs:grow">
+          <Button
+            theme="cancel"
+            type="submit"
+            className="cs:m-2 cs:grow"
+            disabled={isLoading || isPending}>
             건너뛰기
           </Button>
-          <Button type="submit" className="cs:m-2 cs:grow">
+          <Button
+            type="submit"
+            className="cs:m-2 cs:grow"
+            disabled={isLoading || isPending}>
             다음
           </Button>
         </div>

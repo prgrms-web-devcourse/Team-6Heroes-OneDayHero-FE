@@ -8,8 +8,7 @@ import MapMissionList from "@/components/domain/map/MapMissionList";
 import useLocation from "@/hooks/useLocation";
 import { useGetMapMissionList } from "@/services/map";
 import { Coordinates, MapType } from "@/types";
-
-import { getClientToken } from "../utils/cookie";
+import { getClientToken } from "@/utils/cookie";
 
 const INITIAL_CENTER: Coordinates = [37.5262411, 126.99289439];
 const INITIAL_ZOOM = 10;
@@ -113,7 +112,7 @@ const MapPage = ({ searchParams }: MapPageProps) => {
       <div id="map" className="h-full w-full" />
       <button
         type="button"
-        className="shadow-down absolute left-1/2 top-2 z-30 flex h-8 w-24 -translate-x-1/2 cursor-pointer items-center justify-center gap-1 rounded-2xl bg-white text-center text-sm font-semibold"
+        className="absolute left-1/2 top-2 z-30 flex h-8 w-24 -translate-x-1/2 cursor-pointer items-center justify-center gap-1 rounded-2xl bg-white text-center text-sm font-semibold shadow-down"
         onClick={() => setOpenBottomSheet(true)}>
         <IoList size={18} className="inline-block" />
         <span className="inline-block">목록보기</span>

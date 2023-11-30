@@ -8,6 +8,7 @@ export const useGetMapMissionList = (
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<MapResponse>({
+    baseUrlType: "backend",
     pathname: `/missions/around`,
     size: 10,
     observerRef,

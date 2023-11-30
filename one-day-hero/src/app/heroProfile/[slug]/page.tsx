@@ -1,23 +1,21 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
-import { calculateAge, parseGender } from "@/app/utils/formatProfile";
 import HeroScore from "@/components/common/HeroScore";
 import LinkButton from "@/components/common/LinkButton";
 import ProfileImage from "@/components/common/ProfileImage";
 import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
 import HelpCircle from "@/components/domain/profile/HelpCircle";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
-import { useGetProfileFetch } from "@/services/users";
-
+import { safeGetProfileFetch } from "@/services/users";
+import { getServerToken } from "@/utils/auth";
 const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
   const heroId = parseInt(params.slug);
   const token = getServerToken();
 
   if (!token) redirect("/login?redirect=");
 
-  const { isError, response } = await useGetProfileFetch(heroId, true, token);
+  const { isError, response } = await safeGetProfileFetch(heroId, true, token);
 
   if (isError || !response) return <ErrorPage />;
 
@@ -28,18 +26,16 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
   return (
     <>
       <div className="flex w-full">
-        <ProfileImage
-          src={image.path || ""}
-          alt="프로필 이미지"
-          width={150}
-          priority
-        />
-        <div className="flex grow flex-col justify-evenly text-base">
-          <h3 className="font-semibold text-sub">히어로</h3>
-          <h3 className="">{basicInfo.nickname}</h3>
-          <h3 className="">{`${calculateAge(basicInfo.birth)}세 / ${parseGender(
-            basicInfo.gender
-          )}`}</h3>
+        <div className="flex grow flex-col items-center justify-evenly gap-3 text-base">
+          <ProfileImage
+            src={image.path || ""}
+            alt="프로필 이미지"
+            width={150}
+            height={150}
+            priority
+          />
+          <h3 className="text-xl font-bold text-sub-darken">히어로</h3>
+          <h3 className="text-lg font-bold">{basicInfo.nickname}</h3>
         </div>
       </div>
       <div className="w-full">

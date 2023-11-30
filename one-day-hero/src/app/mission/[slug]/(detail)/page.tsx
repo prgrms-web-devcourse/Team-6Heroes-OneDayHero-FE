@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { BiChevronRight, BiEdit, BiMap } from "react-icons/bi";
 
 import ErrorPage from "@/app/error";
-import { getServerToken, getServerUserId } from "@/app/utils/auth";
 import BookmarkButton from "@/components/common/BookmarkButton";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
@@ -14,7 +13,8 @@ import MissionInfo from "@/components/common/Info/MissionInfo";
 import TitleBox from "@/components/common/TitleBox";
 import ChattingButton from "@/components/domain/missionDetail/ChattingButton";
 import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
-import { useGetMissionFetch } from "@/services/missions";
+import { safeGetMissionFetch } from "@/services/missions";
+import { getServerToken, getServerUserId } from "@/utils/auth";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
   const missionId = params.slug;
@@ -22,7 +22,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
 
   if (!token) redirect("/login?redirect=");
 
-  const { isError, response } = await useGetMissionFetch(missionId, token);
+  const { isError, response } = await safeGetMissionFetch(missionId, token);
 
   if (isError || !response) return <ErrorPage />;
 

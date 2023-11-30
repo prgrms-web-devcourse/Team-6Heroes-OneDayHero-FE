@@ -3,11 +3,11 @@
 import { useRef } from "react";
 import { BsFillCircleFill } from "react-icons/bs";
 
-import { getClientToken } from "@/app/utils/cookie";
-import { formatDate } from "@/app/utils/formatDate";
-import { setLocalStorage } from "@/app/utils/storage";
 import Container from "@/components/common/Container";
 import { useGetNotificationFetch } from "@/services/notification";
+import { getClientToken } from "@/utils/cookie";
+import { formatDate } from "@/utils/formatDate";
+import { setLocalStorage } from "@/utils/storage";
 
 const NotificationItem = () => {
   const observerRef = useRef<HTMLDivElement | null>(null);

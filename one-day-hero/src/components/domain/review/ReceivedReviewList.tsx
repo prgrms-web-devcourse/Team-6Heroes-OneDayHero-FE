@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import { useUserId } from "@/contexts/UserIdProvider";
 import { useGetReceiveReviewFetch } from "@/services/review";
+import { getClientToken } from "@/utils/cookie";
 
 import ReviewInfo from "./ReviewInfo";
 
@@ -52,7 +52,7 @@ const ReceivedReviewList = ({ userId }: ReceivedReviewListProps) => {
               createdAt={createdAt}
               senderId={senderId ?? 0}
               senderNickname={senderNickname}
-              profileImage={profileImage[0]}
+              profileImage={profileImage?.[0]}
             />
           </Link>
         )

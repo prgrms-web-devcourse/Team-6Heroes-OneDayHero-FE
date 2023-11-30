@@ -2,10 +2,10 @@
 
 import { MutableRefObject, PropsWithChildren, useEffect } from "react";
 
-import { formatHour } from "@/app/utils/formatTime";
 import LinkButton from "@/components/common/LinkButton";
 import { useUserId } from "@/contexts/UserIdProvider";
 import { MessageProps } from "@/hooks/useChatting";
+import { formatHour } from "@/utils/formatTime";
 
 import Message from "./Message";
 

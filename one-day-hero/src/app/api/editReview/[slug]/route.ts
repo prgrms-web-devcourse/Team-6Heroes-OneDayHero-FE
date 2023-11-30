@@ -1,33 +1,25 @@
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
-import { getServerToken } from "@/app/utils/auth";
-import { useEditReviewFetch } from "@/services/review";
+import { safeEditReviewFetch } from "@/services/review";
+import { getServerToken } from "@/utils/auth";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
-  const token = getServerToken();
+  const token = getServerToken() ?? "";
+  const reviewId = parseInt(params.slug);
 
   const data = await request.formData();
 
-  const { mutationalFetch } = useEditReviewFetch(parseInt(params.slug));
-
-  const {
-    isError,
-    errorMessage,
-    response: postResponse
-  } = await mutationalFetch({
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-    body: data
-  });
+  const { isError, response: postResponse } = await safeEditReviewFetch(
+    reviewId,
+    data,
+    token
+  );
 
   if (isError || !postResponse) {
-    console.log(errorMessage);
     return NextResponse.json(postResponse ?? {}, {
       status: 400
     });

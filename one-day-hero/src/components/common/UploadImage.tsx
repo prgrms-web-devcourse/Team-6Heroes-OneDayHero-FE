@@ -12,11 +12,11 @@ import {
 import { BiCamera, BiX } from "react-icons/bi";
 import { v4 as uuidv4 } from "uuid";
 
-import { getClientToken } from "@/app/utils/cookie";
 import { useToast } from "@/contexts/ToastProvider";
 import { CustomResponse } from "@/services/base";
 import { ImageFileType } from "@/types";
 import { EmptyResponse, ReviewDetailResponse } from "@/types/response";
+import { getClientToken } from "@/utils/cookie";
 
 import HorizontalScroll from "./HorizontalScroll";
 
@@ -32,6 +32,7 @@ interface UploadImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     onSuccess?: (response?: Response) => void,
     onError?: () => void
   ) => Promise<CustomResponse<EmptyResponse>>;
+  pathname?: string;
 }
 
 const UploadImage = forwardRef(
@@ -43,6 +44,7 @@ const UploadImage = forwardRef(
       maxImageLength = 3,
       defaultImages,
       deleteImageFetch,
+      pathname,
       ...props
     }: PropsWithChildren<UploadImageProps>,
     ref
@@ -96,8 +98,8 @@ const UploadImage = forwardRef(
       e.stopPropagation();
 
       if (!deleteImageFetch) return;
-      /**@note await DELETE 요청 필요 */
-      const { isError } = await deleteImageFetch(`/me/profile-image/${id}`, {
+
+      const { isError } = await deleteImageFetch(`${pathname}/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
       });
