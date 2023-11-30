@@ -1,6 +1,7 @@
 import { MutableRefObject } from "react";
 
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
+import { useMutationalFetch } from "@/hooks/useMutationalFetch";
 import {
   BookmarkResponse,
   MatchResponse,
@@ -11,7 +12,7 @@ import {
   SuggestingMissionListResponse
 } from "@/types/response";
 
-import { CustomResponse, useFetch, useMutationalFetch } from "./base";
+import { CustomResponse, safeMutationalFetch, useFetch } from "./base";
 
 export const useGetMissionFetch = (missionId: string, token: string) => {
   return useFetch<MissionResponse>(`/missions/${missionId}`, {
@@ -20,8 +21,8 @@ export const useGetMissionFetch = (missionId: string, token: string) => {
   });
 };
 
-export const useCreateMissionFetch = () => {
-  return useMutationalFetch<MissionResponse>("/missions") as {
+export const safeCreateMissionFetch = () => {
+  return safeMutationalFetch<MissionResponse>("/missions") as {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,

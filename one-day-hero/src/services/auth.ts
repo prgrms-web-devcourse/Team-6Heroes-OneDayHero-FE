@@ -1,4 +1,4 @@
-import { CustomResponse, useMutationalFetch } from "./base";
+import { CustomResponse, safeMutationalFetch } from "./base";
 
 type AuthResponse = {
   status: number;
@@ -9,8 +9,8 @@ type AuthResponse = {
   serverDateTime: string;
 };
 
-export const usePostAuthCodeFetch = () => {
-  return useMutationalFetch<AuthResponse>("/auth/kakao/login") as {
+export const safePostAuthCodeFetch = () => {
+  return safeMutationalFetch<AuthResponse>("/auth/kakao/login") as {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,

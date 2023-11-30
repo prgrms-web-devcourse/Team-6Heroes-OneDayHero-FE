@@ -2,14 +2,14 @@ import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 import { getServerToken } from "@/app/utils/auth";
-import { useCreateReviewFetch } from "@/services/review";
+import { safeCreateReviewFetch } from "@/services/review";
 
 export async function POST(request: NextRequest) {
   const token = getServerToken();
 
   const data = await request.formData();
 
-  const { mutationalFetch } = useCreateReviewFetch();
+  const { mutationalFetch } = safeCreateReviewFetch();
 
   const {
     isError,

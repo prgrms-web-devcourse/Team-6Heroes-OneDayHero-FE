@@ -2,7 +2,7 @@ import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 import { getServerToken } from "@/app/utils/auth";
-import { useEditReviewFetch } from "@/services/review";
+import { safeEditReviewFetch } from "@/services/review";
 
 export async function POST(
   request: NextRequest,
@@ -12,7 +12,7 @@ export async function POST(
 
   const data = await request.formData();
 
-  const { mutationalFetch } = useEditReviewFetch(parseInt(params.slug));
+  const { mutationalFetch } = safeEditReviewFetch(parseInt(params.slug));
 
   const {
     isError,

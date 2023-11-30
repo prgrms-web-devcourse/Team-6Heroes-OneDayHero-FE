@@ -1,6 +1,7 @@
 import { MutableRefObject } from "react";
 
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
+import { useMutationalFetch } from "@/hooks/useMutationalFetch";
 
 import {
   CreateReviewResponse,
@@ -8,10 +9,10 @@ import {
   ReviewDetailResponse,
   ReviewListResponse
 } from "./../types/response";
-import { CustomResponse, useFetch, useMutationalFetch } from "./base";
+import { CustomResponse, safeMutationalFetch, useFetch } from "./base";
 
-export const useCreateReviewFetch = () => {
-  return useMutationalFetch<CreateReviewResponse>("/reviews") as {
+export const safeCreateReviewFetch = () => {
+  return safeMutationalFetch<CreateReviewResponse>("/reviews") as {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,
@@ -20,8 +21,8 @@ export const useCreateReviewFetch = () => {
   };
 };
 
-export const useEditReviewFetch = (reviewId: number) => {
-  return useMutationalFetch<CreateReviewResponse>(`/reviews/${reviewId}`) as {
+export const safeEditReviewFetch = (reviewId: number) => {
+  return safeMutationalFetch<CreateReviewResponse>(`/reviews/${reviewId}`) as {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,

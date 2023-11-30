@@ -2,14 +2,14 @@ import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 import { getServerToken } from "@/app/utils/auth";
-import { useEditProfileFetch } from "@/services/users";
+import { safeEditProfileFetch } from "@/services/users";
 
 export async function POST(request: NextRequest) {
   const token = getServerToken();
 
   const formData = await request.formData();
 
-  const { mutationalFetch } = useEditProfileFetch();
+  const { mutationalFetch } = safeEditProfileFetch();
 
   const { isError, response, errorMessage } = await mutationalFetch({
     method: "POST",

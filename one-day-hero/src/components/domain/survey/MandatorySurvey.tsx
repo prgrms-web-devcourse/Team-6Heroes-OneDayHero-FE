@@ -83,7 +83,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     if (imageData) {
       const imageBlob = new Blob([imageData[0].file], { type: "image/jpeg" });
 
-      formData.append("images", imageBlob, "image.jpeg");
+      formData.append("userImages", imageBlob, "image.jpeg");
     }
 
     try {

@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
+import { useMutationalFetch } from "@/hooks/useMutationalFetch";
 import { UserResponse } from "@/types/response";
 
-import { CustomResponse, useFetch, useMutationalFetch } from "./base";
+import { CustomResponse, safeMutationalFetch, useFetch } from "./base";
 
 export const useGetProfileFetch = (
   userId: number,
@@ -56,8 +57,8 @@ export const useChangeCitizenFetch = (
   );
 };
 
-export const useEditProfileFetch = () => {
-  return useMutationalFetch<UserResponse>("/me") as {
+export const safeEditProfileFetch = () => {
+  return safeMutationalFetch<UserResponse>("/me") as {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,

@@ -13,14 +13,18 @@ export type CustomResponse<T> = {
   response?: T;
 };
 
-export const useFetch = async <T>(
-  pathname: string,
+export async function useFetch<T>(
+  this: any,
+  pathname?: string,
   options?: RequestInit,
   onSuccess?: (response?: Response) => void,
   onError?: (err?: Error) => void
-): Promise<CustomResponse<T>> => {
+): Promise<CustomResponse<T>> {
+  const setIsLoading = this?.setIsLoading;
+
   try {
-    const response = await fetch(apiUrl(pathname), options);
+    setIsLoading?.(true);
+    const response = await fetch(apiUrl(pathname ?? "/"), options);
 
     const customResponse: CustomResponse<T> = {
       isError: false,
@@ -40,6 +44,7 @@ export const useFetch = async <T>(
     }
 
     onSuccess?.(response);
+    setIsLoading?.(false);
 
     return customResponse;
   } catch (err) {
@@ -49,19 +54,20 @@ export const useFetch = async <T>(
     };
 
     onError?.(err as Error);
+    setIsLoading?.(false);
 
     return errorResponse;
   }
-};
+}
 
-type MutationalFetchParams = string | RequestInit | (() => void);
+export type MutationalFetchParams = string | RequestInit | (() => void);
 
-export const useMutationalFetch = <T>(
+export function safeMutationalFetch<T>(
   pathname?: string,
   options?: RequestInit,
   onSuccess?: (response?: Response) => void,
   onError?: (err?: Error) => void
-) => {
+) {
   const useFetchArguments: MutationalFetchParams[] = [];
 
   if (pathname) {
@@ -78,7 +84,7 @@ export const useMutationalFetch = <T>(
   return {
     mutationalFetch: (useFetch<T>).bind(null, ...useFetchArguments)
   };
-};
+}
 
 export const passRevalidateTag = async (tag: string[]) => {
   try {

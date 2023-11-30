@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { usePostAuthCodeFetch } from "@/services/auth";
+import { safePostAuthCodeFetch } from "@/services/auth";
 
 export async function POST(request: NextRequest) {
   const { code } = await request.json();
 
-  const { mutationalFetch } = usePostAuthCodeFetch();
+  const { mutationalFetch } = safePostAuthCodeFetch();
 
   const {
     isError,

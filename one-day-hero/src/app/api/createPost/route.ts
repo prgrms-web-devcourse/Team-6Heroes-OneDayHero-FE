@@ -2,14 +2,14 @@ import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 import { getServerToken } from "@/app/utils/auth";
-import { useCreateMissionFetch } from "@/services/missions";
+import { safeCreateMissionFetch } from "@/services/missions";
 
 export async function POST(request: NextRequest) {
   const token = getServerToken();
 
   const data = await request.formData();
 
-  const { mutationalFetch } = useCreateMissionFetch();
+  const { mutationalFetch } = safeCreateMissionFetch();
 
   const {
     isError,

@@ -1,3 +1,4 @@
+import { useMutationalFetch } from "@/hooks/useMutationalFetch";
 import {
   ChatRecordResponse,
   ChatRoomsResponse,
@@ -5,7 +6,7 @@ import {
   MatchResponse
 } from "@/types/response";
 
-import { CustomResponse, useFetch, useMutationalFetch } from "./base";
+import { CustomResponse, useFetch } from "./base";
 
 export const useGetChatRoomsFetch = (token: string) => {
   return useFetch<ChatRoomsResponse>(`/chat-rooms/me`, {
