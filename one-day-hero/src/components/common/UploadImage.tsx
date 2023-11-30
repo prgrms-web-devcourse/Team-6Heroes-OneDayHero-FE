@@ -75,6 +75,8 @@ const UploadImage = forwardRef(
       lg: "w-52 h-52 absolute overflow-hidden text-3xl rounded-2xl"
     };
 
+    console.log("default image", defaultImages);
+
     const handleUpload = () => {
       if (size === "md" && imagesLength >= maxImageLength) {
         showToast(`최대 ${maxImageLength}개까지 선택 가능합니다.`, "error");
@@ -95,7 +97,7 @@ const UploadImage = forwardRef(
 
       if (!deleteImageFetch) return;
       /**@note await DELETE 요청 필요 */
-      const { isError } = await deleteImageFetch(`/review-images/${id}`, {
+      const { isError } = await deleteImageFetch(`/me/profile-image/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -157,10 +159,10 @@ const UploadImage = forwardRef(
                 <BiX
                   size={size === "lg" ? 30 : 20}
                   className="absolute right-[6px] top-[6px] z-10 text-black"
-                  onClick={handlePrevDelete(image.id)}
+                  onClick={handlePrevDelete(image.id || 0)}
                 />
                 <Image
-                  src={image.path}
+                  src={image.path || ""}
                   alt="올린 이미지"
                   fill
                   className="bg-cover"

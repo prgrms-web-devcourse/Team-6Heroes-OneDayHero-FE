@@ -9,6 +9,7 @@ import Button from "@/components/common/Button";
 import InputLabel from "@/components/common/InputLabel";
 import UploadImage from "@/components/common/UploadImage";
 import { useToast } from "@/contexts/ToastProvider";
+import { useDeleteProfileImageFetch } from "@/services/survey";
 import { ImageFileType } from "@/types";
 import {
   UserInfoForOptionalSurveyResponse,
@@ -20,7 +21,12 @@ import {
 } from "@/types/schema";
 
 const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
-  const { basicInfo, favoriteRegions, favoriteWorkingDay } = userData.data;
+  const { basicInfo, favoriteRegions, favoriteWorkingDay, image } =
+    userData.data;
+
+  const defaultImage = image.path === null ? [] : [image];
+
+  const { mutationalFetch: deleteImageFetch } = useDeleteProfileImageFetch();
 
   const router = useRouter();
   const { showToast } = useToast();
@@ -81,9 +87,9 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     );
 
     if (imageData) {
-      const imageBlob = new Blob([imageData[0].file], { type: "image/jpeg" });
+      const imageBlob = new Blob([imageData[0]?.file], { type: "image/jpeg" });
 
-      formData.append("images", imageBlob, "image.jpeg");
+      formData.append("userImages", imageBlob, "image.jpeg");
     }
 
     try {
@@ -132,6 +138,8 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
             {...register("image")}
             size="lg"
             onFileSelect={handleFileSelect}
+            defaultImages={defaultImage}
+            deleteImageFetch={deleteImageFetch}
           />
           {errors.image && (
             <p className="text-red-500">프로필 이미지를 업로드 해주세요.</p>
@@ -145,7 +153,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
           <input
             defaultValue={basicInfo.nickname}
             {...register("nickName")}
-            className="h-11 w-full rounded-[10px] border border-inactive p-4 pl-3 placeholder:text-inactive focus:outline-primary"
+            className="border-inactive placeholder:text-inactive focus:outline-primary h-11 w-full rounded-[10px] border p-4 pl-3"
           />
           {errors.nickName && (
             <p className="text-red-500">{`${errors.nickName.message}`}</p>
@@ -159,7 +167,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
           <textarea
             defaultValue={basicInfo.introduce}
             {...register("introduction")}
-            className="h-40 w-full max-w-screen-sm resize-none rounded-2xl border border-inactive p-4 focus:outline-primary"
+            className="border-inactive focus:outline-primary h-40 w-full max-w-screen-sm resize-none rounded-2xl border p-4"
           />
           {errors.introduction && (
             <p className="text-red-500">{`${errors.introduction.message}`}</p>

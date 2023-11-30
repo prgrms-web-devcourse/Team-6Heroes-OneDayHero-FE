@@ -230,6 +230,7 @@ export type UserResponse = {
       introduce: string;
     };
     image: {
+      id: number | null;
       originalName: string | null;
       uniqueName: string | null;
       path: string | null;
@@ -316,10 +317,10 @@ export type ReviewDetailResponse = {
     content: string;
     starScore: 1 | 2 | 3 | 4 | 5;
     reviewImageResponses: {
-      id: number;
-      originalName: string;
-      uniqueName: string;
-      path: string;
+      id: number | null;
+      originalName: string | null;
+      uniqueName: string | null;
+      path: string | null;
     }[];
     createdAt: string;
   };
