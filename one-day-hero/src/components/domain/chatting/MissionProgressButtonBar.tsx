@@ -100,7 +100,7 @@ const MissionProgressButtonBar = ({
   return (
     <>
       <div className={`${defaultStyle} ${className}`} {...props}>
-        <button className={` ${progressStyle["active"]} ${buttonDefaultStyle}`}>
+        <button className={`${progressStyle["active"]} ${buttonDefaultStyle}`}>
           매칭중
         </button>
         <span className="h-0 w-2/12 border border-black " />

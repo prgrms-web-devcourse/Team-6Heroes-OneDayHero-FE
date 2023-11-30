@@ -116,7 +116,7 @@ const CreateForm = () => {
 
         const createdMissionId = (await response.json()).data.id;
 
-        router.push(`/mission/${createdMissionId}`);
+        router.replace(`/mission/${createdMissionId}`);
       } catch (err) {
         showToast("생성 중 오류가 발생했습니다. 다시 시도해주세요", "error");
       }

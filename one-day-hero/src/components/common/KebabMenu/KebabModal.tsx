@@ -17,7 +17,15 @@ type KebabModalProps = {
 };
 
 const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
-  const { apiPath, method, name, requiredData, description, redirectTo } =
+  const {
+    apiPath,
+    method,
+    name,
+    requiredData,
+    description,
+    redirectTo,
+    refresh
+  } =
     menuData || ({ apiPath: "", method: "GET", name: "" } as KebabMenuDataType);
 
   const token = getClientToken();
@@ -31,7 +39,7 @@ const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
     method: method,
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application-json"
+      "Content-Type": "application/json"
     },
     body: requestBody ? JSON.stringify(requestBody) : undefined
   });
@@ -48,6 +56,8 @@ const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
     }
 
     showToast(`${name}에 성공했습니다.`, "success");
+
+    refresh && router.refresh();
     redirectTo && router.push(redirectTo);
   };
 

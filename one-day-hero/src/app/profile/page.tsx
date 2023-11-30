@@ -1,12 +1,10 @@
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
-import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 import ErrorPage from "@/app/error";
 import { calculateAge, parseGender } from "@/app/utils/formatProfile";
 import HeroScore from "@/components/common/HeroScore";
-import Label from "@/components/common/Label";
 import LinkButton from "@/components/common/LinkButton";
+import ProfileImage from "@/components/common/ProfileImage";
 import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
 import HelpCircle from "@/components/domain/profile/HelpCircle";
 import HeroSwitch from "@/components/domain/profile/HeroSwitch";
@@ -40,11 +38,10 @@ const ProfilePage = async () => {
   return (
     <>
       <div className="flex w-full">
-        <Image
-          src={image.path || DefaultThumbnail}
-          alt="썸네일"
+        <ProfileImage
+          src={image.path || ""}
+          alt="프로필 이미지"
           width={150}
-          className="pointer-events-none mr-3 rounded-full bg-neutral-200"
           priority
         />
         <div className="flex grow flex-col justify-evenly text-base">
@@ -109,11 +106,6 @@ const ProfilePage = async () => {
       <div className="mb-12 w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">소개</h2>
         <div className="rounded-lg border border-background-darken bg-white p-2">
-          {/* <div className="mb-2 flex gap-2">
-            <Label size="lg">카페</Label>
-            <Label size="lg">식당</Label>
-            <Label size="lg">청소</Label>
-          </div> */}
           <p>{basicInfo.introduce}</p>
         </div>
       </div>
