@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
-import { getServerToken } from "@/app/utils/auth";
 import RecordMissionList from "@/components/domain/mission/record/RecordMissionList";
+import { getServerToken } from "@/utils/auth";
 
 const MissionRecordPage = () => {
   const token = getServerToken();

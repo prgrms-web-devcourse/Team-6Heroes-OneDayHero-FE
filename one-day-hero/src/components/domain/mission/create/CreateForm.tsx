@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 
-import { formatTime } from "@/app/utils/formatTime";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
 import Input from "@/components/common/Input";
@@ -16,6 +15,7 @@ import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
 import { useCreateMissionFetch } from "@/services/missions";
 import { ImageFileType, LocationType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
+import { formatTime } from "@/utils/formatTime";
 
 import CustomCalendar from "./CustomCalendar";
 import PostCode from "./PostCode";
@@ -145,7 +145,7 @@ const CreateForm = () => {
         </div>
         <div>
           <InputLabel>
-            사진 <span className="text-xs text-inactive">(최대 3개)</span>
+            사진 <span className="text-inactive text-xs">(최대 3개)</span>
           </InputLabel>
           <UploadImage onFileSelect={handleFileSelect} />
         </div>

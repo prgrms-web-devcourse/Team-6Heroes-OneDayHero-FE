@@ -7,7 +7,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import { PiWaveSineBold } from "react-icons/pi";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import DayList from "@/components/common/DayList";
 import HorizontalScroll from "@/components/common/HorizontalScroll";
@@ -26,6 +25,7 @@ import {
   OptionalSurveySchema,
   OptionalSurveySchemaProps
 } from "@/types/schema";
+import { getClientToken } from "@/utils/cookie";
 
 type dongProps = { id: number; dong: string };
 

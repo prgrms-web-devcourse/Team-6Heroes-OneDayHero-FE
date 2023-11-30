@@ -9,9 +9,9 @@ import {
   useEffect
 } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
-import { getLocalStorage, setLocalStorage } from "@/app/utils/storage";
 import { apiUrl } from "@/services/base";
+import { getClientToken } from "@/utils/cookie";
+import { getLocalStorage, setLocalStorage } from "@/utils/storage";
 
 import { useToast } from "./ToastProvider";
 

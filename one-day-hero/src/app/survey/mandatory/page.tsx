@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
 import MandatorySurvey from "@/components/domain/survey/MandatorySurvey";
 import { useGetUserFetch } from "@/services/users";
+import { getServerToken } from "@/utils/auth";
 
 const MandatorySurveyPage = async () => {
   const token = getServerToken();

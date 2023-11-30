@@ -2,12 +2,12 @@
 
 import { useRouter } from "next/navigation";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
 import { useToast } from "@/contexts/ToastProvider";
 import useModal from "@/hooks/useModal";
 import { useChangeCitizenFetch, useChangeHeroFetch } from "@/services/users";
+import { getClientToken } from "@/utils/cookie";
 
 type HeroSwitchProps = {
   isHeroMode: boolean;
@@ -46,8 +46,8 @@ const HeroSwitch = ({ isHeroMode }: HeroSwitchProps) => {
         <div
           className={`absolute top-[0.125rem] h-7 w-7 rounded-full ${
             isHeroMode
-              ? "right-[0.125rem] bg-sub-darken hover:bg-sub"
-              : "left-[0.125rem] bg-primary-darken hover:bg-primary"
+              ? "bg-sub-darken hover:bg-sub right-[0.125rem]"
+              : "bg-primary-darken hover:bg-primary left-[0.125rem]"
           }`}
         />
       </div>

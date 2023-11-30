@@ -1,14 +1,14 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
-import { calculateAge, parseGender } from "@/app/utils/formatProfile";
 import HeroScore from "@/components/common/HeroScore";
 import LinkButton from "@/components/common/LinkButton";
 import ProfileImage from "@/components/common/ProfileImage";
 import HelpCircle from "@/components/domain/profile/HelpCircle";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetProfileFetch } from "@/services/users";
+import { getServerToken } from "@/utils/auth";
+import { calculateAge, parseGender } from "@/utils/formatProfile";
 
 const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
   const citizenId = parseInt(params.slug);
@@ -38,7 +38,7 @@ const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
           priority
         />
         <div className="flex grow flex-col justify-evenly text-base">
-          <h3 className="font-semibold text-primary-darken">시민</h3>
+          <h3 className="text-primary-darken font-semibold">시민</h3>
           <h3 className="">{basicInfo.nickname}</h3>
           <h3 className="">{`${calculateAge(basicInfo.birth)}세 / ${parseGender(
             basicInfo.gender

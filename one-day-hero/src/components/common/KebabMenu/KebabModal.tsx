@@ -3,10 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import { useToast } from "@/contexts/ToastProvider";
 import { useMutationalFetch } from "@/hooks/useMutationalFetch";
 import { KebabMenuDataType } from "@/types";
+import { getClientToken } from "@/utils/cookie";
 
 import Button from "../Button";
 import Modal from "../Modal";

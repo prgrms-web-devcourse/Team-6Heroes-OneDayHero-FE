@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { BiSolidStar } from "react-icons/bi";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import {
   useDeleteBookmarkFetch,
   usePostBookmarkFetch
 } from "@/services/missions";
+import { getClientToken } from "@/utils/cookie";
 
 import IconGroup from "./IconGroup";
 

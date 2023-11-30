@@ -4,10 +4,10 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { MouseEventHandler } from "react";
 
-import { formatDate } from "@/app/utils/formatDate";
 import Container from "@/components/common/Container";
 import Label from "@/components/common/Label";
 import ProfileImage from "@/components/common/ProfileImage";
+import { formatDate } from "@/utils/formatDate";
 
 import ReadStarRating from "./ReadStarRating";
 
@@ -51,7 +51,7 @@ const ReviewInfo = ({
     <Container className="cs:flex cs:w-full cs:flex-col cs:gap-5 cs:p-4">
       <div className="flex gap-3">
         <div
-          className="relative h-[60px] w-[60px] rounded-full bg-inactive"
+          className="bg-inactive relative h-[60px] w-[60px] rounded-full"
           onClick={handleProfileClick}>
           <ProfileImage
             src={profileImage || ""}
@@ -60,12 +60,12 @@ const ReviewInfo = ({
           />
         </div>
         <div className="flex grow flex-col gap-[3px]">
-          <Label size="sm" className="whitespace-nowrap cs:w-[67px]">
+          <Label size="sm" className="cs:w-[67px] whitespace-nowrap">
             {categoryName}
           </Label>
           <div className="flex gap-2">
             <ReadStarRating value={starScore} />
-            <span className="text-xs text-inactive" suppressHydrationWarning>
+            <span className="text-inactive text-xs" suppressHydrationWarning>
               {formatDate(createdAt)}
             </span>
           </div>

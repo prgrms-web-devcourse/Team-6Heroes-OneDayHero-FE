@@ -1,8 +1,8 @@
-import { getServerToken, getServerUserId } from "@/app/utils/auth";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import KebabMenu from "@/components/common/KebabMenu";
 import { useGetReviewDetailFetch } from "@/services/review";
+import { getServerToken, getServerUserId } from "@/utils/auth";
 
 type ReviewDetailLayoutProps = {
   params: { slug: string };
