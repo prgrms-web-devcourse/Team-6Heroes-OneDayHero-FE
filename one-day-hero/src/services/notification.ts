@@ -13,7 +13,7 @@ export const useGetNotificationFetch = (
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
-      next: { tags: [`alarms`] }
+      next: { revalidate: 10 }
     }
   });
 };

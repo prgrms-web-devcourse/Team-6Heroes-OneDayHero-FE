@@ -155,7 +155,7 @@ const OptionalSurvey = (userData: ProfileResponse) => {
     setFavoriteDongId(Number(e.target.value));
   };
 
-  const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = (
+  const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = async (
     data: OptionalSurveySchemaProps
   ) => {
     const { favoriteWorkingDay, favoriteRegions } = data;
@@ -179,12 +179,29 @@ const OptionalSurvey = (userData: ProfileResponse) => {
       new Blob([jsonData], { type: "application/json" })
     );
 
-    fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/createOptionalSurvey`, {
-      method: "POST",
-      body: formData
-    }).then(() => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_FE_URL}/api/createOptionalSurvey`,
+        {
+          method: "POST",
+          body: formData
+        }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+
+        const errorCode = data?.code;
+        const errorMessage = data?.message;
+
+        showToast(errorMessage, "error");
+        return;
+      }
+
       router.push("/");
-    });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

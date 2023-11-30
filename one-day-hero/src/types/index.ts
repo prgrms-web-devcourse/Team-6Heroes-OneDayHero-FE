@@ -5,6 +5,7 @@ export type KebabMenuDataType = {
   requiredData?: { name: string; default?: any; options?: any[] }[];
   description?: string;
   redirectTo?: string;
+  refresh?: boolean;
 };
 
 export type ImageFileType = {

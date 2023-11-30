@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   if (isError || !tokenResponse) {
     console.log(errorMessage);
     return new NextResponse(null, {
-      status: 400
+      status: tokenResponse?.status ?? 400
     });
   }
 

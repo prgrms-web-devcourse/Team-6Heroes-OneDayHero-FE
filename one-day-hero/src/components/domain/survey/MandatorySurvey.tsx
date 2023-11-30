@@ -8,6 +8,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "@/components/common/Button";
 import InputLabel from "@/components/common/InputLabel";
 import UploadImage from "@/components/common/UploadImage";
+import { useToast } from "@/contexts/ToastProvider";
 import { ImageFileType } from "@/types";
 import {
   UserInfoForOptionalSurveyResponse,
@@ -22,6 +23,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   const { basicInfo, favoriteRegions, favoriteWorkingDay } = userData.data;
 
   const router = useRouter();
+  const { showToast } = useToast();
 
   const {
     register,
@@ -84,12 +86,29 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       formData.append("images", imageBlob, "image.jpeg");
     }
 
-    fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/createMandatorySurvey`, {
-      method: "POST",
-      body: formData
-    }).then(() => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_FE_URL}/api/createMandatorySurvey`,
+        {
+          method: "POST",
+          body: formData
+        }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+
+        const errorCode = data?.code;
+        const errorMessage = data?.message;
+
+        showToast(errorMessage, "error");
+        return;
+      }
+
       router.push("/survey/optional");
-    });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleFileSelect = useCallback(
@@ -126,7 +145,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
           <input
             defaultValue={basicInfo.nickname}
             {...register("nickName")}
-            className="border-inactive placeholder:text-inactive focus:outline-primary h-11 w-full rounded-[10px] border p-4 pl-3"
+            className="h-11 w-full rounded-[10px] border border-inactive p-4 pl-3 placeholder:text-inactive focus:outline-primary"
           />
           {errors.nickName && (
             <p className="text-red-500">{`${errors.nickName.message}`}</p>
@@ -140,7 +159,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
           <textarea
             defaultValue={basicInfo.introduce}
             {...register("introduction")}
-            className="border-inactive focus:outline-primary h-40 w-full max-w-screen-sm resize-none rounded-2xl border p-4"
+            className="h-40 w-full max-w-screen-sm resize-none rounded-2xl border border-inactive p-4 focus:outline-primary"
           />
           {errors.introduction && (
             <p className="text-red-500">{`${errors.introduction.message}`}</p>

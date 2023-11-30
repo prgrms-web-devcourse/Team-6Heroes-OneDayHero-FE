@@ -106,11 +106,11 @@ export const useGetSuggestedMissionListFetch = (
 ) => {
   return useInfiniteFetch<SuggestedMissionListResponse>({
     pathname: `/mission-proposals`,
-    size: 4,
+    size: 10,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
-      next: { tags: [`suggested`] }
+      next: { revalidate: 0 }
     }
   });
 };
@@ -121,7 +121,7 @@ export const useGetProgressMissionListFetch = (
 ) => {
   return useInfiniteFetch<ProgressMissionListResponse>({
     pathname: `/missions/progress`,
-    size: 4,
+    size: 10,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
@@ -140,7 +140,7 @@ export const useGetCompleteMissionListFetch = (
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
-      next: { tags: [`complete`] }
+      next: { revalidate: 0 }
     }
   });
 };

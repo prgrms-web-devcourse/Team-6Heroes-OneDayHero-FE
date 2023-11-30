@@ -39,7 +39,8 @@ const ChattingLayout = async ({ params, children }: LayoutProps) => {
     description: "매칭을 취소합니다.",
     apiPath: "/mission-matches/cancel",
     method: "PUT",
-    requiredData: [{ name: "missionId", default: thisRoomData?.missionId }]
+    requiredData: [{ name: "missionId", default: thisRoomData?.missionId }],
+    refresh: true
   };
 
   return (

@@ -1,15 +1,14 @@
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
 import HeroScore from "@/components/common/HeroScore";
 import LinkButton from "@/components/common/LinkButton";
+import ProfileImage from "@/components/common/ProfileImage";
 import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
 import HelpCircle from "@/components/domain/profile/HelpCircle";
 import HeroSwitch from "@/components/domain/profile/HeroSwitch";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetUserFetch } from "@/services/users";
-import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 
 import { getServerToken, getServerUserId } from "../utils/auth";
 
@@ -39,11 +38,10 @@ const ProfilePage = async () => {
     <>
       <div className="flex w-full">
         <div className="flex grow flex-col items-center justify-evenly gap-3 text-base">
-          <Image
-            src={image.path || DefaultThumbnail}
-            alt="썸네일"
+          <ProfileImage
+            src={image.path || ""}
+            alt="프로필 이미지"
             width={150}
-            className="pointer-events-none mr-3 rounded-full bg-neutral-200"
             priority
           />
           <h3
@@ -92,7 +90,7 @@ const ProfilePage = async () => {
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">희망 근무시간</h2>
-        <div className="border-background-darken min-h-[2.625rem] rounded-lg border bg-white p-2">
+        <div className="min-h-[2.625rem] rounded-lg border border-background-darken bg-white p-2">
           {`${favoriteWorkingDay.favoriteStartTime || ""} ~ ${
             favoriteWorkingDay.favoriteEndTime || ""
           }`}
@@ -100,7 +98,7 @@ const ProfilePage = async () => {
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">선호 지역</h2>
-        <div className="border-background-darken min-h-[2.625rem] rounded-lg border bg-white p-2">
+        <div className="min-h-[2.625rem] rounded-lg border border-background-darken bg-white p-2">
           {favoriteRegions?.map(({ id, si, gu, dong }) => (
             <p key={id}>{`${si} ${gu} ${dong}`}</p>
           ))}
@@ -108,12 +106,7 @@ const ProfilePage = async () => {
       </div>
       <div className="mb-12 w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">소개</h2>
-        <div className="border-background-darken rounded-lg border bg-white p-2">
-          {/* <div className="mb-2 flex gap-2">
-            <Label size="lg">카페</Label>
-            <Label size="lg">식당</Label>
-            <Label size="lg">청소</Label>
-          </div> */}
+        <div className="rounded-lg border border-background-darken bg-white p-2">
           <p>{basicInfo.introduce}</p>
         </div>
       </div>
