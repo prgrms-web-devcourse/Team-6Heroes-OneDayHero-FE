@@ -1,4 +1,3 @@
-import { revalidateTag } from "next/cache";
 import { MutableRefObject } from "react";
 
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
@@ -35,7 +34,8 @@ export const useGetReviewDetailFetch = (reviewId: number, token: string) => {
   return useFetch<ReviewDetailResponse>(`/reviews/${reviewId}`, {
     headers: {
       Authorization: `Bearer ${token}`
-    }
+    },
+    next: { tags: [`review${reviewId}`] }
   });
 };
 
@@ -45,27 +45,24 @@ export const useGetSendReviewFetch = (
 ) => {
   return useInfiniteFetch<ReviewListResponse>({
     pathname: `/me/reviews/send`,
-    size: 5,
+    size: 10,
     options: {
       headers: {
         Authorization: `Bearer ${token}`
-      }
+      },
+      next: { tags: ["reviews"] }
     },
     observerRef
   });
 };
 
 export const useDeleteSendReviewFetch = (reviewId: number) => {
-  return useMutationalFetch<ReviewDeleteResponse>(
-    `/reviews/${reviewId}`,
-    {
-      method: "DELETE",
-      body: JSON.stringify({
-        reviewId
-      })
-    },
-    () => revalidateTag("sendReview")
-  );
+  return useMutationalFetch<ReviewDeleteResponse>(`/reviews/${reviewId}`, {
+    method: "DELETE",
+    body: JSON.stringify({
+      reviewId
+    })
+  });
 };
 
 export const useGetReceiveReviewFetch = (
@@ -75,11 +72,12 @@ export const useGetReceiveReviewFetch = (
 ) => {
   return useInfiniteFetch<ReviewListResponse>({
     pathname: `/reviews/users/${userId}/receive`,
-    size: 5,
+    size: 10,
     options: {
       headers: {
         Authorization: `Bearer ${token}`
-      }
+      },
+      next: { revalidate: 0 }
     },
     observerRef
   });
