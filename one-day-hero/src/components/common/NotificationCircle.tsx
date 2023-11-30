@@ -1,9 +1,9 @@
 "use client";
 
-import { useNotification } from "@/contexts/NotificationProvider";
+import { getLocalStorage } from "@/app/utils/storage";
 
 const NotificationCircle = () => {
-  const alarmStatus = useNotification();
+  const alarmStatus = getLocalStorage("sse");
 
   return (
     <>
