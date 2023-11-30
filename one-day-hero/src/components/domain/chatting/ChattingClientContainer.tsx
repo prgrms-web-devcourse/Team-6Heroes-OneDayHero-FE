@@ -38,7 +38,7 @@ const ChattingClientContainer = ({
 
   return (
     <>
-      <div className="z-60 fixed top-[7.5rem] flex w-full max-w-screen-sm justify-center">
+      <div className="fixed top-[7.5rem] z-[60] flex w-full max-w-screen-sm justify-center">
         <Container className="cs:flex cs:w-11/12 cs:items-center">
           {isCitizen ? (
             <MissionProgressButtonBar
