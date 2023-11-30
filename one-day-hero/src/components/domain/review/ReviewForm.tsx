@@ -126,7 +126,7 @@ const ReviewForm = ({
       method: "POST",
       body: formData
     });
-    console.log(isError, errorMessage, response);
+
     if (isError || !response) {
       showToast(
         errorMessage ??

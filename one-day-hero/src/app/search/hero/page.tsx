@@ -10,10 +10,12 @@ import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import HeroScore from "@/components/common/HeroScore";
+import { useUserId } from "@/contexts/UserIdProvider";
 import { useGetHeroNicknameDetailListFetch } from "@/services/search";
 import { getClientToken } from "@/utils/cookie";
 
 const HeroSearchPage = () => {
+  const { userId } = useUserId();
   const [inputValue, setInputValue] = useState<string | null>(null);
 
   const token = getClientToken();
@@ -53,7 +55,7 @@ const HeroSearchPage = () => {
       <div
         className="fixed z-50 mt-[4.5rem] 
 w-full max-w-screen-sm">
-        <section className="border-background-darken flex justify-center border-b px-4 pb-6">
+        <section className="flex justify-center border-b border-background-darken px-4 pb-6">
           <input
             className={InputDefaultStyle}
             onChange={(e) => {
@@ -63,7 +65,7 @@ w-full max-w-screen-sm">
           />
           <Button
             theme="primary"
-            className="cs:ml-2 cs:h-11 cs:w-11 cs:rounded-xl cs:border-inactive cs:px-3 border-2">
+            className="border-2 cs:ml-2 cs:h-11 cs:w-11 cs:rounded-xl cs:border-inactive cs:px-3">
             <FaSearch className="text-black" />
           </Button>
         </section>
@@ -72,13 +74,17 @@ w-full max-w-screen-sm">
       <section className="mt-40 flex w-full max-w-screen-sm flex-col items-center justify-center gap-y-4">
         {data.length !== 0 ? (
           data.map(({ nickname, id, heroScore, image }) => (
-            <Link href={`/heroProfile/${id}`} key={uuidv4()} className="w-full">
+            <Link
+              href={userId !== id ? `/heroProfile/${id}` : "/profile"}
+              key={uuidv4()}
+              className="w-full">
               <Container className="cs:mx-auto">
                 <div className="mt-2 flex pr-2">
                   <Image
                     src={image.path ?? DefaultThumbnail}
                     alt="프로필 이미지"
                     width={60}
+                    height={60}
                     className="pointer-events-none mr-2 rounded-full"
                   />
                   <div className="grow">
