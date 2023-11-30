@@ -10,7 +10,7 @@ type MissionListItemProps = {
   imageSrc?: string;
   title: string;
   categories: string;
-  createAt: string;
+  createAt?: string;
   location: string;
   bookmarkCount?: number;
   className?: string;

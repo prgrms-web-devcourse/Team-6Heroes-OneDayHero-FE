@@ -602,6 +602,9 @@ export type HomeResponse = {
         name: string;
       };
       missionDate: string;
+      startTime: string;
+      endTime: string;
+      price: number;
       bookmarkCount: number;
       missionStatus: string;
       imagePath: string;

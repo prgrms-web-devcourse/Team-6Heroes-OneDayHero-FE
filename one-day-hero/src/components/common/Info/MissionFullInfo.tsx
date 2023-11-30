@@ -7,7 +7,7 @@ import MissionListItem from "./MissionListItem";
 
 interface MissionFullInfoProps extends React.ComponentProps<"div"> {
   bookmarkCount: number;
-  createdAt: string;
+  createdAt?: string;
   region: MissionItemResponse["region"];
   missionCategory: MissionItemResponse["missionCategory"];
   missionInfo: MissionItemResponse["missionInfo"];
