@@ -92,7 +92,7 @@ const ProfilePage = async () => {
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">희망 근무시간</h2>
-        <div className="border-background-darken rounded-lg border bg-white p-2">
+        <div className="border-background-darken min-h-[2.625rem] rounded-lg border bg-white p-2">
           {`${favoriteWorkingDay.favoriteStartTime || ""} ~ ${
             favoriteWorkingDay.favoriteEndTime || ""
           }`}
