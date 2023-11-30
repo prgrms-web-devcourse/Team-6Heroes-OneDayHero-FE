@@ -19,6 +19,7 @@ type ChattingClientContainerProps = {
   myImagePath: string;
   receiverId: number;
   receiverImagePath: string;
+  headCount: number;
 };
 
 const ChattingClientContainer = ({
@@ -27,6 +28,7 @@ const ChattingClientContainer = ({
   myImagePath,
   receiverId,
   receiverImagePath,
+  headCount,
   children
 }: PropsWithChildren<ChattingClientContainerProps>) => {
   const { userId } = useUserId();
@@ -65,7 +67,8 @@ const ChattingClientContainer = ({
         myImagePath={myImagePath}
         receiverImagePath={receiverImagePath}
         missionStatus={missionData.missionStatus}
-        missionId={missionData.id}>
+        missionId={missionData.id}
+        headCount={headCount}>
         {children}
       </MessageContainer>
 
