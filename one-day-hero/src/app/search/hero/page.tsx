@@ -7,11 +7,11 @@ import { FaSearch } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import HeroScore from "@/components/common/HeroScore";
 import { useGetHeroNicknameDetailListFetch } from "@/services/search";
+import { getClientToken } from "@/utils/cookie";
 
 const HeroSearchPage = () => {
   const [inputValue, setInputValue] = useState<string | null>(null);
@@ -53,7 +53,7 @@ const HeroSearchPage = () => {
       <div
         className="fixed z-50 mt-[4.5rem] 
 w-full max-w-screen-sm">
-        <section className="flex justify-center border-b border-background-darken px-4 pb-6">
+        <section className="border-background-darken flex justify-center border-b px-4 pb-6">
           <input
             className={InputDefaultStyle}
             onChange={(e) => {
@@ -63,7 +63,7 @@ w-full max-w-screen-sm">
           />
           <Button
             theme="primary"
-            className="border-2 cs:ml-2 cs:h-11 cs:w-11 cs:rounded-xl cs:border-inactive cs:px-3">
+            className="cs:ml-2 cs:h-11 cs:w-11 cs:rounded-xl cs:border-inactive cs:px-3 border-2">
             <FaSearch className="text-black" />
           </Button>
         </section>

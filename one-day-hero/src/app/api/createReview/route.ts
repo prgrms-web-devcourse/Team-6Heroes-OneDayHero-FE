@@ -1,8 +1,8 @@
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
-import { getServerToken } from "@/app/utils/auth";
 import { useCreateReviewFetch } from "@/services/review";
+import { getServerToken } from "@/utils/auth";
 
 export async function POST(request: NextRequest) {
   const token = getServerToken();

@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
 import SuggestionForm from "@/components/domain/mission/suggest/SuggestionForm";
 import { useGetProfileFetch } from "@/services/users";
+import { getServerToken } from "@/utils/auth";
 
 const MissionSuggestPage = async ({ params }: { params: { slug: string } }) => {
   const heroId = parseInt(params.slug);

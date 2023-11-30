@@ -308,6 +308,7 @@ export type ReviewDetailResponse = {
     id: number;
     senderId: number;
     senderNickname: string;
+    senderProfileImage: [string];
     receiverId: number;
     receiverNickname: string;
     categoryId: number;
@@ -608,6 +609,9 @@ export type HomeResponse = {
         name: string;
       };
       missionDate: string;
+      startTime: string;
+      endTime: string;
+      price: number;
       bookmarkCount: number;
       missionStatus: string;
       imagePath: string;

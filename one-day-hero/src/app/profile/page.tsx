@@ -10,7 +10,7 @@ import HeroSwitch from "@/components/domain/profile/HeroSwitch";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetUserFetch } from "@/services/users";
 
-import { getServerToken, getServerUserId } from "../utils/auth";
+import { getServerToken, getServerUserId } from "../../utils/auth";
 
 const ProfilePage = async () => {
   const token = getServerToken();

@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 import { z } from "zod";
 
-import { formatTime } from "@/app/utils/formatTime";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
 import ErrorMessage from "@/components/common/ErrorMessage";
@@ -18,6 +17,7 @@ import { ImageFileType, LocationType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
 import { MissionResponse } from "@/types/response";
 import { MissionFormSchema } from "@/types/schema";
+import { formatTime } from "@/utils/formatTime";
 
 import CustomCalendar from "./CustomCalendar";
 import PostCode from "./PostCode";
