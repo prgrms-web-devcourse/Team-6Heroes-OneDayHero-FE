@@ -22,27 +22,32 @@ export const missionDetail: MissionResponse = {
       gu: "강남구",
       dong: "역삼동"
     },
-    longitude: 1234277.388,
-    latitude: 1234252.23,
+    longitude: 127.02880308004335,
+    latitude: 37.49779692073204,
     missionInfo: {
       title: "제목",
-      content:
-        "[Intervention]Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113",
+      content: "내용",
       missionDate: "2023-10-10",
       startTime: "10:00",
       endTime: "10:30",
-      deadlineTime: "10:00",
+      deadlineTime: "2023-10-10T09:30:00",
       price: 10000
     },
     bookmarkCount: 0,
-    isBookmarked: true,
     missionStatus: "MATCHING",
-    missionImage: {
-      originalName: "xxx.jpeg",
-      path: "~~~~"
-    }
+    missionImage: [
+      {
+        id: 1,
+        path: "s3://path1"
+      },
+      {
+        id: 2,
+        path: "s3://path2"
+      }
+    ],
+    isBookmarked: true
   },
-  serverDateTime: "2023-11-02T14:25:44"
+  serverDateTime: "2023-11-29T13:44:34"
 };
 
 export const progessMissionList: ProgressMissionListResponse = {
@@ -58,104 +63,13 @@ export const progessMissionList: ProgressMissionListResponse = {
           name: "서빙"
         },
         missionDate: "2023-11-06",
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼1동",
         bookmarkCount: 1,
-        missionStatus: "MATCHING"
-      },
-      {
-        id: 2,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MATCHING"
-      },
-      {
-        id: 3,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MATCHING"
-      },
-      {
-        id: 4,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MATCHING"
-      },
-      {
-        id: 5,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MATCHING"
-      },
-      {
-        id: 6,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MATCHING"
-      },
-      {
-        id: 7,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MATCHING"
-      },
-      {
-        id: 8,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MATCHING"
-      },
-      {
-        id: 9,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MATCHING"
+        missionStatus: "MATCHING",
+        imagePath: "s3://path",
+        isBookmarked: true
       }
     ],
     pageable: {
@@ -193,9 +107,11 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
         id: 1,
         mission: {
           id: 1,
+          citizenId: 1,
           status: "MATCHING",
           bookmarkCount: 5,
-          createdAt: "2023-11-16T16:08:24",
+          isBookmarked: true,
+          createdAt: "2023-11-29T13:44:35",
           region: {
             si: "서울시",
             gu: "프로구",
@@ -211,16 +127,19 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
             startTime: "12:00",
             endTime: "18:00",
             price: 30000
-          }
+          },
+          imagePath: "s3://image"
         }
       },
       {
         id: 2,
         mission: {
           id: 2,
+          citizenId: 1,
           status: "MATCHING",
           bookmarkCount: 5,
-          createdAt: "2023-11-15T16:08:24",
+          isBookmarked: true,
+          createdAt: "2023-11-28T13:44:35",
           region: {
             si: "서울시",
             gu: "프로구",
@@ -236,16 +155,19 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
             startTime: "12:00",
             endTime: "18:00",
             price: 30000
-          }
+          },
+          imagePath: "s3://image"
         }
       },
       {
         id: 3,
         mission: {
           id: 3,
+          citizenId: 1,
           status: "MATCHING_COMPLETED",
           bookmarkCount: 5,
-          createdAt: "2023-11-13T16:08:24",
+          isBookmarked: true,
+          createdAt: "2023-11-26T13:44:35",
           region: {
             si: "서울시",
             gu: "프로구",
@@ -261,16 +183,19 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
             startTime: "12:00",
             endTime: "18:00",
             price: 30000
-          }
+          },
+          imagePath: "s3://image"
         }
       },
       {
         id: 4,
         mission: {
           id: 4,
+          citizenId: 1,
           status: "MISSION_COMPLETED",
           bookmarkCount: 5,
-          createdAt: "2023-11-14T16:08:24",
+          isBookmarked: true,
+          createdAt: "2023-11-27T13:44:35",
           region: {
             si: "서울시",
             gu: "프로구",
@@ -286,16 +211,19 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
             startTime: "12:00",
             endTime: "18:00",
             price: 30000
-          }
+          },
+          imagePath: "s3://image"
         }
       },
       {
         id: 5,
         mission: {
           id: 5,
+          citizenId: 1,
           status: "EXPIRED",
           bookmarkCount: 5,
-          createdAt: "2023-11-13T16:08:24",
+          isBookmarked: true,
+          createdAt: "2023-11-26T13:44:35",
           region: {
             si: "서울시",
             gu: "프로구",
@@ -311,132 +239,8 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
             startTime: "12:00",
             endTime: "18:00",
             price: 30000
-          }
-        }
-      },
-      {
-        id: 6,
-        mission: {
-          id: 6,
-          status: "MATCHING",
-          bookmarkCount: 5,
-          createdAt: "2023-11-16T16:08:24",
-          region: {
-            si: "서울시",
-            gu: "프로구",
-            dong: "래머동"
           },
-          missionCategory: {
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionInfo: {
-            title: "미션 제목",
-            missionDate: "2023-10-30",
-            startTime: "12:00",
-            endTime: "18:00",
-            price: 30000
-          }
-        }
-      },
-      {
-        id: 7,
-        mission: {
-          id: 7,
-          status: "MATCHING",
-          bookmarkCount: 5,
-          createdAt: "2023-11-15T16:08:24",
-          region: {
-            si: "서울시",
-            gu: "프로구",
-            dong: "래머동"
-          },
-          missionCategory: {
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionInfo: {
-            title: "미션 제목",
-            missionDate: "2023-10-30",
-            startTime: "12:00",
-            endTime: "18:00",
-            price: 30000
-          }
-        }
-      },
-      {
-        id: 8,
-        mission: {
-          id: 8,
-          status: "MATCHING_COMPLETED",
-          bookmarkCount: 5,
-          createdAt: "2023-11-13T16:08:24",
-          region: {
-            si: "서울시",
-            gu: "프로구",
-            dong: "래머동"
-          },
-          missionCategory: {
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionInfo: {
-            title: "미션 제목",
-            missionDate: "2023-10-30",
-            startTime: "12:00",
-            endTime: "18:00",
-            price: 30000
-          }
-        }
-      },
-      {
-        id: 9,
-        mission: {
-          id: 9,
-          status: "MISSION_COMPLETED",
-          bookmarkCount: 5,
-          createdAt: "2023-11-14T16:08:24",
-          region: {
-            si: "서울시",
-            gu: "프로구",
-            dong: "래머동"
-          },
-          missionCategory: {
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionInfo: {
-            title: "미션 제목",
-            missionDate: "2023-10-30",
-            startTime: "12:00",
-            endTime: "18:00",
-            price: 30000
-          }
-        }
-      },
-      {
-        id: 10,
-        mission: {
-          id: 10,
-          status: "EXPIRED",
-          bookmarkCount: 5,
-          createdAt: "2023-11-13T16:08:24",
-          region: {
-            si: "서울시",
-            gu: "프로구",
-            dong: "래머동"
-          },
-          missionCategory: {
-            code: "MC_001",
-            name: "서빙"
-          },
-          missionInfo: {
-            title: "미션 제목",
-            missionDate: "2023-10-30",
-            startTime: "12:00",
-            endTime: "18:00",
-            price: 30000
-          }
+          imagePath: "s3://image"
         }
       }
     ],
@@ -444,27 +248,27 @@ export const suggestedMissionList: SuggestedMissionListResponse = {
       pageNumber: 0,
       pageSize: 5,
       sort: {
+        empty: true,
         sorted: false,
-        unsorted: true,
-        empty: true
+        unsorted: true
       },
       offset: 0,
       paged: true,
       unpaged: false
     },
-    numberOfElements: 5,
-    first: true,
-    last: false,
     size: 5,
     number: 0,
     sort: {
+      empty: true,
       sorted: false,
-      unsorted: true,
-      empty: true
+      unsorted: true
     },
+    first: true,
+    last: false,
+    numberOfElements: 5,
     empty: false
   },
-  serverDateTime: "2023-11-16T16:08:24"
+  serverDateTime: "2023-11-29T13:44:35"
 };
 
 export const completedMissionList: ProgressMissionListResponse = {
@@ -480,104 +284,13 @@ export const completedMissionList: ProgressMissionListResponse = {
           name: "서빙"
         },
         missionDate: "2023-11-06",
+        si: "서울시",
+        gu: "강남구",
+        dong: "역삼1동",
         bookmarkCount: 1,
-        missionStatus: "MISSION_COMPLETED"
-      },
-      {
-        id: 2,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MISSION_COMPLETED"
-      },
-      {
-        id: 3,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MISSION_COMPLETED"
-      },
-      {
-        id: 4,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MISSION_COMPLETED"
-      },
-      {
-        id: 5,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MISSION_COMPLETED"
-      },
-      {
-        id: 6,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MISSION_COMPLETED"
-      },
-      {
-        id: 7,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MISSION_COMPLETED"
-      },
-      {
-        id: 8,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MISSION_COMPLETED"
-      },
-      {
-        id: 9,
-        title: "제목",
-        missionCategory: {
-          id: 1,
-          code: "MC_001",
-          name: "서빙"
-        },
-        missionDate: "2023-11-06",
-        bookmarkCount: 1,
-        missionStatus: "MISSION_COMPLETED"
+        missionStatus: "MATCHING",
+        imagePath: "s3://path",
+        isBookmarked: true
       }
     ],
     pageable: {

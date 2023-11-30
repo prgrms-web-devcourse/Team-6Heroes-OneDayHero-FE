@@ -10,7 +10,7 @@ import { CustomResponse, useFetch, useMutationalFetch } from "./base";
 export const useGetChatRoomsFetch = (token: string) => {
   return useFetch<ChatRoomsResponse>(`/chat-rooms/me`, {
     headers: { Authorization: `Bearer ${token}` },
-    next: { revalidate: 10 }
+    next: { revalidate: 0 }
   });
 };
 

@@ -33,7 +33,7 @@ const ChatRoomItem = ({
         <div className="flex">
           <h2 className="font-semibold">{receiverNickname}</h2>
           <h3 className="ml-3 mt-1 text-xs font-semibold">
-            {formatDate(lastSentMessageTime)}
+            {lastSentMessageTime && formatDate(lastSentMessageTime)}
           </h3>
         </div>
         <p className="max-w-[50vw] truncate text-sm">{lastSentMessage}</p>

@@ -164,7 +164,7 @@ w-full max-w-screen-sm">
           </select>
         </div>
 
-        <div className="mt-3 flex justify-center border-b border-background-darken pb-2">
+        <div className="mt-3 flex justify-center border-b border-background-darken bg-background pb-2">
           <Category
             value={queryString}
             onSelect={handleCategorySelect}
@@ -191,11 +191,10 @@ w-full max-w-screen-sm">
               <Container className="cs:w-11/12" missionStatus={missionStatus}>
                 <MissionFullInfo
                   bookmarkCount={bookmarkCount}
-                  createdAt={missionInfo.missionDate}
                   region={region}
                   missionCategory={missionCategory}
                   missionInfo={missionInfo}
-                  missionImagePath={paths[0]}
+                  missionImagePath={paths?.[0] ?? ""}
                 />
               </Container>
             </Link>

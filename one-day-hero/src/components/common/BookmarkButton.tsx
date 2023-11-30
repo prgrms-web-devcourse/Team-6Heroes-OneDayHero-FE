@@ -1,8 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiSolidStar } from "react-icons/bi";
 
+import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import {
   useDeleteBookmarkFetch,
@@ -26,7 +28,8 @@ const BookmarkButton = ({
   size = "sm",
   className
 }: BookmarkButtonProps) => {
-  const userId = 123;
+  const token = getClientToken() ?? "";
+  const router = useRouter();
 
   const [optimisticBookmarkState, setOptimisticBookmarkState] = useState({
     bookmarkCount,
@@ -35,11 +38,11 @@ const BookmarkButton = ({
 
   const { mutationalFetch: postBookmark } = usePostBookmarkFetch(
     missionId,
-    userId
+    token
   );
   const { mutationalFetch: deleteBookmark } = useDeleteBookmarkFetch(
     missionId,
-    userId
+    token
   );
 
   const handleClick = async () => {
@@ -54,7 +57,12 @@ const BookmarkButton = ({
       ? deleteBookmark()
       : postBookmark());
 
-    if (isError) setOptimisticBookmarkState(currentBookmarkState);
+    if (isError) {
+      setOptimisticBookmarkState(currentBookmarkState);
+      return;
+    }
+
+    router.refresh();
   };
 
   const starColor = optimisticBookmarkState.isBookmarked

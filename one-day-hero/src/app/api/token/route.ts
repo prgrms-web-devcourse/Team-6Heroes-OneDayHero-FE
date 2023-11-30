@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
   const response = new NextResponse(
     JSON.stringify({ userId: tokenResponse.data.userId }),
     {
-      status: 200
+      status: tokenResponse.status
     }
   );
 

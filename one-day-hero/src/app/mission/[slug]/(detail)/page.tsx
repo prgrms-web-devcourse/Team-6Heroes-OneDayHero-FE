@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { BiChevronRight, BiEdit, BiMap } from "react-icons/bi";
 
@@ -6,12 +8,12 @@ import { getServerToken, getServerUserId } from "@/app/utils/auth";
 import BookmarkButton from "@/components/common/BookmarkButton";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
+import HorizontalScroll from "@/components/common/HorizontalScroll";
 import IconGroup from "@/components/common/IconGroup";
 import MissionInfo from "@/components/common/Info/MissionInfo";
-import Label from "@/components/common/Label";
+import TitleBox from "@/components/common/TitleBox";
 import ChattingButton from "@/components/domain/missionDetail/ChattingButton";
 import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
-import HeroRecommendList from "@/components/domain/missionDetail/HeroRecommendList";
 import { useGetMissionFetch } from "@/services/missions";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
@@ -32,7 +34,10 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
       region,
       citizenId,
       bookmarkCount,
-      isBookmarked
+      isBookmarked,
+      missionImage,
+      latitude,
+      longitude
     }
   } = response;
 
@@ -40,21 +45,33 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
   const isOwner = userId === citizenId;
 
   return (
-    <>
-      <Container className="cs:w-full">
-        <Label size="sm">{missionCategory.name}</Label>
-        <h1 className="text-xl font-semibold">{missionInfo.title}</h1>
-      </Container>
+    <div className="flex w-full flex-col items-center gap-2">
+      <TitleBox category={missionCategory.name} title={missionInfo.title} />
       <Container className="cs:w-full">
         <MissionInfo
+          className="cs:ml-1"
           missionBounty={missionInfo.price}
           missionDay={missionInfo.missionDate}
           missionTime={`${missionInfo.startTime} ~ ${missionInfo.endTime}`}
         />
       </Container>
       <Container className="cs:w-full">
-        <h2 className="text-base font-semibold">미션 내용</h2>
-        <p className="text-base">{missionInfo.content}</p>
+        <HorizontalScroll>
+          {missionImage.map(({ path, id }) => (
+            <Image
+              key={id}
+              src={path}
+              alt="미션 사진"
+              width={150}
+              height={150}
+              className="object-fill"
+            />
+          ))}
+        </HorizontalScroll>
+        <div className="mt-2 gap-1">
+          <h2 className="ml-1 text-base font-semibold">미션 내용</h2>
+          <p className="ml-1 text-base">{missionInfo.content}</p>
+        </div>
       </Container>
       <Container className="cs:w-full">
         <IconGroup
@@ -63,36 +80,25 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           className="cs:mb-2 cs:justify-normal">
           <BiMap />
         </IconGroup>
-        <Button
-          className="hover:bg-inactive-darken cs:relative cs:h-6 cs:w-full cs:text-black"
-          textSize="sm"
-          theme="inactive">
-          미션 지도보기
-          <div className="absolute right-1 top-0 flex h-6 items-center">
-            <BiChevronRight size="20" />
-          </div>
-        </Button>
+        <Link
+          href={{
+            pathname: "/map",
+            query: { lat: latitude, lng: longitude }
+          }}>
+          <Button
+            className="hover:bg-inactive-darken cs:relative cs:h-6 cs:w-full cs:text-black"
+            textSize="sm"
+            theme="inactive">
+            미션 지도보기
+            <div className="absolute right-1 top-0 flex h-6 items-center">
+              <BiChevronRight size="20" />
+            </div>
+          </Button>
+        </Link>
       </Container>
-      {/* <h1 className="mb-2 mt-4 w-full break-keep text-lg font-semibold">
-        미션에 딱 맞는 히어로님을 만나보시겠어요?
-      </h1>
-      {isOwner && (
-        <HeroRecommendList
-          className="mb-20 w-full"
-          heroDataList={[
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 },
-            { thumbnail: "", nickname: "rabbit", heroScore: 100 }
-          ]}
-        />
-      )} */}
       {!isOwner && <CitizenInfo citizenId={userId} />}
       {isOwner && (
-        <Button size="lg">
+        <Button size="lg" className="cs:mt-7">
           <div className="relative inline-block">
             <BiEdit className="absolute -left-7 top-[3px]" size={24} />
             수정하기
@@ -114,7 +120,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
