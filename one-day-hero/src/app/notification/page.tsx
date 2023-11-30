@@ -1,3 +1,5 @@
+import NotificationItem from "@/components/domain/notification/NotificationItem";
+
 const NotificationPage = () => {
   return (
     <>
