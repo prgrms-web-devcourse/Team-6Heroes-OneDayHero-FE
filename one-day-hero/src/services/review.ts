@@ -4,7 +4,7 @@ import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
 
 import {
   CreateReviewResponse,
-  ReviewDeleteResponse,
+  EmptyResponse,
   ReviewDetailResponse,
   ReviewListResponse
 } from "./../types/response";
@@ -57,7 +57,7 @@ export const useGetSendReviewFetch = (
 };
 
 export const useDeleteSendReviewFetch = (reviewId: number) => {
-  return useMutationalFetch<ReviewDeleteResponse>(`/reviews/${reviewId}`, {
+  return useMutationalFetch<EmptyResponse>(`/reviews/${reviewId}`, {
     method: "DELETE",
     body: JSON.stringify({
       reviewId
@@ -81,4 +81,15 @@ export const useGetReceiveReviewFetch = (
     },
     observerRef
   });
+};
+
+export const useDeleteReviewImageFetch = () => {
+  return useMutationalFetch<EmptyResponse>() as {
+    mutationalFetch: (
+      pathname: string,
+      fetchOptions: RequestInit,
+      onSuccess?: (response?: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<EmptyResponse>>;
+  };
 };
