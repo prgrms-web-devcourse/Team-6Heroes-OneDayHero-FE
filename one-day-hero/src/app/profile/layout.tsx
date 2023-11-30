@@ -6,7 +6,7 @@ import Header from "@/components/common/Header";
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <Header>프로필</Header>
+      <Header right="edit">프로필</Header>
       {children}
       <Footer />
     </>
