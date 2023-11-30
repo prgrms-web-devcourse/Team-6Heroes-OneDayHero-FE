@@ -230,6 +230,7 @@ export type UserResponse = {
       introduce: string;
     };
     image: {
+      id: number;
       originalName: string | null;
       uniqueName: string | null;
       path: string | null;
