@@ -9,6 +9,7 @@ export const useGetMissionSearchListFetch = (
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<MissionSearchListResponse>({
+    baseUrlType: "backend",
     pathname: `/missions`,
     size: 10,
     observerRef,
@@ -24,6 +25,7 @@ export const useGetHeroNicknameDetailListFetch = (
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<HeroNicknameSearchResponse>({
+    baseUrlType: "backend",
     pathname: `/users/hero-search`,
     size: 10,
     observerRef,

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 
 import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
+import { useToast } from "@/contexts/ToastProvider";
 import useModal from "@/hooks/useModal";
 import { useChangeCitizenFetch, useChangeHeroFetch } from "@/services/users";
 import { getClientToken } from "@/utils/cookie";
@@ -18,6 +19,7 @@ const HeroSwitch = ({ isHeroMode }: HeroSwitchProps) => {
   const { isOpen, onOpen, onClose } = useModal();
 
   const router = useRouter();
+  const { showToast } = useToast();
 
   const callback = () => {
     onClose();
@@ -26,19 +28,13 @@ const HeroSwitch = ({ isHeroMode }: HeroSwitchProps) => {
   };
 
   const failCallback = () => {
-    /**@note TODO: 토스트 같은거 띄우기 */
+    showToast("다시 시도해주세요", "error");
   };
 
-  const { mutationalFetch: changeHero } = useChangeHeroFetch(
-    token ?? "",
-    callback,
-    failCallback
-  );
-  const { mutationalFetch: changeCitizen } = useChangeCitizenFetch(
-    token ?? "",
-    callback,
-    failCallback
-  );
+  const { mutationalFetch: changeHero, isLoading: isHeroLoading } =
+    useChangeHeroFetch(token ?? "", callback, failCallback);
+  const { mutationalFetch: changeCitizen, isLoading: isCitizenLoading } =
+    useChangeCitizenFetch(token ?? "", callback, failCallback);
 
   return (
     <>
@@ -50,8 +46,8 @@ const HeroSwitch = ({ isHeroMode }: HeroSwitchProps) => {
         <div
           className={`absolute top-[0.125rem] h-7 w-7 rounded-full ${
             isHeroMode
-              ? "bg-sub-darken hover:bg-sub right-[0.125rem]"
-              : "bg-primary-darken hover:bg-primary left-[0.125rem]"
+              ? "right-[0.125rem] bg-sub-darken hover:bg-sub"
+              : "left-[0.125rem] bg-primary-darken hover:bg-primary"
           }`}
         />
       </div>
@@ -76,7 +72,8 @@ const HeroSwitch = ({ isHeroMode }: HeroSwitchProps) => {
             theme="primary"
             size="sm"
             className="cs:h-12 cs:w-4/12"
-            onClick={isHeroMode ? changeCitizen : changeHero}>
+            onClick={isHeroMode ? changeCitizen : changeHero}
+            disabled={isHeroLoading || isCitizenLoading}>
             확인
           </Button>
         </div>

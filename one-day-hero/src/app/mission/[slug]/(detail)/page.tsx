@@ -13,7 +13,7 @@ import MissionInfo from "@/components/common/Info/MissionInfo";
 import TitleBox from "@/components/common/TitleBox";
 import ChattingButton from "@/components/domain/missionDetail/ChattingButton";
 import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
-import { useGetMissionFetch } from "@/services/missions";
+import { safeGetMissionFetch } from "@/services/missions";
 import { getServerToken, getServerUserId } from "@/utils/auth";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
@@ -22,7 +22,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
 
   if (!token) redirect("/login?redirect=");
 
-  const { isError, response } = await useGetMissionFetch(missionId, token);
+  const { isError, response } = await safeGetMissionFetch(missionId, token);
 
   if (isError || !response) return <ErrorPage />;
 

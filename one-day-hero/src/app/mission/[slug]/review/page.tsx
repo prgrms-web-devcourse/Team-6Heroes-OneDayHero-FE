@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 import ErrorPage from "@/app/error";
 import TitleBox from "@/components/common/TitleBox";
 import ReviewForm from "@/components/domain/review/ReviewForm";
-import { useGetChatRoomsFetch } from "@/services/chats";
-import { useGetMissionFetch } from "@/services/missions";
+import { safeGetChatRoomsFetch } from "@/services/chats";
+import { safeGetMissionFetch } from "@/services/missions";
 import { getServerToken } from "@/utils/auth";
 
 const ReviewCreatePage = async ({ params }: { params: { slug: string } }) => {
@@ -14,9 +14,9 @@ const ReviewCreatePage = async ({ params }: { params: { slug: string } }) => {
   if (!token) redirect("/login?redirect=");
 
   const { isError: isMissionError, response: missionResponse } =
-    await useGetMissionFetch(missionId, token);
+    await safeGetMissionFetch(missionId, token);
   const { isError: isChatRoomError, response: chatRoomResponse } =
-    await useGetChatRoomsFetch(token);
+    await safeGetChatRoomsFetch(token);
 
   if (
     isMissionError ||

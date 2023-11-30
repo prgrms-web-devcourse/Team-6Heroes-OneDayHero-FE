@@ -17,7 +17,7 @@ const ReviewDetailLayout = async ({
   const token = getServerToken() ?? "";
   const userId = parseInt(getServerUserId() ?? "-1");
 
-  const { isError, response } = await useGetReviewDetailFetch(reviewId, token);
+  const { response } = await useGetReviewDetailFetch(reviewId, token);
 
   const senderId = response?.data.senderId;
   const isMyReview = senderId === userId;

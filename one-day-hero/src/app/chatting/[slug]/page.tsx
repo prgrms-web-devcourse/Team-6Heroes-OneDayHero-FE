@@ -3,9 +3,12 @@ import { redirect } from "next/navigation";
 import ErrorPage from "@/app/error";
 import ChattingClientContainer from "@/components/domain/chatting/ChattingClientContainer";
 import Message from "@/components/domain/chatting/Message";
-import { useGetChatRecordFetch, useGetChatRoomsFetch } from "@/services/chats";
-import { useGetMissionFetch } from "@/services/missions";
-import { useGetUserFetch } from "@/services/users";
+import {
+  safeGetChatRecordFetch,
+  safeGetChatRoomsFetch
+} from "@/services/chats";
+import { safeGetMissionFetch } from "@/services/missions";
+import { safeGetUserFetch } from "@/services/users";
 import { getServerToken, getServerUserId } from "@/utils/auth";
 import { formatHour } from "@/utils/formatTime";
 
@@ -17,18 +20,18 @@ const ChattingPage = async ({ params }: { params: { slug: string } }) => {
   if (!token) redirect("/login?redirect=");
 
   const { isError: isChatRecordError, response: chatRecordResponse } =
-    await useGetChatRecordFetch(roomId, token);
+    await safeGetChatRecordFetch(roomId, token);
   const { isError: isChatRoomError, response: chatRoomResponse } =
-    await useGetChatRoomsFetch(token);
+    await safeGetChatRoomsFetch(token);
   const { isError: isMeError, response: meResponse } =
-    await useGetUserFetch(token);
+    await safeGetUserFetch(token);
 
   const thisRoomData = chatRoomResponse?.data.find(
     ({ id }) => id.toString() === roomId
   );
 
   const { isError: isMissionError, response: missionResponse } =
-    await useGetMissionFetch((thisRoomData?.missionId ?? 0).toString(), token);
+    await safeGetMissionFetch((thisRoomData?.missionId ?? 0).toString(), token);
 
   if (
     isMissionError ||

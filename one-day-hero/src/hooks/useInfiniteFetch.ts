@@ -1,8 +1,9 @@
 "use client";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 
-import { useFetch } from "../services/base";
+import { safeFetch } from "../services/base";
 type useInfiniteFetchProps = {
+  baseUrlType: "backend" | "route";
   pathname: string;
   size: number;
   sort?: string;
@@ -12,6 +13,7 @@ type useInfiniteFetchProps = {
 export const useInfiniteFetch = <
   T extends { data: { content: any[]; last: boolean } }
 >({
+  baseUrlType,
   pathname,
   size,
   sort,
@@ -24,6 +26,7 @@ export const useInfiniteFetch = <
   const hasNextPageRef = useRef<boolean>(true);
   const isLoadingRef = useRef<boolean>(false);
   const observer = useRef<IntersectionObserver>();
+
   useEffect(() => {
     observer.current = new IntersectionObserver(
       (entries, observer) => {
@@ -36,13 +39,15 @@ export const useInfiniteFetch = <
       { threshold: 1 }
     );
   }, []);
+
   const returnMethods = {
     data,
     fetchNextPage: async () => {
       if (!hasNextPageRef.current) return { isError: true };
       isLoadingRef.current = true;
-      const { isError, response } = await (useFetch<T>).call(
+      const { isError, response } = await (safeFetch<T>).call(
         null,
+        baseUrlType,
         `${pathname}${pathname.includes("?") ? "&" : "?"}page=${
           pageRef.current
         }&size=${size}${sort ?? "&sort="}${
@@ -71,6 +76,7 @@ export const useInfiniteFetch = <
     },
     isLoading: isLoadingRef.current
   };
+
   useEffect(() => {
     if (!observerRef?.current || !observer.current) return;
     if (!hasNextPageRef.current || isLoadingRef.current) {
@@ -80,5 +86,6 @@ export const useInfiniteFetch = <
     if (pageRef.current === 0 || !isLoadingRef.current)
       observer.current.observe(observerRef.current);
   }, [data, observerRef, hasNextPageRef, isLoadingRef]);
+
   return returnMethods;
 };

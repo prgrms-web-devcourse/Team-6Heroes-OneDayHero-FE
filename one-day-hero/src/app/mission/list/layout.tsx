@@ -7,9 +7,7 @@ const MissionListLayout = ({ children }: { children: React.ReactNode }) => {
     <>
       <Header left="back">미션 목록</Header>
       <div className="fixed top-16 z-50 h-28 w-full max-w-screen-sm bg-background" />
-      <div
-        className="fixed
-z-50 flex w-full max-w-screen-sm justify-center">
+      <div className="fixed z-50 flex w-full max-w-screen-sm justify-center">
         <Tabs
           leftRoute={{ name: "진행중인 미션", path: "/mission/list/ongoing" }}
           rightRoute={{

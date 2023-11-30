@@ -32,6 +32,7 @@ interface UploadImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     onSuccess?: (response?: Response) => void,
     onError?: () => void
   ) => Promise<CustomResponse<EmptyResponse>>;
+  pathname?: string;
 }
 
 const UploadImage = forwardRef(
@@ -43,6 +44,7 @@ const UploadImage = forwardRef(
       maxImageLength = 3,
       defaultImages,
       deleteImageFetch,
+      pathname,
       ...props
     }: PropsWithChildren<UploadImageProps>,
     ref
@@ -94,8 +96,8 @@ const UploadImage = forwardRef(
       e.stopPropagation();
 
       if (!deleteImageFetch) return;
-      /**@note await DELETE 요청 필요 */
-      const { isError } = await deleteImageFetch(`/review-images/${id}`, {
+
+      const { isError } = await deleteImageFetch(`${pathname}/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
       });

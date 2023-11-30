@@ -8,16 +8,15 @@ import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
 import HelpCircle from "@/components/domain/profile/HelpCircle";
 import HeroSwitch from "@/components/domain/profile/HeroSwitch";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
-import { useGetUserFetch } from "@/services/users";
-
-import { getServerToken, getServerUserId } from "../../utils/auth";
+import { safeGetUserFetch } from "@/services/users";
+import { getServerToken, getServerUserId } from "@/utils/auth";
 
 const ProfilePage = async () => {
   const token = getServerToken();
 
   if (!token) redirect("/login?redirect=");
 
-  const { isError, response } = await useGetUserFetch(token ?? "");
+  const { isError, response } = await safeGetUserFetch(token ?? "");
 
   if (isError || !response) return <ErrorPage />;
 
@@ -42,6 +41,7 @@ const ProfilePage = async () => {
             src={image.path || ""}
             alt="프로필 이미지"
             width={150}
+            height={150}
             priority
           />
           <h3
@@ -51,9 +51,6 @@ const ProfilePage = async () => {
             {isHeroMode ? "히어로" : "시민"}
           </h3>
           <h3 className="text-lg font-bold">{basicInfo.nickname}</h3>
-          {/* <h3 className="">{`${calculateAge(basicInfo.birth)}세 / ${parseGender(
-            basicInfo.gender
-          )}`}</h3> */}
         </div>
       </div>
       <div className="mt-8 flex w-full items-center justify-between">
@@ -90,7 +87,7 @@ const ProfilePage = async () => {
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">희망 근무시간</h2>
-        <div className="border-background-darken min-h-[2.625rem] rounded-lg border bg-white p-2">
+        <div className="min-h-[2.625rem] rounded-lg border border-background-darken bg-white p-2">
           {`${favoriteWorkingDay.favoriteStartTime || ""} ~ ${
             favoriteWorkingDay.favoriteEndTime || ""
           }`}
@@ -98,7 +95,7 @@ const ProfilePage = async () => {
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">선호 지역</h2>
-        <div className="border-background-darken min-h-[2.625rem] rounded-lg border bg-white p-2">
+        <div className="min-h-[2.625rem] rounded-lg border border-background-darken bg-white p-2">
           {favoriteRegions?.map(({ id, si, gu, dong }) => (
             <p key={id}>{`${si} ${gu} ${dong}`}</p>
           ))}
@@ -106,7 +103,7 @@ const ProfilePage = async () => {
       </div>
       <div className="mb-12 w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">소개</h2>
-        <div className="border-background-darken rounded-lg border bg-white p-2">
+        <div className="rounded-lg border border-background-darken bg-white p-2">
           <p>{basicInfo.introduce}</p>
         </div>
       </div>

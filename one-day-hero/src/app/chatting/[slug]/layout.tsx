@@ -5,7 +5,7 @@ import React from "react";
 import Container from "@/components/common/Container";
 import Header from "@/components/common/Header";
 import KebabMenu from "@/components/common/KebabMenu";
-import { useGetChatRoomsFetch } from "@/services/chats";
+import { safeGetChatRoomsFetch } from "@/services/chats";
 import { KebabMenuDataType } from "@/types";
 import { getServerToken } from "@/utils/auth";
 
@@ -20,7 +20,7 @@ const ChattingLayout = async ({ params, children }: LayoutProps) => {
 
   if (!token) redirect("/login?redirect=");
 
-  const { response: chatRoomResponse } = await useGetChatRoomsFetch(token);
+  const { response: chatRoomResponse } = await safeGetChatRoomsFetch(token);
 
   const thisRoomData = chatRoomResponse?.data.find(
     ({ id }) => id.toString() === roomId

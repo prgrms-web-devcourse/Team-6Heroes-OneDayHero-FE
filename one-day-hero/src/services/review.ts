@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { MutableRefObject } from "react";
 
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
+import { useMutationalFetch } from "@/hooks/useMutationalFetch";
 
 import {
   CreateReviewResponse,
@@ -8,30 +10,62 @@ import {
   ReviewDetailResponse,
   ReviewListResponse
 } from "./../types/response";
-import { CustomResponse, useFetch, useMutationalFetch } from "./base";
+import { CustomResponse, safeFetch } from "./base";
 
 export const useCreateReviewFetch = () => {
-  return useMutationalFetch<CreateReviewResponse>("/reviews") as {
+  return useMutationalFetch<CreateReviewResponse>(
+    "route",
+    "/createReviews"
+  ) as {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<CreateReviewResponse>>;
+    isLoading: boolean;
   };
+};
+
+export const safeCreateReviewFetch = (data: FormData, token: string) => {
+  return safeFetch<CreateReviewResponse>("backend", "/reviews", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: data
+  });
 };
 
 export const useEditReviewFetch = (reviewId: number) => {
-  return useMutationalFetch<CreateReviewResponse>(`/reviews/${reviewId}`) as {
+  return useMutationalFetch<CreateReviewResponse>(
+    "route",
+    `/editReview/${reviewId}`
+  ) as {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<CreateReviewResponse>>;
+    isLoading: boolean;
   };
 };
 
+export const safeEditReviewFetch = (
+  reviewId: number,
+  data: FormData,
+  token: string
+) => {
+  return safeFetch<CreateReviewResponse>("backend", `/reviews/${reviewId}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: data
+  });
+};
+
 export const useGetReviewDetailFetch = (reviewId: number, token: string) => {
-  return useFetch<ReviewDetailResponse>(`/reviews/${reviewId}`, {
+  return safeFetch<ReviewDetailResponse>("backend", `/reviews/${reviewId}`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -44,6 +78,7 @@ export const useGetSendReviewFetch = (
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<ReviewListResponse>({
+    baseUrlType: "backend",
     pathname: `/me/reviews/send`,
     size: 10,
     options: {
@@ -57,7 +92,7 @@ export const useGetSendReviewFetch = (
 };
 
 export const useDeleteSendReviewFetch = (reviewId: number) => {
-  return useMutationalFetch<EmptyResponse>(`/reviews/${reviewId}`, {
+  return useMutationalFetch<EmptyResponse>("backend", `/reviews/${reviewId}`, {
     method: "DELETE",
     body: JSON.stringify({
       reviewId
@@ -71,6 +106,7 @@ export const useGetReceiveReviewFetch = (
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<ReviewListResponse>({
+    baseUrlType: "backend",
     pathname: `/reviews/users/${userId}/receive`,
     size: 10,
     options: {
@@ -84,12 +120,13 @@ export const useGetReceiveReviewFetch = (
 };
 
 export const useDeleteReviewImageFetch = () => {
-  return useMutationalFetch<EmptyResponse>() as {
+  return useMutationalFetch<EmptyResponse>("backend") as {
     mutationalFetch: (
       pathname: string,
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<EmptyResponse>>;
+    isLoading: boolean;
   };
 };
