@@ -1,6 +1,6 @@
 "use client";
 
-import { PropsWithChildren, useCallback, useState } from "react";
+import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 import {
   FieldValues,
   UseFormGetValues,
@@ -9,28 +9,39 @@ import {
 
 type ToggleButtonProps = {
   className?: "";
-  selectedDate: string;
+  dateName: string;
   setValue: UseFormSetValue<FieldValues>;
   getValues: UseFormGetValues<FieldValues>;
+  dayKR: string;
 };
 
 const ToggleButton = ({
-  children,
   className,
   setValue,
   getValues,
-  selectedDate,
+  dayKR,
+  dateName,
   ...props
 }: PropsWithChildren<ToggleButtonProps>) => {
   const [clicked, setClicked] = useState<boolean>(false);
+
+  const checked = getValues("favoriteWorkingDay.favoriteDate")?.includes(
+    dateName
+  );
+
+  useEffect(() => {
+    if (checked) {
+      setClicked(!clicked);
+    }
+  }, []);
 
   const handleButtonClick = useCallback(() => {
     const setArray = () => {
       const prevArray = getValues("favoriteWorkingDay.favoriteDate") || [];
 
-      const updatedArray = prevArray.includes(selectedDate)
-        ? prevArray.filter((day: string) => day !== selectedDate)
-        : [...prevArray, selectedDate];
+      const updatedArray = prevArray.includes(dateName)
+        ? prevArray.filter((day: string) => day !== dateName)
+        : [...prevArray, dateName];
 
       return updatedArray;
     };
@@ -38,24 +49,22 @@ const ToggleButton = ({
     const test = setArray();
 
     setValue("favoriteWorkingDay.favoriteDate", test);
-
-    setClicked(!clicked);
-  }, [setValue, clicked, getValues, selectedDate]);
+  }, [setValue, getValues, dateName]);
 
   const defaultStyle = "w-11 h-11 text-base text-black rounded-lg border";
 
   return (
-    <button
+    <input
+      value={dayKR}
       type="button"
       className={`${defaultStyle} ${
-        clicked
-          ? "border-4 border-primary bg-primary-lightest"
+        checked
+          ? "border-primary bg-primary-lightest border-4"
           : "border-background-darken bg-white"
       } ${className}`}
       onClick={handleButtonClick}
-      {...props}>
-      {children}
-    </button>
+      {...props}
+    />
   );
 };
 

@@ -28,7 +28,7 @@ const MissionFullInfo = ({
       <MissionListItem
         categories={missionCategory.name}
         createAt={missionInfo.missionDate}
-        location={region.gu + " " + region.dong}
+        location={`${region.si} ${region.gu} ${region.dong}`}
         title={missionInfo.title}
         bookmarkCount={bookmarkCount}
         imageSrc={missionImagePath}

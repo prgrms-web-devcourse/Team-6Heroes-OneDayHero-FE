@@ -39,7 +39,8 @@ const ChattingLayout = async ({ params, children }: LayoutProps) => {
     description: "매칭을 취소합니다.",
     apiPath: "/mission-matches/cancel",
     method: "PUT",
-    requiredData: [{ name: "missionId", default: thisRoomData?.missionId }]
+    requiredData: [{ name: "missionId", default: thisRoomData?.missionId }],
+    refresh: true
   };
 
   return (
@@ -56,7 +57,7 @@ const ChattingLayout = async ({ params, children }: LayoutProps) => {
       </Header>
 
       <Link
-        href={`/mission/${thisRoomData?.id}`}
+        href={`/mission/${thisRoomData?.missionId}`}
         className="fixed top-20 z-40 flex w-full max-w-screen-sm justify-center">
         <Container className="cs:flex cs:h-8 cs:w-11/12 cs:items-center cs:bg-primary-light">
           {thisRoomData?.title || "미션 제목"}

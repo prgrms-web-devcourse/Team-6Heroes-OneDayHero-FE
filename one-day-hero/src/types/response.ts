@@ -54,12 +54,17 @@ export type ProgressMissionListResponse = {
         name: string;
       };
       missionDate: string;
+      si: string;
+      gu: string;
+      dong: string;
       bookmarkCount: number;
       missionStatus:
         | "MATCHING"
         | "MATCHING_COMPLETED"
         | "MISSION_COMPLETED"
         | "EXPIRED";
+      imagePath: string;
+      isBookmarked: boolean;
     }[];
     pageable: {
       pageNumber: number;
@@ -208,7 +213,7 @@ export type UserInfoForOptionalSurveyResponse = {
     introduce: string;
   };
   favoriteWorkingDay: {
-    favoriteDate: string[] | [] | null;
+    favoriteDate: DateType[] | null;
     favoriteStartTime: string | null;
     favoriteEndTime: string | null;
   };
@@ -259,9 +264,9 @@ export type UserSummaryResponse = {
       introduce: string;
     };
     favoriteWorkingDay: {
-      favoriteDate: DateType[];
-      favoriteStartTime: string;
-      favoriteEndTime: string;
+      favoriteDate: DateType[] | null;
+      favoriteStartTime: string | null;
+      favoriteEndTime: string | null;
     };
   };
   serverDateTime: string;
@@ -483,7 +488,7 @@ export type HeroNicknameResponse = {
   heroScore: 30;
 }[];
 
-export type ReviewDeleteResponse = {
+export type EmptyResponse = {
   status: number;
   data: null;
   serverDateTime: string;
@@ -643,6 +648,39 @@ export type NotificationResponse = {
     last: boolean;
     numberOfElements: number;
     empty: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type ProfileResponse = {
+  status: number;
+  data: {
+    basicInfo: {
+      nickname: string;
+      gender: string;
+      birth: string;
+      introduce: string;
+    };
+    image: {
+      originalName: string | null;
+      uniqueName: string | null;
+      path: string | null;
+    };
+    favoriteWorkingDay: {
+      favoriteDate: DateType[] | null;
+      favoriteStartTime: string | null;
+      favoriteEndTime: string | null;
+    };
+    favoriteRegions:
+      | {
+          id: number;
+          si: string;
+          gu: string;
+          dong: string;
+        }[]
+      | null;
+    heroScore: number;
+    isHeroMode?: boolean;
   };
   serverDateTime: string;
 };

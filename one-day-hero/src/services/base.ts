@@ -79,3 +79,24 @@ export const useMutationalFetch = <T>(
     mutationalFetch: (useFetch<T>).bind(null, ...useFetchArguments)
   };
 };
+
+export const passRevalidateTag = async (tag: string[]) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_FE_URL}/api/revalidateTag`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          tag
+        }),
+        headers: { "Content-Type": "application/json" }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};

@@ -10,11 +10,11 @@ export const useGetMissionSearchListFetch = (
 ) => {
   return useInfiniteFetch<MissionSearchListResponse>({
     pathname: `/missions`,
-    size: 4,
+    size: 10,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
-      next: { tags: [`missionSearch`] }
+      next: { revalidate: 10 }
     }
   });
 };
@@ -25,11 +25,11 @@ export const useGetHeroNicknameDetailListFetch = (
 ) => {
   return useInfiniteFetch<HeroNicknameSearchResponse>({
     pathname: `/users/hero-search`,
-    size: 3,
+    size: 10,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
-      next: { tags: [`searchHeroNickname`] }
+      next: { revalidate: 10 }
     }
   });
 };

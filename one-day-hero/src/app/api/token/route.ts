@@ -22,14 +22,14 @@ export async function POST(request: NextRequest) {
   if (isError || !tokenResponse) {
     console.log(errorMessage);
     return new NextResponse(null, {
-      status: 400
+      status: tokenResponse?.status ?? 400
     });
   }
 
   const response = new NextResponse(
     JSON.stringify({ userId: tokenResponse.data.userId }),
     {
-      status: 200
+      status: tokenResponse.status
     }
   );
 
