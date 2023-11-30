@@ -25,7 +25,7 @@ const OngoingMissionList = () => {
             <MissionListItem
               className="cs:p-4"
               categories={item.missionCategory.name}
-              createAt={item.missionDate}
+              missionDate={item.missionDate}
               location={`${item.si} ${item.gu} ${item.dong}`}
               title={item.title}
               bookmarkCount={item.bookmarkCount}
