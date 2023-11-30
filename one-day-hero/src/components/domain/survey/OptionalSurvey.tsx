@@ -16,6 +16,7 @@ import Label from "@/components/common/Label";
 import Select from "@/components/common/Select";
 import { useToast } from "@/contexts/ToastProvider";
 import { useGetRegionsFetch } from "@/services/regions";
+import { DateType } from "@/types";
 import {
   ProfileResponse,
   UserInfoForOptionalSurveyResponse
@@ -57,7 +58,10 @@ const OptionalSurvey = (userData: ProfileResponse) => {
     setFavoriteRegions(favoriteRegions!);
     setFavoriteRegionsId(favoriteRegionsId!);
 
-    setValue("favoriteWorkingDay.favoriteDate", defaultWorkingDay.favoriteDate);
+    setValue(
+      "favoriteWorkingDay.favoriteDate",
+      defaultWorkingDay.favoriteDate || undefined
+    );
     setValue("favoriteRegions", favoriteRegionsId!);
   }, []);
 
@@ -163,7 +167,7 @@ const OptionalSurvey = (userData: ProfileResponse) => {
     const userData: UserInfoForOptionalSurveyResponse = {
       basicInfo: basicInfo,
       favoriteWorkingDay: {
-        favoriteDate: favoriteWorkingDay?.favoriteDate ?? [],
+        favoriteDate: (favoriteWorkingDay?.favoriteDate as DateType[]) ?? [],
         favoriteEndTime: favoriteWorkingDay?.favoriteEndTime! ?? null,
         favoriteStartTime: favoriteWorkingDay?.favoriteStartTime! ?? null
       },
@@ -229,7 +233,7 @@ const OptionalSurvey = (userData: ProfileResponse) => {
           </InputLabel>
           <div className="mt-1 flex gap-2">
             <Select
-              value={defaultWorkingDay.favoriteStartTime}
+              value={defaultWorkingDay.favoriteStartTime || undefined}
               id="working hour start"
               {...register("favoriteWorkingDay.favoriteStartTime")}>
               {hours.map((hour) => (
@@ -244,7 +248,7 @@ const OptionalSurvey = (userData: ProfileResponse) => {
             </span>
 
             <Select
-              value={defaultWorkingDay.favoriteEndTime}
+              value={defaultWorkingDay.favoriteEndTime || undefined}
               id="working hour end"
               {...register("favoriteWorkingDay.favoriteEndTime")}>
               {hours.map((hour) => (
@@ -261,7 +265,7 @@ const OptionalSurvey = (userData: ProfileResponse) => {
             htmlFor="favorite region"
             className="cs:mb-1 cs:ml-1 cs:text-xl">
             선호지역
-            <span className="text-cancel-darken text-sm">(최대 5개)</span>
+            <span className="text-sm text-cancel-darken">(최대 5개)</span>
           </InputLabel>
           <div className="mt-1 flex gap-2">
             <Select id="favorite gu" onChange={handleGuChange}>

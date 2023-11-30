@@ -213,7 +213,7 @@ export type UserInfoForOptionalSurveyResponse = {
     introduce: string;
   };
   favoriteWorkingDay: {
-    favoriteDate: string[] | [] | null;
+    favoriteDate: DateType[] | null;
     favoriteStartTime: string | null;
     favoriteEndTime: string | null;
   };
@@ -264,9 +264,9 @@ export type UserSummaryResponse = {
       introduce: string;
     };
     favoriteWorkingDay: {
-      favoriteDate: DateType[];
-      favoriteStartTime: string;
-      favoriteEndTime: string;
+      favoriteDate: DateType[] | null;
+      favoriteStartTime: string | null;
+      favoriteEndTime: string | null;
     };
   };
   serverDateTime: string;
@@ -667,9 +667,9 @@ export type ProfileResponse = {
       path: string | null;
     };
     favoriteWorkingDay: {
-      favoriteDate: string[] | undefined;
-      favoriteStartTime: string | undefined;
-      favoriteEndTime: string | undefined;
+      favoriteDate: DateType[] | null;
+      favoriteStartTime: string | null;
+      favoriteEndTime: string | null;
     };
     favoriteRegions:
       | {
@@ -678,7 +678,7 @@ export type ProfileResponse = {
           gu: string;
           dong: string;
         }[]
-      | undefined;
+      | null;
     heroScore: number;
     isHeroMode?: boolean;
   };
