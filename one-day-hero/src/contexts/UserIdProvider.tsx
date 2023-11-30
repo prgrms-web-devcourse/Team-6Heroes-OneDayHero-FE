@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type UserIdContextType = {
@@ -13,7 +13,6 @@ const UserIdContext = createContext<UserIdContextType | null>(null);
 const UserIdProvider = ({ children }: { children: React.ReactNode }) => {
   const [userId, setUserIdState] = useState(getSavedUserId());
   const router = useRouter();
-  const pathname = usePathname();
 
   const setUserId = (value: number) => {
     setUserIdState(value);
@@ -23,9 +22,9 @@ const UserIdProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (userId === 0) {
-      router.push(`/login?redirect=${pathname}`);
+      router.push(`/login`);
     }
-  }, [pathname, router, userId]);
+  }, [router, userId]);
 
   return (
     <UserIdContext.Provider value={{ userId, setUserId }}>
