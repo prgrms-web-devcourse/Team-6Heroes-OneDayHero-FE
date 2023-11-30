@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useRef, useState, useTransition } from "react";
 
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
@@ -39,8 +39,10 @@ const CreateForm = () => {
 
   const router = useRouter();
   const { showToast } = useToast();
+  const [isPending, startTransition] = useTransition();
 
-  const { mutationalFetch: createMissionFetch } = useCreateMissionFetch();
+  const { mutationalFetch: createMissionFetch, isLoading } =
+    useCreateMissionFetch();
 
   const handleSelect = (id: number) => {
     setCategoryId(id);
@@ -56,6 +58,7 @@ const CreateForm = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (isLoading || isPending) return;
 
     const deadline =
       (dateRef.current?.value ?? "") + " " + (startRef.current?.value ?? "");
@@ -113,7 +116,9 @@ const CreateForm = () => {
 
       const createdMissionId = response.data.id;
 
-      router.replace(`/mission/${createdMissionId}`);
+      startTransition(() => {
+        router.replace(`/mission/${createdMissionId}`);
+      });
     }
   };
 
@@ -145,7 +150,7 @@ const CreateForm = () => {
         </div>
         <div>
           <InputLabel>
-            사진 <span className="text-inactive text-xs">(최대 3개)</span>
+            사진 <span className="text-xs text-inactive">(최대 3개)</span>
           </InputLabel>
           <UploadImage onFileSelect={handleFileSelect} />
         </div>

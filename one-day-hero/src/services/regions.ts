@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useMutationalFetch } from "@/hooks/useMutationalFetch";
 import { RegionsResponse } from "@/types/response";
 

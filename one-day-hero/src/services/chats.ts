@@ -43,6 +43,7 @@ export const useCreateMatchFetch = (
       onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<MatchResponse>>;
+    isLoading: boolean;
   };
 };
 
@@ -59,6 +60,7 @@ export const useCompleteMissionFetch = (missionId: number, token: string) => {
       onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<MatchResponse>>;
+    isLoading: boolean;
   };
 };
 
@@ -83,5 +85,6 @@ export const useCreateChatRoomFetch = (
       onSuccess?: (response?: Response) => void,
       onError?: () => void
     ) => Promise<CustomResponse<ChatRoomSummaryResponse>>;
+    isLoading: boolean;
   };
 };

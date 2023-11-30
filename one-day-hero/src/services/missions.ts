@@ -71,6 +71,7 @@ export const useRejectProposalFetch = (proposalId: number, token: string) => {
       onSuccess?: () => void,
       onError?: () => void
     ) => Promise<CustomResponse<MatchResponse>>;
+    isLoading: boolean;
   };
 };
 
@@ -89,6 +90,7 @@ export const useApproveProposalFetch = (proposalId: number, token: string) => {
       onSuccess?: () => void,
       onError?: () => void
     ) => Promise<CustomResponse<MatchResponse>>;
+    isLoading: boolean;
   };
 };
 
