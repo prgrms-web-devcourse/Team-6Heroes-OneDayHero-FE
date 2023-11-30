@@ -11,18 +11,13 @@ export async function POST(request: NextRequest) {
 
   const { mutationalFetch } = useEditProfileFetch();
 
-  const { isError, response, errorMessage } = await mutationalFetch(
-    {
-      method: "POST",
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    },
-    (response) => {
-      console.log(response);
+  const { isError, response, errorMessage } = await mutationalFetch({
+    method: "POST",
+    body: formData,
+    headers: {
+      Authorization: `Bearer ${token}`
     }
-  );
+  });
 
   if (isError || !response) {
     console.log(errorMessage);

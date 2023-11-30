@@ -9,8 +9,6 @@ export async function POST(request: NextRequest) {
 
   const formData = await request.formData();
 
-  console.log("formData", formData);
-
   const { mutationalFetch } = useEditProfileFetch();
 
   const { isError, response, errorMessage } = await mutationalFetch({
