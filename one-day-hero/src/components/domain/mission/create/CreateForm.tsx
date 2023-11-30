@@ -11,6 +11,7 @@ import InputLabel from "@/components/common/InputLabel";
 import Select from "@/components/common/Select";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
+import { useToast } from "@/contexts/ToastProvider";
 import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
 import { ImageFileType, LocationType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
@@ -36,6 +37,7 @@ const CreateForm = () => {
   const { missionCreateValidation } = useFormValidation();
 
   const router = useRouter();
+  const { showToast } = useToast();
 
   const handleSelect = (id: number) => {
     setCategoryId(id);
@@ -93,17 +95,31 @@ const CreateForm = () => {
     setErrors(validationErrors);
 
     if (!Object.keys(validationErrors).length) {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FE_URL}/api/createPost`,
-        {
-          method: "POST",
-          body: formData
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_FE_URL}/api/createPost`,
+          {
+            method: "POST",
+            body: formData
+          }
+        );
+
+        if (!response.ok) {
+          const data = await response.json();
+
+          const errorCode = data?.code;
+          const errorMessage = data?.message;
+
+          showToast(errorMessage, "error");
+          return;
         }
-      );
 
-      const createdMissionId = (await response.json()).data.id;
+        const createdMissionId = (await response.json()).data.id;
 
-      router.push(`/mission/${createdMissionId}`);
+        router.push(`/mission/${createdMissionId}`);
+      } catch (err) {
+        showToast("생성 중 오류가 발생했습니다. 다시 시도해주세요", "error");
+      }
     }
   };
 
@@ -135,7 +151,7 @@ const CreateForm = () => {
         </div>
         <div>
           <InputLabel>
-            사진 <span className="text-inactive text-xs">(최대 3개)</span>
+            사진 <span className="text-xs text-inactive">(최대 3개)</span>
           </InputLabel>
           <UploadImage onFileSelect={handleFileSelect} />
         </div>

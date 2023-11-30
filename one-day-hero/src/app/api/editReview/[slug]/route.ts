@@ -28,8 +28,8 @@ export async function POST(
 
   if (isError || !postResponse) {
     console.log(errorMessage);
-    return new NextResponse(null, {
-      status: postResponse?.status ?? 400
+    return NextResponse.json(postResponse ?? {}, {
+      status: 400
     });
   }
 

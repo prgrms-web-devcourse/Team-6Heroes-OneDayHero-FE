@@ -120,7 +120,13 @@ const ReviewForm = ({
       );
 
       if (!response.ok) {
-        throw new Error(response.statusText);
+        const data = await response.json();
+
+        const errorCode = data?.code;
+        const errorMessage = data?.message;
+
+        showToast(errorMessage, "error");
+        return;
       }
 
       const reviewId = (await response.json()).data.id;

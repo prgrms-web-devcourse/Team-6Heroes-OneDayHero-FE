@@ -24,8 +24,8 @@ export async function POST(request: NextRequest) {
   if (isError || !response) {
     console.log(errorMessage);
 
-    return new NextResponse(null, {
-      status: response?.status ?? 400
+    return NextResponse.json(response ?? {}, {
+      status: 400
     });
   }
 
