@@ -1,8 +1,6 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
-import { calculateAge, parseGender } from "@/app/utils/formatProfile";
 import HeroScore from "@/components/common/HeroScore";
 import LinkButton from "@/components/common/LinkButton";
 import ProfileImage from "@/components/common/ProfileImage";
@@ -10,6 +8,8 @@ import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
 import HelpCircle from "@/components/domain/profile/HelpCircle";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetProfileFetch } from "@/services/users";
+import { getServerToken } from "@/utils/auth";
+import { calculateAge, parseGender } from "@/utils/formatProfile";
 
 const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
   const heroId = parseInt(params.slug);
@@ -35,7 +35,7 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
           priority
         />
         <div className="flex grow flex-col justify-evenly text-base">
-          <h3 className="font-semibold text-sub">히어로</h3>
+          <h3 className="text-sub font-semibold">히어로</h3>
           <h3 className="">{basicInfo.nickname}</h3>
           <h3 className="">{`${calculateAge(basicInfo.birth)}세 / ${parseGender(
             basicInfo.gender
@@ -66,13 +66,13 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">희망 근무시간</h2>
-        <div className="rounded-lg border border-background-darken bg-white p-2">
+        <div className="border-background-darken rounded-lg border bg-white p-2">
           {`${favoriteWorkingDay.favoriteStartTime} ~ ${favoriteWorkingDay.favoriteEndTime}`}
         </div>
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">선호 지역</h2>
-        <div className="rounded-lg border border-background-darken bg-white p-2">
+        <div className="border-background-darken rounded-lg border bg-white p-2">
           {favoriteRegions?.map(({ id, si, gu, dong }) => (
             <p key={id}>{`${si} ${gu} ${dong}`}</p>
           ))}
@@ -80,7 +80,7 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
       </div>
       <div className="mb-12 w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">소개</h2>
-        <div className="rounded-lg border border-background-darken bg-white p-2">
+        <div className="border-background-darken rounded-lg border bg-white p-2">
           <p>{basicInfo.introduce}</p>
         </div>
       </div>

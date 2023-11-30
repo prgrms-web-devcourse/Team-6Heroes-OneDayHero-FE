@@ -2,10 +2,10 @@
 
 import { useRouter } from "next/navigation";
 
-import { getClientToken } from "@/app/utils/cookie";
 import { useToast } from "@/contexts/ToastProvider";
 import { useMutationalFetch } from "@/services/base";
 import { KebabMenuDataType } from "@/types";
+import { getClientToken } from "@/utils/cookie";
 
 import Button from "../Button";
 import Modal from "../Modal";

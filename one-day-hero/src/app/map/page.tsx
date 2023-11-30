@@ -9,7 +9,7 @@ import useLocation from "@/hooks/useLocation";
 import { useGetMapMissionList } from "@/services/map";
 import { Coordinates, MapType } from "@/types";
 
-import { getClientToken } from "../utils/cookie";
+import { getClientToken } from "../../utils/cookie";
 
 const INITIAL_CENTER: Coordinates = [37.5262411, 126.99289439];
 const INITIAL_ZOOM = 10;

@@ -2,11 +2,11 @@
 
 import { useRouter } from "next/navigation";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import { useToast } from "@/contexts/ToastProvider";
 import { useUserId } from "@/contexts/UserIdProvider";
 import { useCreateChatRoomFetch } from "@/services/chats";
+import { getClientToken } from "@/utils/cookie";
 
 type ChattingButtonProps = {
   missionId: number;

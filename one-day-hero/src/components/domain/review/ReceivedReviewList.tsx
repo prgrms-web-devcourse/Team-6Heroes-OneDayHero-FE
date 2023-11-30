@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import { useUserId } from "@/contexts/UserIdProvider";
 import { useGetReceiveReviewFetch } from "@/services/review";
+import { getClientToken } from "@/utils/cookie";
 
 import ReviewInfo from "./ReviewInfo";
 

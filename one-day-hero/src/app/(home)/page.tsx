@@ -5,7 +5,7 @@ import Banner from "@/components/domain/home/Banner";
 import HomeMissionList from "@/components/domain/home/HomeMissionList";
 import Assets from "@/config/assets";
 
-import { getServerToken } from "../utils/auth";
+import { getServerToken } from "../../utils/auth";
 
 const banners = [Assets.Banner1, Assets.Banner2, Assets.Banner3];
 

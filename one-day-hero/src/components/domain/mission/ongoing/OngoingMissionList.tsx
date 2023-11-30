@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useRef } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressContainer from "@/components/common/MissionProgressContainer";
 import { useGetProgressMissionListFetch } from "@/services/missions";
+import { getClientToken } from "@/utils/cookie";
 
 const OngoingMissionList = () => {
   const token = getClientToken();

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
-import { getServerToken } from "@/app/utils/auth";
 import OngoingMissionList from "@/components/domain/mission/ongoing/OngoingMissionList";
+import { getServerToken } from "@/utils/auth";
 
 const OngoingMissionPage = () => {
   const token = getServerToken();

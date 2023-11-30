@@ -2,8 +2,8 @@
 
 import { useRef } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import { useGetSuggestedMissionListFetch } from "@/services/missions";
+import { getClientToken } from "@/utils/cookie";
 
 import SuggestedMissionItem from "./SuggestedMissionItem";
 

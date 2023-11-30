@@ -2,13 +2,13 @@
 
 import { useRouter } from "next/navigation";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
 import { useToast } from "@/contexts/ToastProvider";
 import useModal from "@/hooks/useModal";
 import { passRevalidateTag } from "@/services/base";
 import { useCompleteMissionFetch, useCreateMatchFetch } from "@/services/chats";
+import { getClientToken } from "@/utils/cookie";
 
 interface MissionProgressButtonBarProps extends React.ComponentProps<"div"> {
   missionStatus:

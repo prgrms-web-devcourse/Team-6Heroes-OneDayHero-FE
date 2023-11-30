@@ -12,11 +12,11 @@ import {
 import { BiCamera, BiX } from "react-icons/bi";
 import { v4 as uuidv4 } from "uuid";
 
-import { getClientToken } from "@/app/utils/cookie";
 import { useToast } from "@/contexts/ToastProvider";
 import { CustomResponse } from "@/services/base";
 import { ImageFileType } from "@/types";
 import { EmptyResponse, ReviewDetailResponse } from "@/types/response";
+import { getClientToken } from "@/utils/cookie";
 
 import HorizontalScroll from "./HorizontalScroll";
 

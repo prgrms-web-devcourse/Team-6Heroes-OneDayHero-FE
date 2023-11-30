@@ -2,10 +2,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
 import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
 import { useGetMainFetch } from "@/services/home";
+import { getServerToken } from "@/utils/auth";
 
 const HomeMissionList = async () => {
   const token = getServerToken();
