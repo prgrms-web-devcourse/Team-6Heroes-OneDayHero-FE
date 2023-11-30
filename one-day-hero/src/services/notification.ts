@@ -8,6 +8,7 @@ export const useGetNotificationFetch = (
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<NotificationResponse>({
+    baseUrlType: "backend",
     pathname: "/alarms",
     size: 10,
     observerRef,

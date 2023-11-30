@@ -7,17 +7,15 @@ import ProfileImage from "@/components/common/ProfileImage";
 import FavoriteDateList from "@/components/domain/profile/FavoriteDateList";
 import HelpCircle from "@/components/domain/profile/HelpCircle";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
-import { useGetProfileFetch } from "@/services/users";
+import { safeGetProfileFetch } from "@/services/users";
 import { getServerToken } from "@/utils/auth";
-import { calculateAge, parseGender } from "@/utils/formatProfile";
-
 const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
   const heroId = parseInt(params.slug);
   const token = getServerToken();
 
   if (!token) redirect("/login?redirect=");
 
-  const { isError, response } = await useGetProfileFetch(heroId, true, token);
+  const { isError, response } = await safeGetProfileFetch(heroId, true, token);
 
   if (isError || !response) return <ErrorPage />;
 
@@ -28,18 +26,16 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
   return (
     <>
       <div className="flex w-full">
-        <ProfileImage
-          src={image.path || ""}
-          alt="프로필 이미지"
-          width={150}
-          priority
-        />
-        <div className="flex grow flex-col justify-evenly text-base">
-          <h3 className="text-sub font-semibold">히어로</h3>
-          <h3 className="">{basicInfo.nickname}</h3>
-          <h3 className="">{`${calculateAge(basicInfo.birth)}세 / ${parseGender(
-            basicInfo.gender
-          )}`}</h3>
+        <div className="flex grow flex-col items-center justify-evenly gap-3 text-base">
+          <ProfileImage
+            src={image.path || ""}
+            alt="프로필 이미지"
+            width={150}
+            height={150}
+            priority
+          />
+          <h3 className="text-xl font-bold text-sub-darken">히어로</h3>
+          <h3 className="text-lg font-bold">{basicInfo.nickname}</h3>
         </div>
       </div>
       <div className="w-full">
@@ -66,13 +62,13 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">희망 근무시간</h2>
-        <div className="border-background-darken rounded-lg border bg-white p-2">
+        <div className="rounded-lg border border-background-darken bg-white p-2">
           {`${favoriteWorkingDay.favoriteStartTime} ~ ${favoriteWorkingDay.favoriteEndTime}`}
         </div>
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">선호 지역</h2>
-        <div className="border-background-darken rounded-lg border bg-white p-2">
+        <div className="rounded-lg border border-background-darken bg-white p-2">
           {favoriteRegions?.map(({ id, si, gu, dong }) => (
             <p key={id}>{`${si} ${gu} ${dong}`}</p>
           ))}
@@ -80,7 +76,7 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
       </div>
       <div className="mb-12 w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">소개</h2>
-        <div className="border-background-darken rounded-lg border bg-white p-2">
+        <div className="rounded-lg border border-background-darken bg-white p-2">
           <p>{basicInfo.introduce}</p>
         </div>
       </div>

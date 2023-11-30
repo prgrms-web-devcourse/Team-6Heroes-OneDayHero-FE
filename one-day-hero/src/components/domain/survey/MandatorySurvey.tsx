@@ -2,13 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { forwardRef, useCallback, useEffect } from "react";
+import { forwardRef, useCallback, useEffect, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "@/components/common/Button";
 import InputLabel from "@/components/common/InputLabel";
 import UploadImage from "@/components/common/UploadImage";
 import { useToast } from "@/contexts/ToastProvider";
+import { useEditProfileFetch } from "@/services/users";
 import { ImageFileType } from "@/types";
 import {
   UserInfoForOptionalSurveyResponse,
@@ -24,6 +25,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
 
   const router = useRouter();
   const { showToast } = useToast();
+  const [isPending, startTransition] = useTransition();
 
   const {
     register,
@@ -54,6 +56,9 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     favoriteStartTime: null,
     favoriteEndTime: null
   };
+
+  const { mutationalFetch: editProfileFetch, isLoading } =
+    useEditProfileFetch();
 
   const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = async (data) => {
     const file = getValues("image");
@@ -86,29 +91,22 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       formData.append("userImages", imageBlob, "image.jpeg");
     }
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FE_URL}/api/createMandatorySurvey`,
-        {
-          method: "POST",
-          body: formData
-        }
+    const { isError, errorMessage, response } = await editProfileFetch({
+      method: "POST",
+      body: formData
+    });
+
+    if (isError || !response) {
+      showToast(
+        errorMessage ?? "프로필 수정 중 오류가 발생했어요. 다시 시도해주세요",
+        "error"
       );
-
-      if (!response.ok) {
-        const data = await response.json();
-
-        const errorCode = data?.code;
-        const errorMessage = data?.message;
-
-        showToast(errorMessage, "error");
-        return;
-      }
-
-      router.push("/survey/optional");
-    } catch (err) {
-      console.error(err);
+      return;
     }
+
+    startTransition(() => {
+      router.push("/survey/optional");
+    });
   };
 
   const handleFileSelect = useCallback(
@@ -166,7 +164,11 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
           )}
         </div>
 
-        <Button type="submit" className="cs:mx-auto cs:mt-24" size="lg">
+        <Button
+          type="submit"
+          className="cs:mx-auto cs:mt-24"
+          size="lg"
+          disabled={isLoading || isPending}>
           다음
         </Button>
       </form>

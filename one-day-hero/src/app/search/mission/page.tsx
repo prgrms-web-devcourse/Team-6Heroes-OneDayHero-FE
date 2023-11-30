@@ -121,9 +121,7 @@ const MissionSearchPage = () => {
 
   return (
     <>
-      <section
-        className="fixed z-50 mt-[4.5rem] 
-w-full max-w-screen-sm">
+      <section className="fixed z-50 mt-[4.5rem] w-full max-w-screen-sm">
         <div className="mx-4 mt-1 flex gap-2">
           <Select value="서울특별시">
             <option value="서울특별시" key={uuidv4()}>
@@ -164,7 +162,7 @@ w-full max-w-screen-sm">
           </select>
         </div>
 
-        <div className="border-background-darken bg-background mt-3 flex justify-center border-b pb-2">
+        <div className="mt-3 flex justify-center border-b border-background-darken bg-background pb-2">
           <Category
             value={queryString}
             onSelect={handleCategorySelect}

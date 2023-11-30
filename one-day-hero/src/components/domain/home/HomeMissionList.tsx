@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import ErrorPage from "@/app/error";
 import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
 import useLocation from "@/hooks/useLocation";
-import { useGetMainFetch } from "@/services/home";
+import { safeGetMainFetch } from "@/services/home";
 import { HomeResponse } from "@/types/response";
 import { getClientToken } from "@/utils/cookie";
 
@@ -19,19 +18,15 @@ const HomeMissionList = () => {
   const { location } = useLocation();
   const token = getClientToken();
 
-  // if (!token) redirect("/login");
-
-  const { mutationalFetch } = useGetMainFetch(
-    token!,
-    location.lat,
-    location.lng
-  );
-
   useEffect(() => {
     if (location.lat === 0 || location.lng === 0) return;
 
     const fetchHome = async () => {
-      const { isError, response } = await mutationalFetch();
+      const { isError, response } = await safeGetMainFetch(
+        token!,
+        location.lat,
+        location.lng
+      );
 
       if (isError || !response) return <ErrorPage />;
 

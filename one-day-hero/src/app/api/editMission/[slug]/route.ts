@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getServerToken } from "@/app/utils/auth";
 import { useEditMissionFetch } from "@/services/missions";
+import { getServerToken } from "@/utils/auth";
 
 export async function POST(
   request: NextRequest,

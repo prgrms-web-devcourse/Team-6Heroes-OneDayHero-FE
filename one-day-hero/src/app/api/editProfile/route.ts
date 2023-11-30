@@ -1,29 +1,17 @@
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
-import { useEditProfileFetch } from "@/services/users";
+import { safeEditProfileFetch } from "@/services/users";
 import { getServerToken } from "@/utils/auth";
 
 export async function POST(request: NextRequest) {
-  const token = getServerToken();
+  const token = getServerToken() ?? "";
 
-  const formData = await request.formData();
+  const data = await request.formData();
 
-  console.log("formData", formData);
-
-  const { mutationalFetch } = useEditProfileFetch();
-
-  const { isError, response, errorMessage } = await mutationalFetch({
-    method: "POST",
-    body: formData,
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
+  const { isError, response } = await safeEditProfileFetch(data, token);
 
   if (isError || !response) {
-    console.log(errorMessage);
-
     return NextResponse.json(response ?? {}, {
       status: 400
     });

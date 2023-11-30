@@ -51,7 +51,7 @@ const ChattingClientContainer = ({
                 missionDate={missionData.missionInfo.missionDate}
                 location={`${missionData.region.gu} ${missionData.region.dong}`}
                 title={missionData.missionInfo.title}
-                imageSrc={missionData.missionImage[0].path}
+                imageSrc={missionData.missionImage?.[0].path}
                 className="p-2"
               />
             </Link>

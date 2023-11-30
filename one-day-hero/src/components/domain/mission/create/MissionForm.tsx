@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useRef, useState, useTransition } from "react";
 import { z } from "zod";
 
 import Category from "@/components/common/Category";
@@ -13,6 +13,10 @@ import Select from "@/components/common/Select";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import { useToast } from "@/contexts/ToastProvider";
+import {
+  useCreateMissionFetch,
+  useEditMissionFetch
+} from "@/services/missions";
 import { ImageFileType, LocationType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
 import { MissionResponse } from "@/types/response";
@@ -62,6 +66,13 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
 
   const { showToast } = useToast();
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const { mutationalFetch: createMissionFetch, isLoading: createLoading } =
+    useCreateMissionFetch();
+
+  const { mutationalFetch: editMissionFetch, isLoading: editLoading } =
+    useEditMissionFetch(editDefaultData?.id ?? 0);
 
   const handleSelect = (id: number) => {
     setCategoryId(id);
@@ -147,37 +158,26 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
       });
     }
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FE_URL}/api/${
-          editDefaultData
-            ? `editMission/${editDefaultData.id}`
-            : "createMission"
-        }`,
-        {
-          method: "POST",
-          body: formData
-        }
-      );
+    const { isError, response } = await (editDefaultData
+      ? editMissionFetch
+      : createMissionFetch)({
+      method: "POST",
+      body: formData
+    });
 
-      console.log(response);
-
-      const missionId = (await response.json()).data.id;
-
-      showToast(
-        `미션 ${editDefaultData ? "수정" : "생성"}이 완료되었습니다`,
-        "success"
-      );
-
-      router.push(`/mission/${missionId}`);
-    } catch (error) {
-      showToast(
-        `미션 ${
-          editDefaultData ? "수정" : "생성"
-        } 중 오류가 발생했어요. 다시 시도해주세요`,
-        "error"
-      );
+    if (isError || !response) {
+      showToast(`리뷰 ${editDefaultData ? "수정" : "생성"}`, "error");
+      return;
     }
+
+    const missionId = response.data.id;
+
+    showToast(
+      `미션 ${editDefaultData ? "수정" : "생성"}이 완료되었습니다`,
+      "success"
+    );
+
+    router.push(`/mission/${missionId}`);
   };
 
   return (
