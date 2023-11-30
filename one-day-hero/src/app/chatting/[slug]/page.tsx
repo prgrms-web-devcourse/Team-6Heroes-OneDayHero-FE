@@ -52,10 +52,10 @@ const ChattingPage = async ({ params }: { params: { slug: string } }) => {
         receiverId={thisRoomData.receiverId}
         receiverImagePath={thisRoomData.receiverImagePath}>
         {chatRecordResponse.data.map(
-          ({ message, senderNickName, sentMessageTime, senderId }, index) => {
+          ({ message, senderNickName, sentMessageTime, senderId }) => {
             return (
               <Message
-                key={index}
+                key={`${senderId}_${sentMessageTime}`}
                 imagePath={thisRoomData.receiverImagePath}
                 message={message}
                 ninkName={senderNickName}

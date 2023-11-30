@@ -1,12 +1,11 @@
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
-import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 import ErrorPage from "@/app/error";
 import { getServerToken } from "@/app/utils/auth";
 import { calculateAge, parseGender } from "@/app/utils/formatProfile";
 import HeroScore from "@/components/common/HeroScore";
 import LinkButton from "@/components/common/LinkButton";
+import ProfileImage from "@/components/common/ProfileImage";
 import HelpCircle from "@/components/domain/profile/HelpCircle";
 import { HELP_MESSAGES } from "@/constants/helpMessage";
 import { useGetProfileFetch } from "@/services/users";
@@ -26,17 +25,16 @@ const CitizenProfilePage = async ({ params }: { params: { slug: string } }) => {
   if (isError || !response) return <ErrorPage />;
 
   const {
-    data: { basicInfo, heroScore }
+    data: { basicInfo, heroScore, image }
   } = response;
 
   return (
     <>
       <div className="flex w-full">
-        <Image
-          src={DefaultThumbnail}
-          alt="썸네일"
+        <ProfileImage
+          src={image.path || ""}
+          alt="프로필 이미지"
           width={150}
-          className="pointer-events-none mr-3 rounded-full bg-neutral-200"
           priority
         />
         <div className="flex grow flex-col justify-evenly text-base">

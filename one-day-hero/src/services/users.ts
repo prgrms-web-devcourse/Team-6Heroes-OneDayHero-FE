@@ -12,7 +12,7 @@ export const useGetProfileFetch = (
     `/users/${userId}/${isHero ? "hero-profile" : "citizen-profile"}`,
     {
       headers: { Authorization: `Bearer ${token}` },
-      next: { tags: [`user${userId}`] }
+      next: { revalidate: 0 }
     }
   );
 };

@@ -488,7 +488,7 @@ export type HeroNicknameResponse = {
   heroScore: 30;
 }[];
 
-export type ReviewDeleteResponse = {
+export type EmptyResponse = {
   status: number;
   data: null;
   serverDateTime: string;
@@ -651,6 +651,39 @@ export type NotificationResponse = {
     last: boolean;
     numberOfElements: number;
     empty: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type ProfileResponse = {
+  status: number;
+  data: {
+    basicInfo: {
+      nickname: string;
+      gender: string;
+      birth: string;
+      introduce: string;
+    };
+    image: {
+      originalName: string | null;
+      uniqueName: string | null;
+      path: string | null;
+    };
+    favoriteWorkingDay: {
+      favoriteDate: string[] | undefined;
+      favoriteStartTime: string | undefined;
+      favoriteEndTime: string | undefined;
+    };
+    favoriteRegions:
+      | {
+          id: number;
+          si: string;
+          gu: string;
+          dong: string;
+        }[]
+      | undefined;
+    heroScore: number;
+    isHeroMode?: boolean;
   };
   serverDateTime: string;
 };

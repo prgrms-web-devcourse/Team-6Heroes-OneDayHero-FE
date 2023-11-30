@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 import { getServerToken } from "@/app/utils/auth";
@@ -27,10 +28,12 @@ export async function POST(
 
   if (isError || !postResponse) {
     console.log(errorMessage);
-    return new NextResponse(null, {
+    return NextResponse.json(postResponse ?? {}, {
       status: 400
     });
   }
+
+  revalidateTag(`review${params.slug}`);
 
   return NextResponse.json(
     {

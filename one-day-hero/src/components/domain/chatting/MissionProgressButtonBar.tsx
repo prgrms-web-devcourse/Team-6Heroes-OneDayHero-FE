@@ -7,6 +7,7 @@ import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
 import { useToast } from "@/contexts/ToastProvider";
 import useModal from "@/hooks/useModal";
+import { passRevalidateTag } from "@/services/base";
 import { useCompleteMissionFetch, useCreateMatchFetch } from "@/services/chats";
 
 interface MissionProgressButtonBarProps extends React.ComponentProps<"div"> {
@@ -53,8 +54,12 @@ const MissionProgressButtonBar = ({
 
   const handleConfirm = async () => {
     const { isError } = await (missionStatus === "MATCHING"
-      ? createMatchFetch()
-      : completeMissionFetch());
+      ? createMatchFetch(() => {
+          passRevalidateTag(["progress", "matching"]);
+        })
+      : completeMissionFetch(() => {
+          passRevalidateTag(["progress", "matching"]);
+        }));
 
     if (isError) {
       showToast(
@@ -95,7 +100,7 @@ const MissionProgressButtonBar = ({
   return (
     <>
       <div className={`${defaultStyle} ${className}`} {...props}>
-        <button className={` ${progressStyle["active"]} ${buttonDefaultStyle}`}>
+        <button className={`${progressStyle["active"]} ${buttonDefaultStyle}`}>
           매칭중
         </button>
         <span className="h-0 w-2/12 border border-black " />

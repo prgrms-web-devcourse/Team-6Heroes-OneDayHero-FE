@@ -12,6 +12,7 @@ import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import { useToast } from "@/contexts/ToastProvider";
 import { useUserId } from "@/contexts/UserIdProvider";
+import { useDeleteReviewImageFetch } from "@/services/review";
 import { ImageFileType } from "@/types";
 import { ReviewDetailResponse } from "@/types/response";
 import { ReviewFormSchema } from "@/types/schema";
@@ -56,6 +57,8 @@ const ReviewForm = ({
 
   const { showToast } = useToast();
   const router = useRouter();
+
+  const { mutationalFetch: deleteImageFetch } = useDeleteReviewImageFetch();
 
   const handleScoreSelect = (count: number) => {
     setScore(count);
@@ -120,7 +123,13 @@ const ReviewForm = ({
       );
 
       if (!response.ok) {
-        throw new Error(response.statusText);
+        const data = await response.json();
+
+        const errorCode = data?.code;
+        const errorMessage = data?.message;
+
+        showToast(errorMessage, "error");
+        return;
       }
 
       const reviewId = (await response.json()).data.id;
@@ -174,6 +183,7 @@ const ReviewForm = ({
         <UploadImage
           onFileSelect={handleFileSelect}
           defaultImages={editDefaultData?.imageDatas}
+          deleteImageFetch={deleteImageFetch}
         />
       </div>
       <Button type="submit" className="cs:mt-3">
