@@ -26,7 +26,13 @@ const Header = ({
 
   const rightArea = {
     edit: (
-      <Link href="/survey/mandatory">
+      <Link
+        href={{
+          pathname: "/survey/mandatory",
+          query: {
+            edit: "profile"
+          }
+        }}>
         <FiEdit3 />
       </Link>
     ),
