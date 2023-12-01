@@ -96,9 +96,13 @@ const ProfilePage = async () => {
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">선호 지역</h2>
         <div className="border-background-darken min-h-[2.625rem] rounded-lg border bg-white p-2">
-          {favoriteRegions?.map(({ id, si, gu, dong }) => (
-            <p key={id}>{`${si} ${gu} ${dong}`}</p>
-          ))}
+          {favoriteRegions && favoriteRegions.length > 0 ? (
+            favoriteRegions.map(({ id, si, gu, dong }) => (
+              <p key={id}>{`${si} ${gu} ${dong}`}</p>
+            ))
+          ) : (
+            <p className="text-inactive">선호 지역이 비어있습니다!</p>
+          )}
         </div>
       </div>
       <div className="mb-12 w-full">
