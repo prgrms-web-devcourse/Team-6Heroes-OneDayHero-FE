@@ -20,6 +20,7 @@ type ChattingClientContainerProps = {
   receiverId: number;
   receiverImagePath: string;
   headCount: number;
+  senderNickname: string;
 };
 
 const ChattingClientContainer = ({
@@ -29,6 +30,7 @@ const ChattingClientContainer = ({
   receiverId,
   receiverImagePath,
   headCount,
+  senderNickname,
   children
 }: PropsWithChildren<ChattingClientContainerProps>) => {
   const { userId } = useUserId();
@@ -77,7 +79,11 @@ const ChattingClientContainer = ({
         {children}
       </MessageContainer>
 
-      <ChattingInputFooter sendMessage={sendMessage} roomId={roomId} />
+      <ChattingInputFooter
+        sendMessage={sendMessage}
+        roomId={roomId}
+        senderNickname={senderNickname}
+      />
     </>
   );
 };
