@@ -74,7 +74,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     useEditProfileFetch();
   const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = async (data) => {
     const file = getValues("image");
-    console.log("제출됨");
+
     const userData: UserInfoForOptionalSurveyResponse = {
       basicInfo: {
         nickname: data.nickName,
@@ -116,7 +116,6 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   };
   const handleFileSelect = useCallback(
     (file: ImageFileType[]) => {
-      console.log("이미지 확인", file);
       setValue("image", file);
       clearErrors("image");
     },
