@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 
 import Container from "@/components/common/Container";
 import MissionListItem from "@/components/common/Info/MissionListItem";
@@ -32,13 +32,17 @@ const ChattingClientContainer = ({
   children
 }: PropsWithChildren<ChattingClientContainerProps>) => {
   const { userId } = useUserId();
-  const isCitizen = userId === missionData.citizenId;
+  const [isCitizen, setIsCitizen] = useState(false);
 
   const { messages, sendMessage, messageEndRef } = useChatting(roomId);
 
+  useEffect(() => {
+    setIsCitizen(userId === missionData.citizenId);
+  }, [missionData.citizenId, userId]);
+
   return (
     <>
-      <div className="fixed top-[7.5rem] z-[60] flex w-full max-w-screen-sm justify-center">
+      <div className="fixed top-[7.5rem] z-[45] flex w-full max-w-screen-sm justify-center">
         <Container className="cs:flex cs:w-11/12 cs:items-center">
           {isCitizen ? (
             <MissionProgressButtonBar
