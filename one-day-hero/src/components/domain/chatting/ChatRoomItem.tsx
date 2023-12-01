@@ -13,8 +13,7 @@ const ChatRoomItem = ({
   receiverImagePath,
   receiverNickname,
   lastSentMessage,
-  lastSentMessageTime,
-  headCount
+  lastSentMessageTime
 }: ChatRoomItemProps) => {
   return (
     <Link
@@ -25,6 +24,7 @@ const ChatRoomItem = ({
           src={receiverImagePath}
           alt={`${receiverNickname}의 프로필`}
           height={60}
+          width={60}
           className="mr-3 shrink-0"
         />
       </div>
@@ -38,11 +38,6 @@ const ChatRoomItem = ({
         </div>
         <p className="max-w-[50vw] truncate text-sm">{lastSentMessage}</p>
       </div>
-      {headCount > 0 && (
-        <div className="bg-active h-7 w-7 rounded-full text-center text-white">
-          {headCount}
-        </div>
-      )}
     </Link>
   );
 };

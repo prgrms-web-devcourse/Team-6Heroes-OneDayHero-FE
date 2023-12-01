@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { forwardRef, useCallback, useEffect, useTransition } from "react";
@@ -20,7 +19,6 @@ import {
   MandatorySurveySchema,
   MandatorySurveySchemaProps
 } from "@/types/schema";
-
 const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   const { basicInfo, favoriteRegions, favoriteWorkingDay, image } =
     userData.data;
@@ -34,7 +32,6 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   const router = useRouter();
   const { showToast } = useToast();
   const [isPending, startTransition] = useTransition();
-
   const {
     register,
     handleSubmit,
@@ -60,7 +57,6 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   });
 
   const imageWatch = watch("image");
-
   useEffect(() => {
     if (!errors.image) {
       clearErrors("image");
@@ -68,21 +64,17 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       return;
     }
   }, [imageWatch]);
-
   const sortedFavoriteRegions = favoriteRegions?.map((item) => item.id) ?? [0];
   const vaildatedFavoriteWorkingDay = favoriteWorkingDay ?? {
     favoriteDate: [],
     favoriteStartTime: null,
     favoriteEndTime: null
   };
-
   const { mutationalFetch: editProfileFetch, isLoading } =
     useEditProfileFetch();
-
   const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = async (data) => {
     const file = getValues("image");
     console.log("제출됨");
-
     const userData: UserInfoForOptionalSurveyResponse = {
       basicInfo: {
         nickname: data.nickName,
@@ -93,12 +85,9 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       favoriteWorkingDay: vaildatedFavoriteWorkingDay,
       favoriteRegions: sortedFavoriteRegions
     };
-
     const formData = new FormData();
-
     const jsonData = JSON.stringify(userData);
     const imageData = file;
-
     formData.append(
       "userUpdateRequest",
       new Blob([jsonData], { type: "application/json" }),
@@ -110,12 +99,10 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
 
       formData.append("userImages", imageBlob, "image.jpeg");
     }
-
     const { isError, errorMessage, response } = await editProfileFetch({
       method: "POST",
       body: formData
     });
-
     if (isError || !response) {
       showToast(
         errorMessage ?? "프로필 수정 중 오류가 발생했어요. 다시 시도해주세요",
@@ -123,12 +110,10 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       );
       return;
     }
-
     startTransition(() => {
       router.push("/survey/optional");
     });
   };
-
   const handleFileSelect = useCallback(
     (file: ImageFileType[]) => {
       console.log("이미지 확인", file);
@@ -137,7 +122,6 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     },
     [setValue]
   );
-
   return (
     <>
       <form
@@ -160,33 +144,30 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
             <p className="text-red-500">프로필 이미지를 업로드 해주세요.</p>
           )}
         </div>
-
         <div>
           <InputLabel className="cs:mb-1 cs:ml-1 cs:text-xl" required>
             닉네임
           </InputLabel>
           <input
             {...register("nickName")}
-            className="h-11 w-full rounded-[10px] border border-inactive p-4 pl-3 placeholder:text-inactive focus:outline-primary"
+            className="border-inactive placeholder:text-inactive focus:outline-primary h-11 w-full rounded-[10px] border p-4 pl-3"
           />
           {errors.nickName && (
             <p className="text-red-500">{`${errors.nickName.message}`}</p>
           )}
         </div>
-
         <div>
           <InputLabel className="cs:mb-1 cs:ml-1 cs:text-xl" required>
             자기소개
           </InputLabel>
           <textarea
             {...register("introduction")}
-            className="h-40 w-full max-w-screen-sm resize-none rounded-2xl border border-inactive p-4 focus:outline-primary"
+            className="border-inactive focus:outline-primary h-40 w-full max-w-screen-sm resize-none rounded-2xl border p-4"
           />
           {errors.introduction && (
             <p className="text-red-500">{`${errors.introduction.message}`}</p>
           )}
         </div>
-
         <Button
           type="submit"
           className="cs:mx-auto cs:mt-24"
@@ -198,7 +179,5 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     </>
   );
 });
-
 MandatorySurvey.displayName = "MandatorySurvey";
-
 export default MandatorySurvey;

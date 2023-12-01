@@ -57,6 +57,7 @@ const ReviewInfo = ({
             src={profileImage || ""}
             alt="프로필 이미지"
             height={60}
+            width={60}
           />
         </div>
         <div className="flex grow flex-col gap-[3px]">

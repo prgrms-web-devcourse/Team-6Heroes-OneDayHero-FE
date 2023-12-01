@@ -44,7 +44,7 @@ export async function safeFetch<T>(
         const bodyData = await response.json();
         throw new Error(bodyData?.message ?? response.statusText);
       } catch (err) {
-        throw new Error(response.statusText);
+        throw new Error((err as Error).message);
       }
     }
 

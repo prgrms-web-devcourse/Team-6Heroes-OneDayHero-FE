@@ -61,17 +61,18 @@ const SuggestedMissionItem = ({
   ) => {
     e.preventDefault();
 
-    const { isError: isApproveError } = await approveProposal();
+    const { isError: isApproveError, errorMessage: approveErrorMessage } =
+      await approveProposal();
 
     if (isApproveError) {
-      showToast("다시 시도해주세요", "error");
+      showToast(approveErrorMessage ?? "다시 시도해주세요", "error");
       return;
     }
 
-    const { isError, response } = await createChatRoom();
+    const { isError, errorMessage, response } = await createChatRoom();
 
     if (isError || !response) {
-      showToast("다시 시도해주세요", "error");
+      showToast(errorMessage ?? "다시 시도해주세요", "error");
       return;
     }
 
