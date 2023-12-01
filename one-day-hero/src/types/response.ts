@@ -319,8 +319,8 @@ export type ReviewDetailResponse = {
     starScore: 1 | 2 | 3 | 4 | 5;
     reviewImageResponses: {
       id: number | null;
-      originalName: string | null;
-      uniqueName: string | null;
+      originalName?: string | null;
+      uniqueName?: string | null;
       path: string | null;
     }[];
     createdAt: string;
