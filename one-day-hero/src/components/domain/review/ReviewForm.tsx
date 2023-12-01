@@ -157,7 +157,7 @@ const ReviewForm = ({
       className="flex w-full flex-col items-center gap-5"
       onSubmit={handleSubmit}
       encType="multipart/form-data">
-      <Container className="flex flex-col items-center gap-8 text-center cs:m-0 cs:w-full cs:py-8">
+      <Container className="cs:m-0 cs:w-full cs:py-8 flex flex-col items-center gap-8 text-center">
         <h1 className="text-lg font-medium">
           &quot;{receiverNickname}&quot; 님과의 미션은 어떠셨나요?
         </h1>
@@ -180,7 +180,7 @@ const ReviewForm = ({
       </div>
       <div className="mb-5 flex w-full flex-col justify-start">
         <InputLabel className="cs:text-base">
-          사진 <span className="text-sm text-inactive">(최대 3개)</span>
+          사진 <span className="text-inactive text-sm">(최대 3개)</span>
         </InputLabel>
         <UploadImage
           onFileSelect={handleFileSelect}
