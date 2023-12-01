@@ -53,6 +53,7 @@ export const useProposeMissionFetch = () => {
       onSuccess?: () => void,
       onError?: () => void
     ) => Promise<CustomResponse<ProposalResponse>>;
+    isLoading: boolean;
   };
 };
 

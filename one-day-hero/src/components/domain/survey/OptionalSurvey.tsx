@@ -167,6 +167,8 @@ const OptionalSurvey = (userData: ProfileResponse) => {
   const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = async (
     data: OptionalSurveySchemaProps
   ) => {
+    if (isLoading || isPending) return;
+
     const { favoriteWorkingDay, favoriteRegions } = data;
 
     const userData: UserInfoForOptionalSurveyResponse = {

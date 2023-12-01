@@ -60,6 +60,7 @@ const SuggestedMissionItem = ({
     e
   ) => {
     e.preventDefault();
+    if (isApproveLoading || isApprovePending || isCreateChatLoading) return;
 
     const { isError: isApproveError, errorMessage: approveErrorMessage } =
       await approveProposal();
