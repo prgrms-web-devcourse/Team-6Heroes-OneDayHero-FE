@@ -20,7 +20,7 @@ import { CustomResponse, safeFetch } from "./base";
 export const safeGetMissionFetch = (missionId: string, token: string) => {
   return safeFetch<MissionResponse>("backend", `/missions/${missionId}`, {
     headers: { Authorization: `Bearer ${token}` },
-    next: { tags: [`mission${missionId}`] }
+    next: { revalidate: 0 }
   });
 };
 

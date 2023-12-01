@@ -142,6 +142,9 @@ export const MissionFormSchema = z.object({
     price: z
       .number()
       .min(1000, "포상금을 1000 이상의 값으로 입력해주세요!")
-      .refine((price) => price > 0, "포상금을 입력해주세요!")
+      .refine(
+        (price) => price > 0 && price !== null && price !== undefined,
+        "포상금을 입력해주세요!"
+      )
   })
 });
