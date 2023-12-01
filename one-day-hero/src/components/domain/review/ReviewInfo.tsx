@@ -21,10 +21,10 @@ type ReviewInfoProps = {
   profileImage?: string | null;
   reviewImage?:
     | {
-        id: number;
-        originalName: string;
-        uniqueName: string;
-        path: string;
+        id: number | null;
+        originalName: string | null;
+        uniqueName: string | null;
+        path: string | null;
       }[]
     | null;
 };
@@ -51,7 +51,7 @@ const ReviewInfo = ({
     <Container className="cs:flex cs:w-full cs:flex-col cs:gap-5 cs:p-4">
       <div className="flex gap-3">
         <div
-          className="bg-inactive relative h-[60px] w-[60px] rounded-full"
+          className="relative h-[60px] w-[60px] rounded-full bg-inactive"
           onClick={handleProfileClick}>
           <ProfileImage
             src={profileImage || ""}
@@ -61,12 +61,12 @@ const ReviewInfo = ({
           />
         </div>
         <div className="flex grow flex-col gap-[3px]">
-          <Label size="sm" className="cs:w-[67px] whitespace-nowrap">
+          <Label size="sm" className="whitespace-nowrap cs:w-[67px]">
             {categoryName}
           </Label>
           <div className="flex gap-2">
             <ReadStarRating value={starScore} />
-            <span className="text-inactive text-xs" suppressHydrationWarning>
+            <span className="text-xs text-inactive" suppressHydrationWarning>
               {formatDate(createdAt)}
             </span>
           </div>
@@ -77,7 +77,7 @@ const ReviewInfo = ({
         reviewImage.map((image) => (
           <div key={image.id} className="relative h-32 w-32">
             <Image
-              src={image.path}
+              src={image.path || ""}
               alt="리뷰 이미지"
               fill
               className="object-cover"

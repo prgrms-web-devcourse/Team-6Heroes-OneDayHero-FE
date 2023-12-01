@@ -32,6 +32,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   const router = useRouter();
   const { showToast } = useToast();
   const [isPending, startTransition] = useTransition();
+
   const {
     register,
     handleSubmit,
@@ -57,6 +58,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   });
 
   const imageWatch = watch("image");
+
   useEffect(() => {
     if (!errors.image) {
       clearErrors("image");
@@ -64,6 +66,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       return;
     }
   }, [imageWatch]);
+
   const sortedFavoriteRegions = favoriteRegions?.map((item) => item.id) ?? [0];
   const vaildatedFavoriteWorkingDay = favoriteWorkingDay ?? {
     favoriteDate: [],
@@ -72,7 +75,10 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   };
   const { mutationalFetch: editProfileFetch, isLoading } =
     useEditProfileFetch();
+
   const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = async (data) => {
+    if (isLoading || isPending) return;
+
     const file = getValues("image");
 
     const userData: UserInfoForOptionalSurveyResponse = {
@@ -114,6 +120,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       router.push("/survey/optional");
     });
   };
+
   const handleFileSelect = useCallback(
     (file: ImageFileType[]) => {
       setValue("image", file);
@@ -121,6 +128,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     },
     [setValue]
   );
+
   return (
     <>
       <form
@@ -149,7 +157,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
           </InputLabel>
           <input
             {...register("nickName")}
-            className="border-inactive placeholder:text-inactive focus:outline-primary h-11 w-full rounded-[10px] border p-4 pl-3"
+            className="h-11 w-full rounded-[10px] border border-inactive p-4 pl-3 placeholder:text-inactive focus:outline-primary"
           />
           {errors.nickName && (
             <p className="text-red-500">{`${errors.nickName.message}`}</p>
@@ -161,7 +169,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
           </InputLabel>
           <textarea
             {...register("introduction")}
-            className="border-inactive focus:outline-primary h-40 w-full max-w-screen-sm resize-none rounded-2xl border p-4"
+            className="h-40 w-full max-w-screen-sm resize-none rounded-2xl border border-inactive p-4 focus:outline-primary"
           />
           {errors.introduction && (
             <p className="text-red-500">{`${errors.introduction.message}`}</p>
@@ -178,5 +186,6 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     </>
   );
 });
+
 MandatorySurvey.displayName = "MandatorySurvey";
 export default MandatorySurvey;
