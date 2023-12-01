@@ -10,6 +10,7 @@ export const userDetail: UserResponse = {
       introduce: "자기 소개"
     },
     image: {
+      id: 1,
       originalName: "profile.jpg",
       uniqueName: "unique.jpg",
       path: "http://"
