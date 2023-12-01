@@ -58,6 +58,7 @@ const ChattingClientContainer = ({
                 location={`${missionData.region.gu} ${missionData.region.dong}`}
                 title={missionData.missionInfo.title}
                 imageSrc={missionData.missionImage?.[0]?.path}
+                bookmarkCount={missionData.bookmarkCount}
                 className="p-2"
               />
             </Link>
