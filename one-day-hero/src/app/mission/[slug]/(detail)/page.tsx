@@ -100,7 +100,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
       {isOwner && (
         <Button size="lg" className="cs:mt-7">
           <div className="relative inline-block">
-            <BiEdit className="absolute -left-7 top-[3px]" size={24} />
+            <BiEdit className="absolute -left-7 top-[0.188rem]" size={24} />
             수정하기
           </div>
         </Button>
