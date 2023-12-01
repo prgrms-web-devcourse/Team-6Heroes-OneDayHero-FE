@@ -140,11 +140,8 @@ export const MissionFormSchema = z.object({
     startTime: z.string().endsWith("00", "마감 시간을 설정해주세요!"),
     endTime: z.string().endsWith("00", "마감 시간을 설정해주세요!"),
     price: z
-      .number()
-      .min(1000, "포상금을 1000 이상의 값으로 입력해주세요!")
-      .refine(
-        (price) => price > 0 && price !== null && price !== undefined,
-        "포상금을 입력해주세요!"
-      )
+      .number({ invalid_type_error: "포상금을 입력해 주세요!" })
+      .positive("etc.")
+      .min(1000, "포상금을 1000원 이상의 값으로 입력해주세요!")
   })
 });
