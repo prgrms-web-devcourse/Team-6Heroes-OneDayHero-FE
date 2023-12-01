@@ -51,7 +51,7 @@ const ReviewInfo = ({
     <Container className="cs:flex cs:w-full cs:flex-col cs:gap-5 cs:p-4">
       <div className="flex gap-3">
         <div
-          className="relative h-[60px] w-[60px] rounded-full bg-inactive"
+          className="relative h-[60px] w-[60px] cursor-pointer rounded-full bg-inactive"
           onClick={handleProfileClick}>
           <ProfileImage
             src={profileImage || ""}
