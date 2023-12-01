@@ -199,10 +199,13 @@ export const useGetCompleteMissionListFetch = (
   });
 };
 
-export const useGetSuggestingMissionListFetch = (token: string) => {
+export const useGetSuggestingMissionListFetch = (
+  token: string,
+  heroId: number
+) => {
   return useMutationalFetch<SuggestingMissionListResponse>(
     "backend",
-    `/missions/matching`,
+    `/missions/matching?heroId=${heroId}`,
     {
       headers: { Authorization: `Bearer ${token}` },
       next: { tags: [`matching`] }

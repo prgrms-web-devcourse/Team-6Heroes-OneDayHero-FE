@@ -32,7 +32,7 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
   const [isPending, startTransition] = useTransition();
 
   const { mutationalFetch: getMissionsFetch } =
-    useGetSuggestingMissionListFetch(token ?? "");
+    useGetSuggestingMissionListFetch(token ?? "", heroId);
 
   useEffect(() => {
     const getMissions = async () => {
