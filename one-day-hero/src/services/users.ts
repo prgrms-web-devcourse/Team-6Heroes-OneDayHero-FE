@@ -13,6 +13,7 @@ export const safeGetProfileFetch = (
     "backend",
     `/users/${userId}/${isHero ? "hero-profile" : "citizen-profile"}`,
     {
+      method: "GET",
       headers: { Authorization: `Bearer ${token}` },
       next: { revalidate: 0 }
     }
@@ -21,8 +22,9 @@ export const safeGetProfileFetch = (
 
 export const safeGetUserFetch = (token: string) => {
   return safeFetch<UserResponse>("backend", `/me`, {
+    method: "GET",
     headers: { Authorization: `Bearer ${token}` },
-    next: { tags: [`user`] }
+    next: { tags: [`user`], revalidate: 0 }
   });
 };
 
