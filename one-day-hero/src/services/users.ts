@@ -22,7 +22,7 @@ export const safeGetProfileFetch = (
 export const safeGetUserFetch = (token: string) => {
   return safeFetch<UserResponse>("backend", `/me`, {
     headers: { Authorization: `Bearer ${token}` },
-    cache: "no-store"
+    next: { tags: [`user`] }
   });
 };
 
