@@ -2,11 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState, useTransition } from "react";
-import { z } from "zod";
 
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
-import ErrorMessage from "@/components/common/ErrorMessage";
 import Input from "@/components/common/Input";
 import InputLabel from "@/components/common/InputLabel";
 import Select from "@/components/common/Select";
@@ -29,8 +27,6 @@ import PostCode from "./PostCode";
 
 const hours = Array.from({ length: 24 }, (_, index) => index);
 
-type MissionRequestType = z.infer<typeof MissionFormSchema>;
-
 type CreateFormProps = {
   editDefaultData?: {
     id: number;
@@ -44,7 +40,18 @@ type CreateFormProps = {
 };
 
 type FormattedErrors = {
-  [key: string]: string | { [key: string]: string };
+  missionCategoryId?: string;
+  regionName?: string;
+  latitude?: string;
+  longitude?: string;
+  missionInfo?: {
+    title?: string;
+    content?: string;
+    missionDate?: string;
+    startTime?: string;
+    endTime?: string;
+    price?: string;
+  };
 };
 
 const MissionForm = ({ editDefaultData }: CreateFormProps) => {
@@ -55,9 +62,7 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
     null
   );
   const [location, setLocation] = useState<LocationType | null>(null);
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof MissionRequestType, string>>
-  >({});
+  const [errors, setErrors] = useState<FormattedErrors | null>(null);
   const titleRef = useRef<HTMLInputElement | null>(null);
   const dateRef = useRef<HTMLInputElement | null>(null);
   const startRef = useRef<HTMLSelectElement | null>(null);
@@ -91,6 +96,7 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (isPending || createLoading || editLoading) return;
 
     const deadline =
       (dateRef.current?.value ?? "") + " " + (startRef.current?.value ?? "");
@@ -129,15 +135,15 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
       for (const key in validationError) {
         const parts = key.split(".");
 
-        if (parts.length > 1) {
-          if (!formattedErrors[parts[0]]) {
-            formattedErrors[parts[0]] = {};
-          }
-          (formattedErrors[parts[0] as string] as { [key: string]: string })[
-            parts.slice(1).join(".")
-          ] = validationError[key];
+        if (parts.length === 2 && parts[0] === "missionInfo") {
+          if (!formattedErrors.missionInfo) formattedErrors.missionInfo = {};
+          const missionInfoKey = parts[1] as keyof NonNullable<
+            FormattedErrors["missionInfo"]
+          >;
+          formattedErrors.missionInfo[missionInfoKey] = validationError[key];
         } else {
-          formattedErrors[key] = validationError[key];
+          const formattedErrorsKey = key as keyof FormattedErrors;
+          formattedErrors[formattedErrorsKey] = validationError[key];
         }
       }
 
@@ -306,11 +312,9 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
                   resionName: `${editDefaultData.region.dong}`
                 }
               })}
+              errorMessage={errors?.regionName}
             />
           </div>
-          {errors.regionName && (
-            <ErrorMessage>{errors.regionName}</ErrorMessage>
-          )}
         </div>
       </Container>
     </form>

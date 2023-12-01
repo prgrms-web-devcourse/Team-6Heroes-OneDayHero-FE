@@ -9,11 +9,16 @@ import useModal from "@/hooks/useModal";
 import { LocationType } from "@/types";
 
 type PostCodeProps = {
+  errorMessage?: string;
   defaultLocation?: LocationType;
   onChange: (location: LocationType) => void;
 };
 
-const PostCode = ({ onChange, defaultLocation }: PostCodeProps) => {
+const PostCode = ({
+  errorMessage,
+  onChange,
+  defaultLocation
+}: PostCodeProps) => {
   const [address, setAddress] = useState<string>(
     defaultLocation?.resionName ?? ""
   );
@@ -62,7 +67,12 @@ const PostCode = ({ onChange, defaultLocation }: PostCodeProps) => {
 
   return (
     <div className="flex w-full gap-2 ">
-      <Input className="grow" readOnly readOnlyValue={address} />
+      <Input
+        className="grow"
+        readOnly
+        readOnlyValue={address}
+        error={errorMessage}
+      />
       <button
         type="button"
         onClick={handleClick}

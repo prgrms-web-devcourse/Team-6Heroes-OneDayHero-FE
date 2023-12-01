@@ -97,7 +97,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           </Button>
         </Link>
       </Container>
-      {!isOwner && <CitizenInfo citizenId={userId} />}
+      {!isOwner && <CitizenInfo citizenId={citizenId} />}
       {isOwner && (
         <LinkButton href={`${missionId}/edit`} className="cs:mt-7">
           <div className="relative inline-block">

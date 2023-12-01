@@ -34,7 +34,7 @@ const CitizenInfo = async ({ citizenId, className }: CitizenInfoProps) => {
           <h2 className="text-base font-semibold">시민 정보</h2>
           <BiChevronRight size="20" />
         </div>
-        <div className="mt-2 flex pr-2">
+        <div className="mt-2 flex gap-2 pr-2">
           <ProfileImage
             src={image.path || ""}
             alt="프로필 이미지"
