@@ -128,8 +128,6 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
         validationError[err.path.join(".")] = err.message;
       });
 
-      console.log(validationError);
-
       const formattedErrors: FormattedErrors = {};
 
       for (const key in validationError) {
