@@ -19,6 +19,7 @@ type ChattingClientContainerProps = {
   myImagePath: string;
   receiverId: number;
   receiverImagePath: string;
+  headCount: number;
 };
 
 const ChattingClientContainer = ({
@@ -27,6 +28,7 @@ const ChattingClientContainer = ({
   myImagePath,
   receiverId,
   receiverImagePath,
+  headCount,
   children
 }: PropsWithChildren<ChattingClientContainerProps>) => {
   const { userId } = useUserId();
@@ -36,7 +38,7 @@ const ChattingClientContainer = ({
 
   return (
     <>
-      <div className="fixed top-[7.5rem] z-40 flex w-full max-w-screen-sm justify-center">
+      <div className="fixed top-[7.5rem] z-[60] flex w-full max-w-screen-sm justify-center">
         <Container className="cs:flex cs:w-11/12 cs:items-center">
           {isCitizen ? (
             <MissionProgressButtonBar
@@ -51,7 +53,7 @@ const ChattingClientContainer = ({
                 missionDate={missionData.missionInfo.missionDate}
                 location={`${missionData.region.gu} ${missionData.region.dong}`}
                 title={missionData.missionInfo.title}
-                imageSrc={missionData.missionImage?.[0].path}
+                imageSrc={missionData.missionImage?.[0]?.path}
                 className="p-2"
               />
             </Link>
@@ -65,7 +67,8 @@ const ChattingClientContainer = ({
         myImagePath={myImagePath}
         receiverImagePath={receiverImagePath}
         missionStatus={missionData.missionStatus}
-        missionId={missionData.id}>
+        missionId={missionData.id}
+        headCount={headCount}>
         {children}
       </MessageContainer>
 

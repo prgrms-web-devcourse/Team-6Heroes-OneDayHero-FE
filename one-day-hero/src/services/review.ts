@@ -13,10 +13,7 @@ import {
 import { CustomResponse, safeFetch } from "./base";
 
 export const useCreateReviewFetch = () => {
-  return useMutationalFetch<CreateReviewResponse>(
-    "route",
-    "/createReviews"
-  ) as {
+  return useMutationalFetch<CreateReviewResponse>("route", "/createReview") as {
     mutationalFetch: (
       fetchOptions: RequestInit,
       onSuccess?: (response?: Response) => void,
