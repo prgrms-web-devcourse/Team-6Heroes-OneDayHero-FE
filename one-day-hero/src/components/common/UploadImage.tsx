@@ -80,7 +80,7 @@ const UploadImage = forwardRef(
     console.log("default image", defaultImages);
 
     const handleUpload = () => {
-      if (size === "md" && imagesLength >= maxImageLength) {
+      if (imagesLength >= maxImageLength) {
         showToast(`최대 ${maxImageLength}개까지 선택 가능합니다.`, "error");
         return;
       }

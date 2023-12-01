@@ -27,9 +27,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
 
   const isEditmode = useSearchParams().get("edit") ? true : false;
 
-  console.log("edit", isEditmode);
-
-  // const defaultImage = image.path === null ? [null] : [image];
+  const defaultImage = image.path === null ? undefined : [image];
 
   const { mutationalFetch: deleteImageFetch } = useDeleteProfileImageFetch();
 
@@ -46,7 +44,19 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     clearErrors,
     watch
   } = useForm<MandatorySurveySchemaProps>({
-    resolver: zodResolver(MandatorySurveySchema)
+    resolver: zodResolver(MandatorySurveySchema),
+    defaultValues: isEditmode
+      ? {
+          image: [
+            {
+              id: (image.id || 0).toString(),
+              file: null
+            }
+          ],
+          nickName: basicInfo.nickname,
+          introduction: basicInfo.introduce
+        }
+      : undefined
   });
 
   const imageWatch = watch("image");
@@ -95,7 +105,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       "json"
     );
 
-    if (imageData) {
+    if (imageData?.[0]?.file) {
       const imageBlob = new Blob([imageData[0]?.file], { type: "image/jpeg" });
 
       formData.append("userImages", imageBlob, "image.jpeg");
@@ -141,7 +151,8 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
             {...register("image")}
             size="lg"
             onFileSelect={handleFileSelect}
-            defaultImages={[image]}
+            maxImageLength={1}
+            defaultImages={defaultImage}
             deleteImageFetch={deleteImageFetch}
             pathname="/me/profile-image"
           />
@@ -155,9 +166,8 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
             닉네임
           </InputLabel>
           <input
-            defaultValue={basicInfo.nickname}
             {...register("nickName")}
-            className="border-inactive placeholder:text-inactive focus:outline-primary h-11 w-full rounded-[10px] border p-4 pl-3"
+            className="h-11 w-full rounded-[10px] border border-inactive p-4 pl-3 placeholder:text-inactive focus:outline-primary"
           />
           {errors.nickName && (
             <p className="text-red-500">{`${errors.nickName.message}`}</p>
@@ -169,9 +179,8 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
             자기소개
           </InputLabel>
           <textarea
-            defaultValue={basicInfo.introduce}
             {...register("introduction")}
-            className="border-inactive focus:outline-primary h-40 w-full max-w-screen-sm resize-none rounded-2xl border p-4"
+            className="h-40 w-full max-w-screen-sm resize-none rounded-2xl border border-inactive p-4 focus:outline-primary"
           />
           {errors.introduction && (
             <p className="text-red-500">{`${errors.introduction.message}`}</p>
