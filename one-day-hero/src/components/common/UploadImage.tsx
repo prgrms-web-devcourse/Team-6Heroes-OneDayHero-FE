@@ -77,8 +77,10 @@ const UploadImage = forwardRef(
       lg: "w-52 h-52 absolute overflow-hidden text-3xl rounded-2xl"
     };
 
+    console.log("default image", defaultImages);
+
     const handleUpload = () => {
-      if (size === "md" && imagesLength >= maxImageLength) {
+      if (imagesLength >= maxImageLength) {
         showToast(`최대 ${maxImageLength}개까지 선택 가능합니다.`, "error");
         return;
       }
@@ -159,10 +161,10 @@ const UploadImage = forwardRef(
                 <BiX
                   size={size === "lg" ? 30 : 20}
                   className="absolute right-[6px] top-[6px] z-10 text-black"
-                  onClick={handlePrevDelete(image.id)}
+                  onClick={handlePrevDelete(image.id || 0)}
                 />
                 <Image
-                  src={image.path}
+                  src={image.path || ""}
                   alt="올린 이미지"
                   fill
                   className="bg-cover"

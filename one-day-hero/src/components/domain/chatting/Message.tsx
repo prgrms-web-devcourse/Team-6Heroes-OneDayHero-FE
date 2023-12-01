@@ -24,6 +24,7 @@ const Message = ({
         <ProfileImage
           src={imagePath}
           alt="profileImage"
+          width={60}
           height={60}
           className="cs:mr-3 cs:shrink-0"
         />

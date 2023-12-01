@@ -81,6 +81,7 @@ const ReviewForm = ({
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (createLoading || editLoading || isPending) return;
 
     const data: RequestType = {
       senderId: !editDefaultData ? userId : undefined,

@@ -53,7 +53,8 @@ const ChattingPage = async ({ params }: { params: { slug: string } }) => {
         missionData={missionResponse.data}
         myImagePath={meResponse.data.image.path || ""}
         receiverId={thisRoomData.receiverId}
-        receiverImagePath={thisRoomData.receiverImagePath}>
+        receiverImagePath={thisRoomData.receiverImagePath}
+        headCount={thisRoomData.headCount}>
         {chatRecordResponse.data.map(
           ({ message, senderNickName, sentMessageTime, senderId }) => {
             return (
