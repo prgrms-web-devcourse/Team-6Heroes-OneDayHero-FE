@@ -32,13 +32,17 @@ const MapPage = ({ searchParams }: MapPageProps) => {
     observeRef
   );
 
-  console.log(data);
-
   useEffect(() => {
-    if (location.lat === 0 && location.lng === 0) return;
-    setSearchParams(`longitude=127.030921234166&latitude=37.4924272855457`);
+    if (
+      location.lat === 0 ||
+      location.lng === 0 ||
+      Object.keys(searchParams || {}).length
+    ) {
+      return;
+    }
+
+    setSearchParams(`longitude=${location.lng}&latitude=${location.lat}`);
   }, [location]);
-  /** note 위치 기반 테스트 lat=37.4924272855457&lng=127.030921234166 */
 
   const initializeMap = () => {
     const mapOptions = {
@@ -65,25 +69,43 @@ const MapPage = ({ searchParams }: MapPageProps) => {
         map: map,
         position: position
       });
-    } else {
-      data.forEach(({ latitude, longitude }) => {
-        const position = new naver.maps.LatLng(latitude, longitude);
-        const marker = new naver.maps.Marker({
-          map: map,
-          position: position
-        });
-        const infowindow = new naver.maps.InfoWindow({
-          content: `<MapMissionList />`
-        });
-        marker.addListener("click", (e) => {
-          if (infowindow.getMap()) {
-            infowindow.close();
-          } else {
-            infowindow.open(map, marker);
-          }
-          mapRef.current?.panTo(position, e.coord);
-        });
+
+      const infowindow = new naver.maps.InfoWindow({
+        content: `<div>미션 지역을 확인해보세요!</div>`
       });
+
+      marker.addListener("click", () => {
+        if (infowindow.getMap()) {
+          infowindow.close();
+        } else {
+          infowindow.open(map, marker);
+        }
+        mapRef.current?.panTo(position);
+      });
+
+      window.naver.maps.Event.addListener(map, "click", () => {
+        infowindow.close();
+      });
+    } else {
+      data &&
+        data.forEach(({ latitude, longitude }) => {
+          const position = new naver.maps.LatLng(latitude, longitude);
+          const marker = new naver.maps.Marker({
+            map: map,
+            position: position
+          });
+          const infowindow = new naver.maps.InfoWindow({
+            content: `<div>미션 지역을 확인해보세요!</div>`
+          });
+          marker.addListener("click", () => {
+            if (infowindow.getMap()) {
+              infowindow.close();
+            } else {
+              infowindow.open(map, marker);
+            }
+            mapRef.current?.panTo(position);
+          });
+        });
     }
   };
 
@@ -112,7 +134,7 @@ const MapPage = ({ searchParams }: MapPageProps) => {
       <div id="map" className="h-full w-full" />
       <button
         type="button"
-        className="absolute left-1/2 top-2 z-30 flex h-8 w-24 -translate-x-1/2 cursor-pointer items-center justify-center gap-1 rounded-2xl bg-white text-center text-sm font-semibold shadow-down"
+        className="shadow-down absolute left-1/2 top-2 z-30 flex h-8 w-24 -translate-x-1/2 cursor-pointer items-center justify-center gap-1 rounded-2xl bg-white text-center text-sm font-semibold"
         onClick={() => setOpenBottomSheet(true)}>
         <IoList size={18} className="inline-block" />
         <span className="inline-block">목록보기</span>
