@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { ChangeEvent, RefObject, useState } from "react";
+import { ChangeEvent, RefObject, useEffect, useState } from "react";
 
+import Button from "@/components/common/Button";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
 import Select from "@/components/common/Select";
 import { MapResponse } from "@/types/response";
@@ -20,10 +21,9 @@ export const CATEGORY_LIST = [
 
 type MapMissionListProps = {
   data: MapResponse["data"]["content"];
-  curRef: RefObject<HTMLDivElement>;
 };
 
-const MapMissionList = ({ data, curRef }: MapMissionListProps) => {
+const MapMissionList = ({ data }: MapMissionListProps) => {
   const [missionList, setMissionList] = useState(data);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -39,6 +39,10 @@ const MapMissionList = ({ data, curRef }: MapMissionListProps) => {
     setMissionList(newList);
   };
 
+  useEffect(() => {
+    setMissionList(data);
+  }, [data]);
+
   return (
     <>
       <div className="absolute left-1/2 top-0 z-30 mt-3 h-1 w-10 translate-x-[-50%] transform rounded-xl bg-gray-300" />
@@ -51,7 +55,7 @@ const MapMissionList = ({ data, curRef }: MapMissionListProps) => {
         ))}
       </Select>
       <div className="mt-5 h-0 border border-neutral-200" />
-      <div className="mt-7 h-full w-full overflow-y-auto pb-2 pt-1">
+      <div className="mt-7 h-full w-11/12 overflow-y-auto pb-2 pt-1">
         {missionList &&
           missionList.map(
             ({
@@ -65,7 +69,7 @@ const MapMissionList = ({ data, curRef }: MapMissionListProps) => {
               price,
               imagePath
             }) => (
-              <Link key={id} href={`/misson/${id}`} className="w-11/12">
+              <Link key={id} href={`/misson/${id}`}>
                 <MissionFullInfo
                   missionCategory={missionCategory}
                   region={region}
@@ -81,7 +85,6 @@ const MapMissionList = ({ data, curRef }: MapMissionListProps) => {
               </Link>
             )
           )}
-        <div ref={curRef} />
       </div>
     </>
   );

@@ -4,6 +4,7 @@ import Script from "next/script";
 import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import { IoList } from "react-icons/io5";
 
+import Button from "@/components/common/Button";
 import MapMissionList from "@/components/domain/map/MapMissionList";
 import useLocation from "@/hooks/useLocation";
 import { useGetMapMissionList } from "@/services/map";
@@ -27,7 +28,7 @@ const MapPage = ({ searchParams }: MapPageProps) => {
   const observeRef = useRef<HTMLDivElement | null>(null);
   const { location } = useLocation();
 
-  const { data, setSearchParams } = useGetMapMissionList(
+  const { data, setSearchParams, fetchNextPage } = useGetMapMissionList(
     token ?? "",
     observeRef
   );
@@ -44,58 +45,61 @@ const MapPage = ({ searchParams }: MapPageProps) => {
     setSearchParams(`longitude=${location.lng}&latitude=${location.lat}`);
   }, [location]);
 
-  const initializeMap = () => {
-    const mapOptions = {
-      center: new window.naver.maps.LatLng(...INITIAL_CENTER),
-      zoom: INITIAL_ZOOM,
-      scaleControl: false,
-      mapDataControl: false,
-      zomControl: false,
-      minZoom: 8,
-      logoControlOptions: {
-        position: naver.maps.Position.BOTTOM_LEFT
-      }
-    };
-
-    const map = new window.naver.maps.Map("map", mapOptions);
-    mapRef.current = map;
-
-    if (Object.keys(searchParams || {}).length) {
-      const { lat, lng } = searchParams!;
-      const position = new window.naver.maps.LatLng(Number(lat), Number(lng));
-      mapRef.current?.setCenter(position);
-
-      const marker = new naver.maps.Marker({
-        map: map,
-        position: position
-      });
-
-      const infowindow = new naver.maps.InfoWindow({
-        content: `<div>미션 지역을 확인해보세요!</div>`
-      });
-
-      marker.addListener("click", () => {
-        if (infowindow.getMap()) {
-          infowindow.close();
-        } else {
-          infowindow.open(map, marker);
+  useEffect(() => {
+    const initializeMap = () => {
+      const mapOptions = {
+        center: new window.naver.maps.LatLng(...INITIAL_CENTER),
+        zoom: INITIAL_ZOOM,
+        scaleControl: false,
+        mapDataControl: false,
+        zomControl: false,
+        minZoom: 8,
+        logoControlOptions: {
+          position: naver.maps.Position.BOTTOM_LEFT
         }
-        mapRef.current?.panTo(position);
-      });
+      };
 
-      window.naver.maps.Event.addListener(map, "click", () => {
-        infowindow.close();
-      });
-    } else {
-      data &&
-        data.forEach(({ latitude, longitude }) => {
+      const map = new window.naver.maps.Map("map", mapOptions);
+      mapRef.current = map;
+
+      if (Object.keys(searchParams || {}).length) {
+        const { lat, lng } = searchParams!;
+        const position = new window.naver.maps.LatLng(Number(lat), Number(lng));
+        mapRef.current?.setCenter(position);
+
+        const marker = new naver.maps.Marker({
+          map: map,
+          position: position
+        });
+
+        const infowindow = new naver.maps.InfoWindow({
+          content: `<div>미션 지역을 확인해보세요!</div>`
+        });
+
+        marker.addListener("click", () => {
+          if (infowindow.getMap()) {
+            infowindow.close();
+          } else {
+            infowindow.open(map, marker);
+          }
+          mapRef.current?.panTo(position);
+        });
+
+        window.naver.maps.Event.addListener(map, "click", () => {
+          infowindow.close();
+        });
+      } else if (data) {
+        data.forEach(({ latitude, longitude, title }) => {
           const position = new naver.maps.LatLng(latitude, longitude);
           const marker = new naver.maps.Marker({
             map: map,
             position: position
           });
           const infowindow = new naver.maps.InfoWindow({
-            content: `<div>미션 지역을 확인해보세요!</div>`
+            content: `
+            <div>
+              <h2>${title}</h2>
+            </div>`
           });
           marker.addListener("click", () => {
             if (infowindow.getMap()) {
@@ -106,8 +110,11 @@ const MapPage = ({ searchParams }: MapPageProps) => {
             mapRef.current?.panTo(position);
           });
         });
-    }
-  };
+      }
+    };
+
+    initializeMap();
+  }, [data]);
 
   useEffect(() => {
     return () => {
@@ -124,12 +131,11 @@ const MapPage = ({ searchParams }: MapPageProps) => {
   };
 
   return (
-    <div className="relative h-[100vw] min-h-screen w-[100vw] max-w-screen-sm">
+    <div className="relative h-[40rem] w-[100vw] max-w-screen-sm">
       <Script
         strategy="afterInteractive"
         type="text/javascript"
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`}
-        onReady={initializeMap}
       />
       <div id="map" className="h-full w-full" />
       <button
@@ -146,11 +152,20 @@ const MapPage = ({ searchParams }: MapPageProps) => {
             onClick={handleCloseModal}
           />
           <div
-            className={`opacity-1 absolute bottom-0 left-0 z-20 h-[35rem] w-full overflow-hidden rounded-t-lg bg-white transition-transform duration-500 ${
-              openBottomSheet ? "translate-y-0" : "translate-y-[35rem]"
+            className={`opacity-1 absolute bottom-0 left-0 z-20 flex h-[30rem] w-full flex-col items-center overflow-hidden rounded-t-lg bg-white ${
+              openBottomSheet
+                ? "animate-bottom-sheet-up"
+                : "animate-bottom-sheet-down"
             }`}
             onClick={handleModalClick}>
-            <MapMissionList data={data} curRef={observeRef} />
+            {data && (
+              <>
+                <MapMissionList data={data} />
+                <Button className="cs:my-5" size="md" onClick={fetchNextPage}>
+                  더 보기
+                </Button>
+              </>
+            )}
           </div>
         </>
       )}
