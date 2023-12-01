@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { forwardRef, useCallback, useEffect, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -25,7 +25,11 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   const { basicInfo, favoriteRegions, favoriteWorkingDay, image } =
     userData.data;
 
-  const defaultImage = image.path === null ? [] : [image];
+  const isEditmode = useSearchParams().get("edit") ? true : false;
+
+  console.log("edit", isEditmode);
+
+  // const defaultImage = image.path === null ? [null] : [image];
 
   const { mutationalFetch: deleteImageFetch } = useDeleteProfileImageFetch();
 
@@ -40,7 +44,6 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     setValue,
     getValues,
     clearErrors,
-    setError,
     watch
   } = useForm<MandatorySurveySchemaProps>({
     resolver: zodResolver(MandatorySurveySchema)
@@ -49,16 +52,12 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
   const imageWatch = watch("image");
 
   useEffect(() => {
-    const getImage = getValues("image");
-
-    setValue("image", getImage);
-    console.log("watch 확인", getImage);
     if (!errors.image) {
       clearErrors("image");
     } else {
       return;
     }
-  }, [imageWatch, getValues]);
+  }, [imageWatch]);
 
   const sortedFavoriteRegions = favoriteRegions?.map((item) => item.id) ?? [0];
   const vaildatedFavoriteWorkingDay = favoriteWorkingDay ?? {
@@ -72,6 +71,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
 
   const onSubmit: SubmitHandler<MandatorySurveySchemaProps> = async (data) => {
     const file = getValues("image");
+    console.log("제출됨");
 
     const userData: UserInfoForOptionalSurveyResponse = {
       basicInfo: {
@@ -121,8 +121,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
 
   const handleFileSelect = useCallback(
     (file: ImageFileType[]) => {
-      // console.log("이미지 확인", getValues("image"));
-      // setValue("image", []);
+      console.log("이미지 확인", file);
       setValue("image", file);
       clearErrors("image");
     },
@@ -142,7 +141,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
             {...register("image")}
             size="lg"
             onFileSelect={handleFileSelect}
-            defaultImages={defaultImage}
+            defaultImages={[image]}
             deleteImageFetch={deleteImageFetch}
             pathname="/me/profile-image"
           />
