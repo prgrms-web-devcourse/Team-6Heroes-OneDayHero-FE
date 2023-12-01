@@ -20,7 +20,7 @@ const PostCode = ({
   defaultLocation
 }: PostCodeProps) => {
   const [address, setAddress] = useState<string>(
-    defaultLocation?.resionName ?? ""
+    defaultLocation?.regionName ?? ""
   );
   const [location, setLocation] = useState<LocationType | null>(
     defaultLocation ?? null
@@ -50,7 +50,7 @@ const PostCode = ({
     setLocation({
       lat: res.documents[0].y,
       lng: res.documents[0].x,
-      resionName: res.documents[0].address.region_3depth_h_name
+      regionName: res.documents[0].address.region_3depth_h_name
     });
     setAddress(roadAddress);
     onClose();

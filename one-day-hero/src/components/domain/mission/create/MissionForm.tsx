@@ -90,7 +90,7 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
     setSelectedImages(files);
   };
 
-  const handleOnChage = (location: LocationType) => {
+  const handleOnChange = (location: LocationType) => {
     setLocation(location);
   };
 
@@ -105,7 +105,7 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
 
     const data: MissionCreateRequest = {
       missionCategoryId: categoryId,
-      regionName: location?.resionName ?? "",
+      regionName: location?.regionName ?? "",
       latitude: Number(location?.lat) ?? 0,
       longitude: Number(location?.lng) ?? 0,
       missionInfo: {
@@ -302,12 +302,12 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
           </InputLabel>
           <div className="mb-1 flex w-full gap-3">
             <PostCode
-              onChange={handleOnChage}
+              onChange={handleOnChange}
               {...(editDefaultData && {
                 defaultLocation: {
                   lat: editDefaultData.latitude ?? 0,
                   lng: editDefaultData.longitude ?? 0,
-                  resionName: `${editDefaultData.region.dong}`
+                  regionName: `${editDefaultData.region.dong}`
                 }
               })}
               errorMessage={errors?.regionName}
