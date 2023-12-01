@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 const makeUrl = (baseUrl: string) => (path: string) => baseUrl + path;
 
 const apiBaseUrl =
@@ -10,6 +12,7 @@ export const routeUrl = makeUrl(`${process.env.NEXT_PUBLIC_FE_URL}/api`);
 
 export type CustomResponse<T> = {
   isError: boolean;
+  errorCode?: string;
   errorMessage?: string;
   response?: T;
 };
@@ -40,12 +43,20 @@ export async function safeFetch<T>(
     if (!response.ok) {
       customResponse.isError = true;
 
+      let error: Error;
       try {
         const bodyData = await response.json();
-        throw new Error(bodyData?.message ?? response.statusText);
+
+        if (bodyData.code === "A_002") {
+          error = new TokenError(bodyData.message);
+        } else {
+          error = new Error(bodyData?.message ?? response.statusText);
+        }
       } catch (err) {
-        throw new Error((err as Error).message);
+        error = new Error((err as Error).message);
       }
+
+      throw error;
     }
 
     try {
@@ -62,11 +73,19 @@ export async function safeFetch<T>(
   } catch (err) {
     const errorResponse: CustomResponse<T> = {
       isError: true,
+      errorCode: (err as Error)?.name,
       errorMessage: (err as Error)?.message
     };
 
     onError?.(err as Error);
     setIsLoading?.(false);
+
+    if (
+      errorResponse.errorCode === "TokenError" &&
+      typeof "window" === "undefined"
+    ) {
+      redirect("/login");
+    }
 
     return errorResponse;
   }
@@ -92,3 +111,10 @@ export const passRevalidateTag = async (tag: string[]) => {
     console.error(err);
   }
 };
+
+class TokenError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "TokenError";
+  }
+}
