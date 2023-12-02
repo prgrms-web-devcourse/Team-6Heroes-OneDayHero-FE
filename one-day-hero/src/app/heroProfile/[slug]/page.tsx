@@ -27,13 +27,14 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
     <>
       <div className="flex w-full">
         <div className="flex grow flex-col items-center justify-evenly gap-3 text-base">
-          <ProfileImage
-            src={image.path || ""}
-            alt="프로필 이미지"
-            width={150}
-            height={150}
-            priority
-          />
+          <div className="relative h-[9.4rem] w-[9.4rem]">
+            <ProfileImage
+              src={image.path || ""}
+              alt="프로필 이미지"
+              priority
+              fill
+            />
+          </div>
           <h3 className="text-sub-darken text-xl font-bold">히어로</h3>
           <h3 className="text-lg font-bold">{basicInfo.nickname}</h3>
         </div>
@@ -63,7 +64,12 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">희망 근무시간</h2>
         <div className="border-background-darken rounded-lg border bg-white p-2">
-          {`${favoriteWorkingDay.favoriteStartTime} ~ ${favoriteWorkingDay.favoriteEndTime}`}
+          {`${favoriteWorkingDay.favoriteStartTime || ""} ${
+            favoriteWorkingDay.favoriteStartTime &&
+            favoriteWorkingDay.favoriteEndTime
+              ? "~"
+              : ""
+          } ${favoriteWorkingDay.favoriteEndTime || ""}`}
         </div>
       </div>
       <div className="w-full">
