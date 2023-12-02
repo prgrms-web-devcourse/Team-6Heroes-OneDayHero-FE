@@ -11,12 +11,20 @@ const SuggestedMissionList = () => {
   const token = getClientToken();
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const { data } = useGetSuggestedMissionListFetch(token ?? "", observerRef);
+  const { data, refreshPage } = useGetSuggestedMissionListFetch(
+    token ?? "",
+    observerRef
+  );
 
   return (
     <>
       {data.map(({ id, mission }) => (
-        <SuggestedMissionItem key={id} proposalId={id} missionData={mission} />
+        <SuggestedMissionItem
+          key={id}
+          proposalId={id}
+          missionData={mission}
+          refreshPage={refreshPage}
+        />
       ))}
       <div ref={observerRef} />
     </>

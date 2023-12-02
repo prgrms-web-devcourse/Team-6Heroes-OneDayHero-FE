@@ -13,6 +13,7 @@ interface MissionFullInfoProps extends React.ComponentProps<"div"> {
   bookmarkCount?: number;
   isBookmarked?: boolean;
   missionId?: number;
+  refreshPage?: () => Promise<void>;
   className?: string;
 }
 
@@ -24,6 +25,7 @@ const MissionFullInfo = ({
   missionImagePath,
   isBookmarked,
   missionId,
+  refreshPage,
   className = "",
   ...props
 }: PropsWithChildren<MissionFullInfoProps>) => {
@@ -38,6 +40,7 @@ const MissionFullInfo = ({
         isBookmarked={isBookmarked}
         missionId={missionId}
         imageSrc={missionImagePath}
+        refreshPage={refreshPage}
         className="p-2"
       />
       <MissionInfo

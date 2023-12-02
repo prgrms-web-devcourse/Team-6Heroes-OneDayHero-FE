@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  MutableRefObject,
-  useEffect,
-  useRef,
-  useState,
-  useTransition
-} from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 
 import { getSessionStorage, setSessionStorage } from "@/utils/storage";
 
@@ -43,6 +37,7 @@ export const useInfiniteFetch = <
   const localStorageKey = `odh_infinite_${pathname}`;
 
   const updataScrollRef = () => {
+    if (window.scrollY === 0) return;
     scrollRef.current = window.scrollY;
   };
 
@@ -90,7 +85,7 @@ export const useInfiniteFetch = <
         baseUrlType,
         `${pathname}${pathname.includes("?") ? "&" : "?"}page=${
           pageRef.current
-        }&size=${size}${sort ?? `&sort=${sort}`}${
+        }&size=${size}${sort ? `&sort=${sort}` : ""}${
           searchParamsRef.current.length > 0 ? "&" : ""
         }${searchParamsRef.current}`,
         options
@@ -122,7 +117,7 @@ export const useInfiniteFetch = <
         baseUrlType,
         `${pathname}${
           pathname.includes("?") ? "&" : "?"
-        }page=0&size=${totalSize}${sort ?? `&sort=${sort}`}${
+        }page=0&size=${totalSize}${sort ? `&sort=${sort}` : ""}${
           searchParamsRef.current.length > 0 ? "&" : ""
         }${searchParamsRef.current}`,
         options
