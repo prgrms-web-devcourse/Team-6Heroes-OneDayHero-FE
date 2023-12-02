@@ -25,8 +25,8 @@ const PostCode = ({
   const [location, setLocation] = useState<LocationType | null>(
     defaultLocation ?? null
   );
-  const { isOpen, onOpen, onClose } = useModal();
 
+  const { isOpen, onOpen, onClose } = useModal();
   const { showToast } = useToast();
 
   const handleComplete = async (data: { roadAddress: string }) => {
@@ -43,6 +43,7 @@ const PostCode = ({
 
     if (!response.ok) {
       showToast("위치 정보를 찾을 수 없어요", "error");
+
       throw new Error("위치를 제대로 입력해주세요.");
     }
     const res = await response.json();
@@ -76,7 +77,7 @@ const PostCode = ({
       <button
         type="button"
         onClick={handleClick}
-        className=" border-inactive focus:outline-primary h-[34px] w-3/12 rounded-[10px] border text-center">
+        className=" border-inactive focus:outline-primary h-[2.125rem] w-3/12 rounded-[0.625rem] border text-center">
         주소 검색
       </button>
       {isOpen && (
