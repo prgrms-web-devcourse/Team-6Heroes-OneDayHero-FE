@@ -17,6 +17,7 @@ type MissionListItemProps = {
   isBookmarked?: boolean;
   className?: string;
   missionId?: number;
+  refreshPage?: () => Promise<void>;
 };
 
 const MissionListItem = ({
@@ -28,6 +29,7 @@ const MissionListItem = ({
   bookmarkCount,
   isBookmarked,
   missionId,
+  refreshPage,
   className
 }: MissionListItemProps) => {
   return (
@@ -62,6 +64,7 @@ const MissionListItem = ({
             isBookmarked={isBookmarked ?? false}
             bookmarkCount={bookmarkCount ?? 0}
             missionId={missionId}
+            refreshPage={refreshPage}
           />
         )}
       </div>

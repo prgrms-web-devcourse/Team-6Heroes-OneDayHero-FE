@@ -12,7 +12,10 @@ const OngoingMissionList = () => {
   const token = getClientToken();
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const { data } = useGetProgressMissionListFetch(token ?? "", observerRef);
+  const { data, refreshPage } = useGetProgressMissionListFetch(
+    token ?? "",
+    observerRef
+  );
 
   return (
     <>
@@ -32,6 +35,7 @@ const OngoingMissionList = () => {
               isBookmarked={item.isBookmarked}
               imageSrc={item.imagePath}
               missionId={item.id}
+              refreshPage={refreshPage}
             />
           </MissionProgressContainer>
         </Link>

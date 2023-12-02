@@ -18,6 +18,7 @@ type BookmarkButtonProps = {
   bookmarkCount: number;
   isBookmarked: boolean;
   size?: "sm" | "lg";
+  refreshPage?: () => Promise<void>;
   className?: string;
 };
 
@@ -26,6 +27,7 @@ const BookmarkButton = ({
   bookmarkCount,
   isBookmarked,
   size = "sm",
+  refreshPage,
   className
 }: BookmarkButtonProps) => {
   const token = getClientToken() ?? "";
@@ -65,7 +67,7 @@ const BookmarkButton = ({
     }
 
     startTransition(() => {
-      router.refresh();
+      refreshPage ? refreshPage() : router.refresh();
     });
   };
 
