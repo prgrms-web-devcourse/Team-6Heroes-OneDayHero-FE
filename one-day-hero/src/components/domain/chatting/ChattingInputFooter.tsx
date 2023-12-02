@@ -47,6 +47,7 @@ const ChattingInputFooter = ({
           value={inputValue}
           onChange={handleChange}
           onKeyDown={(e) => {
+            if (e.nativeEvent.isComposing) return;
             if (e.key === "Enter") handleSend();
           }}
         />
