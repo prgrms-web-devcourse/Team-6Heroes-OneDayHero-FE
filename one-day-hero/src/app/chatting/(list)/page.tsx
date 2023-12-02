@@ -19,7 +19,7 @@ const ChattingListPage = async () => {
   return (
     <>
       {data.length > 0 && (
-        <div className="border-b-background-darken w-full border-b-[0.063rem]" />
+        <div className="w-full border-b-[0.063rem] border-b-background-darken" />
       )}
       {data.map((item) => {
         return <ChatRoomItem key={item.id} {...item} />;
