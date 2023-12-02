@@ -94,6 +94,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
     const formData = new FormData();
     const jsonData = JSON.stringify(userData);
     const imageData = file;
+
     formData.append(
       "userUpdateRequest",
       new Blob([jsonData], { type: "application/json" }),
@@ -109,6 +110,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       method: "POST",
       body: formData
     });
+
     if (isError || !response) {
       showToast(
         errorMessage ?? "프로필 수정 중 오류가 발생했어요. 다시 시도해주세요",
@@ -116,6 +118,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
       );
       return;
     }
+
     startTransition(() => {
       router.push("/survey/optional");
     });
