@@ -8,7 +8,7 @@ import { TiDelete } from "react-icons/ti";
 import { useToast } from "@/contexts/ToastProvider";
 
 const defaultStyle =
-  "shadow-down w-[300px] rounded-2xl font-semibold opacity-80 bg-white border border-gray-200 fixed inset-x-1/2 translate-x-[-50%] z-50";
+  "shadow-down w-[18.75rem] rounded-2xl font-semibold opacity-80 bg-white border border-gray-200 fixed inset-x-1/2 translate-x-[-50%] z-50";
 
 const Toast = () => {
   const { toastActive, toastMessage, toastType } = useToast();

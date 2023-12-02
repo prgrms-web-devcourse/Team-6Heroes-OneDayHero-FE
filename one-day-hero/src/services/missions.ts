@@ -5,6 +5,8 @@ import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
 import { useMutationalFetch } from "@/hooks/useMutationalFetch";
 import {
   BookmarkResponse,
+  EditMissionResponse,
+  EmptyResponse,
   MatchResponse,
   MissionResponse,
   ProgressMissionListResponse,
@@ -17,8 +19,9 @@ import { CustomResponse, safeFetch } from "./base";
 
 export const safeGetMissionFetch = (missionId: string, token: string) => {
   return safeFetch<MissionResponse>("backend", `/missions/${missionId}`, {
+    method: "GET",
     headers: { Authorization: `Bearer ${token}` },
-    next: { tags: [`mission${missionId}`] }
+    next: { revalidate: 0 }
   });
 };
 
@@ -35,6 +38,34 @@ export const useCreateMissionFetch = () => {
 
 export const safeCreateMissionFetch = (data: FormData, token: string) => {
   return safeFetch<MissionResponse>("backend", "/missions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: data
+  });
+};
+
+export const useEditMissionFetch = (missionId: number) => {
+  return useMutationalFetch<EditMissionResponse>(
+    "route",
+    `/editMission/${missionId}`
+  ) as {
+    mutationalFetch: (
+      fetchOptions: RequestInit,
+      onSuccess?: (response: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<EditMissionResponse>>;
+    isLoading: boolean;
+  };
+};
+
+export const safeEditMissionFetch = (
+  missionId: number,
+  data: FormData,
+  token: string
+) => {
+  return safeFetch<EditMissionResponse>("backend", `/missions/${missionId}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`
@@ -169,13 +200,28 @@ export const useGetCompleteMissionListFetch = (
   });
 };
 
-export const useGetSuggestingMissionListFetch = (token: string) => {
+export const useGetSuggestingMissionListFetch = (
+  token: string,
+  heroId: number
+) => {
   return useMutationalFetch<SuggestingMissionListResponse>(
     "backend",
-    `/missions/matching`,
+    `/missions/matching?heroId=${heroId}`,
     {
       headers: { Authorization: `Bearer ${token}` },
       next: { tags: [`matching`] }
     }
   );
+};
+
+export const useDeleteMissionFetch = () => {
+  return useMutationalFetch<EmptyResponse>("backend") as {
+    mutationalFetch: (
+      pathname: string,
+      fetchOptions: RequestInit,
+      onSuccess?: (response?: Response) => void,
+      onError?: () => void
+    ) => Promise<CustomResponse<EmptyResponse>>;
+    isLoading: boolean;
+  };
 };

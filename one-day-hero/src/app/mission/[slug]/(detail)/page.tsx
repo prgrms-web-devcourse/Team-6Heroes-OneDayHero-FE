@@ -10,6 +10,7 @@ import Container from "@/components/common/Container";
 import HorizontalScroll from "@/components/common/HorizontalScroll";
 import IconGroup from "@/components/common/IconGroup";
 import MissionInfo from "@/components/common/Info/MissionInfo";
+import LinkButton from "@/components/common/LinkButton";
 import TitleBox from "@/components/common/TitleBox";
 import ChattingButton from "@/components/domain/missionDetail/ChattingButton";
 import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
@@ -98,12 +99,12 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
       </Container>
       {!isOwner && <CitizenInfo citizenId={citizenId} />}
       {isOwner && (
-        <Button size="lg" className="cs:mt-7">
+        <LinkButton href={`${missionId}/edit`} className="cs:mt-7">
           <div className="relative inline-block">
-            <BiEdit className="absolute -left-7 top-[3px]" size={24} />
+            <BiEdit className="absolute -left-7 top-[0.188rem]" size={24} />
             수정하기
           </div>
-        </Button>
+        </LinkButton>
       )}
       {!isOwner && (
         <div className="mt-12 flex w-full justify-between gap-3">
