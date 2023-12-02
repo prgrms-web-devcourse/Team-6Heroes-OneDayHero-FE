@@ -1,5 +1,8 @@
 import Footer from "@/components/common/Footer";
+import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
+import Header from "@/components/common/Header";
+import Tabs from "@/components/common/Tabs";
 import Tabs from "@/components/common/Tabs";
 
 const MissionListLayout = ({ children }: { children: React.ReactNode }) => {

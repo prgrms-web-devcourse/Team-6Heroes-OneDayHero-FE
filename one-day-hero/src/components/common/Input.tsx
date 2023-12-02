@@ -41,7 +41,7 @@ const Input = forwardRef(
           onChange={!readOnly ? handleChange : undefined}
           readOnly={readOnly}
           className={`${defaultStyle} ${className} ${
-            error && "cs:border-red-500 border-2"
+            error && "border-2 cs:border-red-500"
           }`}
           {...props}
         />

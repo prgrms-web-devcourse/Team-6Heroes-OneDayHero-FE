@@ -59,7 +59,7 @@ const ToggleButton = ({
       type="button"
       className={`${defaultStyle} ${
         checked
-          ? "border-primary bg-primary-lightest border-4"
+          ? "border-4 border-primary bg-primary-lightest"
           : "border-background-darken bg-white"
       } ${className}`}
       onClick={handleButtonClick}

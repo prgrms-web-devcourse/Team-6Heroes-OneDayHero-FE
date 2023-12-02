@@ -160,7 +160,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
           </InputLabel>
           <input
             {...register("nickName")}
-            className="border-inactive placeholder:text-inactive focus:outline-primary h-11 w-full rounded-[0.625rem] border p-4 pl-3"
+            className="h-11 w-full rounded-[0.625rem] border border-inactive p-4 pl-3 placeholder:text-inactive focus:outline-primary"
           />
           {errors.nickName && (
             <p className="text-red-500">{`${errors.nickName.message}`}</p>
@@ -172,7 +172,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
           </InputLabel>
           <textarea
             {...register("introduction")}
-            className="border-inactive focus:outline-primary h-40 w-full max-w-screen-sm resize-none rounded-2xl border p-4"
+            className="h-40 w-full max-w-screen-sm resize-none rounded-2xl border border-inactive p-4 focus:outline-primary"
           />
           {errors.introduction && (
             <p className="text-red-500">{`${errors.introduction.message}`}</p>

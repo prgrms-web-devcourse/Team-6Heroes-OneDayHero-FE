@@ -35,7 +35,7 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
               fill
             />
           </div>
-          <h3 className="text-sub-darken text-xl font-bold">히어로</h3>
+          <h3 className="text-xl font-bold text-sub-darken">히어로</h3>
           <h3 className="text-lg font-bold">{basicInfo.nickname}</h3>
         </div>
       </div>
@@ -63,7 +63,7 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">희망 근무시간</h2>
-        <div className="border-background-darken rounded-lg border bg-white p-2">
+        <div className="rounded-lg border border-background-darken bg-white p-2">
           {`${favoriteWorkingDay.favoriteStartTime || ""} ${
             favoriteWorkingDay.favoriteStartTime &&
             favoriteWorkingDay.favoriteEndTime
@@ -74,7 +74,7 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
       </div>
       <div className="w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">선호 지역</h2>
-        <div className="border-background-darken rounded-lg border bg-white p-2">
+        <div className="rounded-lg border border-background-darken bg-white p-2">
           {favoriteRegions && favoriteRegions.length > 0 ? (
             favoriteRegions.map(({ id, si, gu, dong }) => (
               <p key={id}>{`${si} ${gu} ${dong}`}</p>
@@ -86,7 +86,7 @@ const HeroProfilePage = async ({ params }: { params: { slug: string } }) => {
       </div>
       <div className="mb-12 w-full">
         <h2 className="mb-2 mt-5 text-xl font-semibold">소개</h2>
-        <div className="border-background-darken rounded-lg border bg-white p-2">
+        <div className="rounded-lg border border-background-darken bg-white p-2">
           <p>{basicInfo.introduce}</p>
         </div>
       </div>

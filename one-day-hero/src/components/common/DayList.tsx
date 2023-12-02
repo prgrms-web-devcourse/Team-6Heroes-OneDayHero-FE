@@ -1,4 +1,10 @@
 import { forwardRef, PropsWithChildren } from "react";
+import { forwardRef, PropsWithChildren } from "react";
+import {
+  FieldValues,
+  UseFormGetValues,
+  UseFormSetValue
+} from "react-hook-form";
 import {
   FieldValues,
   UseFormGetValues,

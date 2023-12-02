@@ -15,6 +15,21 @@ interface TabsProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Tabs = ({ leftRoute, rightRoute, className = "" }: TabsProps) => {
   const pathName = usePathname();
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+type TabRoute = {
+  name: string;
+  path: string;
+};
+
+interface TabsProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  leftRoute: TabRoute;
+  rightRoute: TabRoute;
+}
+
+const Tabs = ({ leftRoute, rightRoute, className = "" }: TabsProps) => {
+  const pathName = usePathname();
 
   const tabContainerDefaultStyle =
     "flex z-50 w-8/12 bg-white justify-center items-center text-base text-center h-12 rounded-full";

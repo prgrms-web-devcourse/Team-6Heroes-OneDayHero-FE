@@ -22,11 +22,11 @@ const NotificationItem = () => {
     <>
       {data.length
         ? data.map((list) => (
-            <Container key={list.id} className="cs:w-full cs:p-4 flex">
+            <Container key={list.id} className="flex cs:w-full cs:p-4">
               <div className="flex w-full flex-col gap-2">
                 <h1 className="text-base font-semibold">{list.title}</h1>
                 <p className="text-sm">{list.content}</p>
-                <p className="text-inactive text-xs">
+                <p className="text-xs text-inactive">
                   {formatDate(list.createdAt)}
                 </p>
               </div>

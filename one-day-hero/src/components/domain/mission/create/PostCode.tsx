@@ -77,7 +77,7 @@ const PostCode = ({
       <button
         type="button"
         onClick={handleClick}
-        className=" border-inactive focus:outline-primary h-[2.125rem] w-3/12 rounded-[0.625rem] border text-center">
+        className=" h-[2.125rem] w-3/12 rounded-[0.625rem] border border-inactive text-center focus:outline-primary">
         주소 검색
       </button>
       {isOpen && (
