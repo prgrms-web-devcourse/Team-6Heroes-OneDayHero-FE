@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { BiMap, BiStar } from "react-icons/bi";
+import { BiMap } from "react-icons/bi";
 
 import Label from "@/components/common/Label";
 import defaultProfileImage from "~/images/OneDayHero_logo_sm.svg";
@@ -35,23 +35,24 @@ const MissionListItem = ({
   return (
     <div className={`flex w-full ${className}`}>
       <div className="flex grow gap-4">
-        <div className="h-[3.75rem] shrink-0 overflow-hidden rounded-[0.625rem] bg-inactive">
-          <Image
-            src={imageSrc || defaultProfileImage}
-            alt="프로필 사진"
-            width={60}
-            height={60}
-            className="object-cover"
-          />
+        <div className="bg-inactive relative h-[5.3rem] w-[5.3rem] shrink-0 overflow-hidden rounded-[0.625rem]">
+          <Image src={imageSrc || defaultProfileImage} alt="프로필 사진" fill />
         </div>
         <div className="flex flex-col gap-1">
           <Label size="sm" className="w-[5.05rem]">
             {categories}
           </Label>
-          <span className="text-md font-semibold">{title}</span>
-          <div className="flex gap-2">
-            <span className="text-xs">{missionDate}</span>
-            <IconGroup title={location} direction="row" size="sm">
+          <span className="text-md w-[9rem] truncate font-semibold">
+            {title}
+          </span>
+
+          <div className="flex flex-col gap-2">
+            <span className="text-xs">미션 날짜 / {missionDate}</span>
+            <IconGroup
+              title={location}
+              direction="row"
+              size="sm"
+              className="cs:justify-start">
               <BiMap />
             </IconGroup>
           </div>

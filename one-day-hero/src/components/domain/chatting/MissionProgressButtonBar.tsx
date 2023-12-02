@@ -121,7 +121,7 @@ const MissionProgressButtonBar = ({
           {missionStatus === "MATCHING" && "매칭 완료"}
           {missionStatus === "MATCHING_COMPLETED" && "미션 완료"}
         </h1>
-        <p className="mx-2 mb-5 break-keep">
+        <p className="mx-2 mb-5 break-keep text-center text-lg font-semibold">
           {missionStatus === "MATCHING" &&
             "해당 히어로에게 미션을 맡기시겠어요?"}
           {missionStatus === "MATCHING_COMPLETED" &&

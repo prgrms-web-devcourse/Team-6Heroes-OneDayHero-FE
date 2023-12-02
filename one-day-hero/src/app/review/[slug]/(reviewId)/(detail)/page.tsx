@@ -15,6 +15,7 @@ const ReviewDetailPage = async ({ params }: { params: { slug: string } }) => {
   const { data } = response;
 
   const {
+    id,
     missionTitle,
     categoryName,
     content,
@@ -30,6 +31,7 @@ const ReviewDetailPage = async ({ params }: { params: { slug: string } }) => {
     <div className="flex w-full flex-col items-center gap-4">
       <TitleBox category={categoryName} title={missionTitle} />
       <ReviewInfo
+        reviewId={id}
         content={content}
         starScore={starScore}
         createdAt={createdAt}

@@ -14,7 +14,8 @@ const HomeHeader = () => {
   const headerDefaultStyle =
     "border-b border-background-darken flex h-16 w-full items-center justify-between space-x-4 bg-background p-3 fixed max-w-screen-sm z-40 top-0";
 
-  const iconDefaultStyle = "w-5 h-5 hover:text-red-500";
+  const iconDefaultStyle =
+    "w-5 h-5 hover:text-primary-darken hover:bg-gray-100/20 hover:scale-110 rounded-full transition-transform duration-500 ease-in-out";
 
   return (
     <header className={headerDefaultStyle}>
@@ -30,7 +31,7 @@ const HomeHeader = () => {
         </div>
       </div>
       <div className="flex space-x-4">
-        <TbMoon className={iconDefaultStyle} />
+        <TbMoon className={`${iconDefaultStyle}`} />
         <Link href="/search/mission">
           <IoSearchSharp className={iconDefaultStyle} />
         </Link>
