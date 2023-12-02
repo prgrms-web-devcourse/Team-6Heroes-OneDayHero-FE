@@ -71,9 +71,9 @@ const ReviewInfo = ({
           <span className="text-sm font-bold">{senderNickname}</span>
         </div>
       </div>
-      <HorizontalScroll>
-        {reviewImage &&
-          reviewImage.map((image) => (
+      {reviewImage && (
+        <HorizontalScroll className="cs:my-4">
+          {reviewImage.map((image) => (
             <div
               key={image.id}
               className="relative h-[10rem] w-[10rem] shrink-0">
@@ -85,7 +85,8 @@ const ReviewInfo = ({
               />
             </div>
           ))}
-      </HorizontalScroll>
+        </HorizontalScroll>
+      )}
       {reviewId && (
         <div className="mt-2 gap-1">
           <h2 className="mb-2 ml-1 text-base font-semibold">리뷰 내용</h2>
