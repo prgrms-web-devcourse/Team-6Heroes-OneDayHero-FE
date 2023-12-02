@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { MouseEventHandler, useState, useTransition } from "react";
 import { BiSolidStar } from "react-icons/bi";
 
 import Button from "@/components/common/Button";
@@ -42,7 +42,10 @@ const BookmarkButton = ({
   const { mutationalFetch: deleteBookmark, isLoading: deleteLoading } =
     useDeleteBookmarkFetch(missionId, token);
 
-  const handleClick = async () => {
+  const handleClick: MouseEventHandler<
+    HTMLButtonElement | HTMLDivElement
+  > = async (e) => {
+    e.preventDefault();
     if (postLoading || deleteLoading || isPending) return;
 
     const currentBookmarkState = optimisticBookmarkState;

@@ -4,6 +4,7 @@ import { BiMap, BiStar } from "react-icons/bi";
 import Label from "@/components/common/Label";
 import defaultProfileImage from "~/images/OneDayHero_logo_sm.svg";
 
+import BookmarkButton from "../BookmarkButton";
 import IconGroup from "../IconGroup";
 
 type MissionListItemProps = {
@@ -13,7 +14,9 @@ type MissionListItemProps = {
   missionDate: string;
   location: string;
   bookmarkCount?: number;
+  isBookmarked?: boolean;
   className?: string;
+  missionId?: number;
 };
 
 const MissionListItem = ({
@@ -23,6 +26,8 @@ const MissionListItem = ({
   missionDate,
   location,
   bookmarkCount,
+  isBookmarked,
+  missionId,
   className
 }: MissionListItemProps) => {
   return (
@@ -51,14 +56,14 @@ const MissionListItem = ({
         </div>
       </div>
       <div className="flex items-start">
-        <IconGroup
-          title={bookmarkCount ?? 0}
-          direction="row"
-          size="lg"
-          textSize="base"
-          className="text-neutral-400 ">
-          <BiStar />
-        </IconGroup>
+        {missionId && (
+          <BookmarkButton
+            size="sm"
+            isBookmarked={isBookmarked ?? false}
+            bookmarkCount={bookmarkCount ?? 0}
+            missionId={missionId}
+          />
+        )}
       </div>
     </div>
   );
