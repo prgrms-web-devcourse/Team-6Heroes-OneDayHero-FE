@@ -67,7 +67,7 @@ const ChattingClientContainer = ({
           )}
         </Container>
       </div>
-      <div className="h-40 w-full" />
+      <div className="h-44 w-full" />
       <MessageContainer
         messages={messages}
         messageEndRef={messageEndRef}
