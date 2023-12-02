@@ -106,10 +106,12 @@ const SuggestedMissionItem = ({
         <Container className="cs:w-full" missionStatus={missionData.status}>
           <MissionFullInfo
             bookmarkCount={missionData.bookmarkCount}
+            isBookmarked={missionData.isBookmarked}
             region={missionData.region}
             missionCategory={missionData.missionCategory}
             missionInfo={missionData.missionInfo}
             missionImagePath={missionData.imagePath}
+            missionId={missionData.id}
           />
           <div className="flex justify-center gap-1">
             <Button

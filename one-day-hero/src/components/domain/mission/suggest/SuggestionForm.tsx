@@ -138,12 +138,15 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
           )
         )}
       </div>
-      <FooterButton
-        formId="suggest"
-        theme={inactive ? "inactive" : "primary"}
-        disabled={inactive || isPending || isLoading}>
-        미션 제안하기
-      </FooterButton>
+      <div className="fixed bottom-0 w-full">
+        <FooterButton
+          formId="suggest"
+          theme={inactive ? "inactive" : "primary"}
+          disabled={inactive || isPending || isLoading}
+          className={"-left-5 cs:absolute"}>
+          미션 제안하기
+        </FooterButton>
+      </div>
     </form>
   );
 };

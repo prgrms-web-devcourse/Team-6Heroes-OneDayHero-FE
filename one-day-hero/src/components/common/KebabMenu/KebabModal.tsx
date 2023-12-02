@@ -62,6 +62,7 @@ const KebabModal = ({ isOpen, onClose, menuData }: KebabModalProps) => {
     }
 
     showToast(`${name}에 성공했습니다.`, "success");
+    onClose();
 
     startTransition(() => {
       refresh && router.refresh();

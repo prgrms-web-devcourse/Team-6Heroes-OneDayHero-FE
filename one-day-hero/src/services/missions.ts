@@ -162,6 +162,7 @@ export const useGetSuggestedMissionListFetch = (
     size: 10,
     observerRef,
     options: {
+      method: "GET",
       headers: { Authorization: `Bearer ${token}` },
       next: { revalidate: 0 }
     }
@@ -178,6 +179,7 @@ export const useGetProgressMissionListFetch = (
     size: 10,
     observerRef,
     options: {
+      method: "GET",
       headers: { Authorization: `Bearer ${token}` },
       next: { tags: [`progress`] }
     }
@@ -194,6 +196,7 @@ export const useGetCompleteMissionListFetch = (
     size: 10,
     observerRef,
     options: {
+      method: "GET",
       headers: { Authorization: `Bearer ${token}` },
       next: { revalidate: 0 }
     }
@@ -208,6 +211,7 @@ export const useGetSuggestingMissionListFetch = (
     "backend",
     `/missions/matching?heroId=${heroId}`,
     {
+      method: "GET",
       headers: { Authorization: `Bearer ${token}` },
       next: { tags: [`matching`] }
     }

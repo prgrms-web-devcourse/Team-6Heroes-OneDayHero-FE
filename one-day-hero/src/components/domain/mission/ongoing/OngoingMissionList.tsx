@@ -29,7 +29,9 @@ const OngoingMissionList = () => {
               location={`${item.si} ${item.gu} ${item.dong}`}
               title={item.title}
               bookmarkCount={item.bookmarkCount}
+              isBookmarked={item.isBookmarked}
               imageSrc={item.imagePath}
+              missionId={item.id}
             />
           </MissionProgressContainer>
         </Link>
