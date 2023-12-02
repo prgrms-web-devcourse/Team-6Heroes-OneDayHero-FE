@@ -48,7 +48,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
   return (
     <div className="flex w-full flex-col items-center gap-2">
       <TitleBox category={missionCategory.name} title={missionInfo.title} />
-      <Container className="cs:w-full">
+      <Container className="cs:w-full cs:py-4">
         <MissionInfo
           className="cs:ml-1"
           missionBounty={missionInfo.price}
@@ -56,25 +56,25 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           missionTime={`${missionInfo.startTime} ~ ${missionInfo.endTime}`}
         />
       </Container>
-      <Container className="cs:w-full">
-        <HorizontalScroll>
+      <Container className="cs:w-full cs:pt-0 cs:px-5">
+        <HorizontalScroll className="pt-4">
           {missionImage.map(({ path, id }) => (
             <Image
               key={id}
               src={path}
               alt="미션 사진"
-              width={150}
-              height={150}
-              className="object-fill"
+              width={130}
+              height={130}
+              className="cs:rounded-2xl cs:pr-2"
             />
           ))}
         </HorizontalScroll>
-        <div className="mt-2 gap-1">
+        <div className="gap-1 pb-2 pt-4">
           <h2 className="ml-1 text-base font-semibold">미션 내용</h2>
-          <p className="ml-1 text-base">{missionInfo.content}</p>
+          <p className="ml-1 pt-2 text-[0.9rem]">{missionInfo.content}</p>
         </div>
       </Container>
-      <Container className="cs:w-full">
+      <Container className="cs:w-full cs:p-4">
         <IconGroup
           title={`${region.si} ${region.gu} ${region.dong}`}
           direction="row"
