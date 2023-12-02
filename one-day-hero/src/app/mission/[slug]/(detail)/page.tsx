@@ -57,16 +57,16 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
         />
       </Container>
       <Container className="cs:w-full cs:pt-0 cs:px-5">
-        <HorizontalScroll className="pt-4">
+        <HorizontalScroll className="cs:pt-4">
           {missionImage.map(({ path, id }) => (
-            <Image
-              key={id}
-              src={path}
-              alt="미션 사진"
-              width={130}
-              height={130}
-              className="cs:rounded-2xl cs:pr-2"
-            />
+            <div key={id} className="relative h-[10rem] w-[10rem] shrink-0">
+              <Image
+                src={path}
+                alt="미션 사진"
+                className="cs:rounded-2xl cs:mr-2"
+                fill
+              />
+            </div>
           ))}
         </HorizontalScroll>
         <div className="gap-1 pb-2 pt-4">
