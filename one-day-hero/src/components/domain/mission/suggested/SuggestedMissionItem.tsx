@@ -103,7 +103,7 @@ const SuggestedMissionItem = ({
       <Link
         href={`/mission/${missionData.id}`}
         className="flex w-full max-w-screen-sm justify-center">
-        <Container className="cs:w-11/12" missionStatus={missionData.status}>
+        <Container className="cs:w-full" missionStatus={missionData.status}>
           <MissionFullInfo
             bookmarkCount={missionData.bookmarkCount}
             region={missionData.region}
