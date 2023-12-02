@@ -212,6 +212,7 @@ const OptionalSurvey = (userData: ProfileResponse) => {
     }
 
     startTransition(() => {
+      router.prefetch("/profile");
       router.push("/");
     });
   };
