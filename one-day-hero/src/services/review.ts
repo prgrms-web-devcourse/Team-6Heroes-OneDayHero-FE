@@ -63,6 +63,7 @@ export const safeEditReviewFetch = (
 
 export const useGetReviewDetailFetch = (reviewId: number, token: string) => {
   return safeFetch<ReviewDetailResponse>("backend", `/reviews/${reviewId}`, {
+    method: "GET",
     headers: {
       Authorization: `Bearer ${token}`
     },

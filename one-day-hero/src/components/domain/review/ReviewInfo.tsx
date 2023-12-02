@@ -22,8 +22,8 @@ type ReviewInfoProps = {
   reviewImage?:
     | {
         id: number | null;
-        originalName: string | null;
-        uniqueName: string | null;
+        originalName?: string | null;
+        uniqueName?: string | null;
         path: string | null;
       }[]
     | null;
@@ -51,7 +51,7 @@ const ReviewInfo = ({
     <Container className="cs:flex cs:w-full cs:flex-col cs:gap-5 cs:p-4">
       <div className="flex gap-3">
         <div
-          className="relative h-[60px] w-[60px] rounded-full bg-inactive"
+          className="relative h-[3.75rem] w-[3.75rem] rounded-full bg-inactive"
           onClick={handleProfileClick}>
           <ProfileImage
             src={profileImage || ""}
@@ -60,8 +60,8 @@ const ReviewInfo = ({
             width={60}
           />
         </div>
-        <div className="flex grow flex-col gap-[3px]">
-          <Label size="sm" className="whitespace-nowrap cs:w-[67px]">
+        <div className="flex grow flex-col gap-[0.188rem]">
+          <Label size="sm" className="whitespace-nowrap cs:w-[4.188rem]">
             {categoryName}
           </Label>
           <div className="flex gap-2">

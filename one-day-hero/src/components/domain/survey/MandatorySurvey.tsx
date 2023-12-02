@@ -157,7 +157,7 @@ const MandatorySurvey = forwardRef((userData: UserResponse, ref) => {
           </InputLabel>
           <input
             {...register("nickName")}
-            className="border-inactive placeholder:text-inactive focus:outline-primary h-11 w-full rounded-[10px] border p-4 pl-3"
+            className="border-inactive placeholder:text-inactive focus:outline-primary h-11 w-full rounded-[0.625rem] border p-4 pl-3"
           />
           {errors.nickName && (
             <p className="text-red-500">{`${errors.nickName.message}`}</p>

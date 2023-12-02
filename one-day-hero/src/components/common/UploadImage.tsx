@@ -68,16 +68,14 @@ const UploadImage = forwardRef(
       "bg-inactive text-white flex justify-center items-center shrink-0";
 
     const sizes = {
-      md: "w-32 h-32 text-4xl rounded-[10px]",
+      md: "w-32 h-32 text-4xl rounded-[0.625rem]",
       lg: "w-52 h-52 text-5xl relative rounded-2xl"
     };
 
     const imageSizes = {
-      md: "w-32 h-32 relative duration-300 hover:scale-105 text-2xl rounded-[10px]",
+      md: "w-32 h-32 relative duration-300 hover:scale-105 text-2xl rounded-[0.625rem]",
       lg: "w-52 h-52 absolute overflow-hidden text-3xl rounded-2xl"
     };
-
-    console.log("default image", defaultImages);
 
     const handleUpload = () => {
       if (imagesLength >= maxImageLength) {
@@ -160,7 +158,7 @@ const UploadImage = forwardRef(
                 className={`${imageSizes[size]} shrink-0 overflow-hidden`}>
                 <BiX
                   size={size === "lg" ? 30 : 20}
-                  className="absolute right-[6px] top-[6px] z-10 text-black"
+                  className="absolute right-[0.375rem] top-[0.375rem] z-10 text-black"
                   onClick={handlePrevDelete(image.id || 0)}
                 />
                 <Image
@@ -179,7 +177,7 @@ const UploadImage = forwardRef(
                 className={`${imageSizes[size]} shrink-0 overflow-hidden`}>
                 <BiX
                   size={size === "lg" ? 30 : 20}
-                  className="absolute right-[6px] top-[6px] z-10 text-black"
+                  className="absolute right-[0.375rem] top-[0.375rem] z-10 text-black"
                   onClick={handleDelete(image.id)}
                 />
                 <Image

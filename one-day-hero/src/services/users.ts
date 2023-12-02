@@ -21,6 +21,7 @@ export const safeGetProfileFetch = (
 
 export const safeGetUserFetch = (token: string) => {
   return safeFetch<UserResponse>("backend", `/me`, {
+    method: "GET",
     headers: { Authorization: `Bearer ${token}` },
     next: { tags: [`user`] }
   });

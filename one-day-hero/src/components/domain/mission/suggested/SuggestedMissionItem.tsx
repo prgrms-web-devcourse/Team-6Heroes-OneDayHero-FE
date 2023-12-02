@@ -103,13 +103,15 @@ const SuggestedMissionItem = ({
       <Link
         href={`/mission/${missionData.id}`}
         className="flex w-full max-w-screen-sm justify-center">
-        <Container className="cs:w-11/12" missionStatus={missionData.status}>
+        <Container className="cs:w-full" missionStatus={missionData.status}>
           <MissionFullInfo
             bookmarkCount={missionData.bookmarkCount}
+            isBookmarked={missionData.isBookmarked}
             region={missionData.region}
             missionCategory={missionData.missionCategory}
             missionInfo={missionData.missionInfo}
             missionImagePath={missionData.imagePath}
+            missionId={missionData.id}
           />
           <div className="flex justify-center gap-1">
             <Button

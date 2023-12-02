@@ -8,6 +8,7 @@ type FooterButtonProps = {
   href?: string;
   theme?: "primary" | "active" | "cancel" | "inactive";
   disabled?: boolean;
+  className?: string;
 };
 
 const FooterButton = ({
@@ -15,13 +16,14 @@ const FooterButton = ({
   href,
   theme,
   disabled,
+  className,
   children
 }: PropsWithChildren<FooterButtonProps>) => {
   const defaultStyle =
-    "bg-background shadow-upper flex h-14 max-w-screen-sm w-full items-center justify-center fixed bottom-0";
+    "bg-background shadow-upper flex h-14 max-w-screen-sm w-full items-center justify-center fixed bottom-0 left-0";
 
   return (
-    <div className={`${defaultStyle}`}>
+    <div className={`${defaultStyle} ${className ? className : ""}`}>
       {href === undefined ? (
         <Button
           className="cs:h-11"
