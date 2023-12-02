@@ -77,8 +77,6 @@ const UploadImage = forwardRef(
       lg: "w-52 h-52 absolute overflow-hidden text-3xl rounded-2xl"
     };
 
-    console.log("default image", defaultImages);
-
     const handleUpload = () => {
       if (imagesLength >= maxImageLength) {
         showToast(`최대 ${maxImageLength}개까지 선택 가능합니다.`, "error");

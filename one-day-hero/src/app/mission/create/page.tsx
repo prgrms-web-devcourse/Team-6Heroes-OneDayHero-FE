@@ -1,9 +1,9 @@
-import CreateForm from "@/components/domain/mission/create/CreateForm";
+import MissionForm from "@/components/domain/mission/create/MissionForm";
 
 const MissionCreatePage = () => {
   return (
     <div className="flex w-full flex-col items-center">
-      <CreateForm />
+      <MissionForm />
     </div>
   );
 };
