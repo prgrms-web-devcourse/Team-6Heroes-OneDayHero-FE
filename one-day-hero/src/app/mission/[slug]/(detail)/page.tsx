@@ -56,17 +56,12 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           missionTime={`${missionInfo.startTime} ~ ${missionInfo.endTime}`}
         />
       </Container>
-      <Container className="cs:w-full">
-        <HorizontalScroll>
+      <Container className="cs:w-full flex flex-col">
+        <HorizontalScroll className="cs:flex cs:gap-2">
           {missionImage.map(({ path, id }) => (
-            <Image
-              key={id}
-              src={path}
-              alt="미션 사진"
-              width={150}
-              height={150}
-              className="object-fill"
-            />
+            <div key={id} className="relative h-[10rem] w-[10rem] shrink-0">
+              <Image src={path} alt="미션 사진" fill />
+            </div>
           ))}
         </HorizontalScroll>
         <div className="mt-2 gap-1">
