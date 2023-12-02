@@ -29,7 +29,7 @@ const Input = forwardRef(
     const { changeValue, handleChange } = useForm((value as string) ?? "");
 
     const defaultStyle =
-      "rounded-[10px] h-[34px] w-full border border-inactive focus:outline-primary placeholder:text-inactive pl-3";
+      "rounded-[0.625rem] h-[2.125rem] w-full border border-inactive focus:outline-primary placeholder:text-inactive pl-3";
 
     return (
       <div className="flex grow flex-col">
