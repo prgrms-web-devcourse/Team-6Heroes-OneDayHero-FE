@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ChangeEvent, RefObject, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
-import Button from "@/components/common/Button";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
 import Select from "@/components/common/Select";
 import { MapResponse } from "@/types/response";
@@ -46,7 +45,7 @@ const MapMissionList = ({ data }: MapMissionListProps) => {
   return (
     <>
       <div className="absolute left-1/2 top-0 z-30 mt-3 h-1 w-10 translate-x-[-50%] transform rounded-xl bg-gray-300" />
-      <Select onChange={handleChange} className="cs:mt-10">
+      <Select onChange={handleChange} className="cs:mt-10 cs:w-11/12">
         <option value={"all"}>전체보기</option>
         {CATEGORY_LIST.map((category) => (
           <option key={category.id} value={category.id}>
