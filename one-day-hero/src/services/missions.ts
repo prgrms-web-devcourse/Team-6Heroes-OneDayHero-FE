@@ -19,6 +19,7 @@ import { CustomResponse, safeFetch } from "./base";
 
 export const safeGetMissionFetch = (missionId: string, token: string) => {
   return safeFetch<MissionResponse>("backend", `/missions/${missionId}`, {
+    method: "GET",
     headers: { Authorization: `Bearer ${token}` },
     next: { revalidate: 0 }
   });
@@ -199,10 +200,13 @@ export const useGetCompleteMissionListFetch = (
   });
 };
 
-export const useGetSuggestingMissionListFetch = (token: string) => {
+export const useGetSuggestingMissionListFetch = (
+  token: string,
+  heroId: number
+) => {
   return useMutationalFetch<SuggestingMissionListResponse>(
     "backend",
-    `/missions/matching`,
+    `/missions/matching?heroId=${heroId}`,
     {
       headers: { Authorization: `Bearer ${token}` },
       next: { tags: [`matching`] }
