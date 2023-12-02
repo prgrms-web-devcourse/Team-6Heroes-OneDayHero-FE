@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, RefObject, useEffect, useState } from "react";
 
+import Button from "@/components/common/Button";
+import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
 import Select from "@/components/common/Select";
 import { MapResponse } from "@/types/response";
@@ -53,8 +55,8 @@ const MapMissionList = ({ data }: MapMissionListProps) => {
           </option>
         ))}
       </Select>
-      <div className="mt-5 h-0 border border-neutral-200" />
-      <div className="mt-7 h-full w-11/12 overflow-y-auto pb-2 pt-1">
+      <div className="mt-5 h-0 w-11/12 border border-neutral-200" />
+      <div className="mt-7 flex h-full w-full flex-col items-center overflow-y-auto">
         {missionList &&
           missionList.map(
             ({
@@ -68,19 +70,24 @@ const MapMissionList = ({ data }: MapMissionListProps) => {
               price,
               imagePath
             }) => (
-              <Link key={id} href={`/misson/${id}`}>
-                <MissionFullInfo
-                  missionCategory={missionCategory}
-                  region={region}
-                  missionInfo={{
-                    title,
-                    missionDate,
-                    startTime,
-                    endTime,
-                    price
-                  }}
-                  missionImagePath={imagePath}
-                />
+              <Link
+                key={id}
+                href={`/misson/${id}`}
+                className="flex w-full justify-center">
+                <Container className="cs:w-11/12">
+                  <MissionFullInfo
+                    missionCategory={missionCategory}
+                    region={region}
+                    missionInfo={{
+                      title,
+                      missionDate,
+                      startTime,
+                      endTime,
+                      price
+                    }}
+                    missionImagePath={imagePath}
+                  />
+                </Container>
               </Link>
             )
           )}

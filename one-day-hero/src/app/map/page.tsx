@@ -170,7 +170,7 @@ const MapPage = ({ searchParams }: MapPageProps) => {
                 onClick={handleCloseModal}
               />
               <div
-                className={`opacity-1 absolute bottom-0 left-0 z-20 flex h-[30rem] w-full flex-col items-center overflow-hidden rounded-t-lg bg-white ${
+                className={`opacity-1 bg-background absolute bottom-0 left-0 z-20 flex h-[30rem] w-full flex-col items-center overflow-hidden rounded-t-lg ${
                   openBottomSheet
                     ? "animate-bottom-sheet-up"
                     : "animate-bottom-sheet-down"
