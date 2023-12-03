@@ -12,7 +12,7 @@ const Banner = ({ banners }: BannerProps) => {
   const [currentBanner, setCurrentBanner] = useState<number>(0);
 
   const defaultStyle =
-    "absolute top-1/2 z-10 translate-y-[-50%] cursor-pointer text-white text-opacity-50 duration-500 hover:text-white";
+    "absolute top-1/2 z-10 translate-y-[-50%] cursor-pointer text-black text-opacity-50 duration-500 hover:text-primary-darken hover:scale-125";
 
   const handlePrev = () => {
     setCurrentBanner((curr) => (curr === 0 ? banners.length - 1 : curr - 1));
@@ -41,9 +41,9 @@ const Banner = ({ banners }: BannerProps) => {
               <Image
                 src={banner}
                 alt="배너 아이템"
-                height={240}
+                fill
                 priority={index === currentBanner}
-                className="mx-auto"
+                objectFit="contain"
               />
             </div>
           ))}

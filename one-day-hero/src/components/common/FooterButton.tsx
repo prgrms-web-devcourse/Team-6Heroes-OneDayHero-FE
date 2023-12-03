@@ -20,7 +20,7 @@ const FooterButton = ({
   children
 }: PropsWithChildren<FooterButtonProps>) => {
   const defaultStyle =
-    "bg-background shadow-upper flex h-14 max-w-screen-sm w-full items-center justify-center fixed bottom-0 left-0";
+    "bg-background shadow-upper flex h-14 max-w-screen-sm w-full items-center justify-center fixed bottom-0";
 
   return (
     <div className={`${defaultStyle} ${className ? className : ""}`}>

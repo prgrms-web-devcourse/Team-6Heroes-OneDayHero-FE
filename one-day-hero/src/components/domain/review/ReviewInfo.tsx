@@ -28,12 +28,14 @@ type ReviewInfoProps = {
         path: string | null;
       }[]
     | null;
+  reviewId?: number;
 };
 
 const ReviewInfo = ({
   starScore,
   createdAt,
   content,
+  reviewId,
   categoryName,
   senderId,
   senderNickname,
@@ -49,7 +51,7 @@ const ReviewInfo = ({
   };
 
   return (
-    <Container className="cs:flex cs:w-full cs:flex-col cs:gap-5 cs:p-4">
+    <Container className="cs:flex cs:w-full cs:flex-col cs:p-4">
       <div className="flex gap-3">
         <div
           className="bg-inactive relative h-[3.75rem] w-[3.75rem] rounded-full"
@@ -69,7 +71,6 @@ const ReviewInfo = ({
           <span className="text-sm font-bold">{senderNickname}</span>
         </div>
       </div>
-
       <HorizontalScroll>
         {reviewImage &&
           reviewImage.map((image) => (
@@ -85,11 +86,12 @@ const ReviewInfo = ({
             </div>
           ))}
       </HorizontalScroll>
-
-      <div className="mt-2 gap-1">
-        <h2 className="ml-1 mb-2 text-base font-semibold">리뷰 내용</h2>
-        <p className="ml-1 text-[0.9rem]">{content}</p>
-      </div>
+      {reviewId && (
+        <div className="mt-2 gap-1">
+          <h2 className="mb-2 ml-1 text-base font-semibold">리뷰 내용</h2>
+          <p className="ml-1 text-[0.9rem]">{content}</p>
+        </div>
+      )}
     </Container>
   );
 };
