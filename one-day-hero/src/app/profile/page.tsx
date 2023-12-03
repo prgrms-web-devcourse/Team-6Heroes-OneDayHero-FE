@@ -37,13 +37,14 @@ const ProfilePage = async () => {
     <>
       <div className="flex w-full">
         <div className="flex grow flex-col items-center justify-evenly gap-3 text-base">
-          <ProfileImage
-            src={image.path || ""}
-            alt="프로필 이미지"
-            width={150}
-            height={150}
-            priority
-          />
+          <div className="relative h-[9.4rem] w-[9.4rem]">
+            <ProfileImage
+              src={image.path || ""}
+              alt="프로필 이미지"
+              priority
+              fill
+            />
+          </div>
           <h3
             className={`text-xl font-bold ${
               isHeroMode ? "text-sub" : "text-primary"

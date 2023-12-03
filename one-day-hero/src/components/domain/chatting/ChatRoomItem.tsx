@@ -19,17 +19,16 @@ const ChatRoomItem = ({
     <Link
       href={`/chatting/${id}`}
       className="border-b-background-darken flex w-full items-center gap-2 border-b-[0.063rem] py-4">
-      <div>
+      <div className="relative h-[3.75rem] w-[3.75rem]">
         <ProfileImage
           src={receiverImagePath}
           alt={`${receiverNickname}의 프로필`}
-          height={60}
-          width={60}
+          fill
           className="mr-3 shrink-0"
         />
       </div>
       <div className="shrink grow">
-        <div className="text-xs text-neutral-500">{title}</div>
+        <div className="text-xs text-neutral-500 w-[16rem] truncate">{title}</div>
         <div className="flex">
           <h2 className="font-semibold">{receiverNickname}</h2>
           <h3 className="ml-3 mt-1 text-xs font-semibold">

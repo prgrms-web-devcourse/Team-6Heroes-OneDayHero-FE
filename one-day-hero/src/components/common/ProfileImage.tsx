@@ -8,7 +8,7 @@ const ProfileImage = ({ src, className, alt, ...rest }: ImageProps) => {
       {...rest}
       src={src || DefaultProfileImage}
       alt={alt || "profileImage"}
-      className={`pointer-events-none  rounded-full bg-neutral-200 object-contain ${className}`}
+      className={`pointer-events-none rounded-full bg-neutral-200 object-contain ${className}`}
     />
   );
 };
