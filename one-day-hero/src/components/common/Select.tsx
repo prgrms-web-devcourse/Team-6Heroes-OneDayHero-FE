@@ -30,7 +30,7 @@ const Select = forwardRef(
       "border-inactive focus:outline-primary w-full h-[2.13rem] rounded-[0.625rem] border pl-2";
 
     return (
-      <div className="flex w-full flex-col">
+      <div className="flex w-full flex-col items-center justify-center">
         <select
           id={id}
           ref={ref}

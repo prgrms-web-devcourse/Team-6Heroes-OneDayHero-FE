@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ChangeEvent, RefObject, useState } from "react";
+import { ChangeEvent, RefObject, useEffect, useState } from "react";
 
+import Button from "@/components/common/Button";
+import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
 import Select from "@/components/common/Select";
 import { MapResponse } from "@/types/response";
@@ -20,10 +22,9 @@ export const CATEGORY_LIST = [
 
 type MapMissionListProps = {
   data: MapResponse["data"]["content"];
-  curRef: RefObject<HTMLDivElement>;
 };
 
-const MapMissionList = ({ data, curRef }: MapMissionListProps) => {
+const MapMissionList = ({ data }: MapMissionListProps) => {
   const [missionList, setMissionList] = useState(data);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -39,10 +40,14 @@ const MapMissionList = ({ data, curRef }: MapMissionListProps) => {
     setMissionList(newList);
   };
 
+  useEffect(() => {
+    setMissionList(data);
+  }, [data]);
+
   return (
     <>
       <div className="absolute left-1/2 top-0 z-30 mt-3 h-1 w-10 translate-x-[-50%] transform rounded-xl bg-gray-300" />
-      <Select onChange={handleChange} className="cs:mt-10">
+      <Select onChange={handleChange} className="cs:mt-10 cs:w-11/12">
         <option value={"all"}>전체보기</option>
         {CATEGORY_LIST.map((category) => (
           <option key={category.id} value={category.id}>
@@ -50,8 +55,8 @@ const MapMissionList = ({ data, curRef }: MapMissionListProps) => {
           </option>
         ))}
       </Select>
-      <div className="mt-5 h-0 border border-neutral-200" />
-      <div className="mt-7 h-full w-full overflow-y-auto pb-2 pt-1">
+      <div className="mt-5 h-0 w-11/12 border border-neutral-200" />
+      <div className="mt-7 flex h-full w-full flex-col items-center overflow-y-auto">
         {missionList &&
           missionList.map(
             ({
@@ -65,23 +70,27 @@ const MapMissionList = ({ data, curRef }: MapMissionListProps) => {
               price,
               imagePath
             }) => (
-              <Link key={id} href={`/misson/${id}`} className="w-11/12">
-                <MissionFullInfo
-                  missionCategory={missionCategory}
-                  region={region}
-                  missionInfo={{
-                    title,
-                    missionDate,
-                    startTime,
-                    endTime,
-                    price
-                  }}
-                  missionImagePath={imagePath}
-                />
+              <Link
+                key={id}
+                href={`/misson/${id}`}
+                className="flex w-full justify-center">
+                <Container className="cs:w-11/12">
+                  <MissionFullInfo
+                    missionCategory={missionCategory}
+                    region={region}
+                    missionInfo={{
+                      title,
+                      missionDate,
+                      startTime,
+                      endTime,
+                      price
+                    }}
+                    missionImagePath={imagePath}
+                  />
+                </Container>
               </Link>
             )
           )}
-        <div ref={curRef} />
       </div>
     </>
   );
