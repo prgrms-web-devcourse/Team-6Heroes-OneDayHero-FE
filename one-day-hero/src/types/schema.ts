@@ -101,3 +101,47 @@ export const ReviewFormSchema = z.object({
     .refine((content) => content.length > 10, "10글자 이상 작성해주세요."),
   starScore: z.number().refine((score) => score > 0, "별점을 작성해주세요!")
 });
+
+const currentDate = new Date().toISOString().split("T")[0];
+
+export const MissionFormSchema = z.object({
+  missionCategoryId: z
+    .number()
+    .refine((id) => id > 0 && id < 9, "카테고리를 선택해주세요!"),
+  regionName: z
+    .string()
+    .refine((region) => region.length > 0, "미션 지역을 선택해주세요!"),
+  latitude: z.number().refine((lat) => {
+    if (lat === undefined || lat === null) {
+      return false;
+    }
+    return true;
+  }, "미션 지역을 선택해주세요!"),
+  longitude: z.number().refine((lng) => {
+    if (lng === undefined || lng === null) {
+      return false;
+    }
+    return true;
+  }, "미션 지역을 선택해주세요!"),
+  missionInfo: z.object({
+    title: z
+      .string()
+      .refine((title) => title.length > 2, "제목을 3글자 이상 입력해주세요!"),
+    content: z
+      .string()
+      .refine(
+        (content) => content.length > 9,
+        "미션 내용을 10글자 이상 입력해주세요!"
+      ),
+    missionDate: z
+      .string()
+      .refine((date) => date >= currentDate, "생성할 수 없는 날짜입니다!")
+      .refine((date) => date.length > 0, "미션 날짜를 입력해주세요!"),
+    startTime: z.string().endsWith("00", "마감 시간을 설정해주세요!"),
+    endTime: z.string().endsWith("00", "마감 시간을 설정해주세요!"),
+    price: z
+      .number({ invalid_type_error: "포상금을 입력해 주세요!" })
+      .positive("etc.")
+      .min(1000, "포상금을 1000원 이상의 값으로 입력해주세요!")
+  })
+});

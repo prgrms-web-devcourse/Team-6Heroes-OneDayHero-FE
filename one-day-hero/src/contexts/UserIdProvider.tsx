@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useState
-} from "react";
+import { useRouter } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type UserIdContextType = {
   userId: number;
@@ -17,12 +12,19 @@ const UserIdContext = createContext<UserIdContextType | null>(null);
 
 const UserIdProvider = ({ children }: { children: React.ReactNode }) => {
   const [userId, setUserIdState] = useState(getSavedUserId());
+  const router = useRouter();
 
   const setUserId = (value: number) => {
     setUserIdState(value);
     if (typeof window !== "undefined")
-      sessionStorage.setItem("odh_userId", value.toString());
+      localStorage.setItem("odh_userId", value.toString());
   };
+
+  useEffect(() => {
+    if (userId === 0) {
+      router.push(`/login`);
+    }
+  }, [router, userId]);
 
   return (
     <UserIdContext.Provider value={{ userId, setUserId }}>
@@ -42,7 +44,7 @@ export const useUserId = () => {
 const getSavedUserId = () => {
   const savedUserId =
     typeof window !== "undefined"
-      ? parseInt(sessionStorage.getItem("odh_userId") || "0")
+      ? parseInt(localStorage.getItem("odh_userId") || "0")
       : 0;
   return !Number.isNaN(savedUserId) ? savedUserId : 0;
 };

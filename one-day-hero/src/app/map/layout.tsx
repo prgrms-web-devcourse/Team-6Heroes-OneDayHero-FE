@@ -6,6 +6,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     <>
       <Header>지도</Header>
       {children}
+      <Footer />
     </>
   );
 };

@@ -9,12 +9,13 @@ export const useGetMissionSearchListFetch = (
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<MissionSearchListResponse>({
+    baseUrlType: "backend",
     pathname: `/missions`,
-    size: 4,
+    size: 10,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
-      next: { tags: [`missionSearch`] }
+      next: { revalidate: 10 }
     }
   });
 };
@@ -24,12 +25,13 @@ export const useGetHeroNicknameDetailListFetch = (
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<HeroNicknameSearchResponse>({
+    baseUrlType: "backend",
     pathname: `/users/hero-search`,
-    size: 3,
+    size: 10,
     observerRef,
     options: {
       headers: { Authorization: `Bearer ${token}` },
-      next: { tags: [`searchHeroNickname`] }
+      next: { revalidate: 10 }
     }
   });
 };

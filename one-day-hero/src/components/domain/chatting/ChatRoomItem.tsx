@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-import { formatDate } from "@/app/utils/formatDate";
 import ProfileImage from "@/components/common/ProfileImage";
 import { ArrayElement } from "@/types";
 import { ChatRoomsResponse } from "@/types/response";
+import { formatDate } from "@/utils/formatDate";
 
 type ChatRoomItemProps = ArrayElement<ChatRoomsResponse["data"]>;
 
@@ -13,36 +13,32 @@ const ChatRoomItem = ({
   receiverImagePath,
   receiverNickname,
   lastSentMessage,
-  lastSentMessageTime,
-  headCount
+  lastSentMessageTime
 }: ChatRoomItemProps) => {
   return (
     <Link
       href={`/chatting/${id}`}
-      className="flex w-full items-center gap-2 border-b-[1px] border-b-background-darken py-4">
-      <div>
+      className="flex w-full items-center gap-2 border-b-[0.063rem] border-b-background-darken py-4">
+      <div className="relative h-[3.75rem] w-[3.75rem]">
         <ProfileImage
           src={receiverImagePath}
           alt={`${receiverNickname}의 프로필`}
-          height={60}
+          fill
           className="mr-3 shrink-0"
         />
       </div>
       <div className="shrink grow">
-        <div className="text-xs text-neutral-500">{title}</div>
+        <div className="w-[16rem] truncate text-xs text-neutral-500">
+          {title}
+        </div>
         <div className="flex">
           <h2 className="font-semibold">{receiverNickname}</h2>
           <h3 className="ml-3 mt-1 text-xs font-semibold">
-            {formatDate(lastSentMessageTime)}
+            {lastSentMessageTime && formatDate(lastSentMessageTime)}
           </h3>
         </div>
         <p className="max-w-[50vw] truncate text-sm">{lastSentMessage}</p>
       </div>
-      {headCount > 0 && (
-        <div className="h-7 w-7 rounded-full bg-active text-center text-white">
-          {headCount}
-        </div>
-      )}
     </Link>
   );
 };

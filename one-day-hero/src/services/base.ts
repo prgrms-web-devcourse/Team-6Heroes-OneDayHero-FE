@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 const makeUrl = (baseUrl: string) => (path: string) => baseUrl + path;
 
 const apiBaseUrl =
@@ -6,21 +8,32 @@ const apiBaseUrl =
     : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1`;
 
 export const apiUrl = makeUrl(apiBaseUrl);
+export const routeUrl = makeUrl(`${process.env.NEXT_PUBLIC_FE_URL}/api`);
 
 export type CustomResponse<T> = {
   isError: boolean;
+  errorCode?: string;
   errorMessage?: string;
   response?: T;
 };
 
-export const useFetch = async <T>(
-  pathname: string,
+export async function safeFetch<T>(
+  this: any,
+  baseUrlType: "backend" | "route",
+  pathname?: string,
   options?: RequestInit,
   onSuccess?: (response?: Response) => void,
   onError?: (err?: Error) => void
-): Promise<CustomResponse<T>> => {
+): Promise<CustomResponse<T>> {
+  const setIsLoading = this?.setIsLoading;
+
   try {
-    const response = await fetch(apiUrl(pathname), options);
+    setIsLoading?.(true);
+    const fetchUrl =
+      baseUrlType === "backend"
+        ? apiUrl(pathname ?? "/")
+        : routeUrl(pathname ?? "/");
+    const response = await fetch(fetchUrl, options);
 
     const customResponse: CustomResponse<T> = {
       isError: false,
@@ -29,7 +42,21 @@ export const useFetch = async <T>(
 
     if (!response.ok) {
       customResponse.isError = true;
-      customResponse.errorMessage = response.statusText;
+
+      let error: Error;
+      try {
+        const bodyData = await response.json();
+
+        if (bodyData.code === "A_002") {
+          error = new TokenError(bodyData.message);
+        } else {
+          error = new Error(bodyData?.message ?? response.statusText);
+        }
+      } catch (err) {
+        error = new Error((err as Error).message);
+      }
+
+      throw error;
     }
 
     try {
@@ -40,42 +67,54 @@ export const useFetch = async <T>(
     }
 
     onSuccess?.(response);
+    setIsLoading?.(false);
 
     return customResponse;
   } catch (err) {
     const errorResponse: CustomResponse<T> = {
       isError: true,
+      errorCode: (err as Error)?.name,
       errorMessage: (err as Error)?.message
     };
 
     onError?.(err as Error);
+    setIsLoading?.(false);
+
+    if (
+      errorResponse.errorCode === "TokenError" &&
+      typeof "window" === "undefined"
+    ) {
+      redirect("/login");
+    }
 
     return errorResponse;
   }
-};
+}
 
-type MutationalFetchParams = string | RequestInit | (() => void);
-
-export const useMutationalFetch = <T>(
-  pathname?: string,
-  options?: RequestInit,
-  onSuccess?: (response?: Response) => void,
-  onError?: (err?: Error) => void
-) => {
-  const useFetchArguments: MutationalFetchParams[] = [];
-
-  if (pathname) {
-    useFetchArguments.push(pathname);
-    if (options) {
-      useFetchArguments.push(options);
-      if (onSuccess) {
-        useFetchArguments.push(onSuccess);
-        if (onError) useFetchArguments.push(onError);
+export const passRevalidateTag = async (tag: string[]) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_FE_URL}/api/revalidateTag`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          tag
+        }),
+        headers: { "Content-Type": "application/json" }
       }
-    }
-  }
+    );
 
-  return {
-    mutationalFetch: (useFetch<T>).bind(null, ...useFetchArguments)
-  };
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+  } catch (err) {
+    console.error(err);
+  }
 };
+
+class TokenError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "TokenError";
+  }
+}

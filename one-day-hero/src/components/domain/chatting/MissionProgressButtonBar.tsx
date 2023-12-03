@@ -2,12 +2,13 @@
 
 import { useRouter } from "next/navigation";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
 import { useToast } from "@/contexts/ToastProvider";
 import useModal from "@/hooks/useModal";
+import { passRevalidateTag } from "@/services/base";
 import { useCompleteMissionFetch, useCreateMatchFetch } from "@/services/chats";
+import { getClientToken } from "@/utils/cookie";
 
 interface MissionProgressButtonBarProps extends React.ComponentProps<"div"> {
   missionStatus:
@@ -53,8 +54,12 @@ const MissionProgressButtonBar = ({
 
   const handleConfirm = async () => {
     const { isError } = await (missionStatus === "MATCHING"
-      ? createMatchFetch()
-      : completeMissionFetch());
+      ? createMatchFetch(() => {
+          passRevalidateTag(["progress", "matching"]);
+        })
+      : completeMissionFetch(() => {
+          passRevalidateTag(["progress", "matching"]);
+        }));
 
     if (isError) {
       showToast(
@@ -95,7 +100,7 @@ const MissionProgressButtonBar = ({
   return (
     <>
       <div className={`${defaultStyle} ${className}`} {...props}>
-        <button className={` ${progressStyle["active"]} ${buttonDefaultStyle}`}>
+        <button className={`${progressStyle["active"]} ${buttonDefaultStyle}`}>
           매칭중
         </button>
         <span className="h-0 w-2/12 border border-black " />
@@ -116,7 +121,7 @@ const MissionProgressButtonBar = ({
           {missionStatus === "MATCHING" && "매칭 완료"}
           {missionStatus === "MATCHING_COMPLETED" && "미션 완료"}
         </h1>
-        <p className="mx-2 mb-5 break-keep">
+        <p className="mx-2 mb-5 break-keep text-center text-lg font-semibold">
           {missionStatus === "MATCHING" &&
             "해당 히어로에게 미션을 맡기시겠어요?"}
           {missionStatus === "MATCHING_COMPLETED" &&

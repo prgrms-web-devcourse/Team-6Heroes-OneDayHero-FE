@@ -1,6 +1,5 @@
 import { MutableRefObject } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import { useInfiniteFetch } from "@/hooks/useInfiniteFetch";
 import { MapResponse } from "@/types/response";
 
@@ -9,12 +8,14 @@ export const useGetMapMissionList = (
   observerRef: MutableRefObject<HTMLDivElement | null>
 ) => {
   return useInfiniteFetch<MapResponse>({
+    baseUrlType: "backend",
     pathname: `/missions/around`,
-    size: 4,
+    size: 10,
     observerRef,
     options: {
+      method: "GET",
       headers: { Authorization: `Bearer ${token}` },
-      next: { tags: [`maps`] }
+      next: { revalidate: 10 }
     }
   });
 };

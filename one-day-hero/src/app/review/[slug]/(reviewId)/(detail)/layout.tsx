@@ -1,8 +1,8 @@
-import { getServerToken, getServerUserId } from "@/app/utils/auth";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import KebabMenu from "@/components/common/KebabMenu";
 import { useGetReviewDetailFetch } from "@/services/review";
+import { getServerToken, getServerUserId } from "@/utils/auth";
 
 type ReviewDetailLayoutProps = {
   params: { slug: string };
@@ -17,7 +17,7 @@ const ReviewDetailLayout = async ({
   const token = getServerToken() ?? "";
   const userId = parseInt(getServerUserId() ?? "-1");
 
-  const { isError, response } = await useGetReviewDetailFetch(reviewId, token);
+  const { response } = await useGetReviewDetailFetch(reviewId, token);
 
   const senderId = response?.data.senderId;
   const isMyReview = senderId === userId;

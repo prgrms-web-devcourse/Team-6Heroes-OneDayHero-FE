@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useTransition } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
@@ -18,15 +17,18 @@ import {
   useRejectProposalFetch
 } from "@/services/missions";
 import { MissionItemResponse } from "@/types/response";
+import { getClientToken } from "@/utils/cookie";
 
 type SuggestedMissionItemProps = {
   proposalId: number;
   missionData: MissionItemResponse;
+  refreshPage: () => Promise<void>;
 };
 
 const SuggestedMissionItem = ({
   proposalId,
-  missionData
+  missionData,
+  refreshPage
 }: SuggestedMissionItemProps) => {
   const token = getClientToken() ?? "";
 
@@ -35,21 +37,20 @@ const SuggestedMissionItem = ({
   const { isOpen, onClose, onOpen } = useModal();
   const { showToast } = useToast();
   const router = useRouter();
+  const [isRejectPending, startRejectTranstion] = useTransition();
+  const [isApprovePending, startApproveTranstion] = useTransition();
 
-  const { mutationalFetch: rejectProposal } = useRejectProposalFetch(
-    proposalId,
-    token
-  );
-  const { mutationalFetch: approveProposal } = useApproveProposalFetch(
-    proposalId,
-    token
-  );
-  const { mutationalFetch: createChatRoom } = useCreateChatRoomFetch(
-    missionData.id,
-    userId,
-    missionData.citizenId,
-    token
-  );
+  const { mutationalFetch: rejectProposal, isLoading: isRejectLoading } =
+    useRejectProposalFetch(proposalId, token);
+  const { mutationalFetch: approveProposal, isLoading: isApproveLoading } =
+    useApproveProposalFetch(proposalId, token);
+  const { mutationalFetch: createChatRoom, isLoading: isCreateChatLoading } =
+    useCreateChatRoomFetch(
+      missionData.id,
+      userId,
+      missionData.citizenId,
+      token
+    );
 
   const handleRejectClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
@@ -61,22 +62,26 @@ const SuggestedMissionItem = ({
     e
   ) => {
     e.preventDefault();
+    if (isApproveLoading || isApprovePending || isCreateChatLoading) return;
 
-    const { isError: isApproveError } = await approveProposal();
+    const { isError: isApproveError, errorMessage: approveErrorMessage } =
+      await approveProposal();
 
     if (isApproveError) {
-      showToast("다시 시도해주세요", "error");
+      showToast(approveErrorMessage ?? "다시 시도해주세요", "error");
       return;
     }
 
-    const { isError, response } = await createChatRoom();
+    const { isError, errorMessage, response } = await createChatRoom();
 
     if (isError || !response) {
-      showToast("다시 시도해주세요", "error");
+      showToast(errorMessage ?? "다시 시도해주세요", "error");
       return;
     }
 
-    router.push(`/chatting/${response.data.id}`);
+    startApproveTranstion(() => {
+      router.push(`/chatting/${response.data.id}`);
+    });
   };
 
   const handleConfirm = async () => {
@@ -90,7 +95,9 @@ const SuggestedMissionItem = ({
     showToast(`${missionData.missionInfo.title} 미션을 거절했아요`, "success");
     onClose();
 
-    router.refresh();
+    startRejectTranstion(() => {
+      refreshPage ? refreshPage() : router.refresh();
+    });
   };
 
   return (
@@ -98,13 +105,16 @@ const SuggestedMissionItem = ({
       <Link
         href={`/mission/${missionData.id}`}
         className="flex w-full max-w-screen-sm justify-center">
-        <Container className="cs:w-11/12" missionStatus={missionData.status}>
+        <Container className="cs:w-full" missionStatus={missionData.status}>
           <MissionFullInfo
             bookmarkCount={missionData.bookmarkCount}
+            isBookmarked={missionData.isBookmarked}
             region={missionData.region}
             missionCategory={missionData.missionCategory}
             missionInfo={missionData.missionInfo}
             missionImagePath={missionData.imagePath}
+            missionId={missionData.id}
+            refreshPage={refreshPage}
           />
           <div className="flex justify-center gap-1">
             <Button
@@ -120,7 +130,10 @@ const SuggestedMissionItem = ({
               size="sm"
               textSize="sm"
               className="cs:h-10"
-              onClick={handleChattingClick}>
+              onClick={handleChattingClick}
+              disabled={
+                isApproveLoading || isApprovePending || isCreateChatLoading
+              }>
               채팅하기
             </Button>
           </div>
@@ -143,7 +156,8 @@ const SuggestedMissionItem = ({
             theme="active"
             size="sm"
             className="cs:h-12 cs:w-4/12"
-            onClick={handleConfirm}>
+            onClick={handleConfirm}
+            disabled={isRejectLoading || isRejectPending}>
             확인
           </Button>
         </div>

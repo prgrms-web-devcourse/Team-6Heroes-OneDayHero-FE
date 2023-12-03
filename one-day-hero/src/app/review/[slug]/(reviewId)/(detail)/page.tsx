@@ -1,8 +1,8 @@
 import ErrorPage from "@/app/error";
-import { getServerToken } from "@/app/utils/auth";
 import TitleBox from "@/components/common/TitleBox";
 import ReviewInfo from "@/components/domain/review/ReviewInfo";
 import { useGetReviewDetailFetch } from "@/services/review";
+import { getServerToken } from "@/utils/auth";
 
 const ReviewDetailPage = async ({ params }: { params: { slug: string } }) => {
   const reviewId = parseInt(params.slug);
@@ -15,6 +15,7 @@ const ReviewDetailPage = async ({ params }: { params: { slug: string } }) => {
   const { data } = response;
 
   const {
+    id,
     missionTitle,
     categoryName,
     content,
@@ -22,6 +23,7 @@ const ReviewDetailPage = async ({ params }: { params: { slug: string } }) => {
     createdAt,
     senderId,
     senderNickname,
+    senderProfileImage,
     reviewImageResponses
   } = data;
 
@@ -29,10 +31,12 @@ const ReviewDetailPage = async ({ params }: { params: { slug: string } }) => {
     <div className="flex w-full flex-col items-center gap-4">
       <TitleBox category={categoryName} title={missionTitle} />
       <ReviewInfo
+        reviewId={id}
         content={content}
         starScore={starScore}
         createdAt={createdAt}
         categoryName={categoryName}
+        profileImage={senderProfileImage?.[0]}
         senderId={senderId}
         senderNickname={senderNickname}
         reviewImage={reviewImageResponses}

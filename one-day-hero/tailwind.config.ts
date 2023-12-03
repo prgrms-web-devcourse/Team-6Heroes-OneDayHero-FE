@@ -57,10 +57,15 @@ const config: Config = {
         "0%": { bottom: "8%" },
         "70%": { bottom: "8%" },
         "100%": { bottom: "0" }
+      },
+      "bottom-sheet-up": {
+        "0%": { transform: "translateY(30rem)" },
+        "100%": { transform: "translateY(0)" }
       }
     },
     animation: {
-      "show-toast": "show-toast 3s ease-in-out"
+      "show-toast": "show-toast 3s ease-in-out",
+      "bottom-sheet-up": "bottom-sheet-up 1s ease-in-out"
     }
   },
   plugins: []

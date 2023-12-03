@@ -1,13 +1,16 @@
 import { redirect } from "next/navigation";
 
 import ErrorPage from "@/app/error";
-import { getServerToken, getServerUserId } from "@/app/utils/auth";
-import { formatHour } from "@/app/utils/formatTime";
 import ChattingClientContainer from "@/components/domain/chatting/ChattingClientContainer";
 import Message from "@/components/domain/chatting/Message";
-import { useGetChatRecordFetch, useGetChatRoomsFetch } from "@/services/chats";
-import { useGetMissionFetch } from "@/services/missions";
-import { useGetUserFetch } from "@/services/users";
+import {
+  safeGetChatRecordFetch,
+  safeGetChatRoomsFetch
+} from "@/services/chats";
+import { safeGetMissionFetch } from "@/services/missions";
+import { safeGetUserFetch } from "@/services/users";
+import { getServerToken, getServerUserId } from "@/utils/auth";
+import { formatHour } from "@/utils/formatTime";
 
 const ChattingPage = async ({ params }: { params: { slug: string } }) => {
   const roomId = params.slug;
@@ -17,18 +20,18 @@ const ChattingPage = async ({ params }: { params: { slug: string } }) => {
   if (!token) redirect("/login?redirect=");
 
   const { isError: isChatRecordError, response: chatRecordResponse } =
-    await useGetChatRecordFetch(roomId, token);
+    await safeGetChatRecordFetch(roomId, token);
   const { isError: isChatRoomError, response: chatRoomResponse } =
-    await useGetChatRoomsFetch(token);
+    await safeGetChatRoomsFetch(token);
   const { isError: isMeError, response: meResponse } =
-    await useGetUserFetch(token);
+    await safeGetUserFetch(token);
 
   const thisRoomData = chatRoomResponse?.data.find(
     ({ id }) => id.toString() === roomId
   );
 
   const { isError: isMissionError, response: missionResponse } =
-    await useGetMissionFetch((thisRoomData?.missionId ?? 0).toString(), token);
+    await safeGetMissionFetch((thisRoomData?.missionId ?? 0).toString(), token);
 
   if (
     isMissionError ||
@@ -50,13 +53,20 @@ const ChattingPage = async ({ params }: { params: { slug: string } }) => {
         missionData={missionResponse.data}
         myImagePath={meResponse.data.image.path || ""}
         receiverId={thisRoomData.receiverId}
-        receiverImagePath={thisRoomData.receiverImagePath}>
+        receiverImagePath={thisRoomData.receiverImagePath}
+        headCount={thisRoomData.headCount}
+        senderNickname={meResponse.data.basicInfo.nickname}>
         {chatRecordResponse.data.map(
-          ({ message, senderNickName, sentMessageTime, senderId }, index) => {
+          ({ message, senderNickName, sentMessageTime, senderId }) => {
+            const isMine = senderId === parseInt(userId);
             return (
               <Message
-                key={index}
-                imagePath={thisRoomData.receiverImagePath}
+                key={`${senderId}_${sentMessageTime}`}
+                imagePath={
+                  isMine
+                    ? meResponse.data.image.path || ""
+                    : thisRoomData.receiverImagePath
+                }
                 message={message}
                 ninkName={senderNickName}
                 sentAt={formatHour(sentMessageTime)}

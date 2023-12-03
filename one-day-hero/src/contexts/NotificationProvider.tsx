@@ -6,12 +6,14 @@ import {
   Dispatch,
   SetStateAction,
   useContext,
-  useEffect,
-  useState
+  useEffect
 } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import { apiUrl } from "@/services/base";
+import { getClientToken } from "@/utils/cookie";
+import { getLocalStorage, setLocalStorage } from "@/utils/storage";
+
+import { useToast } from "./ToastProvider";
 
 type NotificationContextType = {
   alarmStatus: boolean;
@@ -21,7 +23,7 @@ type NotificationContextType = {
 const NotificationContext = createContext<NotificationContextType | null>(null);
 
 const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
-  const [alarmStatus, setAlarmStatus] = useState<boolean>(false);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const token = getClientToken();
@@ -33,29 +35,28 @@ const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
         }
       });
 
-      eventSource.onmessage = async (event) => {
+      eventSource.onmessage = (event) => {
         const res = event.data;
-        console.log(res);
 
-        setAlarmStatus(true);
-      };
+        if (res === "sse") {
+          return;
+        }
 
-      eventSource.onerror = (e) => {
-        setAlarmStatus(false);
-        throw new Error("알림 구독에서 에러가 발생했습니다.");
+        showToast("새로운 알림이 도착했어요!", "success");
+
+        setLocalStorage("sse", true);
       };
 
       return () => {
         if (eventSource) {
-          setAlarmStatus(false);
           eventSource.close();
         }
       };
     }
-  }, []);
+  }, [showToast]);
 
   return (
-    <NotificationContext.Provider value={{ alarmStatus, setAlarmStatus }}>
+    <NotificationContext.Provider value={getLocalStorage("sse")}>
       {children}
     </NotificationContext.Provider>
   );

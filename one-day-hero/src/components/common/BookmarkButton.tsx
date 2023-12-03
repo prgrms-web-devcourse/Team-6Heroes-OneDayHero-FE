@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { MouseEventHandler, useState, useTransition } from "react";
 import { BiSolidStar } from "react-icons/bi";
 
 import Button from "@/components/common/Button";
@@ -8,6 +9,7 @@ import {
   useDeleteBookmarkFetch,
   usePostBookmarkFetch
 } from "@/services/missions";
+import { getClientToken } from "@/utils/cookie";
 
 import IconGroup from "./IconGroup";
 
@@ -16,6 +18,7 @@ type BookmarkButtonProps = {
   bookmarkCount: number;
   isBookmarked: boolean;
   size?: "sm" | "lg";
+  refreshPage?: () => Promise<void>;
   className?: string;
 };
 
@@ -24,37 +27,50 @@ const BookmarkButton = ({
   bookmarkCount,
   isBookmarked,
   size = "sm",
+  refreshPage,
   className
 }: BookmarkButtonProps) => {
-  const userId = 123;
+  const token = getClientToken() ?? "";
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const [optimisticBookmarkState, setOptimisticBookmarkState] = useState({
     bookmarkCount,
     isBookmarked
   });
 
-  const { mutationalFetch: postBookmark } = usePostBookmarkFetch(
-    missionId,
-    userId
-  );
-  const { mutationalFetch: deleteBookmark } = useDeleteBookmarkFetch(
-    missionId,
-    userId
-  );
+  const { mutationalFetch: postBookmark, isLoading: postLoading } =
+    usePostBookmarkFetch(missionId, token);
+  const { mutationalFetch: deleteBookmark, isLoading: deleteLoading } =
+    useDeleteBookmarkFetch(missionId, token);
 
-  const handleClick = async () => {
+  const handleClick: MouseEventHandler<
+    HTMLButtonElement | HTMLDivElement
+  > = async (e) => {
+    e.preventDefault();
+    if (postLoading || deleteLoading || isPending) return;
+
     const currentBookmarkState = optimisticBookmarkState;
 
     setOptimisticBookmarkState({
-      bookmarkCount: isBookmarked ? bookmarkCount - 1 : bookmarkCount + 1,
-      isBookmarked: !isBookmarked
+      bookmarkCount: optimisticBookmarkState.isBookmarked
+        ? bookmarkCount - 1
+        : bookmarkCount + 1,
+      isBookmarked: !optimisticBookmarkState.isBookmarked
     });
 
-    const { isError } = await (isBookmarked
+    const { isError } = await (optimisticBookmarkState.isBookmarked
       ? deleteBookmark()
       : postBookmark());
 
-    if (isError) setOptimisticBookmarkState(currentBookmarkState);
+    if (isError) {
+      setOptimisticBookmarkState(currentBookmarkState);
+      return;
+    }
+
+    startTransition(() => {
+      refreshPage ? refreshPage() : router.refresh();
+    });
   };
 
   const starColor = optimisticBookmarkState.isBookmarked

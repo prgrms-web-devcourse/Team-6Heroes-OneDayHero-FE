@@ -5,6 +5,7 @@ export type KebabMenuDataType = {
   requiredData?: { name: string; default?: any; options?: any[] }[];
   description?: string;
   redirectTo?: string;
+  refresh?: boolean;
 };
 
 export type ImageFileType = {
@@ -35,5 +36,5 @@ export type ArrayElement<ArrayType extends readonly unknown[]> =
 export type LocationType = {
   lat: number;
   lng: number;
-  resionName: string;
+  regionName: string;
 };

@@ -5,7 +5,7 @@ import useLocation from "@/hooks/useLocation";
 const HomeLocation = () => {
   const { address } = useLocation();
 
-  return <div>{address}</div>;
+  return <div className="font-semibold">{address}</div>;
 };
 
 export default HomeLocation;

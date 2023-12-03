@@ -2,12 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import { PiWaveSineBold } from "react-icons/pi";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import DayList from "@/components/common/DayList";
 import HorizontalScroll from "@/components/common/HorizontalScroll";
@@ -17,20 +16,22 @@ import Select from "@/components/common/Select";
 import { useToast } from "@/contexts/ToastProvider";
 import { useGetRegionsFetch } from "@/services/regions";
 import { useEditProfileFetch } from "@/services/users";
+import { DateType } from "@/types";
 import {
-  UserInfoForOptionalSurveyResponse,
-  UserResponse
+  ProfileResponse,
+  UserInfoForOptionalSurveyResponse
 } from "@/types/response";
 import {
   OptionalSurveySchema,
   OptionalSurveySchemaProps
 } from "@/types/schema";
+import { getClientToken } from "@/utils/cookie";
 
 type dongProps = { id: number; dong: string };
 
 type guProps = { gu: string; dong: dongProps[] }[];
 
-const OptionalSurvey = (userData: UserResponse) => {
+const OptionalSurvey = (userData: ProfileResponse) => {
   const [guData, setGuData] = useState<guProps>([]);
   const [favoriteGu, setFavoriteGu] = useState<string>("");
   const [favoriteDong, setFavoriteDong] = useState<string>("");
@@ -42,8 +43,29 @@ const OptionalSurvey = (userData: UserResponse) => {
 
   const router = useRouter();
   const token = getClientToken();
+  const [isPending, startTransition] = useTransition();
 
-  const { basicInfo } = userData.data;
+  const {
+    basicInfo,
+    favoriteWorkingDay: defaultWorkingDay,
+    favoriteRegions: defaultRegions
+  } = userData.data;
+
+  useEffect(() => {
+    const favoriteRegions = defaultRegions?.map(
+      (region) => region.gu + " " + region.dong
+    );
+    const favoriteRegionsId = defaultRegions?.map((region) => region.id);
+
+    setFavoriteRegions(favoriteRegions!);
+    setFavoriteRegionsId(favoriteRegionsId!);
+
+    setValue(
+      "favoriteWorkingDay.favoriteDate",
+      defaultWorkingDay.favoriteDate || undefined
+    );
+    setValue("favoriteRegions", favoriteRegionsId!);
+  }, []);
 
   const { mutationalFetch: getRegionsMutationalFetch } = useGetRegionsFetch(
     token ?? ""
@@ -74,12 +96,12 @@ const OptionalSurvey = (userData: UserResponse) => {
     fetchRegions();
   }, []);
 
-  const { register, handleSubmit, setValue, getValues } =
+  const { register, handleSubmit, setValue, getValues, watch } =
     useForm<OptionalSurveySchemaProps>({
       resolver: zodResolver(OptionalSurveySchema)
     });
 
-  const { mutationalFetch } = useEditProfileFetch();
+  const favoriteWorkingDayWatch = watch("favoriteWorkingDay.favoriteDate");
 
   const hours = Array.from({ length: 24 }, (_, index) =>
     index < 10 ? "0" + index : index
@@ -139,15 +161,28 @@ const OptionalSurvey = (userData: UserResponse) => {
     setFavoriteDongId(Number(e.target.value));
   };
 
-  const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = (
+  const { mutationalFetch: editProfileFetch, isLoading } =
+    useEditProfileFetch();
+
+  const onSubmit: SubmitHandler<OptionalSurveySchemaProps> = async (
     data: OptionalSurveySchemaProps
   ) => {
+    if (isLoading || isPending) return;
+
     const { favoriteWorkingDay, favoriteRegions } = data;
+
+    if (favoriteWorkingDay?.favoriteStartTime === "선택") {
+      favoriteWorkingDay?.favoriteStartTime === null;
+    }
+
+    if (favoriteWorkingDay?.favoriteEndTime === "선택") {
+      favoriteWorkingDay?.favoriteEndTime === null;
+    }
 
     const userData: UserInfoForOptionalSurveyResponse = {
       basicInfo: basicInfo,
       favoriteWorkingDay: {
-        favoriteDate: favoriteWorkingDay?.favoriteDate ?? [],
+        favoriteDate: (favoriteWorkingDay?.favoriteDate as DateType[]) ?? [],
         favoriteEndTime: favoriteWorkingDay?.favoriteEndTime! ?? null,
         favoriteStartTime: favoriteWorkingDay?.favoriteStartTime! ?? null
       },
@@ -163,10 +198,20 @@ const OptionalSurvey = (userData: UserResponse) => {
       new Blob([jsonData], { type: "application/json" })
     );
 
-    fetch(`${process.env.NEXT_PUBLIC_FE_URL}/api/createOptionalSurvey`, {
+    const { isError, errorMessage, response } = await editProfileFetch({
       method: "POST",
       body: formData
-    }).then(() => {
+    });
+
+    if (isError || !response) {
+      showToast(
+        errorMessage ?? "프로필 수정 중 오류가 발생했어요. 다시 시도해주세요",
+        "error"
+      );
+      return;
+    }
+
+    startTransition(() => {
       router.push("/");
     });
   };
@@ -184,6 +229,7 @@ const OptionalSurvey = (userData: UserResponse) => {
             {...register("favoriteWorkingDay.favoriteDate")}
             setValue={setValue}
             getValues={getValues}
+            watch={favoriteWorkingDayWatch}
           />
         </div>
 
@@ -195,6 +241,7 @@ const OptionalSurvey = (userData: UserResponse) => {
           </InputLabel>
           <div className="mt-1 flex gap-2">
             <Select
+              value={defaultWorkingDay.favoriteStartTime || undefined}
               id="working hour start"
               {...register("favoriteWorkingDay.favoriteStartTime")}>
               {hours.map((hour) => (
@@ -209,6 +256,7 @@ const OptionalSurvey = (userData: UserResponse) => {
             </span>
 
             <Select
+              value={defaultWorkingDay.favoriteEndTime || undefined}
               id="working hour end"
               {...register("favoriteWorkingDay.favoriteEndTime")}>
               {hours.map((hour) => (
@@ -224,7 +272,8 @@ const OptionalSurvey = (userData: UserResponse) => {
           <InputLabel
             htmlFor="favorite region"
             className="cs:mb-1 cs:ml-1 cs:text-xl">
-            선호지역(최대 5개)
+            선호지역
+            <span className="text-sm text-cancel-darken">(최대 5개)</span>
           </InputLabel>
           <div className="mt-1 flex gap-2">
             <Select id="favorite gu" onChange={handleGuChange}>
@@ -275,13 +324,20 @@ const OptionalSurvey = (userData: UserResponse) => {
           </HorizontalScroll>
         </div>
 
-        <div className="mb-12 h-72 w-full rounded-2xl" />
+        <div className="h-56 w-full rounded-2xl" />
 
         <div className="mt-12 flex w-full">
-          <Button theme="cancel" type="submit" className="cs:m-2 cs:grow">
+          <Button
+            theme="cancel"
+            type="submit"
+            className="cs:m-2 cs:grow"
+            disabled={isLoading || isPending}>
             건너뛰기
           </Button>
-          <Button type="submit" className="cs:m-2 cs:grow">
+          <Button
+            type="submit"
+            className="cs:m-2 cs:grow"
+            disabled={isLoading || isPending}>
             다음
           </Button>
         </div>

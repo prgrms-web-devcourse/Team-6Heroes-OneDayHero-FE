@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 
 import Container from "@/components/common/Container";
 import MissionListItem from "@/components/common/Info/MissionListItem";
@@ -19,6 +19,8 @@ type ChattingClientContainerProps = {
   myImagePath: string;
   receiverId: number;
   receiverImagePath: string;
+  headCount: number;
+  senderNickname: string;
 };
 
 const ChattingClientContainer = ({
@@ -27,16 +29,22 @@ const ChattingClientContainer = ({
   myImagePath,
   receiverId,
   receiverImagePath,
+  headCount,
+  senderNickname,
   children
 }: PropsWithChildren<ChattingClientContainerProps>) => {
   const { userId } = useUserId();
-  const isCitizen = userId === missionData.citizenId;
+  const [isCitizen, setIsCitizen] = useState(false);
 
   const { messages, sendMessage, messageEndRef } = useChatting(roomId);
 
+  useEffect(() => {
+    setIsCitizen(userId === missionData.citizenId);
+  }, [missionData.citizenId, userId]);
+
   return (
     <>
-      <div className="fixed top-[7.5rem] z-40 flex w-full max-w-screen-sm justify-center">
+      <div className="fixed top-[7.5rem] z-[45] flex w-full max-w-screen-sm justify-center">
         <Container className="cs:flex cs:w-11/12 cs:items-center">
           {isCitizen ? (
             <MissionProgressButtonBar
@@ -48,10 +56,11 @@ const ChattingClientContainer = ({
             <Link href={`/mission/${missionData.id}`} className="w-full">
               <MissionListItem
                 categories={missionData.missionCategory.name}
-                createAt={missionData.missionInfo.missionDate}
+                missionDate={missionData.missionInfo.missionDate}
                 location={`${missionData.region.gu} ${missionData.region.dong}`}
                 title={missionData.missionInfo.title}
-                imageSrc={missionData.missionImage[0].path}
+                imageSrc={missionData.missionImage?.[0]?.path}
+                bookmarkCount={missionData.bookmarkCount}
                 className="p-2"
               />
             </Link>
@@ -65,11 +74,16 @@ const ChattingClientContainer = ({
         myImagePath={myImagePath}
         receiverImagePath={receiverImagePath}
         missionStatus={missionData.missionStatus}
-        missionId={missionData.id}>
+        missionId={missionData.id}
+        headCount={headCount}>
         {children}
       </MessageContainer>
 
-      <ChattingInputFooter sendMessage={sendMessage} roomId={roomId} />
+      <ChattingInputFooter
+        sendMessage={sendMessage}
+        roomId={roomId}
+        senderNickname={senderNickname}
+      />
     </>
   );
 };

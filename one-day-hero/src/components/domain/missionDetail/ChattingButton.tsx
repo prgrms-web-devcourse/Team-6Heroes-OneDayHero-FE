@@ -1,12 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Button from "@/components/common/Button";
 import { useToast } from "@/contexts/ToastProvider";
 import { useUserId } from "@/contexts/UserIdProvider";
 import { useCreateChatRoomFetch } from "@/services/chats";
+import { getClientToken } from "@/utils/cookie";
 
 type ChattingButtonProps = {
   missionId: number;
@@ -19,8 +20,9 @@ const ChattingButton = ({ missionId, citizenId }: ChattingButtonProps) => {
 
   const router = useRouter();
   const { showToast } = useToast();
+  const [isPending, startTransition] = useTransition();
 
-  const { mutationalFetch } = useCreateChatRoomFetch(
+  const { mutationalFetch, isLoading } = useCreateChatRoomFetch(
     missionId,
     userId,
     citizenId,
@@ -28,18 +30,24 @@ const ChattingButton = ({ missionId, citizenId }: ChattingButtonProps) => {
   );
 
   const handleClick = async () => {
-    const { isError, response } = await mutationalFetch();
+    const { isError, errorMessage, response } = await mutationalFetch();
 
     if (isError || !response) {
-      showToast("다시 시도해주세요", "error");
+      showToast(errorMessage ?? "다시 시도해주세요", "error");
       return;
     }
 
-    router.push(`/chatting/${response.data.id}`);
+    startTransition(() => {
+      router.push(`/chatting/${response.data.id}`);
+    });
   };
 
   return (
-    <Button size="sm" className="cs:grow" onClick={handleClick}>
+    <Button
+      size="sm"
+      className="cs:grow"
+      onClick={handleClick}
+      disabled={isLoading || isPending}>
       채팅하기
     </Button>
   );

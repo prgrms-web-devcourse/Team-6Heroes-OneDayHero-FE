@@ -4,10 +4,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { MouseEventHandler } from "react";
 
-import { formatDate } from "@/app/utils/formatDate";
 import Container from "@/components/common/Container";
+import HorizontalScroll from "@/components/common/HorizontalScroll";
 import Label from "@/components/common/Label";
 import ProfileImage from "@/components/common/ProfileImage";
+import { formatDate } from "@/utils/formatDate";
 
 import ReadStarRating from "./ReadStarRating";
 
@@ -21,18 +22,20 @@ type ReviewInfoProps = {
   profileImage?: string | null;
   reviewImage?:
     | {
-        id: number;
-        originalName: string;
-        uniqueName: string;
-        path: string;
+        id: number | null;
+        originalName?: string | null;
+        uniqueName?: string | null;
+        path: string | null;
       }[]
     | null;
+  reviewId?: number;
 };
 
 const ReviewInfo = ({
   starScore,
   createdAt,
   content,
+  reviewId,
   categoryName,
   senderId,
   senderNickname,
@@ -48,19 +51,15 @@ const ReviewInfo = ({
   };
 
   return (
-    <Container className="cs:flex cs:w-full cs:flex-col cs:gap-5 cs:p-4">
+    <Container className="cs:flex cs:w-full cs:flex-col cs:p-4">
       <div className="flex gap-3">
         <div
-          className="relative h-[60px] w-[60px] rounded-full bg-inactive"
+          className="relative h-[3.75rem] w-[3.75rem] rounded-full bg-inactive"
           onClick={handleProfileClick}>
-          <ProfileImage
-            src={profileImage || ""}
-            alt="프로필 이미지"
-            height={60}
-          />
+          <ProfileImage src={profileImage || ""} alt="프로필 이미지" fill />
         </div>
-        <div className="flex grow flex-col gap-[3px]">
-          <Label size="sm" className="whitespace-nowrap cs:w-[67px]">
+        <div className="flex grow flex-col gap-[0.188rem]">
+          <Label size="sm" className="whitespace-nowrap cs:w-[4.188rem]">
             {categoryName}
           </Label>
           <div className="flex gap-2">
@@ -72,18 +71,28 @@ const ReviewInfo = ({
           <span className="text-sm font-bold">{senderNickname}</span>
         </div>
       </div>
-      {reviewImage &&
-        reviewImage.map((image) => (
-          <div key={image.id} className="relative h-32 w-32">
-            <Image
-              src={image.path}
-              alt="리뷰 이미지"
-              fill
-              className="object-cover"
-            />
-          </div>
-        ))}
-      <span className="text-sm font-bold">{content}</span>
+      {reviewImage && (
+        <HorizontalScroll className="cs:my-4">
+          {reviewImage.map((image) => (
+            <div
+              key={image.id}
+              className="relative h-[10rem] w-[10rem] shrink-0">
+              <Image
+                src={image.path || ""}
+                alt="미션 사진"
+                className="cs:rounded-2xl cs:pr-2"
+                fill
+              />
+            </div>
+          ))}
+        </HorizontalScroll>
+      )}
+      {reviewId && (
+        <div className="mt-2 gap-1">
+          <h2 className="mb-2 ml-1 text-base font-semibold">리뷰 내용</h2>
+          <p className="ml-1 text-[0.9rem]">{content}</p>
+        </div>
+      )}
     </Container>
   );
 };

@@ -3,16 +3,19 @@
 import Link from "next/link";
 import { useRef } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
 import MissionListItem from "@/components/common/Info/MissionListItem";
 import MissionProgressContainer from "@/components/common/MissionProgressContainer";
 import { useGetProgressMissionListFetch } from "@/services/missions";
+import { getClientToken } from "@/utils/cookie";
 
 const OngoingMissionList = () => {
   const token = getClientToken();
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const { data } = useGetProgressMissionListFetch(token ?? "", observerRef);
+  const { data, refreshPage } = useGetProgressMissionListFetch(
+    token ?? "",
+    observerRef
+  );
 
   return (
     <>
@@ -25,10 +28,14 @@ const OngoingMissionList = () => {
             <MissionListItem
               className="cs:p-4"
               categories={item.missionCategory.name}
-              createAt={item.missionDate}
-              location="구 동"
+              missionDate={item.missionDate}
+              location={`${item.si} ${item.gu} ${item.dong}`}
               title={item.title}
               bookmarkCount={item.bookmarkCount}
+              isBookmarked={item.isBookmarked}
+              imageSrc={item.imagePath}
+              missionId={item.id}
+              refreshPage={refreshPage}
             />
           </MissionProgressContainer>
         </Link>

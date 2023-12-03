@@ -3,7 +3,7 @@
 import * as StompJs from "@stomp/stompjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { getClientToken } from "@/app/utils/cookie";
+import { getClientToken } from "@/utils/cookie";
 
 export type MessageProps = {
   chatRoomId: string;

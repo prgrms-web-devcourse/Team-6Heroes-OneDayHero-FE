@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useRef, useState, useTransition } from "react";
 import { z } from "zod";
 
 import Button from "@/components/common/Button";
@@ -12,6 +12,11 @@ import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
 import { useToast } from "@/contexts/ToastProvider";
 import { useUserId } from "@/contexts/UserIdProvider";
+import {
+  useCreateReviewFetch,
+  useDeleteReviewImageFetch,
+  useEditReviewFetch
+} from "@/services/review";
 import { ImageFileType } from "@/types";
 import { ReviewDetailResponse } from "@/types/response";
 import { ReviewFormSchema } from "@/types/schema";
@@ -54,8 +59,17 @@ const ReviewForm = ({
 
   const reviewRef = useRef<HTMLTextAreaElement | null>(null);
 
+  const [isPending, startTransition] = useTransition();
+
   const { showToast } = useToast();
   const router = useRouter();
+
+  const { mutationalFetch: createReviewFetch, isLoading: createLoading } =
+    useCreateReviewFetch();
+  const { mutationalFetch: editReviewFetch, isLoading: editLoading } =
+    useEditReviewFetch(editDefaultData?.reviewId ?? 0);
+
+  const { mutationalFetch: deleteImageFetch } = useDeleteReviewImageFetch();
 
   const handleScoreSelect = (count: number) => {
     setScore(count);
@@ -67,6 +81,7 @@ const ReviewForm = ({
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (createLoading || editLoading || isPending) return;
 
     const data: RequestType = {
       senderId: !editDefaultData ? userId : undefined,
@@ -106,38 +121,34 @@ const ReviewForm = ({
       });
     }
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FE_URL}/api/${
-          editDefaultData
-            ? `editReview/${editDefaultData.reviewId}`
-            : "createReview"
-        }`,
-        {
-          method: "POST",
-          body: formData
-        }
-      );
+    const { isError, errorMessage, response } = await (editDefaultData
+      ? editReviewFetch
+      : createReviewFetch)({
+      method: "POST",
+      body: formData
+    });
 
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      const reviewId = (await response.json()).data.id;
-
+    if (isError || !response) {
       showToast(
-        `리뷰가 ${editDefaultData ? "수정" : "생성"}되었습니다!`,
-        "success"
-      );
-      router.replace(`/review/${reviewId}`);
-    } catch (err) {
-      showToast(
-        `리뷰 ${
-          editDefaultData ? "수정" : "생성"
-        } 중 오류가 발생했어요. 다시 시도해주세요`,
+        errorMessage ??
+          `리뷰 ${
+            editDefaultData ? "수정" : "생성"
+          } 중 오류가 발생했어요. 다시 시도해주세요`,
         "error"
       );
+      return;
     }
+
+    const reviewId = response.data.id;
+
+    showToast(
+      `리뷰가 ${editDefaultData ? "수정" : "생성"}되었습니다!`,
+      "success"
+    );
+
+    startTransition(() => {
+      router.replace(`/review/${reviewId}`);
+    });
   };
 
   return (
@@ -148,7 +159,7 @@ const ReviewForm = ({
       encType="multipart/form-data">
       <Container className="flex flex-col items-center gap-8 text-center cs:m-0 cs:w-full cs:py-8">
         <h1 className="text-lg font-medium">
-          &quot;{receiverNickname}&quot; 히어로님과의 미션은 어떠셨나요?
+          &quot;{receiverNickname}&quot; 님과의 미션은 어떠셨나요?
         </h1>
         <StarRating
           onSelect={handleScoreSelect}
@@ -174,9 +185,14 @@ const ReviewForm = ({
         <UploadImage
           onFileSelect={handleFileSelect}
           defaultImages={editDefaultData?.imageDatas}
+          deleteImageFetch={deleteImageFetch}
+          pathname="/review-images"
         />
       </div>
-      <Button type="submit" className="cs:mt-3">
+      <Button
+        type="submit"
+        className="cs:mt-3"
+        disabled={createLoading || editLoading || isPending}>
         제출하기
       </Button>
     </form>

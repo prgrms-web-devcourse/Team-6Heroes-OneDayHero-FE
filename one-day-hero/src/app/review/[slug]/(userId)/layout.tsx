@@ -1,7 +1,7 @@
-import { getServerUserId } from "@/app/utils/auth";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Tabs from "@/components/common/Tabs";
+import { getServerUserId } from "@/utils/auth";
 
 type SendReviewLayoutProps = {
   params: { slug: string };

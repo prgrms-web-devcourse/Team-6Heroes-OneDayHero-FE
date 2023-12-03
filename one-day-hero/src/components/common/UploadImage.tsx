@@ -13,8 +13,10 @@ import { BiCamera, BiX } from "react-icons/bi";
 import { v4 as uuidv4 } from "uuid";
 
 import { useToast } from "@/contexts/ToastProvider";
+import { CustomResponse } from "@/services/base";
 import { ImageFileType } from "@/types";
-import { ReviewDetailResponse } from "@/types/response";
+import { EmptyResponse, ReviewDetailResponse } from "@/types/response";
+import { getClientToken } from "@/utils/cookie";
 
 import HorizontalScroll from "./HorizontalScroll";
 
@@ -22,7 +24,15 @@ interface UploadImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   size?: "md" | "lg";
   // eslint-disable-next-line no-unused-vars
   onFileSelect: (files: ImageFileType[]) => void;
+  maxImageLength?: number;
   defaultImages?: ReviewDetailResponse["data"]["reviewImageResponses"];
+  deleteImageFetch?: (
+    pathname: string,
+    fetchOptions: RequestInit,
+    onSuccess?: (response?: Response) => void,
+    onError?: () => void
+  ) => Promise<CustomResponse<EmptyResponse>>;
+  pathname?: string;
 }
 
 const UploadImage = forwardRef(
@@ -31,17 +41,25 @@ const UploadImage = forwardRef(
       size = "md",
       className = "",
       onFileSelect,
+      maxImageLength = 3,
       defaultImages,
+      deleteImageFetch,
+      pathname,
       ...props
     }: PropsWithChildren<UploadImageProps>,
     ref
   ) => {
+    const token = getClientToken() ?? "";
+
     const [selectedImages, setSelectedImages] = useState<
       ImageFileType[] | null
     >(null);
     const [prevImages, setPrevImages] = useState<
       ReviewDetailResponse["data"]["reviewImageResponses"] | null
     >(defaultImages ?? null);
+
+    const imagesLength =
+      (prevImages?.length ?? 0) + (selectedImages?.length ?? 0);
 
     const inputRef = useRef<HTMLInputElement | null>(null);
     const { showToast } = useToast();
@@ -50,16 +68,21 @@ const UploadImage = forwardRef(
       "bg-inactive text-white flex justify-center items-center shrink-0";
 
     const sizes = {
-      md: "w-32 h-32 text-4xl rounded-[10px]",
+      md: "w-32 h-32 text-4xl rounded-[0.625rem]",
       lg: "w-52 h-52 text-5xl relative rounded-2xl"
     };
 
     const imageSizes = {
-      md: "w-32 h-32 relative duration-300 hover:scale-105 text-2xl rounded-[10px]",
+      md: "w-32 h-32 relative duration-300 hover:scale-105 text-2xl rounded-[0.625rem]",
       lg: "w-52 h-52 absolute overflow-hidden text-3xl rounded-2xl"
     };
 
     const handleUpload = () => {
+      if (imagesLength >= maxImageLength) {
+        showToast(`최대 ${maxImageLength}개까지 선택 가능합니다.`, "error");
+        return;
+      }
+
       inputRef?.current?.click();
     };
 
@@ -69,9 +92,18 @@ const UploadImage = forwardRef(
       setSelectedImages(newFile ?? []);
     };
 
-    const handlePrevDelete = (id: number) => (e: MouseEvent) => {
+    const handlePrevDelete = (id: number) => async (e: MouseEvent) => {
       e.stopPropagation();
-      /**@note await DELETE 요청 필요 */
+
+      if (!deleteImageFetch) return;
+
+      const { isError } = await deleteImageFetch(`${pathname}/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (isError) return;
+
       const newFile = prevImages?.filter((image) => image.id !== id);
       setPrevImages(newFile ?? []);
     };
@@ -82,16 +114,6 @@ const UploadImage = forwardRef(
           id: uuidv4(),
           file
         }));
-
-        if (
-          size === "md" &&
-          (newFile.length > 3 ||
-            (selectedImages?.length ?? 0) + newFile.length > 3)
-        ) {
-          e.target.value = "";
-          showToast("최대 3개까지 선택 가능합니다.", "error");
-          return;
-        }
 
         setSelectedImages(
           size === "md"
@@ -125,9 +147,7 @@ const UploadImage = forwardRef(
             />
             <div className="flex flex-col items-center justify-center">
               <BiCamera />
-              {size === "md" && (
-                <p className="text-base">{selectedImages?.length ?? 0} / 3</p>
-              )}
+              {size === "md" && <p className="text-base">{imagesLength} / 3</p>}
             </div>
           </div>
           {prevImages &&
@@ -138,11 +158,11 @@ const UploadImage = forwardRef(
                 className={`${imageSizes[size]} shrink-0 overflow-hidden`}>
                 <BiX
                   size={size === "lg" ? 30 : 20}
-                  className="absolute right-[6px] top-[6px] z-10 text-black"
-                  onClick={handlePrevDelete(image.id)}
+                  className="absolute right-[0.375rem] top-[0.375rem] z-10 text-black"
+                  onClick={handlePrevDelete(image.id || 0)}
                 />
                 <Image
-                  src={image.path}
+                  src={image.path || ""}
                   alt="올린 이미지"
                   fill
                   className="bg-cover"
@@ -157,7 +177,7 @@ const UploadImage = forwardRef(
                 className={`${imageSizes[size]} shrink-0 overflow-hidden`}>
                 <BiX
                   size={size === "lg" ? 30 : 20}
-                  className="absolute right-[6px] top-[6px] z-10 text-black"
+                  className="absolute right-[0.375rem] top-[0.375rem] z-10 text-black"
                   onClick={handleDelete(image.id)}
                 />
                 <Image

@@ -1,10 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { getClientToken } from "@/app/utils/cookie";
 import Container from "@/components/common/Container";
 import FooterButton from "@/components/common/FooterButton";
 import MissionFullInfo from "@/components/common/Info/MissionFullInfo";
@@ -15,6 +14,7 @@ import {
 } from "@/services/missions";
 import { MissionProposalRequest } from "@/types/request";
 import { SuggestingMissionListResponse, UserResponse } from "@/types/response";
+import { getClientToken } from "@/utils/cookie";
 
 type SuggestionFormProps = {
   heroData: UserResponse["data"];
@@ -28,11 +28,11 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
   >([]);
 
   const { showToast } = useToast();
-
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const { mutationalFetch: getMissionsFetch } =
-    useGetSuggestingMissionListFetch(token ?? "");
+    useGetSuggestingMissionListFetch(token ?? "", heroId);
 
   useEffect(() => {
     const getMissions = async () => {
@@ -61,11 +61,13 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
   const selectedMissionId = watch("missionId");
   const inactive = selectedMissionId === undefined || isSubmitting;
 
-  const { mutationalFetch } = useProposeMissionFetch();
+  const { mutationalFetch, isLoading } = useProposeMissionFetch();
 
   const submitProposal: SubmitHandler<MissionProposalRequest> = async (
     data
   ) => {
+    if (inactive || isPending || isLoading) return;
+
     const { isError, response } = await mutationalFetch({
       method: "POST",
       headers: {
@@ -85,7 +87,10 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
         `"${heroData.basicInfo.nickname}" 님에게 미션을 제안했어요!`,
         "success"
       );
-      router.push("/mission/list/ongoing");
+
+      startTransition(() => {
+        router.push("/mission/list/ongoing");
+      });
     }
   };
 
@@ -133,12 +138,15 @@ const SuggestionForm = ({ heroData, heroId }: SuggestionFormProps) => {
           )
         )}
       </div>
-      <FooterButton
-        formId="suggest"
-        theme={inactive ? "inactive" : "primary"}
-        disabled={inactive}>
-        미션 제안하기
-      </FooterButton>
+      <div className="fixed bottom-0 w-full">
+        <FooterButton
+          formId="suggest"
+          theme={inactive ? "inactive" : "primary"}
+          disabled={inactive || isPending || isLoading}
+          className={"cs:absolute cs:-left-5"}>
+          미션 제안하기
+        </FooterButton>
+      </div>
     </form>
   );
 };

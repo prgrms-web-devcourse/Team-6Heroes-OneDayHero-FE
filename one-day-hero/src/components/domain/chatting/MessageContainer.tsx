@@ -2,10 +2,10 @@
 
 import { MutableRefObject, PropsWithChildren, useEffect } from "react";
 
-import { formatHour } from "@/app/utils/formatTime";
 import LinkButton from "@/components/common/LinkButton";
 import { useUserId } from "@/contexts/UserIdProvider";
 import { MessageProps } from "@/hooks/useChatting";
+import { formatHour } from "@/utils/formatTime";
 
 import Message from "./Message";
 
@@ -20,6 +20,7 @@ type MessageContainerProps = {
     | "MISSION_COMPLETED"
     | "EXPIRED";
   missionId: number;
+  headCount: number;
 };
 
 const MessageContainer = ({
@@ -29,6 +30,7 @@ const MessageContainer = ({
   receiverImagePath,
   missionStatus,
   missionId,
+  headCount,
   children
 }: PropsWithChildren<MessageContainerProps>) => {
   const { userId } = useUserId();
@@ -78,6 +80,11 @@ const MessageContainer = ({
       {missionStatus === "EXPIRED" && (
         <p className="my-10 text-center text-sm text-neutral-400">
           만기된 미션의 채팅방입니다
+        </p>
+      )}
+      {headCount < 2 && (
+        <p className="my-10 text-center text-sm text-neutral-400">
+          상대방이 채팅방을 나갔습니다
         </p>
       )}
       <div ref={messageEndRef} />

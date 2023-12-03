@@ -9,11 +9,13 @@ import { MessageProps } from "@/hooks/useChatting";
 type ChattingInputFooterProps = {
   sendMessage: (props: MessageProps) => void;
   roomId: string;
+  senderNickname: string;
 };
 
 const ChattingInputFooter = ({
   sendMessage,
-  roomId
+  roomId,
+  senderNickname
 }: ChattingInputFooterProps) => {
   const { userId } = useUserId();
 
@@ -29,7 +31,7 @@ const ChattingInputFooter = ({
       senderId: userId,
       messageType: "TALK",
       message: inputValue,
-      senderNickName: "howon"
+      senderNickName: senderNickname
     });
 
     setInputValue("");
@@ -47,6 +49,7 @@ const ChattingInputFooter = ({
           value={inputValue}
           onChange={handleChange}
           onKeyDown={(e) => {
+            if (e.nativeEvent.isComposing) return;
             if (e.key === "Enter") handleSend();
           }}
         />

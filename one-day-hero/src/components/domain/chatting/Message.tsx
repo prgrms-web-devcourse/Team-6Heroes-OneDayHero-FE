@@ -20,11 +20,11 @@ const Message = ({
       className={`mb-4 flex w-full max-w-sm gap-2 ${
         isMine ? "ml-auto flex-row-reverse" : "mr-auto flex-row"
       }`}>
-      <div className="shrink-0">
+      <div className="relative h-[3.75rem] w-[3.75rem] shrink-0">
         <ProfileImage
           src={imagePath}
           alt="profileImage"
-          height={60}
+          fill
           className="cs:mr-3 cs:shrink-0"
         />
       </div>

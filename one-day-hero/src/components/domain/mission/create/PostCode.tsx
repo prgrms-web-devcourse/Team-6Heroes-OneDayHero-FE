@@ -4,17 +4,30 @@ import { useEffect, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 
 import Input from "@/components/common/Input";
+import { useToast } from "@/contexts/ToastProvider";
 import useModal from "@/hooks/useModal";
 import { LocationType } from "@/types";
 
 type PostCodeProps = {
+  errorMessage?: string;
+  defaultLocation?: LocationType;
   onChange: (location: LocationType) => void;
 };
 
-const PostCode = ({ onChange }: PostCodeProps) => {
-  const [address, setAddress] = useState<string>("");
-  const [location, setLocation] = useState<LocationType | null>(null);
+const PostCode = ({
+  errorMessage,
+  onChange,
+  defaultLocation
+}: PostCodeProps) => {
+  const [address, setAddress] = useState<string>(
+    defaultLocation?.regionName ?? ""
+  );
+  const [location, setLocation] = useState<LocationType | null>(
+    defaultLocation ?? null
+  );
+
   const { isOpen, onOpen, onClose } = useModal();
+  const { showToast } = useToast();
 
   const handleComplete = async (data: { roadAddress: string }) => {
     const { roadAddress } = data;
@@ -28,14 +41,17 @@ const PostCode = ({ onChange }: PostCodeProps) => {
       }
     );
 
-    if (!response.ok) throw new Error("위치를 제대로 입력해주세요.");
+    if (!response.ok) {
+      showToast("위치 정보를 찾을 수 없어요", "error");
 
+      throw new Error("위치를 제대로 입력해주세요.");
+    }
     const res = await response.json();
 
     setLocation({
       lat: res.documents[0].y,
       lng: res.documents[0].x,
-      resionName: res.documents[0].address.region_3depth_h_name
+      regionName: res.documents[0].address.region_3depth_h_name
     });
     setAddress(roadAddress);
     onClose();
@@ -52,11 +68,16 @@ const PostCode = ({ onChange }: PostCodeProps) => {
 
   return (
     <div className="flex w-full gap-2 ">
-      <Input className="grow" readOnly readOnlyValue={address} />
+      <Input
+        className="grow"
+        readOnly
+        readOnlyValue={address}
+        error={errorMessage}
+      />
       <button
         type="button"
         onClick={handleClick}
-        className=" border-inactive focus:outline-primary h-[34px] w-3/12 rounded-[10px] border text-center">
+        className=" h-[2.125rem] w-3/12 rounded-[0.625rem] border border-inactive text-center focus:outline-primary">
         주소 검색
       </button>
       {isOpen && (

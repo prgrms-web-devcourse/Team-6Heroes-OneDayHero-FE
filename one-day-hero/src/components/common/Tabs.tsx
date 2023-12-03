@@ -29,14 +29,16 @@ const Tabs = ({ leftRoute, rightRoute, className = "" }: TabsProps) => {
           className={`${tabDefaultStyle} ${
             pathName === leftRoute.path ? "bg-primary " : ""
           }`}
-          href={leftRoute.path}>
+          href={leftRoute.path}
+          replace>
           {leftRoute.name}
         </Link>
         <Link
           className={`${tabDefaultStyle} ${
             pathName === rightRoute.path ? "bg-primary" : ""
           }`}
-          href={rightRoute.path}>
+          href={rightRoute.path}
+          replace>
           {rightRoute.name}
         </Link>
       </div>

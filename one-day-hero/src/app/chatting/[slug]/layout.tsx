@@ -2,12 +2,12 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 
-import { getServerToken } from "@/app/utils/auth";
 import Container from "@/components/common/Container";
 import Header from "@/components/common/Header";
 import KebabMenu from "@/components/common/KebabMenu";
-import { useGetChatRoomsFetch } from "@/services/chats";
+import { safeGetChatRoomsFetch } from "@/services/chats";
 import { KebabMenuDataType } from "@/types";
+import { getServerToken } from "@/utils/auth";
 
 type LayoutProps = {
   params: { slug: string };
@@ -20,7 +20,7 @@ const ChattingLayout = async ({ params, children }: LayoutProps) => {
 
   if (!token) redirect("/login?redirect=");
 
-  const { response: chatRoomResponse } = await useGetChatRoomsFetch(token);
+  const { response: chatRoomResponse } = await safeGetChatRoomsFetch(token);
 
   const thisRoomData = chatRoomResponse?.data.find(
     ({ id }) => id.toString() === roomId
@@ -39,7 +39,8 @@ const ChattingLayout = async ({ params, children }: LayoutProps) => {
     description: "매칭을 취소합니다.",
     apiPath: "/mission-matches/cancel",
     method: "PUT",
-    requiredData: [{ name: "missionId", default: thisRoomData?.missionId }]
+    requiredData: [{ name: "missionId", default: thisRoomData?.missionId }],
+    refresh: true
   };
 
   return (
@@ -56,10 +57,12 @@ const ChattingLayout = async ({ params, children }: LayoutProps) => {
       </Header>
 
       <Link
-        href={`/mission/${thisRoomData?.id}`}
+        href={`/mission/${thisRoomData?.missionId}`}
         className="fixed top-20 z-40 flex w-full max-w-screen-sm justify-center">
         <Container className="cs:flex cs:h-8 cs:w-11/12 cs:items-center cs:bg-primary-light">
-          {thisRoomData?.title || "미션 제목"}
+          <div className="w-[25rem] truncate">
+            {thisRoomData?.title || "미션 제목"}
+          </div>
         </Container>
       </Link>
 

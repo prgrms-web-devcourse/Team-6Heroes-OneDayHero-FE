@@ -1,9 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useRef, useState, useTransition } from "react";
 
-import { formatTime } from "@/app/utils/formatTime";
 import Category from "@/components/common/Category";
 import Container from "@/components/common/Container";
 import Input from "@/components/common/Input";
@@ -11,31 +10,77 @@ import InputLabel from "@/components/common/InputLabel";
 import Select from "@/components/common/Select";
 import Textarea from "@/components/common/Textarea";
 import UploadImage from "@/components/common/UploadImage";
-import useFormValidation, { FormErrors } from "@/hooks/useFormValidation";
+import { useToast } from "@/contexts/ToastProvider";
+import {
+  useCreateMissionFetch,
+  useDeleteMissionFetch,
+  useEditMissionFetch
+} from "@/services/missions";
 import { ImageFileType, LocationType } from "@/types";
 import { MissionCreateRequest } from "@/types/request";
+import { MissionResponse } from "@/types/response";
+import { MissionFormSchema } from "@/types/schema";
+import { formatTime } from "@/utils/formatTime";
 
 import CustomCalendar from "./CustomCalendar";
 import PostCode from "./PostCode";
 
 const hours = Array.from({ length: 24 }, (_, index) => index);
 
-const CreateForm = () => {
-  const [categoryId, setCategoryId] = useState<number>(0);
+type CreateFormProps = {
+  editDefaultData?: {
+    id: number;
+    latitude: number;
+    longitude: number;
+    missionCategeryId: number;
+    missionImage: MissionResponse["data"]["missionImage"];
+    missionInfo: MissionResponse["data"]["missionInfo"];
+    region: MissionResponse["data"]["region"];
+  };
+};
+
+type FormattedErrors = {
+  missionCategoryId?: string;
+  regionName?: string;
+  latitude?: string;
+  longitude?: string;
+  missionInfo?: {
+    title?: string;
+    content?: string;
+    missionDate?: string;
+    startTime?: string;
+    endTime?: string;
+    price?: string;
+  };
+};
+
+const MissionForm = ({ editDefaultData }: CreateFormProps) => {
+  const [categoryId, setCategoryId] = useState<number>(
+    editDefaultData?.missionCategeryId ?? 0
+  );
   const [selectedImages, setSelectedImages] = useState<ImageFileType[] | null>(
     null
   );
   const [location, setLocation] = useState<LocationType | null>(null);
-  const [errors, setErrors] = useState<FormErrors | null>(null);
+  const [errors, setErrors] = useState<FormattedErrors | null>(null);
   const titleRef = useRef<HTMLInputElement | null>(null);
   const dateRef = useRef<HTMLInputElement | null>(null);
   const startRef = useRef<HTMLSelectElement | null>(null);
   const endRef = useRef<HTMLSelectElement | null>(null);
   const priceRef = useRef<HTMLInputElement | null>(null);
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
-  const { missionCreateValidation } = useFormValidation();
 
+  const { showToast } = useToast();
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const { mutationalFetch: createMissionFetch, isLoading: createLoading } =
+    useCreateMissionFetch();
+
+  const { mutationalFetch: editMissionFetch, isLoading: editLoading } =
+    useEditMissionFetch(editDefaultData?.id ?? 0);
+
+  const { mutationalFetch: deleteImageFetch } = useDeleteMissionFetch();
 
   const handleSelect = (id: number) => {
     setCategoryId(id);
@@ -45,12 +90,13 @@ const CreateForm = () => {
     setSelectedImages(files);
   };
 
-  const handleOnChage = (location: LocationType) => {
+  const handleOnChange = (location: LocationType) => {
     setLocation(location);
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (isPending || createLoading || editLoading) return;
 
     const deadline =
       (dateRef.current?.value ?? "") + " " + (startRef.current?.value ?? "");
@@ -59,9 +105,9 @@ const CreateForm = () => {
 
     const data: MissionCreateRequest = {
       missionCategoryId: categoryId,
-      regionName: location?.resionName ?? "",
-      latitude: location?.lat ?? 0,
-      longitude: location?.lng ?? 0,
+      regionName: location?.regionName ?? "",
+      latitude: Number(location?.lat) ?? 0,
+      longitude: Number(location?.lng) ?? 0,
       missionInfo: {
         title: titleRef.current?.value ?? "",
         content: contentRef.current?.value ?? "",
@@ -73,12 +119,42 @@ const CreateForm = () => {
       }
     };
 
+    const result = MissionFormSchema.safeParse(data);
+
+    if (!result.success) {
+      const validationError: Record<string, string> = {};
+
+      result.error.errors.map((err) => {
+        validationError[err.path.join(".")] = err.message;
+      });
+
+      const formattedErrors: FormattedErrors = {};
+
+      for (const key in validationError) {
+        const parts = key.split(".");
+
+        if (parts.length === 2 && parts[0] === "missionInfo") {
+          if (!formattedErrors.missionInfo) formattedErrors.missionInfo = {};
+          const missionInfoKey = parts[1] as keyof NonNullable<
+            FormattedErrors["missionInfo"]
+          >;
+          formattedErrors.missionInfo[missionInfoKey] = validationError[key];
+        } else {
+          const formattedErrorsKey = key as keyof FormattedErrors;
+          formattedErrors[formattedErrorsKey] = validationError[key];
+        }
+      }
+
+      setErrors(formattedErrors);
+      return;
+    }
+
     const formData = new FormData();
 
     const jsonData = JSON.stringify(data);
 
     formData.append(
-      "missionCreateRequest",
+      editDefaultData ? "missionUpdateRequest" : "missionCreateRequest",
       new Blob([jsonData], { type: "application/json" })
     );
 
@@ -89,34 +165,47 @@ const CreateForm = () => {
       });
     }
 
-    const validationErrors = missionCreateValidation(data);
-    setErrors(validationErrors);
+    const { isError, response } = await (editDefaultData
+      ? editMissionFetch
+      : createMissionFetch)({
+      method: "POST",
+      body: formData
+    });
 
-    if (!Object.keys(validationErrors).length) {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FE_URL}/api/createPost`,
-        {
-          method: "POST",
-          body: formData
-        }
+    if (isError || !response) {
+      showToast(
+        `미션 ${editDefaultData ? "수정" : "생성"}에 실패했습니다!`,
+        "error"
       );
-
-      const createdMissionId = (await response.json()).data.id;
-
-      router.push(`/mission/${createdMissionId}`);
+      return;
     }
+
+    const missionId = response.data.id;
+
+    showToast(
+      `미션 ${editDefaultData ? "수정" : "생성"}이 완료되었습니다`,
+      "success"
+    );
+
+    startTransition(() => {
+      router.replace(`/mission/${missionId}`);
+    });
   };
 
   return (
     <form
       className="flex w-full flex-col items-center"
       onSubmit={handleSubmit}
-      id="missionCreateForm">
+      id={editDefaultData ? "missionEditForm" : "missionCreateForm"}>
       <Container className="cs:flex cs:w-full cs:flex-col cs:gap-3 cs:p-5">
         <span className="text-base font-semibold">
           찾는 카테고리가 있으신가요?
         </span>
-        <Category onSelect={handleSelect} error={errors?.missionCategoryId} />
+        <Category
+          onSelect={handleSelect}
+          error={errors?.missionCategoryId}
+          value={editDefaultData?.missionCategeryId}
+        />
       </Container>
       <Container className="cs:flex cs:w-full cs:flex-col cs:gap-5 cs:p-5">
         <div className="flex flex-col">
@@ -129,6 +218,7 @@ const CreateForm = () => {
           <Input
             id="title"
             ref={titleRef}
+            value={editDefaultData?.missionInfo.title}
             error={errors?.missionInfo?.title}
             placeholder="미션 제목을 입력하세요."
           />
@@ -137,7 +227,12 @@ const CreateForm = () => {
           <InputLabel>
             사진 <span className="text-inactive text-xs">(최대 3개)</span>
           </InputLabel>
-          <UploadImage onFileSelect={handleFileSelect} />
+          <UploadImage
+            deleteImageFetch={deleteImageFetch}
+            pathname="/mission-images"
+            onFileSelect={handleFileSelect}
+            defaultImages={editDefaultData?.missionImage}
+          />
         </div>
         <div className="flex flex-col">
           <InputLabel htmlFor="missionDate" required>
@@ -146,6 +241,7 @@ const CreateForm = () => {
           <CustomCalendar
             id="missionDate"
             ref={dateRef}
+            defaultValue={editDefaultData?.missionInfo.missionDate}
             error={errors?.missionInfo?.missionDate}
           />
         </div>
@@ -157,6 +253,7 @@ const CreateForm = () => {
             <Select
               id="startTime"
               ref={startRef}
+              value={editDefaultData?.missionInfo.startTime}
               error={errors?.missionInfo?.startTime}>
               {hours.map((hour) => (
                 <option key={hour}>{String(hour).padStart(2, "0")}:00</option>
@@ -166,6 +263,7 @@ const CreateForm = () => {
             <Select
               id="endTime"
               ref={endRef}
+              value={editDefaultData?.missionInfo.endTime}
               error={errors?.missionInfo?.endTime}>
               {hours.map((hour) => (
                 <option key={hour}>{String(hour).padStart(2, "0")}:00</option>
@@ -180,6 +278,7 @@ const CreateForm = () => {
           <Input
             id="price"
             ref={priceRef}
+            value={editDefaultData?.missionInfo.price}
             type="number"
             className="w-6/12"
             error={errors?.missionInfo?.price}
@@ -192,6 +291,7 @@ const CreateForm = () => {
           <Textarea
             id="content"
             ref={contentRef}
+            value={editDefaultData?.missionInfo.content}
             placeholder="미션 내용이나 비고를 작성해주세요!"
             error={errors?.missionInfo?.content}
           />
@@ -200,8 +300,18 @@ const CreateForm = () => {
           <InputLabel htmlFor="address" required>
             미션 위치
           </InputLabel>
-          <div className="flex w-full gap-3">
-            <PostCode onChange={handleOnChage} />
+          <div className="mb-1 flex w-full gap-3">
+            <PostCode
+              onChange={handleOnChange}
+              {...(editDefaultData && {
+                defaultLocation: {
+                  lat: editDefaultData.latitude ?? 0,
+                  lng: editDefaultData.longitude ?? 0,
+                  regionName: `${editDefaultData.region.dong}`
+                }
+              })}
+              errorMessage={errors?.regionName}
+            />
           </div>
         </div>
       </Container>
@@ -209,4 +319,4 @@ const CreateForm = () => {
   );
 };
 
-export default CreateForm;
+export default MissionForm;

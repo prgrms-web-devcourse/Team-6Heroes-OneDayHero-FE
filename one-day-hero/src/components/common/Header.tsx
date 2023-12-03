@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { FiEdit3 } from "react-icons/fi";
 
@@ -24,7 +25,17 @@ const Header = ({
   };
 
   const rightArea = {
-    edit: <FiEdit3 />,
+    edit: (
+      <Link
+        href={{
+          pathname: "/survey/mandatory",
+          query: {
+            edit: "profile"
+          }
+        }}>
+        <FiEdit3 />
+      </Link>
+    ),
     info: rightNode,
     none: <div className="w-6" />
   };

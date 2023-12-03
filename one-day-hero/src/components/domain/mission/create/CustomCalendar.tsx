@@ -6,21 +6,25 @@ import { ForwardedRef, forwardRef, useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import { BiCalendar } from "react-icons/bi";
 
-import { formatTime } from "@/app/utils/formatTime";
 import Input from "@/components/common/Input";
+import { formatTime } from "@/utils/formatTime";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 type CustomCalendarProps = {
   id: string;
+  defaultValue?: string;
   error?: string;
 };
 
 const CustomCalendar = forwardRef(
-  ({ id, error }: CustomCalendarProps, ref: ForwardedRef<HTMLInputElement>) => {
+  (
+    { id, error, defaultValue }: CustomCalendarProps,
+    ref: ForwardedRef<HTMLInputElement>
+  ) => {
     const [value, onChange] = useState<Value>(new Date());
-    const [inputValue, setInputValue] = useState<string>("");
+    const [inputValue, setInputValue] = useState<string>(defaultValue ?? "");
     const [openState, setOpenState] = useState<boolean>(false);
     const calendarRef = useRef<HTMLDivElement | null>(null);
 

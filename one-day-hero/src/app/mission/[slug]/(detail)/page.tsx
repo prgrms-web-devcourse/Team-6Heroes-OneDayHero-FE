@@ -4,17 +4,18 @@ import { redirect } from "next/navigation";
 import { BiChevronRight, BiEdit, BiMap } from "react-icons/bi";
 
 import ErrorPage from "@/app/error";
-import { getServerToken, getServerUserId } from "@/app/utils/auth";
 import BookmarkButton from "@/components/common/BookmarkButton";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import HorizontalScroll from "@/components/common/HorizontalScroll";
 import IconGroup from "@/components/common/IconGroup";
 import MissionInfo from "@/components/common/Info/MissionInfo";
+import LinkButton from "@/components/common/LinkButton";
 import TitleBox from "@/components/common/TitleBox";
 import ChattingButton from "@/components/domain/missionDetail/ChattingButton";
 import CitizenInfo from "@/components/domain/missionDetail/CitizenInfo";
-import { useGetMissionFetch } from "@/services/missions";
+import { safeGetMissionFetch } from "@/services/missions";
+import { getServerToken, getServerUserId } from "@/utils/auth";
 
 const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
   const missionId = params.slug;
@@ -22,7 +23,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
 
   if (!token) redirect("/login?redirect=");
 
-  const { isError, response } = await useGetMissionFetch(missionId, token);
+  const { isError, response } = await safeGetMissionFetch(missionId, token);
 
   if (isError || !response) return <ErrorPage />;
 
@@ -47,7 +48,7 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
   return (
     <div className="flex w-full flex-col items-center gap-2">
       <TitleBox category={missionCategory.name} title={missionInfo.title} />
-      <Container className="cs:w-full">
+      <Container className="cs:w-full cs:py-4">
         <MissionInfo
           className="cs:ml-1"
           missionBounty={missionInfo.price}
@@ -55,18 +56,25 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           missionTime={`${missionInfo.startTime} ~ ${missionInfo.endTime}`}
         />
       </Container>
-      <Container className="cs:w-full">
-        <HorizontalScroll>
+      <Container className="cs:w-full cs:px-5 cs:pt-0">
+        <HorizontalScroll className="cs:pt-4">
           {missionImage.map(({ path, id }) => (
-            <Image key={id} src={path} alt="미션 사진" width={60} height={60} />
+            <div key={id} className="relative h-[10rem] w-[10rem] shrink-0">
+              <Image
+                src={path}
+                alt="미션 사진"
+                className="cs:mr-2 cs:rounded-2xl"
+                fill
+              />
+            </div>
           ))}
         </HorizontalScroll>
-        <div className="mt-2 gap-1">
+        <div className="gap-1 pb-2 pt-4">
           <h2 className="ml-1 text-base font-semibold">미션 내용</h2>
-          <p className="ml-1 text-base">{missionInfo.content}</p>
+          <p className="ml-1 pt-2 text-[0.9rem]">{missionInfo.content}</p>
         </div>
       </Container>
-      <Container className="cs:w-full">
+      <Container className="cs:w-full cs:p-4">
         <IconGroup
           title={`${region.si} ${region.gu} ${region.dong}`}
           direction="row"
@@ -89,14 +97,14 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           </Button>
         </Link>
       </Container>
-      {!isOwner && <CitizenInfo citizenId={userId} />}
+      {!isOwner && <CitizenInfo citizenId={citizenId} />}
       {isOwner && (
-        <Button size="lg" className="cs:mt-7">
+        <LinkButton href={`${missionId}/edit`} className="cs:mt-7">
           <div className="relative inline-block">
-            <BiEdit className="absolute -left-7 top-[3px]" size={24} />
+            <BiEdit className="absolute -left-7 top-[0.188rem]" size={24} />
             수정하기
           </div>
-        </Button>
+        </LinkButton>
       )}
       {!isOwner && (
         <div className="mt-12 flex w-full justify-between gap-3">

@@ -54,12 +54,17 @@ export type ProgressMissionListResponse = {
         name: string;
       };
       missionDate: string;
+      si: string;
+      gu: string;
+      dong: string;
       bookmarkCount: number;
       missionStatus:
         | "MATCHING"
         | "MATCHING_COMPLETED"
         | "MISSION_COMPLETED"
         | "EXPIRED";
+      imagePath: string;
+      isBookmarked: boolean;
     }[];
     pageable: {
       pageNumber: number;
@@ -208,7 +213,7 @@ export type UserInfoForOptionalSurveyResponse = {
     introduce: string;
   };
   favoriteWorkingDay: {
-    favoriteDate: string[] | [] | null;
+    favoriteDate: DateType[] | null;
     favoriteStartTime: string | null;
     favoriteEndTime: string | null;
   };
@@ -225,6 +230,7 @@ export type UserResponse = {
       introduce: string;
     };
     image: {
+      id: number | null;
       originalName: string | null;
       uniqueName: string | null;
       path: string | null;
@@ -259,9 +265,9 @@ export type UserSummaryResponse = {
       introduce: string;
     };
     favoriteWorkingDay: {
-      favoriteDate: DateType[];
-      favoriteStartTime: string;
-      favoriteEndTime: string;
+      favoriteDate: DateType[] | null;
+      favoriteStartTime: string | null;
+      favoriteEndTime: string | null;
     };
   };
   serverDateTime: string;
@@ -302,6 +308,7 @@ export type ReviewDetailResponse = {
     id: number;
     senderId: number;
     senderNickname: string;
+    senderProfileImage: string[];
     receiverId: number;
     receiverNickname: string;
     categoryId: number;
@@ -311,10 +318,10 @@ export type ReviewDetailResponse = {
     content: string;
     starScore: 1 | 2 | 3 | 4 | 5;
     reviewImageResponses: {
-      id: number;
-      originalName: string;
-      uniqueName: string;
-      path: string;
+      id: number | null;
+      originalName?: string | null;
+      uniqueName?: string | null;
+      path: string | null;
     }[];
     createdAt: string;
   };
@@ -331,7 +338,7 @@ export type ReviewListResponse = {
       categoryName: string;
       missionTitle: string;
       starScore: 1 | 2 | 3 | 4 | 5;
-      profileImage: [string] | [];
+      profileImage: string[];
       createdAt: string;
     }[];
     pageable: {
@@ -483,7 +490,7 @@ export type HeroNicknameResponse = {
   heroScore: 30;
 }[];
 
-export type ReviewDeleteResponse = {
+export type EmptyResponse = {
   status: number;
   data: null;
   serverDateTime: string;
@@ -602,6 +609,9 @@ export type HomeResponse = {
         name: string;
       };
       missionDate: string;
+      startTime: string;
+      endTime: string;
+      price: number;
       bookmarkCount: number;
       missionStatus: string;
       imagePath: string;
@@ -643,6 +653,39 @@ export type NotificationResponse = {
     last: boolean;
     numberOfElements: number;
     empty: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type ProfileResponse = {
+  status: number;
+  data: {
+    basicInfo: {
+      nickname: string;
+      gender: string;
+      birth: string;
+      introduce: string;
+    };
+    image: {
+      originalName: string | null;
+      uniqueName: string | null;
+      path: string | null;
+    };
+    favoriteWorkingDay: {
+      favoriteDate: DateType[] | null;
+      favoriteStartTime: string | null;
+      favoriteEndTime: string | null;
+    };
+    favoriteRegions:
+      | {
+          id: number;
+          si: string;
+          gu: string;
+          dong: string;
+        }[]
+      | null;
+    heroScore: number;
+    isHeroMode?: boolean;
   };
   serverDateTime: string;
 };
@@ -695,6 +738,14 @@ export type MapResponse = {
     first: boolean;
     last: boolean;
     empty: boolean;
+  };
+  serverDateTime: string;
+};
+
+export type EditMissionResponse = {
+  status: number;
+  data: {
+    id: number;
   };
   serverDateTime: string;
 };
