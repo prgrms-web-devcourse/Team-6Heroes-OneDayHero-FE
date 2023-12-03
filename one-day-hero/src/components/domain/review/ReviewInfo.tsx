@@ -51,7 +51,7 @@ const ReviewInfo = ({
   };
 
   return (
-    <Container className="cs:flex cs:w-full cs:flex-col cs:gap-5 cs:p-4">
+    <Container className="cs:flex cs:w-full cs:flex-col cs:p-4">
       <div className="flex gap-3">
         <div
           className="bg-inactive relative h-[3.75rem] w-[3.75rem] rounded-full"

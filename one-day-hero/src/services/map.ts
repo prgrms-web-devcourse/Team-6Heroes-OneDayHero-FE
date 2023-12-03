@@ -13,6 +13,7 @@ export const useGetMapMissionList = (
     size: 10,
     observerRef,
     options: {
+      method: "GET",
       headers: { Authorization: `Bearer ${token}` },
       next: { revalidate: 10 }
     }
