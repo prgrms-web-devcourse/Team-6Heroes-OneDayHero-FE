@@ -98,7 +98,7 @@ const Category = ({
 
   return (
     <div className="flex flex-col">
-      <HorizontalScroll className="cs:relative cs:w-[90vw]">
+      <HorizontalScroll className="cs:relative cs:w-[90vw] cs:max-w-[38.125rem]">
         <ul className={`${containerStyle} ${className}`}>
           {CATEGORY_LIST.map((category) => (
             <div
