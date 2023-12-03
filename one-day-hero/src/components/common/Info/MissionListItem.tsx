@@ -17,6 +17,7 @@ type MissionListItemProps = {
   isBookmarked?: boolean;
   className?: string;
   missionId?: number;
+  refreshPage?: () => Promise<void>;
 };
 
 const MissionListItem = ({
@@ -28,12 +29,13 @@ const MissionListItem = ({
   bookmarkCount,
   isBookmarked,
   missionId,
+  refreshPage,
   className
 }: MissionListItemProps) => {
   return (
     <div className={`flex w-full ${className}`}>
       <div className="flex grow gap-4">
-        <div className="bg-inactive relative h-[5.3rem] w-[5.3rem] shrink-0 overflow-hidden rounded-[0.625rem]">
+        <div className="relative h-[5.3rem] w-[5.3rem] shrink-0 overflow-hidden rounded-[0.625rem] bg-inactive">
           <Image src={imageSrc || defaultProfileImage} alt="프로필 사진" fill />
         </div>
         <div className="flex flex-col gap-1">
@@ -63,6 +65,7 @@ const MissionListItem = ({
             isBookmarked={isBookmarked ?? false}
             bookmarkCount={bookmarkCount ?? 0}
             missionId={missionId}
+            refreshPage={refreshPage}
           />
         )}
       </div>

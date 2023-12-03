@@ -22,11 +22,13 @@ import { getClientToken } from "@/utils/cookie";
 type SuggestedMissionItemProps = {
   proposalId: number;
   missionData: MissionItemResponse;
+  refreshPage: () => Promise<void>;
 };
 
 const SuggestedMissionItem = ({
   proposalId,
-  missionData
+  missionData,
+  refreshPage
 }: SuggestedMissionItemProps) => {
   const token = getClientToken() ?? "";
 
@@ -94,7 +96,7 @@ const SuggestedMissionItem = ({
     onClose();
 
     startRejectTranstion(() => {
-      router.refresh();
+      refreshPage ? refreshPage() : router.refresh();
     });
   };
 
@@ -112,6 +114,7 @@ const SuggestedMissionItem = ({
             missionInfo={missionData.missionInfo}
             missionImagePath={missionData.imagePath}
             missionId={missionData.id}
+            refreshPage={refreshPage}
           />
           <div className="flex justify-center gap-1">
             <Button

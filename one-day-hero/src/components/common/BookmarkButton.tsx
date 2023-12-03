@@ -18,6 +18,7 @@ type BookmarkButtonProps = {
   bookmarkCount: number;
   isBookmarked: boolean;
   size?: "sm" | "lg";
+  refreshPage?: () => Promise<void>;
   className?: string;
 };
 
@@ -26,6 +27,7 @@ const BookmarkButton = ({
   bookmarkCount,
   isBookmarked,
   size = "sm",
+  refreshPage,
   className
 }: BookmarkButtonProps) => {
   const token = getClientToken() ?? "";
@@ -51,11 +53,13 @@ const BookmarkButton = ({
     const currentBookmarkState = optimisticBookmarkState;
 
     setOptimisticBookmarkState({
-      bookmarkCount: isBookmarked ? bookmarkCount - 1 : bookmarkCount + 1,
-      isBookmarked: !isBookmarked
+      bookmarkCount: optimisticBookmarkState.isBookmarked
+        ? bookmarkCount - 1
+        : bookmarkCount + 1,
+      isBookmarked: !optimisticBookmarkState.isBookmarked
     });
 
-    const { isError } = await (isBookmarked
+    const { isError } = await (optimisticBookmarkState.isBookmarked
       ? deleteBookmark()
       : postBookmark());
 
@@ -65,7 +69,7 @@ const BookmarkButton = ({
     }
 
     startTransition(() => {
-      router.refresh();
+      refreshPage ? refreshPage() : router.refresh();
     });
   };
 
