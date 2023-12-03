@@ -205,6 +205,7 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
           onSelect={handleSelect}
           error={errors?.missionCategoryId}
           value={editDefaultData?.missionCategeryId}
+          className="cs:relative cs:w-full"
         />
       </Container>
       <Container className="cs:flex cs:w-full cs:flex-col cs:gap-5 cs:p-5">
@@ -225,7 +226,7 @@ const MissionForm = ({ editDefaultData }: CreateFormProps) => {
         </div>
         <div>
           <InputLabel>
-            사진 <span className="text-inactive text-xs">(최대 3개)</span>
+            사진 <span className="text-xs text-inactive">(최대 3개)</span>
           </InputLabel>
           <UploadImage
             deleteImageFetch={deleteImageFetch}

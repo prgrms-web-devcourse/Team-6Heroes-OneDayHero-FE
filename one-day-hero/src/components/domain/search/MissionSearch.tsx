@@ -167,6 +167,7 @@ const MissionSearch = () => {
             value={queryString}
             onSelect={handleCategorySelect}
             size="sm"
+            className="cs:relative cs:w-[90vw] cs:max-w-[600px]"
           />
         </div>
       </section>
