@@ -80,7 +80,7 @@ const BookmarkButton = ({
   return size === "sm" ? (
     <div onClick={handleClick}>
       <IconGroup
-        title="5"
+        title={bookmarkCount}
         direction="row"
         size="lg"
         textSize="base"
