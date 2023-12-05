@@ -78,7 +78,7 @@ w-full max-w-screen-sm">
               href={userId !== id ? `/heroProfile/${id}` : "/profile"}
               key={uuidv4()}
               className="w-full">
-              <Container className="cs:mx-auto">
+              <Container className="cs:mx-auto cs:w-full">
                 <div className="mt-2 flex pr-2">
                   <Image
                     src={image.path ?? DefaultThumbnail}

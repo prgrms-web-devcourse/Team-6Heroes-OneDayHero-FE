@@ -162,11 +162,12 @@ const MissionSearch = () => {
           </select>
         </div>
 
-        <div className="mt-3 flex justify-center border-b border-background-darken bg-background pb-2">
+        <div className="relative mt-3 flex justify-center border-b border-background-darken bg-background pb-2">
           <Category
             value={queryString}
             onSelect={handleCategorySelect}
             size="sm"
+            className="cs:relative cs:w-[90vw] cs:max-w-[600px]"
           />
         </div>
       </section>
@@ -187,7 +188,7 @@ const MissionSearch = () => {
               href={`/mission/${id}`}
               className="flex w-full max-w-screen-sm justify-center"
               key={id}>
-              <Container className="cs:w-11/12" missionStatus={missionStatus}>
+              <Container className="cs:w-full" missionStatus={missionStatus}>
                 <MissionFullInfo
                   bookmarkCount={bookmarkCount}
                   region={region}
