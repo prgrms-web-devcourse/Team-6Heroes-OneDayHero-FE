@@ -171,12 +171,12 @@ const OptionalSurvey = (userData: ProfileResponse) => {
 
     const { favoriteWorkingDay, favoriteRegions } = data;
 
-    if (favoriteWorkingDay?.favoriteStartTime === "선택") {
-      favoriteWorkingDay?.favoriteStartTime === null;
+    if (favoriteWorkingDay && favoriteWorkingDay.favoriteStartTime === "선택") {
+      favoriteWorkingDay.favoriteStartTime = undefined;
     }
 
-    if (favoriteWorkingDay?.favoriteEndTime === "선택") {
-      favoriteWorkingDay?.favoriteEndTime === null;
+    if (favoriteWorkingDay && favoriteWorkingDay.favoriteEndTime === "선택") {
+      favoriteWorkingDay.favoriteEndTime = undefined;
     }
 
     const userData: UserInfoForOptionalSurveyResponse = {
@@ -212,6 +212,7 @@ const OptionalSurvey = (userData: ProfileResponse) => {
     }
 
     startTransition(() => {
+      router.prefetch("/profile");
       router.push("/");
     });
   };

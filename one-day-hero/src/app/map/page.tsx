@@ -79,7 +79,9 @@ const MapPage = ({ searchParams }: MapPageProps) => {
       });
 
       const infowindow = new naver.maps.InfoWindow({
-        content: `<div>미션 지역을 확인해보세요!</div>`
+        content: `<div>
+        <h2>미션 위치를 확인해보세요</h2>
+      </div>`
       });
 
       marker.addListener("click", () => {
@@ -104,7 +106,7 @@ const MapPage = ({ searchParams }: MapPageProps) => {
         const infowindow = new naver.maps.InfoWindow({
           content: `
             <div>
-              <h2>${title}</h2>
+              <h2>미션 위치를 확인해보세요</h2>
             </div>`
         });
         marker.addListener("click", () => {

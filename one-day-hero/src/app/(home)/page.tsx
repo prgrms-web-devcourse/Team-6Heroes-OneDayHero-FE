@@ -23,7 +23,11 @@ const HomePage = async () => {
       </div>
       <div className="flex flex-col gap-2">
         <span className={`${defaultLabelStyle}`}>찾는 카테고리가 있나요?</span>
-        <Category routeState size="lg" />
+        <Category
+          routeState
+          size="lg"
+          className="cs:relative cs:w-[90vw] cs:max-w-[600px]"
+        />
       </div>
       <div className="h-0 border border-neutral-200" />
       <div>

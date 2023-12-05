@@ -72,7 +72,7 @@ const MapMissionList = ({ data }: MapMissionListProps) => {
             }) => (
               <Link
                 key={id}
-                href={`/misson/${id}`}
+                href={`/mission/${id}`}
                 className="flex w-full justify-center">
                 <Container className="cs:w-11/12">
                   <MissionFullInfo
