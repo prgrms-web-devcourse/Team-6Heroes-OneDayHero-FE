@@ -4,7 +4,7 @@
 
 <br/>
 
-<img width="400" height="200" src="https://github.com/prgrms-web-devcourse/Team-6Heroes-OneDayHero-FE/assets/117630589/46847341-278c-469f-aa4f-6e999c357e94">
+<img width="200" height="200" src="https://github.com/prgrms-web-devcourse/Team-6Heroes-OneDayHero-FE/assets/117630589/46847341-278c-469f-aa4f-6e999c357e94">
 
 <br/>
 
