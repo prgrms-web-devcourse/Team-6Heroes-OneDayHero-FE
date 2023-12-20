@@ -6,7 +6,9 @@ import { getServerToken } from "@/utils/auth";
 const MissionRecordPage = () => {
   const token = getServerToken();
 
-  if (!token) redirect("/login?redirect=");
+  if (!token) {
+    redirect("/login?redirect=");
+  }
 
   return <HeroSearch />;
 };
