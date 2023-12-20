@@ -10,6 +10,7 @@ import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import HeroScore from "@/components/common/HeroScore";
 import { useUserId } from "@/contexts/UserIdProvider";
+import useDebounce from "@/hooks/useDebounce";
 import { useGetHeroNicknameDetailListFetch } from "@/services/search";
 import { getClientToken } from "@/utils/cookie";
 import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
@@ -17,6 +18,7 @@ import DefaultThumbnail from "/public/images/OneDayHero_logo_sm.svg";
 const HeroSearch = () => {
   const { userId } = useUserId();
   const [inputValue, setInputValue] = useState<string | null>(null);
+  const debouncedValue = useDebounce<string>(inputValue!, 500);
 
   const token = getClientToken();
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -37,20 +39,14 @@ const HeroSearch = () => {
   }, [inputValue]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      searchHandler();
-    }, 500);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [searchHandler]);
-
-  useEffect(() => {
     if (inputValue === "") {
       setInputValue(null);
     }
   }, [inputValue]);
+
+  useEffect(() => {
+    searchHandler();
+  }, [debouncedValue]);
 
   const InputDefaultStyle =
     "rounded-[0.65rem] h-11 w-full border border-inactive focus:outline-primary placeholder:text-inactive pl-3";
@@ -84,7 +80,7 @@ w-full max-w-screen-sm">
               key={uuidv4()}
               className="w-full">
               <Container className="cs:mx-auto cs:w-full">
-                <div className="mt-2 flex pr-2">
+                <div className="my-2 flex px-2">
                   <Image
                     src={image.path ?? DefaultThumbnail}
                     alt="프로필 이미지"
