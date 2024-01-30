@@ -18,7 +18,7 @@ const ChatRoomItem = ({
   return (
     <Link
       href={`/chatting/${id}`}
-      className="flex w-full items-center gap-2 border-b-[0.063rem] border-b-background-darken py-4">
+      className="border-b-background-darken flex w-full items-center gap-2 border-b-[0.063rem] py-4">
       <div className="relative h-[3.75rem] w-[3.75rem]">
         <ProfileImage
           src={receiverImagePath}

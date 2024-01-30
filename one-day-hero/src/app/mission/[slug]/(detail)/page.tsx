@@ -56,14 +56,14 @@ const MissionDetailPage = async ({ params }: { params: { slug: string } }) => {
           missionTime={`${missionInfo.startTime} ~ ${missionInfo.endTime}`}
         />
       </Container>
-      <Container className="cs:w-full cs:px-5 cs:pt-0">
+      <Container className="cs:w-full cs:pt-0 cs:px-5">
         <HorizontalScroll className="cs:pt-4">
           {missionImage.map(({ path, id }) => (
             <div key={id} className="relative h-[10rem] w-[10rem] shrink-0">
               <Image
                 src={path}
                 alt="미션 사진"
-                className="cs:mr-2 cs:rounded-2xl"
+                className="cs:rounded-2xl cs:mr-2"
                 fill
               />
             </div>

@@ -160,7 +160,7 @@ const MapPage = ({ searchParams }: MapPageProps) => {
         <>
           <button
             type="button"
-            className="absolute left-1/2 top-2 z-30 flex h-8 w-24 -translate-x-1/2 cursor-pointer items-center justify-center gap-1 rounded-2xl bg-white text-center text-sm font-semibold shadow-down"
+            className="shadow-down absolute left-1/2 top-2 z-30 flex h-8 w-24 -translate-x-1/2 cursor-pointer items-center justify-center gap-1 rounded-2xl bg-white text-center text-sm font-semibold"
             onClick={() => setOpenBottomSheet(true)}>
             <IoList size={18} className="inline-block" />
             <span className="inline-block">목록보기</span>
@@ -172,7 +172,7 @@ const MapPage = ({ searchParams }: MapPageProps) => {
                 onClick={handleCloseModal}
               />
               <div
-                className={`opacity-1 absolute bottom-0 left-0 z-20 flex h-[30rem] w-full flex-col items-center overflow-hidden rounded-t-lg bg-background ${
+                className={`opacity-1 bg-background absolute bottom-0 left-0 z-20 flex h-[30rem] w-full flex-col items-center overflow-hidden rounded-t-lg ${
                   openBottomSheet
                     ? "animate-bottom-sheet-up"
                     : "animate-bottom-sheet-down"
