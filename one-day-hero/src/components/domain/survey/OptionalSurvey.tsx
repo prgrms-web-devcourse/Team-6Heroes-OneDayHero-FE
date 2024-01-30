@@ -274,7 +274,7 @@ const OptionalSurvey = (userData: ProfileResponse) => {
             htmlFor="favorite region"
             className="cs:mb-1 cs:ml-1 cs:text-xl">
             선호지역
-            <span className="text-sm text-cancel-darken">(최대 5개)</span>
+            <span className="text-cancel-darken text-sm">(최대 5개)</span>
           </InputLabel>
           <div className="mt-1 flex gap-2">
             <Select id="favorite gu" onChange={handleGuChange}>

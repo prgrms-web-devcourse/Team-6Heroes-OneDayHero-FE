@@ -29,7 +29,7 @@ export default function RootLayout({
         <UserIdProvider>
           <ToastProvider>
             <NotificationProvider>
-              <main className="flex min-h-screen w-full max-w-screen-sm flex-col items-center bg-background px-5 py-24 shadow">
+              <main className="bg-background flex min-h-screen w-full max-w-screen-sm flex-col items-center px-5 py-24 shadow">
                 {children}
               </main>
             </NotificationProvider>
